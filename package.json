@@ -6,12 +6,25 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "check:i18n": "node --experimental-strip-types scripts/validate-dictionaries.mjs",
+    "media:manifest": "node --experimental-strip-types scripts/media-manifest.mjs",
+    "app": "npm start --prefix mobile",
+    "app:ios": "npm run ios --prefix mobile",
+    "app:android": "npm run android --prefix mobile",
+    "app:check": "npm run typecheck --prefix mobile",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "admin:grant": "node --experimental-strip-types scripts/grant-admin.mjs"
   },
   "dependencies": {
+    "@prisma/adapter-better-sqlite3": "^7.10.0",
+    "@prisma/client": "^7.10.0",
+    "framer-motion": "^12.43.0",
     "next": "16.3.3",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "zod": "^4.5.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -20,7 +33,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.3",
+    "prisma": "^7.10.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.11"
   }
 }

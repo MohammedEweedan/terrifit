@@ -1,0 +1,856 @@
+{
+  "meta": {
+    "title": "Terrifit — sosyal sağlıklı yaşam uygulaması, V1 bileklik ve test edilmiş takviyeler",
+    "description": "Terrifit, vücudun için yaptığın her şeyin sosyal uygulaması, uykunu, toparlanmanı ve antrenmanını ölçen V1 bileklik ve gerçekten test edilmiş takviyeler ile ekipmanın satıldığı mağaza.",
+    "ogAlt": "Terrifit — sosyal sağlıklı yaşam uygulaması, V1 bileklik ve mağaza"
+  },
+  "nav": {
+    "theMap": "Harita",
+    "checkIns": "Haftalık raporlar",
+    "creators": "Üreticiler için",
+    "safeguards": "Güvenceler",
+    "join": "Bekleme listesine katıl",
+    "joinShort": "Katıl",
+    "openMenu": "Menüyü aç",
+    "closeMenu": "Menüyü kapat",
+    "theme": "Tema",
+    "themeSystem": "Sistem",
+    "themeLight": "Açık",
+    "themeDark": "Koyu",
+    "language": "Dil",
+    "skipToContent": "İçeriğe geç"
+  },
+  "hero": {
+    "eyebrow": "Sağlık, giyilebilir teknoloji ve besin",
+    "headline": "Don’t do great, do terrific.",
+    "sub": "Vücudun için yaptığın her şeyin sosyal uygulaması, gerçekte nasıl olduğunu gösteren V1 bileklik ve kendimizin de kullanacağı takviyeler ile ekipman.",
+    "primaryCta": "Bekleme listesine katıl",
+    "secondaryCta": "Üretici olarak başvur",
+    "reassurance": "Pazarın açıldığında tek bir e-posta. Başka hiçbir şey.",
+    "liveLabel": "Bekleme listesinde",
+    "countriesLabel": "Kayıtlı pazarlar",
+    "creatorLabel": "Kalan kurucu üretici kontenjanı"
+  },
+  "trustBar": {
+    "items": [
+      {
+        "value": "Canlı",
+        "label": "Senin istediğin gibi çalışan insanların akışı"
+      },
+      {
+        "value": "24/7",
+        "label": "V1 bileklikten nabız, uyku ve toparlanma"
+      },
+      {
+        "value": "Test edildi",
+        "label": "Mağazadaki her takviye, parti parti"
+      },
+      {
+        "value": "80%",
+        "label": "Her satışın, hak eden üreticiye gidiyor"
+      }
+    ]
+  },
+  "mapAnatomy": {
+    "eyebrow": "Harita",
+    "headline": "PDF değil. Yaşayan bir plan.",
+    "body": "Harita; sürüm geçmişi, zorunlu haftalık raporları ve arkasında gerçek bir koçu olan yapılandırılmış bir dönüşüm planıdır. İlerledikçe uyarlanır ve her değişiklik kayda geçer.",
+    "tabs": {
+      "training": {
+        "label": "Antrenman",
+        "headline": "Bir program, tablo değil",
+        "body": "Seanslar, hareketler, gösterim videoları ve verilen ağırlıklar tamamladıkça kaydedilir; böylece uyum iddia edilmek yerine ölçülür."
+      },
+      "nutrition": {
+        "label": "Beslenme",
+        "headline": "Gerekçesi olan hedefler",
+        "body": "Günlük hedefler, öğün rehberliği ve bunların arkasındaki mantık. Haritayı satan koç tarafından yazılır, bir hesaplayıcı tarafından üretilmez."
+      },
+      "checkins": {
+        "label": "Haftalık raporlar",
+        "headline": "Hesap verme döngüsü",
+        "body": "Fotoğraf, ölçüm, toparlanma ve uyumu içeren haftalık gönderim. Koçun yanıt verir ve Harita güncellenir."
+      },
+      "supplements": {
+        "label": "Takviyeler",
+        "headline": "Her zaman açıklanır",
+        "body": "İzlenen satın alma bağlantılarıyla öneriler. Her ortaklık ilişkisi ve her üretici komisyonu aynı sayfada belirtilir."
+      },
+      "milestones": {
+        "label": "Kilometre taşları",
+        "headline": "Biçimi olan ilerleme",
+        "body": "On iki haftalık bir bloğu ilk haftadan itibaren okunur kılan haftalık hedefler ve kilometre taşları."
+      }
+    },
+    "sample": {
+      "mapTitle": "Hipertrofi temeli — 12 hafta",
+      "coach": "Koç · doğrulanmış kuvvet ve kondisyon",
+      "week": "12 haftanın 5. haftası",
+      "adherence": "Uyum",
+      "nextSession": "Sonraki seans",
+      "sessionName": "Alt vücut — arka zincir",
+      "version": "v3 · 2 gün önce güncellendi",
+      "supportLine": "12 hafta boyunca haftalık rapor değerlendirmesi içerir"
+    }
+  },
+  "prototypes": {
+    "eyebrow": "Arayüz",
+    "headline": "Bir bakışta okuduğun hassas bir alet.",
+    "body": "Büyük rakamlar, tek ve net bir hiyerarşi, neredeyse hiç hareket yok. Karanlık bir salon için yapıldı, gün ışığında da aynı netlikte.",
+    "tabs": {
+      "feed": {
+        "label": "Ana sayfa",
+        "caption": "Günlük özetin akışın üstünde durur, bir sekmede gömülü değil."
+      },
+      "map": {
+        "label": "Harita",
+        "caption": "Haritanın içerdiği her şey ve tam olarak hangi desteği kapsadığı."
+      },
+      "checkin": {
+        "label": "Rapor",
+        "caption": "İki dakikadan kısa sürede gönder. Kimin göreceğini sen seç."
+      },
+      "dashboard": {
+        "label": "Koç",
+        "caption": "Her danışan, bu hafta kimin ilgiye ihtiyacı olduğuna göre sıralanmış."
+      },
+      "progress": {
+        "label": "İlerleme",
+        "caption": "Varsayılan olarak gizli. Açıklanır, asla teşhis edilmez."
+      }
+    }
+  },
+  "checkIns": {
+    "eyebrow": "Haftalık rapor",
+    "headline": "İlerleme fotoğrafları, senin şartlarınla.",
+    "body": "Fotoğraflar, kilo, ölçümler, toparlanma, uyum ve yazılı bir değerlendirme. Her raporu kimin göreceğine sen karar verirsin — ve bu karar rapor başına verilir, ayarlarda bir kez gömülü kalmaz.",
+    "visibilityTitle": "Bu raporu kimler görebilir",
+    "visibility": {
+      "private": {
+        "label": "Gizli",
+        "note": "Sadece sen"
+      },
+      "coach": {
+        "label": "Sadece koç",
+        "note": "Sen ve bu Haritanın koçu"
+      },
+      "friends": {
+        "label": "Seçili arkadaşlar",
+        "note": "Tek tek belirlediğin kişiler"
+      },
+      "community": {
+        "label": "Topluluk",
+        "note": "Üyesi olduğun bir topluluk"
+      },
+      "public": {
+        "label": "Herkese açık",
+        "note": "Terrifit'teki herkes"
+      }
+    },
+    "faceBlurLabel": "Yüzümü bulanıklaştır",
+    "faceBlurOn": "Açık",
+    "faceBlurOff": "Kapalı",
+    "faceBlurNote": "Yüz algılama yalnızca senin açık onayınla çalışır ve tamamen kapatılabilir.",
+    "warningTitle": "Aksini iddia etmeyeceğiz",
+    "warningBody": "Ekran görüntüleri hiçbir platformda tamamen engellenemez. Bulanıklaştırma, gizli görünürlük ve bildirim riski azaltır, ortadan kaldırmaz. Yalnızca uygulamadan çıkmasına razı olduğun şeyleri paylaş.",
+    "dragHint": "Bulanıklık şiddetini görmek için sürükle"
+  },
+  "creators": {
+    "eyebrow": "Koçlar, beslenme uzmanları ve üreticiler için",
+    "headline": "Tutkunu gelire dönüştür.",
+    "body": "Takipçi bir iş modeli değildir. Terrifit sana doğrulanmış belgeler, satacağın yapılandırılmış ürünler ve satın alanları gerçekten takip edecek araçları verir.",
+    "economicsTitle": "Sende kalan",
+    "economics": [
+      {
+        "item": "Harita satışları",
+        "you": "%80",
+        "platform": "%20 platform"
+      },
+      {
+        "item": "Ücretli abonelikler",
+        "you": "%75",
+        "platform": "%25 platform"
+      },
+      {
+        "item": "Canlı yayınlar ve bahşişler",
+        "you": "%75",
+        "platform": "%25 platform"
+      },
+      {
+        "item": "Ücretli topluluklar",
+        "you": "Komisyon uygulanır",
+        "platform": "Oran lansmandan önce açıklanır"
+      },
+      {
+        "item": "Ortaklık ürünleri",
+        "you": "%10–15'lik payından sana düşen",
+        "platform": "Marka tarafından finanse edilen komisyon"
+      }
+    ],
+    "economicsFootnote": "Yüzdeler; ödeme işlem ücretleri, vergiler ve uygulama mağazası kesintileri öncesindeki brüt gelir üzerinden hesaplanır. Bu kalemler her ödeme dökümünde ayrı ayrı gösterilir.",
+    "toolsTitle": "Arkasındaki panel",
+    "tools": [
+      "Her Haritadaki her danışan, anlık uyum bilgisiyle",
+      "Eksik raporlar, danışan sessizleşmeden önce görünür hale gelir",
+      "Riskli ve hareketsiz danışanlar aciliyete göre sıralanır",
+      "Danışan soruları beş ayrı kutuda değil, tek bir sırada",
+      "Gereken Harita güncellemeleri ve yaklaşan kilometre taşları",
+      "Gelir, iadeler ve Haritaların toplam etkinliği"
+    ],
+    "obligationTitle": "Yükümlülük, açıkça",
+    "obligationBody": "Bir Harita sürekli destek içeriyorsa, o danışanları takip etmen beklenir. Ürün sayfası, kimse ödeme yapmadan önce bu desteğin düzeyini ve süresini belirtmelidir. Bunu uygularız.",
+    "foundingTitle": "Kurucu üretici avantajları",
+    "founding": [
+      "İlk on iki ay boyunca düşük platform komisyonu",
+      "Genel lansmandan önce öncelikli belge doğrulama",
+      "Lansmanda kendi pazarında öne çıkarılma",
+      "Üretici paneli yol haritasına doğrudan katkı",
+      "Profesyonel profilinde kalıcı kurucu rozeti"
+    ],
+    "cta": "Üretici olarak başvur"
+  },
+  "community": {
+    "eyebrow": "Topluluklar ve canlı yayınlar",
+    "headline": "İşin paylaşıldığı yer.",
+    "body": "Konu toplulukları, tek tek spor salonları, yerel gruplar ve tek bir Harita ya da meydan okuma etrafında kurulan topluluklar. Herkese açık ya da özel, ücretsiz ya da ücretli, gerçek moderasyonla.",
+    "items": [
+      {
+        "title": "Topluluklar",
+        "body": "Gönderiler, tartışmalar, kaynaklar, etkinlikler, sıralamalar ve ücretli üyelik."
+      },
+      {
+        "title": "Canlı yayınlar",
+        "body": "Yalnızca abonelere, biletli ya da herkese açık. Sohbet, anketler, bahşişler ve tekrarlar."
+      },
+      {
+        "title": "Anonimlik",
+        "body": "Gerçek adınla ya da bir takma adla. Karar senin, hesap bazında."
+      },
+      {
+        "title": "Danışmanlık",
+        "body": "Doğrulanmış koçlar ve beslenme uzmanlarıyla randevulu görüşmeler."
+      }
+    ],
+    "phaseNote": "Topluluklar lansmanla birlikte gelir. Canlı yayınlar hemen ardından."
+  },
+  "progress": {
+    "eyebrow": "İlerleme ve sağlık",
+    "headline": "Verilerin. Varsayılan olarak gizli.",
+    "body": "Uyum, kuvvet, dayanıklılık, uyku, toparlanma, aktivite, ölçümler ve vücut kompozisyonu tek bir gizli panelde; haftalık, iki haftalık ve aylık karşılaştırmalarla.",
+    "metricsTitle": "Takip edilenler",
+    "metrics": [
+      "Harita uyumu ve seriler",
+      "Kilo ve vücut ölçüleri",
+      "Kuvvet ve dayanıklılık performansı",
+      "Uyku, toparlanma ve dinlenme nabzı",
+      "Adım, aktivite ve kalori",
+      "InBody tarzı vücut kompozisyonu"
+    ],
+    "integrationsTitle": "Şunlarla bağlanır",
+    "integrations": [
+      "Apple Health",
+      "Health Connect",
+      "Desteklenen giyilebilir cihazlar",
+      "Elle giriş"
+    ],
+    "disclaimerTitle": "Kendini açıklayan skorlar",
+    "disclaimerBody": "Sağlık skorları ve vücut yaşı tahminleri her zaman girdilerini ve sınırlarını gösterir. Bunlar form göstergeleridir, tıbbi teşhis değildir ve Terrifit bunları asla teşhis gibi sunmaz."
+  },
+  "safeguards": {
+    "eyebrow": "Güvenceler",
+    "headline": "Çoğu fitness uygulamasının atladığı kısım.",
+    "body": "İlk sürümden itibaren yerleşik; ilk olaydan sonra eklenmiş değil.",
+    "items": [
+      {
+        "title": "Doğrulanmış yeterlilikler",
+        "body": "Koçlar ve beslenme uzmanları satış yapabilmeden önce doğrulanır. Belgeler, veren kurumla birlikte gösterilir."
+      },
+      {
+        "title": "Rehberlik, tıbbi tavsiye değil",
+        "body": "Sportif rehberlik ile tıbbi tavsiye arasında net ve uygulanan bir sınır; hem ürün metinlerinde hem moderasyon politikasında."
+      },
+      {
+        "title": "Sağlık verisi şifrelemesi",
+        "body": "Sağlık verileri şifrelenir, iç erişim kısıtlı ve denetlenir. Yönetimsel işlemler kayda geçer."
+      },
+      {
+        "title": "İlerleme fotoğrafı koruması",
+        "body": "Yüz bulanıklaştırma, rapor başına görünürlük ve tacize ve cinselleştirilmiş kötüye kullanıma karşı fiili yaptırım."
+      },
+      {
+        "title": "Açıklanan ortaklıklar",
+        "body": "Her ortaklık bağlantısı, sponsorluk ve üretici komisyonu göründüğü yerde açıklanır."
+      },
+      {
+        "title": "Dışa aktarma ve silme",
+        "body": "Verilerini yanında götür ya da hesabı tamamen sil. Satın alma kayıtları ve Harita sürümleri yasal gereklilik ölçüsünde saklanır."
+      },
+      {
+        "title": "İadeler ve uyuşmazlıklar",
+        "body": "Yayımlanmış iade politikası, gerçek bir uyuşmazlık süreci ve açık uyuşmazlık varken ertelenen ödemeler."
+      },
+      {
+        "title": "Yaş güvenceleri",
+        "body": "Pazara göre yaş sınırlamaları ve ebeveyn güvenceleri; hiçbir yerde desteksiz dönüşüm iddiası yok."
+      }
+    ]
+  },
+  "waitlist": {
+    "eyebrow": "Bekleme listesi",
+    "headline": "Yerini ayırt.",
+    "body": "Bize kim olduğunu ve gerçekte ne istediğini söyle. Önce neyi inşa edeceğimize ve hangi pazarın önce açılacağına bu karar verir.",
+    "roleLabel": "Şu sıfatla katılıyorum",
+    "roles": {
+      "athlete": {
+        "label": "Sporcu",
+        "note": "Bir Haritayla antrenman yapmak istiyorum"
+      },
+      "coach": {
+        "label": "Koç",
+        "note": "Danışan çalıştırıyorum"
+      },
+      "nutritionist": {
+        "label": "Beslenme uzmanı",
+        "note": "Beslenme danışmanlığı veriyorum"
+      },
+      "creator": {
+        "label": "Üretici",
+        "note": "Fitness alanında kitle oluşturuyorum"
+      },
+      "brand": {
+        "label": "Marka",
+        "note": "Takviye, giyim veya ekipman"
+      }
+    },
+    "fields": {
+      "name": "Ad",
+      "namePlaceholder": "Sana nasıl hitap edelim",
+      "email": "E-posta",
+      "emailPlaceholder": "sen@ornek.com",
+      "country": "Pazar",
+      "countryPlaceholder": "Pazarını seç",
+      "handle": "Ana hesap",
+      "handlePlaceholder": "@hesabın",
+      "audience": "Kitle büyüklüğü",
+      "audiencePlaceholder": "Bir aralık seç",
+      "credentials": "Yeterlilikler",
+      "credentialsPlaceholder": "Sertifikalar, veren kurum, kaç yıldır çalıştığın",
+      "brandName": "Marka adı",
+      "brandNamePlaceholder": "Tescilli marka adı",
+      "brandWebsite": "Web sitesi",
+      "brandWebsitePlaceholder": "https://",
+      "brandCategory": "Kategori",
+      "brandCategoryPlaceholder": "Bir kategori seç",
+      "features": "Senin için en önemlisi",
+      "featuresNote": "Uygun olanların hepsini seç — üzerine inşa ettiğimiz talep sinyali budur."
+    },
+    "audienceRanges": [
+      "1.000'den az",
+      "1.000 – 10.000",
+      "10.000 – 100.000",
+      "100.000 – 1 M",
+      "1 M'den fazla"
+    ],
+    "brandCategories": [
+      "Takviyeler",
+      "Giyim",
+      "Ekipman",
+      "Aksesuar",
+      "Dijital ürünler"
+    ],
+    "features": {
+      "maps": "Harita satın almak veya satmak",
+      "checkins": "Haftalık raporlar ve koç geri bildirimi",
+      "coaching": "Koçla doğrudan mesajlaşma",
+      "communities": "Topluluklar",
+      "livestreams": "Canlı yayınlar ve bahşişler",
+      "marketplace": "Ortaklık ürünleri mağazası",
+      "health": "Sağlık ve giyilebilir cihaz verileri",
+      "anonymity": "Anonim katılım"
+    },
+    "consent": "Terrifit lansmanı hakkında e-posta almayı kabul ediyorum. İstediğim zaman çıkabilirim.",
+    "submit": "Bekleme listesine katıl",
+    "submitCreator": "Kurucu kontenjanı için başvur",
+    "submitting": "Gönderiliyor…",
+    "success": {
+      "title": "Listedesin.",
+      "positionLabel": "Sıran",
+      "referralTitle": "Listede yüksel",
+      "referralBody": "Senin bağlantınla katılan her kişi seni on sıra yukarı taşır. Kurucu üretici kontenjanları listenin başından dağıtılır.",
+      "copy": "Bağlantıyı kopyala",
+      "copied": "Kopyalandı",
+      "share": "Paylaş",
+      "roleNoteCreator": "Belge doğrulaması genel lansmandan önce açılır. İnceleme sıran hazır olduğunda sana yazacağız.",
+      "roleNoteBrand": "Herhangi bir ürün yayına girmeden önce kimlik ve uygunluk kontrolleri gerekir. Gereklilikler için seninle iletişime geçeceğiz."
+    },
+    "errors": {
+      "required": "Bu alan zorunludur",
+      "email": "Geçerli bir e-posta adresi gir",
+      "consent": "Devam etmek için lütfen onayla",
+      "duplicate": "Bu e-posta zaten listede.",
+      "generic": "Bir şeyler ters gitti. Lütfen tekrar dene.",
+      "network": "Sunucuya ulaşılamadı. Bağlantını kontrol edip tekrar dene."
+    },
+    "referredBanner": "Davet edildin. Sen katıldığında arkadaşın on sıra yükseliyor."
+  },
+  "faq": {
+    "eyebrow": "Sorular",
+    "headline": "Sormadan önce.",
+    "items": [
+      {
+        "q": "Harita tam olarak nedir?",
+        "a": "Yapılandırılmış bir dönüşüm planı: antrenman programı, videolu hareket anlatımı, beslenme hedefleri, takviye rehberliği, haftalık hedefler, kilometre taşları ve zorunlu raporlar. Sürüm geçmişi vardır ve onu satan koç sen ilerledikçe güncelleyebilir. Haritalar hazır olabilir ya da tek bir kişi için hazırlanabilir; tek seferlik alınabilir ya da abonelikle."
+      },
+      {
+        "q": "Terrifit sadece bir fitness akışı mı?",
+        "a": "Akış ön kapıdır, ürün değil. Ürün onun arkasındaki döngüdür: bir Harita al, onu çalış, her hafta rapor ver, koçluk al ve elinde gerçekte neyin değiştiğinin kaydıyla çık."
+      },
+      {
+        "q": "Terrifit'te kimler satış yapabilir?",
+        "a": "Koçlar ve beslenme uzmanları herhangi bir şey yayımlamadan önce belge doğrulamasından geçmek zorundadır. Markalar kimlik ve uygunluk kontrollerinden geçer. Doğrulama durumu ve belgeyi veren kurum profilde gösterilir."
+      },
+      {
+        "q": "Üretici olarak bana maliyeti ne?",
+        "a": "Terrifit, Harita satışlarının %20'sini; ücretli aboneliklerin, canlı yayın gelirlerinin ve bahşişlerin %25'ini alır. Ödeme işlem ücretleri, vergiler ve uygulama mağazası kesintileri komisyonun içine gizlenmek yerine ödeme dökümünde ayrı gösterilir."
+      },
+      {
+        "q": "İlerleme fotoğraflarım ne kadar gizli?",
+        "a": "Varsayılan olarak gizli. Görünürlük her raporda ayrı seçilir: gizli, sadece koç, adıyla belirttiğin arkadaşlar, tek bir topluluk ya da herkese açık. Yüz bulanıklaştırma mevcuttur, yüz algılama açık onayını gerektirir ve hiçbir platform ekran görüntüsünü tamamen engelleyemez. Bunu sadece burada değil, ürünün içinde de söylüyoruz."
+      },
+      {
+        "q": "Terrifit takviye satıyor mu?",
+        "a": "Hayır. Terrifit ortak (affiliate) olarak çalışır. Stok, kargo, destek, iade ve ürün iddiaları markalara aittir; ödeme onların sitesinde yapılır. Her ortaklık bağlantısı ve her üretici komisyonu göründüğü yerde açıklanır."
+      },
+      {
+        "q": "Ne zaman yayına giriyor?",
+        "a": "Önce çekirdek döngü — profiller, akış, Haritalar, raporlar, üretici panelleri, mesajlaşma ve ödemeler — pazar pazar. Sırayı bekleme listesi belirler. Canlı yayınlar hemen ardından, sağlık entegrasyonları ise sonrasında gelir."
+      }
+    ]
+  },
+  "footer": {
+    "tagline": "Don’t do great, do terrific.",
+    "productTitle": "Ürün",
+    "product": [
+      "Harita",
+      "Haftalık raporlar",
+      "Üreticiler için",
+      "Topluluklar",
+      "İlerleme"
+    ],
+    "companyTitle": "Şirket",
+    "company": [
+      "Hakkımızda",
+      "Kariyer",
+      "Basın",
+      "İletişim"
+    ],
+    "legalTitle": "Yasal",
+    "legal": [
+      "Gizlilik",
+      "Koşullar",
+      "İadeler ve uyuşmazlıklar",
+      "Ortaklık bildirimi",
+      "Çerezler"
+    ],
+    "disclaimer": "Terrifit sportif rehberlik ve koçluk araçları sunar. Terrifit tıbbi tavsiye, teşhis veya tedavi sunmaz. Sağlık skorları ve vücut yaşı tahminleri tahmindir, klinik ölçüm değildir. Herhangi bir programa başlamadan önce yetkin bir sağlık uzmanına danış.",
+    "rights": "Tüm hakları saklıdır.",
+    "languageLabel": "Dil"
+  },
+  "mock": {
+    "date": "12 Mar Çar",
+    "greeting": "Günaydın, Sara",
+    "streakUnit": "gün üst üste",
+    "mapProgress": "Harita ilerlemesi",
+    "nextWorkout": "Sonraki seans",
+    "nextWorkoutValue": "Alt vücut · 17.30",
+    "checkInDue": "Rapor",
+    "checkInDueValue": "Pazar günü teslim",
+    "recovery": "Toparlanma",
+    "feedAuthor": "Nadia K.",
+    "feedRole": "Doğrulanmış koç",
+    "feedTime": "2 sa önce",
+    "feedCaption": "8. hafta. Tartıda aynı sayı, farklı bir vücut. Tüm ayrıntı Haritanın içinde.",
+    "feedTag": "Dönüşüm",
+    "likes": "1.284",
+    "comments": "96",
+    "photoHidden": "İlerleme fotoğrafı — görünürlüğü sporcu belirler",
+    "mapPrice": "149 USD",
+    "mapRating": "4,8",
+    "mapReviews": "212 değerlendirme",
+    "mapSections": [
+      "Antrenman programı",
+      "Beslenme hedefleri",
+      "Takviye rehberliği",
+      "Haftalık raporlar"
+    ],
+    "mapSupport": "Haftalık rapor değerlendirmesi · 12 hafta",
+    "mapCta": "Haritaya devam et",
+    "checkInTitle": "5. hafta raporu",
+    "photoFront": "Ön",
+    "photoSide": "Yan",
+    "photoBack": "Arka",
+    "weight": "Kilo",
+    "weightValue": "78,4 kg",
+    "waist": "Bel",
+    "waistValue": "82 cm",
+    "sleep": "Uyku",
+    "sleepValue": "7 sa 10 dk",
+    "visibility": "Şunlara görünür",
+    "visibilityValue": "Sadece koç",
+    "submitCheckIn": "Raporu gönder",
+    "dashboardTitle": "İlgi bekliyor",
+    "dashboardSub": "84 danışanın 12'si",
+    "clients": [
+      {
+        "name": "Omar H.",
+        "map": "12 haftalık temel",
+        "status": "Rapor eksik",
+        "tone": "bad",
+        "adherence": 41
+      },
+      {
+        "name": "Lena R.",
+        "map": "Rekomp 16",
+        "status": "Risk altında",
+        "tone": "warn",
+        "adherence": 63
+      },
+      {
+        "name": "Yusuf A.",
+        "map": "12 haftalık temel",
+        "status": "Programda",
+        "tone": "good",
+        "adherence": 94
+      },
+      {
+        "name": "Maya T.",
+        "map": "Kuvvet 8",
+        "status": "Programda",
+        "tone": "good",
+        "adherence": 88
+      }
+    ],
+    "revenue": "Bu ay",
+    "revenueValue": "8.420 USD",
+    "revenueDelta": "+%18",
+    "progressTitle": "Bu hafta",
+    "ringAdherence": "Uyum",
+    "ringRecovery": "Toparlanma",
+    "ringSleep": "Uyku",
+    "comparisons": [
+      {
+        "label": "Kilo",
+        "value": "−3,2 kg"
+      },
+      {
+        "label": "Bel",
+        "value": "−4,0 cm"
+      },
+      {
+        "label": "Back squat",
+        "value": "+12,5 kg"
+      },
+      {
+        "label": "Dinlenme nabzı",
+        "value": "−4 bpm"
+      }
+    ],
+    "vsLastMonth": "geçen aya göre",
+    "privateBadge": "Gizli"
+  },
+  "mapPanel": {
+    "sessionsThisWeek": "Bu haftaki seanslar",
+    "protein": "Protein",
+    "carbs": "Karbonhidrat",
+    "fat": "Yağ",
+    "nextCheckIn": "Sonraki rapor",
+    "checkInItems": [
+      "Fotoğraflar",
+      "Kilo",
+      "Ölçümler",
+      "Toparlanma",
+      "Değerlendirme"
+    ],
+    "supplementName": "Kreatin monohidrat",
+    "supplementDose": "Günde 5 g",
+    "disclosure": "Ortaklık bağlantısı · komisyon açıklandı",
+    "milestones": [
+      {
+        "week": "4. hafta",
+        "label": "Temel kuvvet yeniden testi",
+        "done": true
+      },
+      {
+        "week": "8. hafta",
+        "label": "Orta dönem fotoğrafları",
+        "done": false
+      },
+      {
+        "week": "12. hafta",
+        "label": "Final testi ve değerlendirme",
+        "done": false
+      }
+    ]
+  },
+  "marquee": [
+    "Doğrulanmış koçlar",
+    "Yapılandırılmış Haritalar",
+    "Haftalık raporlar",
+    "Koç geri bildirimi",
+    "Varsayılan olarak gizli",
+    "Yüz bulanıklaştırma",
+    "Harita sürüm geçmişi",
+    "Üretici ödemeleri",
+    "Gerçek hesap verebilirlik"
+  ],
+  "statement": {
+    "lead": "Çoğu fitness uygulaması antrenmanlarını sayar.",
+    "emphasis": "Terrifit onlardan birinin sorumlu olmasını sağlar."
+  },
+  "finalCta": {
+    "eyebrow": "Kurucu grup",
+    "headline": "Dolduğunda kapanır.",
+    "sub": "Bekleme listesine katıl ve önce hangi pazarın açılacağını bize söyle. Kurucu üretici kontenjanları listenin başından dağıtılır.",
+    "primary": "Bekleme listesine katıl",
+    "secondary": "Üretici olarak başvur",
+    "note": "Pazarın açıldığında tek bir e-posta. Başka hiçbir şey."
+  },
+  "personaCommon": {
+    "stepsTitle": "Katılım nasıl işliyor",
+    "applyCta": "Başvurunu başlat",
+    "otherSites": "Terrifit şunlar için",
+    "sites": {
+      "main": "Sporcular",
+      "creator": "Üreticiler",
+      "coach": "Koçlar",
+      "nutritionist": "Beslenme uzmanları",
+      "brand": "Markalar"
+    },
+    "backToMain": "Ana site",
+    "whatYouKeep": "Sende kalan"
+  },
+  "personas": {
+    "creator": {
+      "eyebrow": "Üreticiler için Terrifit",
+      "headline": "Bir kitleyi kendine ait bir işe dönüştür.",
+      "sub": "Yapılandırılmış Haritalar sat, ücretli topluluklar ve canlı yayınlar yönet, kazandığının %80'ini elinde tut — ve satın alanları gerçekten destekleyecek araçlara sahip ol.",
+      "points": [
+        {
+          "title": "Anma değil, yapı sat",
+          "body": "Harita gerçek bir üründür: antrenman, beslenme, raporlar, kilometre taşları ve müşterilerinin görebildiği bir sürüm geçmişi."
+        },
+        {
+          "title": "%80'i sende kalsın",
+          "body": "Harita satışlarında %20 platform komisyonu. Ödeme ücretleri, vergiler ve mağaza kesintileri ayrı gösterilir, asla içine gizlenmez."
+        },
+        {
+          "title": "Kimin geri düştüğünü gör",
+          "body": "Uyum, eksik raporlar ve riskli müşteriler, onlar sessizleşip ayrılmadan önce görünür olur."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Başvur",
+          "body": "Bize kitleni, pazarını ve ne satmak istediğini anlat."
+        },
+        {
+          "title": "Doğrulama",
+          "body": "Kimlik ve koçluk yapıyorsan belgeler. Genel lansmandan önce incelenir."
+        },
+        {
+          "title": "İlk Haritanı kur",
+          "body": "Yapılandırmana, fiyatlandırmana ve taahhüt ettiğin desteği belirlemene yardım ederiz."
+        }
+      ]
+    },
+    "coach": {
+      "eyebrow": "Koçlar için Terrifit",
+      "headline": "Koçluk işini bir mesajlaşma uygulamasından yürütmeyi bırak.",
+      "sub": "Programlar, raporlar, geri bildirim, ödemeler ve danışan takibi tek yerde — belgelerin doğrulanmış ve profilinde görünür halde.",
+      "points": [
+        {
+          "title": "Tüm danışanlar, tek panel",
+          "body": "Anlık uyum, eksik raporlar ve açık sorular; bu hafta sana gerçekten kimin ihtiyacı olduğuna göre sıralanmış."
+        },
+        {
+          "title": "Doğrulanmış belgeler",
+          "body": "Sertifikan ve onu veren kurum profilinde görünür. Doğrulama, satış yapabilmenin önündedir."
+        },
+        {
+          "title": "Hakkını düzgün al",
+          "body": "Tek seferlik ya da abonelikli Haritalar, planlı ödemeler ve arkasında yayımlanmış bir iade ve uyuşmazlık politikası."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Başvur",
+          "body": "Bize nasıl çalıştığını ve şu anda kaç danışan takip ettiğini söyle."
+        },
+        {
+          "title": "Sertifikanı doğrulat",
+          "body": "Sertifika ve veren kurum, genel lansmandan önce incelenir."
+        },
+        {
+          "title": "Danışanlarını taşı",
+          "body": "Mevcut programlarını Haritalara dönüştürmene ve danışan listeni aktarmana yardım ederiz."
+        }
+      ]
+    },
+    "nutritionist": {
+      "eyebrow": "Beslenme uzmanları için Terrifit",
+      "headline": "Gerçek haftaya dayanan beslenme rehberliği.",
+      "sub": "Gerçek ölçümlere bağlı hedefler, öğün rehberliği ve haftalık raporlar — rehberlik ile tıbbi tavsiye arasında net ve uygulanan bir sınırla.",
+      "points": [
+        {
+          "title": "Gerekçesi olan hedefler",
+          "body": "Senin yazdığın günlük hedefler ve öğün rehberliği, danışanının gerçekten çalıştığı Haritaya bağlı olarak."
+        },
+        {
+          "title": "Tahmin değil, ölçüm",
+          "body": "Kilo, ölçümler, InBody tarzı kompozisyon ve uyum, haftalık döngüde değerlendirilir."
+        },
+        {
+          "title": "Net bir meslek sınırı",
+          "body": "Rehberlik asla teşhis olarak sunulmaz. Bu sınır hem üründe hem moderasyon politikasında uygulanır."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Başvur",
+          "body": "Bize pratiğinden ve nerede kayıtlı olduğundan bahset."
+        },
+        {
+          "title": "Kaydını doğrulat",
+          "body": "Kayıt kurumu ve yeterlilikler, danışmanlık verebilmenden önce incelenir."
+        },
+        {
+          "title": "İlk planını yayımla",
+          "body": "Bağımsız bir beslenme Haritası ya da bir koçun antrenman Haritasına bağlı beslenme."
+        }
+      ]
+    },
+    "brand": {
+      "eyebrow": "Markalar için Terrifit",
+      "headline": "İnsanlara kaydırma anında değil, dönüşüm anında ulaş.",
+      "sub": "Ürünlerini listele, doğrulanmış üreticilerle çalış ve yalnızca tamamlanan satışlar üzerinden komisyon öde. Ödeme, lojistik ve müşteri ilişkisi sende kalır.",
+      "points": [
+        {
+          "title": "Pazar yeri değil, ortaklık",
+          "body": "Ödeme senin sitende kalır. Terrifit izlenen trafik gönderir ve tamamlanan satışlardan %10–15 alır."
+        },
+        {
+          "title": "Doğrulanmış üreticiler",
+          "body": "Belgeleri yalnızca beyan edilmiş değil, gerçekten kontrol edilmiş koçlar ve beslenme uzmanlarıyla çalış."
+        },
+        {
+          "title": "Kontrol sende kalır",
+          "body": "Stok, kargo, müşteri desteği, iadeler ve ürün iddiaları tamamen sana ait kalır."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Başvur",
+          "body": "Bize markanı, kategorilerini ve kargo yaptığın pazarları anlat."
+        },
+        {
+          "title": "Kimlik ve uygunluk kontrolleri",
+          "body": "Herhangi bir ilan yayına girmeden önce şirket doğrulaması ve ürün iddiası incelemesi."
+        },
+        {
+          "title": "İzlemeyi bağla",
+          "body": "İzlenen bağlantılar, kodlar ya da sunucudan sunucuya atıf — ardından üreticilerle başla."
+        }
+      ],
+      "responsibilities": "Stok, ürün uygunluğu, kargo, müşteri desteği, iade ve geri ödemeler, ürün iddiaları ve ülkeye özgü kısıtlamalar markaların sorumluluğunda kalır. Terrifit ortak olarak çalışır ve bunların hiçbirini yönetmez."
+    }
+  },
+  "howItWorks": {
+    "eyebrow": "Nasıl çalışır",
+    "headline": "Dört adım. Her hafta. Sürekli.",
+    "body": "Ürün, döngünün kendisidir. Terrifit'teki diğer her şey bu dört adımın güvenilir biçimde gerçekleşmesi ve gerçekleştiğinin kanıtlanması için vardır.",
+    "steps": [
+      {
+        "title": "Doğrulayabileceğin bir koç bul",
+        "body": "Belgeler kimse satış yapamadan önce doğrulanır ve değerlendirmeler Haritayı satın alanlardan değil, bitirenlerden gelir."
+      },
+      {
+        "title": "Haritayı satın al",
+        "body": "Tek ödeme ya da abonelik. Ürün sayfası, sen ödeme yapmadan önce hangi desteğin ne kadar süreyle dahil olduğunu tam olarak belirtir."
+      },
+      {
+        "title": "Çalış ve kaydet",
+        "body": "Seanslar, ağırlıklar ve beslenme hedefleri tamamladıkça kaydedilir; böylece uyum iddia edilmek yerine ölçülür."
+      },
+      {
+        "title": "Rapor ver ve güncellen",
+        "body": "Her hafta fotoğraflar, ölçümler ve yazılı bir değerlendirme. Koçun yanıt verir ve Harita buna göre değişir."
+      }
+    ]
+  },
+  "loop": {
+    "eyebrow": "Döngü",
+    "headline": "Neden birikerek büyüyor.",
+    "body": "Her aşama bir sonrakini besler. Keşif satın almayı getirir, satın alma hesap verebilirlik yaratır, hesap verebilirlik kanıt üretir ve kanıt bir sonraki keşfi getirir. Tek başına bir akış bunların hiçbirini yapmaz.",
+    "nodes": [
+      "Keşfet",
+      "Takip et",
+      "Harita al",
+      "Antrenman yap",
+      "Rapor ver",
+      "Koçluk al",
+      "Kanıtı paylaş",
+      "Seri kur"
+    ]
+  },
+  "audiences": {
+    "eyebrow": "Kimler için",
+    "headline": "Tek bir pazarın beş yüzü.",
+    "body": "Sporcular, koçlar, beslenme uzmanları, üreticiler ve markaların her birinin Terrifit'te kendi alanı var; gerçekte yapmaları gerekene göre kurgulanmış bir katılım süreciyle.",
+    "visit": "Siteye git",
+    "athleteBody": "Belgeleri kontrol edilmiş birinin hazırladığı bir Haritayla çalış ve gerçekte neyin değiştiğine dair gizli bir kayıt tut."
+  },
+  "roadmap": {
+    "eyebrow": "Yol haritası",
+    "headline": "Ne zaman ne çıkıyor.",
+    "body": "Bu sırayla, pazar pazar. Hangi pazarın önce açılacağına bekleme listesi karar verir.",
+    "phases": [
+      {
+        "label": "1. Aşama",
+        "title": "Çekirdek döngü",
+        "items": [
+          "Profiller ve doğrulanmış belgeler",
+          "Sosyal akış ve takip",
+          "Haritalar: oluşturma ve satın alma",
+          "Gizli haftalık raporlar",
+          "Üreticiler için danışan panelleri",
+          "Koç–danışan mesajlaşması",
+          "Ödemeler ve üretici ödemeleri"
+        ]
+      },
+      {
+        "label": "2. Aşama",
+        "title": "Topluluk ve ölçek",
+        "items": [
+          "Konu toplulukları",
+          "Üretici abonelikleri",
+          "Coach Pro araçları",
+          "Ortaklık mağazası",
+          "Danışmanlık randevusu",
+          "Canlı yayınlar ve bahşişler"
+        ]
+      },
+      {
+        "label": "3. Aşama",
+        "title": "Veri ve erişim",
+        "items": [
+          "Apple Health ve Health Connect",
+          "Gelişmiş sağlık analitiği",
+          "Öneri algoritmaları",
+          "Marka kampanyaları ve öne çıkarma",
+          "Meydan okumalar ve sıralamalar",
+          "Uluslararası ödemelerin genişletilmesi"
+        ]
+      }
+    ]
+  }
+}

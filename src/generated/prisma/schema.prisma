@@ -1,0 +1,669 @@
+// Terrifit — waitlist + demand-measurement schema.
+//
+// Dev runs on SQLite so the site boots with zero infrastructure.
+// Production: change provider to "postgresql" and point DATABASE_URL at it.
+// Array-shaped fields are stored as JSON strings so the schema is portable
+// between both providers without a migration rewrite.
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model WaitlistEntry {
+  id    String @id @default(cuid())
+  email String @unique
+
+  name String
+  // athlete | coach | nutritionist | creator | brand
+  role String
+
+  // Market + demand signal
+  country  String
+  locale   String @default("en")
+  // JSON string[] — which parts of the product they actually want
+  features String @default("[]")
+
+  // Professional applicants (coach / nutritionist / creator)
+  handle       String?
+  audienceSize String?
+  credentials  String?
+
+  // Brand applicants
+  brandName     String?
+  brandWebsite  String?
+  brandCategory String?
+
+  // Referral mechanics
+  referralCode   String  @unique
+  referredByCode String?
+  referrals      Int     @default(0)
+
+  // Raw signup order. Displayed position subtracts the referral boost.
+  position Int
+
+  source    String?
+  createdAt DateTime @default(now())
+
+  @@index([role])
+  @@index([referredByCode])
+  @@index([country])
+}
+
+// Event-based analytics from day one, per the technical direction.
+model AnalyticsEvent {
+  id        String   @id @default(cuid())
+  name      String
+  sessionId String
+  locale    String?
+  path      String?
+  // JSON object of event properties
+  props     String   @default("{}")
+  createdAt DateTime @default(now())
+
+  @@index([name])
+  @@index([sessionId])
+  @@index([createdAt])
+}
+
+// Messages from the contact page. Stored rather than only emailed so nothing is
+// lost if mail delivery fails, and so the team can see what is unanswered.
+model ContactMessage {
+  id String @id @default(cuid())
+
+  // member | band | creator | partner | press | other
+  topic   String
+  name    String
+  email   String
+  message String
+
+  locale     String  @default("en")
+  // Set when the sender is already on the waitlist, so replies have context.
+  waitlistId String?
+
+  handled   Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([topic])
+  @@index([createdAt])
+  @@index([email])
+}
+
+// Storefront orders. Money is stored in integer minor units throughout — a
+// float total is a rounding bug waiting to reach a customer's card.
+model Order {
+  id String @id @default(cuid())
+
+  // Short human-quotable reference, e.g. TF-7K4M2P.
+  number String @unique
+
+  email String
+  name  String
+  phone String?
+
+  // Shipping address. Null for an order with nothing physical in it.
+  line1    String?
+  line2    String?
+  city     String?
+  postcode String?
+  country  String?
+
+  currency      String @default("USD")
+  subtotalCents Int
+  shippingCents Int    @default(0)
+  taxCents      Int    @default(0)
+  totalCents    Int
+
+  // card | paypal | crypto | invoice
+  paymentMethod String
+  // pending | paid | failed | refunded
+  paymentStatus String  @default("pending")
+  // The gateway's identifier for the charge, once one exists.
+  paymentRef    String?
+  // Set when the order went through a gateway running in sandbox mode.
+  sandbox       Boolean @default(false)
+
+  // pending | fulfilled | cancelled
+  fulfillmentStatus String @default("pending")
+
+  locale String      @default("en")
+  items  OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([paymentStatus])
+  @@index([createdAt])
+}
+
+/// A customer's review of something they bought.
+///
+/// Verified against their own orders at write time — `verified` is set when the
+/// account has a paid order containing that slug, and there is no way to set it
+/// from the request. The catalogue carries an aggregate rating for launch; once
+/// real reviews exist for a product, the aggregate shown is computed from these
+/// rows instead, so the number on the page is always one somebody can read.
+model ProductReview {
+  id   String @id @default(cuid())
+  slug String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// 1–5 whole stars. Enforced in the API; SQLite has no check constraint here.
+  rating Int
+  title  String
+  body   String
+
+  /// True when the reviewer's account has a paid order containing this slug.
+  verified Boolean @default(false)
+  /// Hidden reviews stay in the table so moderation is reversible and auditable.
+  hidden   Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  /// One review per person per product. A rewrite updates the row.
+  @@unique([slug, userId])
+  @@index([slug, createdAt])
+}
+
+model OrderItem {
+  id      String @id @default(cuid())
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  slug      String
+  variantId String?
+  // Denormalised so an order still reads correctly after the catalogue changes.
+  title     String
+  variant   String?
+  unitCents Int
+  quantity  Int
+  subscribe Boolean @default(false)
+
+  @@index([orderId])
+}
+
+// ---------------------------------------------------------------------------
+// Accounts.
+//
+// Sessions are opaque random tokens stored as a SHA-256 hash, so a database
+// leak does not hand anybody a working session. Passwords use scrypt from the
+// Node standard library — no extra dependency, and correct by default.
+// ---------------------------------------------------------------------------
+
+model User {
+  id           String  @id @default(cuid())
+  email        String  @unique
+  passwordHash String
+  name         String
+  // Public handle, once they pick one. Optional so signup stays two fields.
+  handle       String? @unique
+
+  locale               String    @default("en")
+  /// free | trial | pro — trial is a full-access Pro period that expires.
+  plan                 String    @default("free")
+  planRenewsAt         DateTime?
+  /// When a free trial ends. Access is granted while this is in the future.
+  trialEndsAt          DateTime?
+  /// monthly | yearly, once they actually pay.
+  planInterval         String?
+  /// Set when someone has been offered the trial, so it is offered once.
+  trialStartedAt       DateTime?
+  /// Stripe's ids for this member. The subscription is the source of truth for
+  /// whether they are Pro; `plan` is a cache of it that the webhook writes.
+  /// Indexed rather than unique so adding the column needs no destructive
+  /// migration; one subscription per member is enforced where it is created.
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  emailVerified        DateTime?
+  // athlete | creator | coach | partner
+  role                 String    @default("athlete")
+  /// Separate from `role`, which is what someone *is* on the platform. Staff
+  /// access is an authorisation concern and must not be grantable by picking a
+  /// role at signup.
+  isAdmin              Boolean   @default(false)
+
+  profile     Profile?
+  sessions    Session[]
+  scans       BodyScan[]
+  connections HealthConnection[]
+  imports     HealthImport[]
+  metrics     HealthMetric[]
+
+  posts          Post[]
+  likes          PostLike[]
+  comments       Comment[]
+  devices        PushDevice[]
+  auditEntries   AuditLog[]
+  sentMessages   Message[]       @relation("sender")
+  memberships    Conversation[]  @relation("members")
+  bands          BandDevice[]
+  notifications  Notification[]
+  enrollments    MapEnrollment[]
+  reviews        ProductReview[]
+  passwordResets PasswordReset[]
+  sessionLogs    SessionLog[]
+  following      Follow[]        @relation("follower")
+  followers      Follow[]        @relation("followee")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([createdAt])
+  @@index([stripeSubscriptionId])
+  @@index([stripeCustomerId])
+}
+
+/// A one-time link that lets somebody set a new password.
+///
+/// The token is stored as a SHA-256 hash for the same reason session tokens
+/// are: a leaked database must not hand anybody a working reset link. Rows are
+/// single-use and short-lived, and requesting a new one invalidates the old.
+model PasswordReset {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// SHA-256 of the token in the emailed link. The plaintext exists only in
+  /// that email.
+  tokenHash String @unique
+
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model Session {
+  id String @id @default(cuid())
+
+  // SHA-256 of the cookie value. The plaintext token only ever exists in the
+  // browser's cookie jar and in the response that set it.
+  tokenHash String @unique
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  userAgent String?
+  ip        String?
+
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model Profile {
+  userId String @id
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  dateOfBirth DateTime?
+  // female | male | other | undisclosed — used only for metric baselines.
+  sex         String?
+  heightCm    Float?
+  weightKg    Float?
+  // metric | imperial. Display only; everything is stored in SI.
+  units       String    @default("metric")
+  timezone    String?
+
+  // strength | fat-loss | endurance | health | recomposition
+  goal          String?
+  // sedentary | light | moderate | high | athlete
+  activityLevel String?
+  trainingDays  Int?
+
+  bio String?
+
+  /// Years training: new | returning | steady | advanced.
+  experience       String?
+  /// JSON array of what they actually do — "lifting", "running", "cycling"…
+  activities       String?
+  /// JSON array of anything a programme should work around. Free text allowed.
+  healthConditions String?
+  /// Set the moment onboarding is finished, so the app knows to stop asking.
+  onboardedAt      DateTime?
+
+  // Health metrics are private by default; this is the master switch a member
+  // flips before any per-creator sharing can apply.
+  shareWithCreators Boolean @default(false)
+
+  updatedAt DateTime @updatedAt
+}
+
+/// A body-composition measurement. InBody is the common case; DEXA, calipers
+/// and smart scales land in the same shape so the history stays comparable.
+model BodyScan {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // inbody | dexa | scale | manual
+  source  String
+  takenAt DateTime
+
+  weightKg           Float?
+  bodyFatPercent     Float?
+  skeletalMuscleKg   Float?
+  leanMassKg         Float?
+  bodyWaterL         Float?
+  visceralFatLevel   Float?
+  basalMetabolicRate Int?
+  /// InBody's own 0–100 composite, when the sheet carries it.
+  score              Int?
+
+  /// The original row, kept so a parsing improvement can be replayed.
+  raw String?
+
+  createdAt DateTime @default(now())
+
+  @@index([userId, takenAt])
+}
+
+/// A link to another health app. Kept even when revoked, so the member can see
+/// what was once connected and when it stopped.
+model HealthConnection {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // apple_health | google_health_connect | samsung_health | garmin | strava |
+  // fitbit | oura | whoop | inbody
+  provider String
+  // connected | pending | revoked
+  status   String @default("pending")
+
+  externalId String?
+  scopes     String  @default("[]")
+
+  connectedAt DateTime?
+  lastSyncAt  DateTime?
+  revokedAt   DateTime?
+
+  @@unique([userId, provider])
+  @@index([userId])
+}
+
+/// One import run. Rows are written even when parsing fails, so a member can
+/// see that their file was received and why it did not work.
+model HealthImport {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  provider String
+  // file | api
+  kind     String  @default("file")
+  filename String?
+  // pending | complete | failed
+  status   String  @default("pending")
+
+  metricCount Int     @default(0)
+  scanCount   Int     @default(0)
+  error       String?
+
+  createdAt  DateTime  @default(now())
+  finishedAt DateTime?
+
+  @@index([userId, createdAt])
+}
+
+/// A day of normalised metrics from one source. Imports from several apps can
+/// coexist for the same day, and the app picks a winner at read time rather
+/// than destroying the others on write.
+model HealthMetric {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// Midnight UTC of the day being described.
+  date   DateTime
+  source String
+
+  restingHr       Int?
+  /// Mean heart rate across the whole day, which is a different animal from
+  /// the resting figure: it moves with training load, caffeine and stress.
+  averageHr       Int?
+  hrvMs           Float?
+  sleepMinutes    Int?
+  steps           Int?
+  activeKcal      Int?
+  weightKg        Float?
+  respiratoryRate Float?
+  spo2            Float?
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, date, source])
+  @@index([userId, date])
+}
+
+/// A post in the feed. One model covers the three things someone can put out —
+/// a note, a progress shot, or a livestream — because they share an author, a
+/// body and a place in the timeline, and splitting them would mean three
+/// queries to build one feed.
+model Post {
+  id       String @id @default(cuid())
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  /// note | progress | live
+  kind String @default("note")
+  body String
+
+  /// Progress shots and livestream thumbnails. Remote URL or a data URI.
+  mediaUrl  String?
+  /// live | ended — null for everything that was never a livestream.
+  liveState String?
+
+  /// public | members — members-only posts are the paid tier.
+  visibility String @default("public")
+
+  /// Denormalised so the feed does not count rows per post on every read.
+  likeCount    Int @default(0)
+  commentCount Int @default(0)
+
+  likes    PostLike[]
+  comments Comment[]
+
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([authorId, createdAt])
+}
+
+model PostLike {
+  postId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@id([postId, userId])
+}
+
+model Follow {
+  followerId String
+  follower   User   @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  followeeId String
+  followee   User   @relation("followee", fields: [followeeId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@id([followerId, followeeId])
+}
+
+/// A paired V1. Kept as its own row rather than a flag on the profile so the
+/// pairing history survives someone swapping bands, and so the app can show
+/// battery and firmware without inventing them.
+model BandDevice {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// Printed inside the strap loop. Unique across every band we ship.
+  serial    String @unique
+  colourway String @default("ember")
+  firmware  String @default("1.0.0")
+
+  batteryPercent Int       @default(100)
+  pairedAt       DateTime  @default(now())
+  lastSyncAt     DateTime?
+
+  @@index([userId])
+}
+
+model Notification {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// like | follow | live | band | order | system
+  kind  String
+  title String
+  body  String
+
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId, createdAt])
+}
+
+/// Someone working through a Map. The Map itself is content, not user data, so
+/// it lives in src/lib/maps/catalog.ts — only the progress belongs here.
+model MapEnrollment {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  mapId String
+  /// 1-based, so "week 4" in the UI is 4 here.
+  week  Int    @default(1)
+  /// Sessions finished in the current week.
+  done  Int    @default(0)
+
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  @@unique([userId, mapId])
+}
+
+/// A direct-message thread. Members are a many-to-many rather than two columns
+/// so group threads work later without a migration that rewrites history.
+model Conversation {
+  id      String @id @default(cuid())
+  members User[] @relation("members")
+
+  messages Message[]
+
+  createdAt     DateTime @default(now())
+  lastMessageAt DateTime @default(now())
+
+  @@index([lastMessageAt])
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  senderId String
+  sender   User   @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
+
+  body   String
+  readAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@index([conversationId, createdAt])
+}
+
+model Comment {
+  id     String @id @default(cuid())
+  postId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  body String
+
+  createdAt DateTime @default(now())
+
+  @@index([postId, createdAt])
+}
+
+/// An Expo push token for one install. Tokens rotate and the same person can
+/// have several devices, so this is keyed by token rather than by user.
+model PushDevice {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  token    String @unique
+  platform String @default("ios")
+
+  createdAt  DateTime @default(now())
+  lastSeenAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+/// A session someone actually did. Sets are stored as JSON because their shape
+/// belongs to the exercise, not the schema, and nothing queries inside them —
+/// the row is read back whole to show what you lifted last time.
+model SessionLog {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  mapId     String
+  sessionId String
+  /// Which week of the Map this was, so "last time" compares like with like.
+  week      Int
+
+  /// [{ exercise, sets: [{ reps, weightKg, done }] }]
+  entries String @default("[]")
+
+  durationSeconds Int?
+  notes           String?
+
+  completedAt DateTime @default(now())
+
+  @@index([userId, mapId, completedAt])
+  @@index([userId, sessionId])
+}
+
+/// Every administrative action, appended and never updated.
+///
+/// Staff can read other people's health data and change their orders, so the
+/// record of who did what is not optional — and it is written in the same
+/// transaction as the change so an action cannot exist without its entry.
+model AuditLog {
+  id      String @id @default(cuid())
+  actorId String
+  actor   User   @relation(fields: [actorId], references: [id], onDelete: Cascade)
+
+  /// order.refund | user.plan | user.admin | post.remove | broadcast.send
+  action String
+  /// What was acted on, so the entry is meaningful without the payload.
+  target String
+  /// JSON: whatever the action needs to be reconstructed.
+  detail String @default("{}")
+
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([actorId, createdAt])
+}

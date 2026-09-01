@@ -1,0 +1,856 @@
+{
+  "meta": {
+    "title": "Terrifit — appli sociale bien-être, le bracelet V1 et des compléments testés",
+    "description": "Terrifit, c’est l’appli sociale pour tout ce que vous faites pour votre corps, le bracelet V1 qui suit votre sommeil, votre récupération et vos séances, et une boutique de compléments et d’équipement réellement testés.",
+    "ogAlt": "Terrifit — l’appli sociale bien-être, le bracelet V1 et la boutique"
+  },
+  "nav": {
+    "theMap": "La Carte",
+    "checkIns": "Points hebdo",
+    "creators": "Pour les créateurs",
+    "safeguards": "Garanties",
+    "join": "Rejoindre la liste d'attente",
+    "joinShort": "Rejoindre",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
+    "theme": "Thème",
+    "themeSystem": "Système",
+    "themeLight": "Clair",
+    "themeDark": "Sombre",
+    "language": "Langue",
+    "skipToContent": "Aller au contenu"
+  },
+  "hero": {
+    "eyebrow": "Bien-être, objets connectés et nutrition",
+    "headline": "Don’t do great, do terrific.",
+    "sub": "Une appli sociale pour tout ce que vous faites pour votre corps, le bracelet V1 qui mesure où vous en êtes vraiment, et une boutique de compléments et d’équipement que nous utiliserions nous-mêmes.",
+    "primaryCta": "Rejoindre la liste d'attente",
+    "secondaryCta": "Postuler comme créateur",
+    "reassurance": "Un seul e-mail à l'ouverture de votre marché. Rien d'autre.",
+    "liveLabel": "Sur la liste d'attente",
+    "countriesLabel": "Marchés enregistrés",
+    "creatorLabel": "Places de créateur fondateur restantes"
+  },
+  "trustBar": {
+    "items": [
+      {
+        "value": "En direct",
+        "label": "Un fil de gens qui s’entraînent comme vous voulez le faire"
+      },
+      {
+        "value": "24/7",
+        "label": "Fréquence cardiaque, sommeil et récupération, par le bracelet V1"
+      },
+      {
+        "value": "Testé",
+        "label": "Chaque complément de la boutique, lot par lot"
+      },
+      {
+        "value": "80%",
+        "label": "De chaque vente revient au créateur qui l’a méritée"
+      }
+    ]
+  },
+  "mapAnatomy": {
+    "eyebrow": "La Carte",
+    "headline": "Pas un PDF. Un plan vivant.",
+    "body": "Une Carte est un plan de transformation structuré, avec un historique de versions, des points hebdomadaires obligatoires et un vrai coach derrière. Elle s'adapte à vos progrès, et chaque modification est enregistrée.",
+    "tabs": {
+      "training": {
+        "label": "Entraînement",
+        "headline": "Un programme, pas un tableur",
+        "body": "Séances, exercices, vidéos de démonstration et charges prescrites, enregistrés au fur et à mesure : l'assiduité se mesure au lieu de se déclarer."
+      },
+      "nutrition": {
+        "label": "Nutrition",
+        "headline": "Des objectifs justifiés",
+        "body": "Objectifs quotidiens, conseils de repas et le raisonnement qui les sous-tend. Écrits par le coach qui a vendu la Carte, pas générés par un calculateur."
+      },
+      "checkins": {
+        "label": "Points hebdo",
+        "headline": "La boucle de responsabilité",
+        "body": "Un envoi hebdomadaire : photos, mesures, récupération et assiduité. Votre coach répond, et la Carte s'ajuste."
+      },
+      "supplements": {
+        "label": "Compléments",
+        "headline": "Toujours déclaré",
+        "body": "Des recommandations avec des liens d'achat tracés. Chaque partenariat d'affiliation et chaque commission de créateur est signalé sur la page même."
+      },
+      "milestones": {
+        "label": "Jalons",
+        "headline": "Une progression qui a une forme",
+        "body": "Des objectifs hebdomadaires et des jalons qui rendent un bloc de douze semaines lisible dès la première."
+      }
+    },
+    "sample": {
+      "mapTitle": "Base d'hypertrophie — 12 semaines",
+      "coach": "Coach · préparation physique vérifiée",
+      "week": "Semaine 5 sur 12",
+      "adherence": "Assiduité",
+      "nextSession": "Prochaine séance",
+      "sessionName": "Bas du corps — chaîne postérieure",
+      "version": "v3 · mis à jour il y a 2 jours",
+      "supportLine": "Comprend la revue hebdomadaire des points pendant 12 semaines"
+    }
+  },
+  "prototypes": {
+    "eyebrow": "Interface",
+    "headline": "Un instrument de précision qui se lit d’un coup d’œil.",
+    "body": "De grands chiffres, une seule hiérarchie claire et presque aucun mouvement. Pensé pour une salle sombre et tout aussi net en plein jour.",
+    "tabs": {
+      "feed": {
+        "label": "Accueil",
+        "caption": "Votre résumé du jour est au-dessus du fil, pas enterré dans un onglet."
+      },
+      "map": {
+        "label": "Carte",
+        "caption": "Tout ce que contient la Carte, et exactement le soutien inclus."
+      },
+      "checkin": {
+        "label": "Point hebdo",
+        "caption": "Envoyé en moins de deux minutes. Vous choisissez qui le voit."
+      },
+      "dashboard": {
+        "label": "Coach",
+        "caption": "Chaque client, classé selon qui a besoin de vous cette semaine."
+      },
+      "progress": {
+        "label": "Progrès",
+        "caption": "Privé par défaut. Expliqué, jamais diagnostiqué."
+      }
+    }
+  },
+  "checkIns": {
+    "eyebrow": "Point hebdomadaire",
+    "headline": "Vos photos de progression, à vos conditions.",
+    "body": "Photos, poids, mesures, récupération, assiduité et une réflexion écrite. Vous décidez qui voit chaque point, et cette décision se prend point par point, pas une seule fois enfouie dans les réglages.",
+    "visibilityTitle": "Qui peut voir ce point",
+    "visibility": {
+      "private": {
+        "label": "Privé",
+        "note": "Vous seul"
+      },
+      "coach": {
+        "label": "Coach uniquement",
+        "note": "Vous et le coach de cette Carte"
+      },
+      "friends": {
+        "label": "Amis choisis",
+        "note": "Des personnes que vous désignez une à une"
+      },
+      "community": {
+        "label": "Communauté",
+        "note": "Une communauté dont vous faites partie"
+      },
+      "public": {
+        "label": "Public",
+        "note": "Tout le monde sur Terrifit"
+      }
+    },
+    "faceBlurLabel": "Flouter mon visage",
+    "faceBlurOn": "Activé",
+    "faceBlurOff": "Désactivé",
+    "faceBlurNote": "La détection de visage ne fonctionne qu'avec votre consentement explicite, et peut être désactivée entièrement.",
+    "warningTitle": "Nous n'allons pas prétendre le contraire",
+    "warningBody": "Les captures d'écran ne peuvent être totalement empêchées sur aucune plateforme. Le floutage, la visibilité privée et le signalement réduisent le risque, ils ne l'éliminent pas. Ne partagez que ce que vous acceptez de voir sortir de l'application.",
+    "dragHint": "Faites glisser pour prévisualiser l'intensité du flou"
+  },
+  "creators": {
+    "eyebrow": "Pour les coachs, nutritionnistes et créateurs",
+    "headline": "Faites de votre passion un revenu.",
+    "body": "Des abonnés ne sont pas une entreprise. Terrifit vous donne des diplômes vérifiés, des produits structurés à vendre, et les outils pour réellement suivre ceux qui les ont achetés.",
+    "economicsTitle": "Ce que vous gardez",
+    "economics": [
+      {
+        "item": "Ventes de Cartes",
+        "you": "80%",
+        "platform": "20% plateforme"
+      },
+      {
+        "item": "Abonnements payants",
+        "you": "75%",
+        "platform": "25% plateforme"
+      },
+      {
+        "item": "Lives et pourboires",
+        "you": "75%",
+        "platform": "25% plateforme"
+      },
+      {
+        "item": "Communautés payantes",
+        "you": "Commission applicable",
+        "platform": "Taux publié avant le lancement"
+      },
+      {
+        "item": "Produits en affiliation",
+        "you": "Votre part des 10–15%",
+        "platform": "Commission financée par la marque"
+      }
+    ],
+    "economicsFootnote": "Les pourcentages portent sur le chiffre d'affaires brut, avant frais de paiement, taxes et commissions des magasins d'applications, qui sont détaillés séparément sur chaque relevé de versement.",
+    "toolsTitle": "Le tableau de bord derrière",
+    "tools": [
+      "Chaque client de chaque Carte, avec l'assiduité en temps réel",
+      "Les points manquants remontés avant que le client ne décroche",
+      "Clients à risque et inactifs classés par urgence",
+      "Les questions des clients dans une seule file, pas cinq boîtes de réception",
+      "Ajustements de Carte nécessaires et jalons à venir",
+      "Revenus, remboursements et efficacité globale des Cartes"
+    ],
+    "obligationTitle": "L'obligation, dite clairement",
+    "obligationBody": "Si une Carte inclut un suivi continu, vous êtes tenu de suivre ces clients. La page produit doit indiquer le niveau et la durée de ce suivi avant tout paiement. Nous le faisons appliquer.",
+    "foundingTitle": "Avantages créateur fondateur",
+    "founding": [
+      "Commission de plateforme réduite pendant vos douze premiers mois",
+      "Vérification prioritaire des diplômes avant le lancement public",
+      "Mise en avant sur votre marché au lancement",
+      "Influence directe sur la feuille de route du tableau de bord créateur",
+      "Badge de fondateur sur votre profil professionnel, à vie"
+    ],
+    "cta": "Postuler comme créateur"
+  },
+  "community": {
+    "eyebrow": "Communautés et lives",
+    "headline": "Là où le travail se partage.",
+    "body": "Communautés thématiques, salles de sport, groupes locaux, et communautés bâties autour d'une seule Carte ou d'un défi. Publiques ou privées, gratuites ou payantes, avec une vraie modération.",
+    "items": [
+      {
+        "title": "Communautés",
+        "body": "Publications, discussions, ressources, événements, classements et adhésion payante."
+      },
+      {
+        "title": "Lives",
+        "body": "Réservés aux abonnés, sur billet ou publics. Chat, sondages, pourboires et rediffusions."
+      },
+      {
+        "title": "Anonymat",
+        "body": "Sous votre vrai nom ou sous pseudonyme. C'est votre choix, compte par compte."
+      },
+      {
+        "title": "Consultations",
+        "body": "Des séances réservables avec des coachs et nutritionnistes vérifiés."
+      }
+    ],
+    "phaseNote": "Les communautés sortent avec le lancement. Les lives suivent immédiatement après."
+  },
+  "progress": {
+    "eyebrow": "Progrès et santé",
+    "headline": "Vos données. Privées par défaut.",
+    "body": "Assiduité, force, endurance, sommeil, récupération, activité, mesures et composition corporelle, dans un tableau de bord privé unique, avec des comparaisons hebdomadaires, bimensuelles et mensuelles.",
+    "metricsTitle": "Ce qui est suivi",
+    "metrics": [
+      "Assiduité à la Carte et séries de jours",
+      "Poids et mensurations",
+      "Performances de force et d'endurance",
+      "Sommeil, récupération et fréquence cardiaque au repos",
+      "Pas, activité et calories",
+      "Composition corporelle de type InBody"
+    ],
+    "integrationsTitle": "Se connecte à",
+    "integrations": [
+      "Apple Health",
+      "Health Connect",
+      "Montres compatibles",
+      "Saisie manuelle"
+    ],
+    "disclaimerTitle": "Des scores qui s'expliquent",
+    "disclaimerBody": "Les scores de santé et les estimations d'âge corporel affichent toujours leurs données d'entrée et leurs limites. Ce sont des indicateurs de forme, pas des diagnostics médicaux, et Terrifit ne les présentera jamais comme tels."
+  },
+  "safeguards": {
+    "eyebrow": "Garanties",
+    "headline": "Ce que la plupart des applis de fitness évitent.",
+    "body": "Intégré dès la première version, pas ajouté après le premier incident.",
+    "items": [
+      {
+        "title": "Qualifications vérifiées",
+        "body": "Coachs et nutritionnistes sont vérifiés avant de pouvoir vendre. Les diplômes sont affichés avec l'organisme qui les délivre."
+      },
+      {
+        "title": "Conseil sportif, pas médical",
+        "body": "Une frontière claire et appliquée entre coaching sportif et avis médical, dans les textes du produit comme dans la modération."
+      },
+      {
+        "title": "Chiffrement des données de santé",
+        "body": "Les données de santé sont chiffrées, l'accès interne est restreint et audité. Les actions d'administration sont journalisées."
+      },
+      {
+        "title": "Protection des photos de progression",
+        "body": "Floutage du visage, visibilité choisie point par point, et action réelle contre le harcèlement et les usages sexualisés."
+      },
+      {
+        "title": "Affiliations déclarées",
+        "body": "Chaque lien d'affiliation, partenariat et commission de créateur est déclaré à l'endroit où il apparaît."
+      },
+      {
+        "title": "Export et suppression",
+        "body": "Emportez vos données, ou supprimez le compte entièrement. Les preuves d'achat et versions de Carte sont conservées selon les obligations légales."
+      },
+      {
+        "title": "Remboursements et litiges",
+        "body": "Politique de remboursement publiée, procédure de litige réelle, et versements différés tant qu'un litige est ouvert."
+      },
+      {
+        "title": "Protection des mineurs",
+        "body": "Restrictions d'âge et garde-fous parentaux selon le marché, sans aucune promesse de transformation non étayée."
+      }
+    ]
+  },
+  "waitlist": {
+    "eyebrow": "Liste d'attente",
+    "headline": "Réservez votre place.",
+    "body": "Dites-nous qui vous êtes et ce que vous voulez vraiment. C'est ce qui décide de ce que nous construisons en premier, et du marché ouvert en premier.",
+    "roleLabel": "Je m'inscris en tant que",
+    "roles": {
+      "athlete": {
+        "label": "Sportif",
+        "note": "Je veux m'entraîner avec une Carte"
+      },
+      "coach": {
+        "label": "Coach",
+        "note": "J'entraîne des clients"
+      },
+      "nutritionist": {
+        "label": "Nutritionniste",
+        "note": "Je conseille en nutrition"
+      },
+      "creator": {
+        "label": "Créateur",
+        "note": "Je développe une audience fitness"
+      },
+      "brand": {
+        "label": "Marque",
+        "note": "Compléments, vêtements ou matériel"
+      }
+    },
+    "fields": {
+      "name": "Nom",
+      "namePlaceholder": "Comment vous appeler",
+      "email": "E-mail",
+      "emailPlaceholder": "vous@exemple.com",
+      "country": "Marché",
+      "countryPlaceholder": "Sélectionnez votre marché",
+      "handle": "Compte principal",
+      "handlePlaceholder": "@votrecompte",
+      "audience": "Taille de l'audience",
+      "audiencePlaceholder": "Sélectionnez une tranche",
+      "credentials": "Qualifications",
+      "credentialsPlaceholder": "Certifications, organisme, années de pratique",
+      "brandName": "Nom de la marque",
+      "brandNamePlaceholder": "Raison sociale",
+      "brandWebsite": "Site web",
+      "brandWebsitePlaceholder": "https://",
+      "brandCategory": "Catégorie",
+      "brandCategoryPlaceholder": "Sélectionnez une catégorie",
+      "features": "Ce qui compte le plus pour vous",
+      "featuresNote": "Cochez tout ce qui s'applique : c'est le signal de demande sur lequel nous construisons."
+    },
+    "audienceRanges": [
+      "Moins de 1 000",
+      "1 000 – 10 000",
+      "10 000 – 100 000",
+      "100 000 – 1 M",
+      "Plus de 1 M"
+    ],
+    "brandCategories": [
+      "Compléments",
+      "Vêtements",
+      "Matériel",
+      "Accessoires",
+      "Produits numériques"
+    ],
+    "features": {
+      "maps": "Acheter ou vendre des Cartes",
+      "checkins": "Points hebdomadaires et retours du coach",
+      "coaching": "Messagerie directe avec le coach",
+      "communities": "Communautés",
+      "livestreams": "Lives et pourboires",
+      "marketplace": "Boutique de produits en affiliation",
+      "health": "Données de santé et montres connectées",
+      "anonymity": "Participation anonyme"
+    },
+    "consent": "J'accepte de recevoir des e-mails sur le lancement de Terrifit. Je peux me désinscrire à tout moment.",
+    "submit": "Rejoindre la liste d'attente",
+    "submitCreator": "Postuler pour une place fondatrice",
+    "submitting": "Envoi…",
+    "success": {
+      "title": "C'est fait.",
+      "positionLabel": "Votre position",
+      "referralTitle": "Montez dans la liste",
+      "referralBody": "Chaque personne qui s'inscrit via votre lien vous fait gagner dix places. Les places de créateur fondateur sont attribuées depuis le haut de la liste.",
+      "copy": "Copier le lien",
+      "copied": "Copié",
+      "share": "Partager",
+      "roleNoteCreator": "La vérification des diplômes ouvre avant le lancement public. Nous vous écrirons dès que votre créneau d'examen sera prêt.",
+      "roleNoteBrand": "Des contrôles d'identité et de conformité sont exigés avant toute mise en ligne de produit. Nous reviendrons vers vous avec les prérequis."
+    },
+    "errors": {
+      "required": "Ce champ est obligatoire",
+      "email": "Saisissez une adresse e-mail valide",
+      "consent": "Veuillez accepter pour continuer",
+      "duplicate": "Cet e-mail est déjà sur la liste.",
+      "generic": "Une erreur est survenue. Réessayez.",
+      "network": "Impossible de joindre le serveur. Vérifiez votre connexion et réessayez."
+    },
+    "referredBanner": "Vous avez été invité. Votre ami gagne dix places quand vous vous inscrivez."
+  },
+  "faq": {
+    "eyebrow": "Questions",
+    "headline": "Avant que vous ne demandiez.",
+    "items": [
+      {
+        "q": "Qu'est-ce qu'une Carte, exactement ?",
+        "a": "Un plan de transformation structuré : programme d'entraînement, exercices expliqués en vidéo, objectifs de nutrition, conseils de complémentation, objectifs hebdomadaires, jalons et points obligatoires. Elle a un historique de versions, et le coach qui l'a vendue peut l'ajuster au fil de vos progrès. Une Carte peut être prête à l'emploi ou conçue pour une seule personne, achetée une fois ou par abonnement."
+      },
+      {
+        "q": "Terrifit, c'est encore un fil fitness ?",
+        "a": "Le fil est la porte d'entrée, pas le produit. Le produit, c'est la boucle derrière : acheter une Carte, l'entraîner, faire un point chaque semaine, être coaché, et se retrouver avec la trace de ce qui a réellement changé."
+      },
+      {
+        "q": "Qui peut vendre sur Terrifit ?",
+        "a": "Les coachs et nutritionnistes doivent passer la vérification des diplômes avant de publier quoi que ce soit. Les marques passent des contrôles d'identité et de conformité. Le statut de vérification et l'organisme émetteur sont affichés sur le profil."
+      },
+      {
+        "q": "Combien ça me coûte en tant que créateur ?",
+        "a": "Terrifit prend 20% des ventes de Cartes, et 25% des abonnements payants, des revenus de live et des pourboires. Les frais de paiement, taxes et commissions des magasins d'applications sont détaillés séparément sur votre relevé plutôt que dissimulés dans la commission."
+      },
+      {
+        "q": "Mes photos de progression sont-elles privées ?",
+        "a": "Privées par défaut. La visibilité se choisit point par point : privé, coach uniquement, amis nommés, une communauté, ou public. Le floutage du visage est disponible, la détection de visage exige votre consentement explicite, et aucune plateforme ne peut totalement empêcher les captures d'écran. Nous le disons dans le produit, pas seulement ici."
+      },
+      {
+        "q": "Terrifit vend-il des compléments ?",
+        "a": "Non. Terrifit agit comme affilié. Les marques gèrent le stock, la livraison, le service client, les retours et les allégations produit, et le paiement se fait sur leur site. Chaque lien d'affiliation et chaque commission de créateur est déclaré là où il apparaît."
+      },
+      {
+        "q": "Quand est le lancement ?",
+        "a": "La boucle principale d'abord — profils, fil, Cartes, points hebdomadaires, tableaux de bord créateur, messagerie et versements — marché par marché. La liste d'attente décide de l'ordre. Les lives suivent immédiatement, et les intégrations santé ensuite."
+      }
+    ]
+  },
+  "footer": {
+    "tagline": "Don’t do great, do terrific.",
+    "productTitle": "Produit",
+    "product": [
+      "La Carte",
+      "Points hebdomadaires",
+      "Pour les créateurs",
+      "Communautés",
+      "Progrès"
+    ],
+    "companyTitle": "Entreprise",
+    "company": [
+      "À propos",
+      "Carrières",
+      "Presse",
+      "Contact"
+    ],
+    "legalTitle": "Mentions légales",
+    "legal": [
+      "Confidentialité",
+      "Conditions",
+      "Remboursements et litiges",
+      "Déclaration d'affiliation",
+      "Cookies"
+    ],
+    "disclaimer": "Terrifit fournit des conseils sportifs et des outils de coaching. Terrifit ne fournit pas d'avis médical, de diagnostic ni de traitement. Les scores de santé et les estimations d'âge corporel sont des estimations, pas des mesures cliniques. Consultez un professionnel de santé qualifié avant de commencer un programme.",
+    "rights": "Tous droits réservés.",
+    "languageLabel": "Langue"
+  },
+  "mock": {
+    "date": "Mer 12 mars",
+    "greeting": "Bonjour, Sara",
+    "streakUnit": "jours d'affilée",
+    "mapProgress": "Progression de la Carte",
+    "nextWorkout": "Prochaine séance",
+    "nextWorkoutValue": "Bas du corps · 17:30",
+    "checkInDue": "Point hebdo",
+    "checkInDueValue": "À rendre dimanche",
+    "recovery": "Récupération",
+    "feedAuthor": "Nadia K.",
+    "feedRole": "Coach vérifiée",
+    "feedTime": "il y a 2 h",
+    "feedCaption": "Semaine 8. Le même chiffre sur la balance, un autre corps. Le détail complet est dans la Carte.",
+    "feedTag": "Transformation",
+    "likes": "1 284",
+    "comments": "96",
+    "photoHidden": "Photo de progression — visibilité contrôlée par le sportif",
+    "mapPrice": "149 USD",
+    "mapRating": "4,8",
+    "mapReviews": "212 avis",
+    "mapSections": [
+      "Programme d'entraînement",
+      "Objectifs de nutrition",
+      "Conseils de complémentation",
+      "Points hebdomadaires"
+    ],
+    "mapSupport": "Revue hebdomadaire des points · 12 semaines",
+    "mapCta": "Continuer la Carte",
+    "checkInTitle": "Point de la semaine 5",
+    "photoFront": "Face",
+    "photoSide": "Profil",
+    "photoBack": "Dos",
+    "weight": "Poids",
+    "weightValue": "78,4 kg",
+    "waist": "Tour de taille",
+    "waistValue": "82 cm",
+    "sleep": "Sommeil",
+    "sleepValue": "7 h 10",
+    "visibility": "Visible par",
+    "visibilityValue": "Coach uniquement",
+    "submitCheckIn": "Envoyer le point",
+    "dashboardTitle": "Demande attention",
+    "dashboardSub": "12 clients sur 84",
+    "clients": [
+      {
+        "name": "Omar H.",
+        "map": "Base 12 semaines",
+        "status": "Point manquant",
+        "tone": "bad",
+        "adherence": 41
+      },
+      {
+        "name": "Lena R.",
+        "map": "Recomposition 16",
+        "status": "À risque",
+        "tone": "warn",
+        "adherence": 63
+      },
+      {
+        "name": "Yusuf A.",
+        "map": "Base 12 semaines",
+        "status": "Dans les temps",
+        "tone": "good",
+        "adherence": 94
+      },
+      {
+        "name": "Maya T.",
+        "map": "Force 8",
+        "status": "Dans les temps",
+        "tone": "good",
+        "adherence": 88
+      }
+    ],
+    "revenue": "Ce mois-ci",
+    "revenueValue": "8 420 USD",
+    "revenueDelta": "+18%",
+    "progressTitle": "Cette semaine",
+    "ringAdherence": "Assiduité",
+    "ringRecovery": "Récupération",
+    "ringSleep": "Sommeil",
+    "comparisons": [
+      {
+        "label": "Poids",
+        "value": "−3,2 kg"
+      },
+      {
+        "label": "Tour de taille",
+        "value": "−4,0 cm"
+      },
+      {
+        "label": "Squat arrière",
+        "value": "+12,5 kg"
+      },
+      {
+        "label": "FC au repos",
+        "value": "−4 bpm"
+      }
+    ],
+    "vsLastMonth": "par rapport au mois dernier",
+    "privateBadge": "Privé"
+  },
+  "mapPanel": {
+    "sessionsThisWeek": "Séances cette semaine",
+    "protein": "Protéines",
+    "carbs": "Glucides",
+    "fat": "Lipides",
+    "nextCheckIn": "Prochain point",
+    "checkInItems": [
+      "Photos",
+      "Poids",
+      "Mesures",
+      "Récupération",
+      "Réflexion"
+    ],
+    "supplementName": "Créatine monohydrate",
+    "supplementDose": "5 g par jour",
+    "disclosure": "Lien d'affiliation · commission déclarée",
+    "milestones": [
+      {
+        "week": "Semaine 4",
+        "label": "Retest de force de référence",
+        "done": true
+      },
+      {
+        "week": "Semaine 8",
+        "label": "Photos de mi-parcours",
+        "done": false
+      },
+      {
+        "week": "Semaine 12",
+        "label": "Retest final et bilan",
+        "done": false
+      }
+    ]
+  },
+  "marquee": [
+    "Coachs vérifiés",
+    "Cartes structurées",
+    "Points hebdomadaires",
+    "Retour du coach",
+    "Privé par défaut",
+    "Floutage du visage",
+    "Historique de versions",
+    "Versements aux créateurs",
+    "Vraie responsabilité"
+  ],
+  "statement": {
+    "lead": "La plupart des applis de fitness comptent vos séances.",
+    "emphasis": "Terrifit rend quelqu'un responsable de ces séances."
+  },
+  "finalCta": {
+    "eyebrow": "Promotion fondatrice",
+    "headline": "Elle ferme une fois pleine.",
+    "sub": "Rejoignez la liste d'attente et dites-nous quel marché ouvrir en premier. Les places de créateur fondateur sont attribuées depuis le haut de la liste.",
+    "primary": "Rejoindre la liste d'attente",
+    "secondary": "Postuler comme créateur",
+    "note": "Un seul e-mail à l'ouverture de votre marché. Rien d'autre."
+  },
+  "personaCommon": {
+    "stepsTitle": "Comment se passe l'inscription",
+    "applyCta": "Commencer ma candidature",
+    "otherSites": "Terrifit pour",
+    "sites": {
+      "main": "Sportifs",
+      "creator": "Créateurs",
+      "coach": "Coachs",
+      "nutritionist": "Nutritionnistes",
+      "brand": "Marques"
+    },
+    "backToMain": "Site principal",
+    "whatYouKeep": "Ce que vous gardez"
+  },
+  "personas": {
+    "creator": {
+      "eyebrow": "Terrifit pour les créateurs",
+      "headline": "Transformez une audience en une entreprise qui vous appartient.",
+      "sub": "Vendez des Cartes structurées, animez des communautés payantes et des lives, et gardez 80% de ce que vous gagnez, avec les outils pour vraiment accompagner ceux qui ont acheté.",
+      "points": [
+        {
+          "title": "Vendez de la structure, pas des mentions",
+          "body": "Une Carte est un vrai produit : entraînement, nutrition, points hebdomadaires, jalons et un historique de versions visible par vos clients."
+        },
+        {
+          "title": "Gardez 80%",
+          "body": "20% de commission sur les ventes de Cartes. Frais de paiement, taxes et commissions des stores sont détaillés à part, jamais dissimulés dedans."
+        },
+        {
+          "title": "Repérez ceux qui décrochent",
+          "body": "Assiduité, points manquants et clients à risque, visibles avant qu'ils ne disparaissent et résilient."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Candidater",
+          "body": "Parlez-nous de votre audience, de votre marché et de ce que vous voulez vendre."
+        },
+        {
+          "title": "Vérification",
+          "body": "Identité et, si vous coachez, diplômes. Examinés avant le lancement public."
+        },
+        {
+          "title": "Créez votre première Carte",
+          "body": "Nous vous aidons à la structurer, la tarifer et définir le suivi que vous vous engagez à fournir."
+        }
+      ]
+    },
+    "coach": {
+      "eyebrow": "Terrifit pour les coachs",
+      "headline": "Arrêtez de gérer votre activité depuis une messagerie.",
+      "sub": "Programmes, points hebdomadaires, retours, paiements et suivi client au même endroit, avec vos diplômes vérifiés et visibles sur votre profil.",
+      "points": [
+        {
+          "title": "Tous vos clients, un seul tableau",
+          "body": "Assiduité en temps réel, points manquants et questions ouvertes, classés selon qui a vraiment besoin de vous cette semaine."
+        },
+        {
+          "title": "Diplômes vérifiés",
+          "body": "Votre certification et l'organisme qui la délivre, affichés sur votre profil. La vérification précède toute vente."
+        },
+        {
+          "title": "Soyez payé correctement",
+          "body": "Cartes à l'unité ou par abonnement, versements programmés, et une politique de remboursement et de litige publiée."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Candidater",
+          "body": "Dites-nous comment vous coachez et combien de clients vous suivez actuellement."
+        },
+        {
+          "title": "Vérifiez votre certification",
+          "body": "Certification et organisme émetteur, examinés avant le lancement public."
+        },
+        {
+          "title": "Faites migrer vos clients",
+          "body": "Nous vous aidons à convertir vos programmes existants en Cartes et à importer votre portefeuille."
+        }
+      ]
+    },
+    "nutritionist": {
+      "eyebrow": "Terrifit pour les nutritionnistes",
+      "headline": "Des conseils nutritionnels qui survivent à la vraie semaine.",
+      "sub": "Objectifs, conseils de repas et points hebdomadaires reliés à de vraies mesures, avec une frontière claire et appliquée entre conseil et avis médical.",
+      "points": [
+        {
+          "title": "Des objectifs justifiés",
+          "body": "Objectifs quotidiens et conseils de repas que vous écrivez, rattachés à la Carte que votre client entraîne réellement."
+        },
+        {
+          "title": "Mesuré, pas supposé",
+          "body": "Poids, mensurations, composition corporelle de type InBody et assiduité, revus chaque semaine."
+        },
+        {
+          "title": "Une frontière professionnelle nette",
+          "body": "Le conseil n'est jamais présenté comme un diagnostic. Cette limite est appliquée dans le produit et dans la modération."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Candidater",
+          "body": "Parlez-nous de votre pratique et de votre lieu d'enregistrement."
+        },
+        {
+          "title": "Vérifiez votre enregistrement",
+          "body": "Organisme d'enregistrement et qualifications, examinés avant que vous puissiez conseiller."
+        },
+        {
+          "title": "Publiez votre premier plan",
+          "body": "Une Carte nutrition autonome, ou la nutrition rattachée à la Carte d'entraînement d'un coach."
+        }
+      ]
+    },
+    "brand": {
+      "eyebrow": "Terrifit pour les marques",
+      "headline": "Touchez les gens en pleine transformation, pas en plein scroll.",
+      "sub": "Référencez vos produits, travaillez avec des créateurs vérifiés, et ne payez de commission que sur les ventes finalisées. Le paiement, la logistique et la relation client restent chez vous.",
+      "points": [
+        {
+          "title": "Affiliation, pas place de marché",
+          "body": "Le paiement reste sur votre site. Terrifit envoie du trafic tracé et prend 10 à 15% sur les ventes finalisées."
+        },
+        {
+          "title": "Créateurs vérifiés",
+          "body": "Travaillez avec des coachs et nutritionnistes dont les diplômes ont réellement été contrôlés, pas simplement déclarés."
+        },
+        {
+          "title": "Vous gardez la main",
+          "body": "Stock, livraison, service client, retours et allégations produit restent entièrement de votre ressort."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Candidater",
+          "body": "Parlez-nous de votre marque, de vos catégories et des marchés que vous livrez."
+        },
+        {
+          "title": "Identité et conformité",
+          "body": "Vérification de la société et examen des allégations produit avant toute mise en ligne."
+        },
+        {
+          "title": "Branchez le tracking",
+          "body": "Liens tracés, codes ou attribution serveur à serveur, puis lancez-vous avec les créateurs."
+        }
+      ],
+      "responsibilities": "Les marques restent responsables du stock, de la conformité produit, de la livraison, du service client, des retours et remboursements, des allégations produit et des restrictions selon les juridictions. Terrifit agit comme affilié et n'en gère aucun."
+    }
+  },
+  "howItWorks": {
+    "eyebrow": "Comment ça marche",
+    "headline": "Quatre étapes. Chaque semaine. Sans fin.",
+    "body": "La boucle est le produit. Tout le reste sur Terrifit existe pour que ces quatre étapes se produisent de façon fiable, et pour prouver qu'elles ont eu lieu.",
+    "steps": [
+      {
+        "title": "Trouvez un coach que vous pouvez vérifier",
+        "body": "Les diplômes sont vérifiés avant toute vente, et les avis viennent de ceux qui ont terminé la Carte, pas de ceux qui l'ont achetée."
+      },
+      {
+        "title": "Achetez la Carte",
+        "body": "Paiement unique ou abonnement. La page produit indique exactement le suivi inclus et sa durée, avant que vous ne payiez."
+      },
+      {
+        "title": "Entraînez-la, et consignez-la",
+        "body": "Séances, charges et objectifs nutritionnels enregistrés au fur et à mesure : l'assiduité se mesure au lieu de se déclarer."
+      },
+      {
+        "title": "Faites le point, et soyez ajusté",
+        "body": "Photos, mesures et une réflexion écrite chaque semaine. Votre coach répond, et la Carte change en conséquence."
+      }
+    ]
+  },
+  "loop": {
+    "eyebrow": "La boucle",
+    "headline": "Pourquoi ça se cumule.",
+    "body": "Chaque étape finance la suivante. La découverte amène un achat, l'achat crée la responsabilité, la responsabilité produit une preuve, et la preuve entraîne la découverte suivante. Un simple fil ne fait rien de tout cela.",
+    "nodes": [
+      "Découvrir",
+      "Suivre",
+      "Acheter une Carte",
+      "S'entraîner",
+      "Faire le point",
+      "Être coaché",
+      "Partager la preuve",
+      "Bâtir une série"
+    ]
+  },
+  "audiences": {
+    "eyebrow": "Pour qui",
+    "headline": "Cinq faces d'un même marché.",
+    "body": "Sportifs, coachs, nutritionnistes, créateurs et marques ont chacun leur espace sur Terrifit, avec une inscription pensée pour ce qu'ils ont réellement à faire.",
+    "visit": "Voir le site",
+    "athleteBody": "Entraînez-vous sur une Carte conçue par quelqu'un dont les diplômes ont été contrôlés, et gardez une trace privée de ce qui a réellement changé."
+  },
+  "roadmap": {
+    "eyebrow": "Feuille de route",
+    "headline": "Ce qui sort, et quand.",
+    "body": "Marché par marché, dans cet ordre. La liste d'attente décide lequel passe en premier.",
+    "phases": [
+      {
+        "label": "Phase 1",
+        "title": "La boucle principale",
+        "items": [
+          "Profils et diplômes vérifiés",
+          "Fil social et abonnements",
+          "Cartes : création et achat",
+          "Points hebdomadaires privés",
+          "Tableaux de bord clients pour créateurs",
+          "Messagerie coach–client",
+          "Paiements et versements aux créateurs"
+        ]
+      },
+      {
+        "label": "Phase 2",
+        "title": "Communauté et échelle",
+        "items": [
+          "Communautés thématiques",
+          "Abonnements créateur",
+          "Outils Coach Pro",
+          "Boutique d'affiliation",
+          "Réservation de consultations",
+          "Lives et pourboires"
+        ]
+      },
+      {
+        "label": "Phase 3",
+        "title": "Données et portée",
+        "items": [
+          "Apple Health et Health Connect",
+          "Analyse de santé avancée",
+          "Algorithmes de recommandation",
+          "Campagnes et mises en avant de marque",
+          "Défis et classements",
+          "Extension des versements internationaux"
+        ]
+      }
+    ]
+  }
+}

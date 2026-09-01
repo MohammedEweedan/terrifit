@@ -1,0 +1,569 @@
+/**
+ * The Terrifit storefront catalogue.
+ *
+ * Held in code rather than the database on purpose: launch inventory is a fixed
+ * set the marketing pages also reference (the Band page and the shop must never
+ * disagree about a price), and checkout re-resolves every line against this
+ * module server-side, so a tampered cart payload cannot invent a cheaper price.
+ * Moving to Prisma later means swapping `findProduct` for a query — nothing
+ * else reads the array directly.
+ */
+
+export const CATEGORIES = ["band", "accessories", "apparel", "fuel", "recovery"] as const;
+export type Category = (typeof CATEGORIES)[number];
+
+export type Variant = {
+  id: string;
+  label: string;
+  /** Short description of the weave or size, shown under the picker. */
+  note?: string;
+  /** CSS background for the swatch chip — interwoven straps are two-tone. */
+  swatch?: string;
+  /**
+   * The single colour the colourway's name is set in. Chosen to stay legible
+   * on the band page's near-black hero, which is why Black is a light neutral
+   * rather than #000 — a black name on a black ground reads as a missing label.
+   */
+  accent?: string;
+  /** Overrides the product price when this option costs more. */
+  priceCents?: number;
+  sku: string;
+  /** Art slot for this specific option, used on the band's colourway switcher. */
+  image?: string;
+};
+
+export type Product = {
+  slug: string;
+  name: string;
+  tagline: string;
+  category: Category;
+  brand: string;
+  /** Sold by a verified partner rather than made by Terrifit. */
+  partner: boolean;
+  priceCents: number;
+  compareAtCents?: number;
+  rating: number;
+  reviews: number;
+  badges: string[];
+  variantLabel?: string;
+  variants: Variant[];
+  description: string;
+  highlights: string[];
+  specs: Array<[string, string]>;
+  media: Array<{ src: string; alt: string; ratio?: number }>;
+  stock: "in" | "low" | "preorder";
+  shipsIn: string;
+  /** Physical goods ship; a membership renews. Drives the checkout copy. */
+  fulfilment: "ship" | "subscription";
+  /** Optional recurring offer shown on the product page. */
+  subscription?: { label: string; discountPercent: number };
+};
+
+/** The launch colourways. Referenced by the Band page and the shop alike. */
+export const V1_COLOURWAYS: Variant[] = [
+  {
+    id: "ember",
+    label: "Ember",
+    note: "Black and signal orange, interwoven",
+    swatch: "repeating-linear-gradient(48deg,#0b0b0b 0 3px,#ff4d16 3px 6px)",
+    accent: "#ff6a2a",
+    sku: "TF-V1-EMB",
+    image: "/media/terrifit-band-new.png",
+  },
+  {
+    id: "black",
+    label: "Black",
+    note: "Black on black, interwoven",
+    swatch: "repeating-linear-gradient(48deg,#050505 0 3px,#242424 3px 6px)",
+    accent: "#cfcfcf",
+    sku: "TF-V1-BLK",
+    image: "/media/terrifit-band-black.png",
+  },
+  {
+    id: "graphite",
+    label: "Graphite",
+    note: "Dark grey and light grey, interwoven",
+    swatch: "repeating-linear-gradient(48deg,#33373c 0 3px,#a7adb4 3px 6px)",
+    accent: "#b6bcc4",
+    sku: "TF-V1-GRP",
+    image: "/media/terrifit-band-grey.png",
+  },
+  {
+    id: "midnight",
+    label: "Midnight",
+    note: "Black and deep navy, interwoven",
+    swatch: "repeating-linear-gradient(48deg,#0d0f12 0 3px,#1f2e4d 3px 6px)",
+    accent: "#6f9bef",
+    sku: "TF-V1-MID",
+    image: "/media/terrifit-band-blue.png",
+  },
+];
+
+
+export const products: Product[] = [
+  {
+    slug: "terrifit-v1",
+    name: "Terrifit V1",
+    tagline: "The band that reads the whole day",
+    category: "band",
+    brand: "TERRIFIT",
+    partner: false,
+    priceCents: 22900,
+    rating: 4.9,
+    reviews: 412,
+    badges: ["New", "Founding price"],
+    variantLabel: "Colourway",
+    variants: V1_COLOURWAYS,
+    description:
+      "V1 tracks your heart rate, HRV, breathing, blood oxygen, skin temperature and movement all day and all night. It turns that into two numbers you can act on before you train: how much load you can take, and how well you have recovered. There is nothing to check and nothing buzzes.",
+    highlights: [
+      "14+ days of battery on a single charge",
+      "Waterproof to 10 ATM and built for sweat, salt and chlorine",
+      "Four woven colours, and a strap change takes about four seconds",
+      "Writes to Apple Health and Google Health Connect automatically",
+    ],
+    specs: [
+      ["Sensor array", "5 LEDs · 4 photodiodes"],
+      ["Sampling", "100 Hz, continuous"],
+      ["Battery", "14+ days"],
+      ["Water rating", "IP68 · 10 ATM"],
+      ["Weight", "27 g with strap"],
+      ["Connectivity", "Bluetooth LE 5.3"],
+    ],
+    media: [
+      { src: "/media/band/v1-hero.jpg", alt: "Terrifit V1 band photographed against a seamless charcoal backdrop, three-quarter view, strap curved to show the woven texture", ratio: 1 },
+      { src: "/media/band/v1-underside.jpg", alt: "Underside of the Terrifit V1 sensor module showing the five-LED optical array glowing faint green", ratio: 1 },
+      { src: "/media/band/v1-wrist.jpg", alt: "Terrifit V1 worn on a forearm mid-set in a gym, sweat visible on the skin, shallow depth of field", ratio: 1 },
+    ],
+    stock: "preorder",
+    shipsIn: "Pre-order · ships November 2027",
+    fulfilment: "ship",
+  },
+  {
+    slug: "v1-strap-set",
+    name: "V1 Strap Set",
+    tagline: "All three weaves, one box",
+    category: "accessories",
+    brand: "TERRIFIT",
+    partner: false,
+    priceCents: 8900,
+    compareAtCents: 10500,
+    rating: 4.8,
+    reviews: 137,
+    badges: ["Bundle"],
+    variantLabel: "Size",
+    variants: [
+      { id: "s", label: "Small", note: "13–15 cm wrist", sku: "TF-STR-S" },
+      { id: "m", label: "Medium", note: "15–18 cm wrist", sku: "TF-STR-M" },
+      { id: "l", label: "Large", note: "18–21 cm wrist", sku: "TF-STR-L" },
+    ],
+    description:
+      "One strap in each launch colour: Ember, Black, Graphite and Midnight. Same woven yarn as the strap that comes with V1, so it takes sweat without holding onto the smell and dries flat in about twenty minutes.",
+    highlights: ["All four woven colours", "Tool-free swap", "Machine washable"],
+    specs: [
+      ["Material", "Recycled nylon and elastane weave"],
+      ["Clasp", "Anodised aluminium hook"],
+      ["Care", "Machine wash cold, air dry"],
+    ],
+    media: [
+      { src: "/media/shop/strap-set.jpg", alt: "Three Terrifit V1 straps laid flat in a row on warm paper — sandstone, graphite and midnight — shot from directly above", ratio: 1 },
+    ],
+    stock: "preorder",
+    shipsIn: "Pre-order · ships November 2027",
+    fulfilment: "ship",
+  },
+  {
+    slug: "v1-strap",
+    name: "V1 Strap",
+    tagline: "One weave, your colour",
+    category: "accessories",
+    brand: "TERRIFIT",
+    partner: false,
+    priceCents: 2900,
+    rating: 4.9,
+    reviews: 214,
+    badges: ["Four colours"],
+    variantLabel: "Colourway",
+    variants: [
+      { id: "ember", label: "Ember", note: "Orange and charcoal interweave", swatch: "linear-gradient(135deg,#ff5a1f 0%,#ff5a1f 48%,#1b1b1d 52%,#1b1b1d 100%)", accent: "#ff7a45", sku: "TF-STR1-EMB", image: "/media/terrifit-band-new.png" },
+      { id: "black", label: "Black", note: "Black on black, matte clasp", swatch: "linear-gradient(135deg,#2a2a2d 0%,#2a2a2d 48%,#0d0d0f 52%,#0d0d0f 100%)", accent: "#cfd3d8", sku: "TF-STR1-BLK", image: "/media/terrifit-band-black.png" },
+      { id: "graphite", label: "Graphite", note: "Two greys, one light one dark", swatch: "linear-gradient(135deg,#8b9099 0%,#8b9099 48%,#3a3f45 52%,#3a3f45 100%)", accent: "#b9bfc7", sku: "TF-STR1-GRA", image: "/media/terrifit-band-grey.png" },
+      { id: "midnight", label: "Midnight", note: "Navy and black interweave", swatch: "linear-gradient(135deg,#2b3a5c 0%,#2b3a5c 48%,#0c0f16 52%,#0c0f16 100%)", accent: "#7d93c4", sku: "TF-STR1-MID", image: "/media/terrifit-band-blue.png" },
+    ],
+    description:
+      "A single strap in whichever colour you want, so you are not buying four to change one. Same woven yarn as the strap in the box: it takes sweat without holding the smell and dries flat in about twenty minutes.",
+    highlights: ["Tool-free swap", "Machine washable", "Fits every V1"],
+    specs: [
+      ["Material", "Recycled nylon and elastane weave"],
+      ["Clasp", "Anodised aluminium hook"],
+      ["Sizes", "One strap, adjustable 13–21 cm"],
+    ],
+    media: [
+      { src: "/media/terrifit-band-new.png", alt: "A single Terrifit V1 strap in Ember, the orange and charcoal weave shown flat against a dark ground", ratio: 1 },
+    ],
+    stock: "preorder",
+    shipsIn: "Pre-order · ships November 2027",
+    fulfilment: "ship",
+  },
+  {
+    slug: "v1-bicep-strap",
+    name: "V1 Bicep Strap",
+    tagline: "Move it off your wrist",
+    category: "accessories",
+    brand: "TERRIFIT",
+    partner: false,
+    priceCents: 3900,
+    rating: 4.7,
+    reviews: 88,
+    badges: ["Better under load"],
+    variantLabel: "Colourway",
+    variants: [
+      { id: "black", label: "Black", note: "Matte, disappears under a sleeve", swatch: "linear-gradient(135deg,#2a2a2d 0%,#2a2a2d 48%,#0d0d0f 52%,#0d0d0f 100%)", accent: "#cfd3d8", sku: "TF-BIC-BLK" },
+      { id: "ember", label: "Ember", note: "The orange weave, wider cut", swatch: "linear-gradient(135deg,#ff5a1f 0%,#ff5a1f 48%,#1b1b1d 52%,#1b1b1d 100%)", accent: "#ff7a45", sku: "TF-BIC-EMB" },
+      { id: "graphite", label: "Graphite", note: "Two-tone grey", swatch: "linear-gradient(135deg,#8b9099 0%,#8b9099 48%,#3a3f45 52%,#3a3f45 100%)", accent: "#b9bfc7", sku: "TF-BIC-GRA" },
+    ],
+    description:
+      "Barbell work, front squats and anything on your back all push the wrist around, and a moving sensor reads badly. The bicep strap sits above the elbow where the arm is still, which is why the heart-rate trace stays clean through a heavy set.",
+    highlights: ["Steadier heart rate under load", "Sits under a sleeve", "22–40 cm adjustable"],
+    specs: [
+      ["Material", "Perforated nylon with silicone grip"],
+      ["Fit", "22–40 cm upper arm"],
+      ["Care", "Rinse after training, air dry"],
+    ],
+    media: [
+      { src: "/media/terrifit-band-black.png", alt: "The Terrifit V1 bicep strap in black, the wider band shown flat with its silicone grip facing up", ratio: 1 },
+    ],
+    stock: "preorder",
+    shipsIn: "Pre-order · ships November 2027",
+    fulfilment: "ship",
+  },
+  {
+    slug: "v1-powerpack",
+    name: "V1 PowerPack",
+    tagline: "30+ days away from a wall",
+    category: "accessories",
+    brand: "TERRIFIT",
+    partner: false,
+    priceCents: 6900,
+    rating: 4.9,
+    reviews: 96,
+    badges: [],
+    variants: [],
+    description:
+      "A wireless battery that slides onto V1 and charges it while it is still on your wrist, so you never take the band off. It holds more than 30 extra days of power between wall charges.",
+    highlights: ["Charges on-wrist", "30+ days of stored power", "USB-C in, 2 hours to full"],
+    specs: [
+      ["Capacity", "30+ days of band power"],
+      ["Recharge", "USB-C · about 2 hours"],
+      ["Water rating", "IPX4"],
+    ],
+    media: [
+      { src: "/media/shop/powerpack.jpg", alt: "Terrifit V1 PowerPack clipped onto the band, a small matte black module with a single amber charge indicator", ratio: 1 },
+    ],
+    stock: "preorder",
+    shipsIn: "Pre-order · ships November 2027",
+    fulfilment: "ship",
+  },
+  {
+    slug: "terrifit-membership",
+    name: "Terrifit Membership",
+    tagline: "Maps, analytics and the network",
+    category: "band",
+    brand: "TERRIFIT",
+    partner: false,
+    priceCents: 2400,
+    rating: 4.8,
+    reviews: 288,
+    badges: ["Monthly"],
+    variantLabel: "Term",
+    variants: [
+      { id: "monthly", label: "Monthly", note: "Cancel any time", sku: "TF-MEM-M" },
+      { id: "annual", label: "12 months", note: "Two months free", priceCents: 24000, sku: "TF-MEM-A" },
+    ],
+    description:
+      "The whole Map library, your full history, creator channels and the coaching layer. The band does the measuring, but this is the part that tells you what to do about it.",
+    highlights: ["Unlimited Map library access", "Full metric history, exportable", "Creator channels and check-ins"],
+    specs: [
+      ["Billing", "Monthly or annual"],
+      ["Cancellation", "Any time, keeps your data"],
+      ["Data export", "CSV and Apple Health"],
+    ],
+    media: [
+      { src: "/media/shop/membership.jpg", alt: "Terrifit app open on a phone held in one hand, showing the recovery ring at 82 percent on a dark interface", ratio: 1 },
+    ],
+    stock: "preorder",
+    shipsIn: "Starts January 2027, when the app opens",
+    fulfilment: "subscription",
+    subscription: { label: "Renews monthly", discountPercent: 0 },
+  },
+  {
+    slug: "training-tee",
+    name: "Field Tee",
+    tagline: "Heavyweight, sweat-tested",
+    category: "apparel",
+    brand: "TERRIFIT",
+    partner: false,
+    priceCents: 4200,
+    rating: 4.7,
+    reviews: 210,
+    badges: [],
+    variantLabel: "Size",
+    variants: [
+      { id: "s", label: "S", sku: "TF-TEE-S" },
+      { id: "m", label: "M", sku: "TF-TEE-M" },
+      { id: "l", label: "L", sku: "TF-TEE-L" },
+      { id: "xl", label: "XL", sku: "TF-TEE-XL" },
+    ],
+    description:
+      "240 gsm cotton with a bonded shoulder seam that survives a barbell session, cut long enough to stay put through overhead work.",
+    highlights: ["240 gsm combed cotton", "Bonded shoulder seams", "Pre-shrunk"],
+    specs: [
+      ["Fabric", "240 gsm combed cotton"],
+      ["Fit", "Regular, dropped shoulder"],
+      ["Care", "Machine wash cold"],
+    ],
+    media: [
+      { src: "/media/shop/field-tee.jpg", alt: "Heavyweight charcoal training t-shirt laid flat on concrete with a small orange Terrifit mark on the chest", ratio: 1 },
+    ],
+    stock: "in",
+    shipsIn: "Ships in 2 days",
+    fulfilment: "ship",
+  },
+  {
+    slug: "recovery-protein",
+    name: "Recovery Protein",
+    tagline: "Whey isolate, 27 g a serve",
+    category: "fuel",
+    brand: "TERRIFIT",
+    partner: false,
+    priceCents: 4100,
+    rating: 4.8,
+    reviews: 524,
+    badges: ["Third-party tested"],
+    variantLabel: "Flavour",
+    variants: [
+      { id: "vanilla", label: "Vanilla", sku: "TF-PRO-V" },
+      { id: "cocoa", label: "Dark cocoa", sku: "TF-PRO-C" },
+      { id: "unflavoured", label: "Unflavoured", sku: "TF-PRO-N" },
+    ],
+    description:
+      "Cold-filtered whey isolate with nothing else in it. No gums, no fillers, no proprietary blend. Every batch is tested for banned substances and the certificate is printed on the tub.",
+    highlights: ["27 g protein per serve", "Banned-substance tested", "No gums or fillers"],
+    specs: [
+      ["Servings", "30 per tub"],
+      ["Protein", "27 g per serve"],
+      ["Testing", "Informed Sport, per batch"],
+    ],
+    media: [
+      { src: "/media/shop/recovery-protein.jpg", alt: "Matte black protein tub with an orange lid standing on warm off-white paper, hard side light", ratio: 1 },
+    ],
+    stock: "in",
+    shipsIn: "Ships in 2 days",
+    fulfilment: "ship",
+    subscription: { label: "Subscribe and save", discountPercent: 15 },
+  },
+  {
+    slug: "pure-creatine",
+    name: "Pure Creatine",
+    tagline: "Monohydrate, nothing added",
+    category: "fuel",
+    brand: "TERRIFIT",
+    partner: false,
+    priceCents: 3400,
+    rating: 4.9,
+    reviews: 613,
+    badges: ["Third-party tested"],
+    variants: [],
+    description:
+      "Creapure monohydrate, micronised so it actually dissolves. Five grams a day is the whole protocol. There is no loading phase worth the bloat.",
+    highlights: ["100 % Creapure monohydrate", "Micronised", "80 servings"],
+    specs: [
+      ["Servings", "80 per jar"],
+      ["Dose", "5 g daily"],
+      ["Source", "Creapure, Germany"],
+    ],
+    media: [
+      { src: "/media/shop/creatine.jpg", alt: "Squat white creatine jar with a matte finish and a single orange band, top-lit on paper", ratio: 1 },
+    ],
+    stock: "in",
+    shipsIn: "Ships in 2 days",
+    fulfilment: "ship",
+    subscription: { label: "Subscribe and save", discountPercent: 15 },
+  },
+  {
+    slug: "daily-hydration",
+    name: "Daily Hydration",
+    tagline: "Electrolytes without the sugar",
+    category: "fuel",
+    brand: "TERRIFIT",
+    partner: false,
+    priceCents: 3100,
+    rating: 4.6,
+    reviews: 302,
+    badges: [],
+    variantLabel: "Flavour",
+    variants: [
+      { id: "citrus", label: "Citrus", sku: "TF-HYD-C" },
+      { id: "berry", label: "Berry", sku: "TF-HYD-B" },
+    ],
+    description:
+      "1000 mg sodium, 200 mg potassium and 60 mg magnesium in one stick. Made for people who sweat through a session rather than for sipping at a desk.",
+    highlights: ["1000 mg sodium per stick", "Zero sugar", "30 sticks"],
+    specs: [
+      ["Sticks", "30 per box"],
+      ["Sodium", "1000 mg"],
+      ["Sugar", "0 g"],
+    ],
+    media: [
+      { src: "/media/shop/hydration.jpg", alt: "Slim cardboard box of electrolyte sticks in warm sand tones with one stick leaning against it", ratio: 1 },
+    ],
+    stock: "low",
+    shipsIn: "Ships in 2 days",
+    fulfilment: "ship",
+  },
+  {
+    slug: "triple-omega-3",
+    name: "Triple Omega-3",
+    tagline: "2 g EPA + DHA per serve",
+    category: "recovery",
+    brand: "PIONEER LABS",
+    partner: true,
+    priceCents: 2900,
+    rating: 4.7,
+    reviews: 188,
+    badges: ["Verified partner"],
+    variants: [],
+    description:
+      "Triglyceride-form fish oil at a dose that matches the research rather than the label. Oxidation values are published for every lot.",
+    highlights: ["2 g EPA + DHA", "Triglyceride form", "TOTOX published per lot"],
+    specs: [
+      ["Servings", "60 softgels"],
+      ["EPA + DHA", "2 g per serve"],
+      ["Sold by", "Pioneer Labs"],
+    ],
+    media: [
+      { src: "/media/shop/omega-3.jpg", alt: "Amber glass supplement bottle with a cream label on a warm paper background, soft directional light", ratio: 1 },
+    ],
+    stock: "in",
+    shipsIn: "Ships from partner in 3–5 days",
+    fulfilment: "ship",
+  },
+  {
+    slug: "night-magnesium",
+    name: "Night Magnesium",
+    tagline: "Glycinate, for the sleep score",
+    category: "recovery",
+    brand: "NORTHSTAR",
+    partner: true,
+    priceCents: 3800,
+    rating: 4.8,
+    reviews: 241,
+    badges: ["Verified partner"],
+    variants: [],
+    description:
+      "Magnesium bisglycinate, 400 mg elemental, with nothing sedating added. If sleep efficiency is the number you are trying to move, start here.",
+    highlights: ["400 mg elemental magnesium", "Bisglycinate, gentle on the gut", "No melatonin"],
+    specs: [
+      ["Servings", "60 capsules"],
+      ["Magnesium", "400 mg elemental"],
+      ["Sold by", "Northstar"],
+    ],
+    media: [
+      { src: "/media/shop/magnesium.jpg", alt: "Deep navy supplement bottle with a minimal label, shot at night against a dark surface with one soft highlight", ratio: 1 },
+    ],
+    stock: "in",
+    shipsIn: "Ships from partner in 3–5 days",
+    fulfilment: "ship",
+  },
+  {
+    slug: "training-shaker",
+    name: "Training Shaker",
+    tagline: "600 ml, no rattling ball",
+    category: "accessories",
+    brand: "TERRIFIT",
+    partner: false,
+    priceCents: 2200,
+    rating: 4.5,
+    reviews: 154,
+    badges: [],
+    variants: [],
+    description:
+      "A moulded agitator instead of a wire ball, a lid that actually seals, and a body that survives being dropped on a platform.",
+    highlights: ["600 ml", "Moulded agitator", "Dishwasher safe"],
+    specs: [
+      ["Volume", "600 ml"],
+      ["Material", "Tritan, BPA-free"],
+      ["Care", "Dishwasher safe"],
+    ],
+    media: [
+      { src: "/media/shop/shaker.jpg", alt: "Matte black shaker bottle with an orange lid on concrete, hard shadow", ratio: 1 },
+    ],
+    stock: "in",
+    shipsIn: "Ships in 2 days",
+    fulfilment: "ship",
+  },
+];
+
+export function findProduct(slug: string): Product | undefined {
+  return products.find((product) => product.slug === slug);
+}
+
+/** Resolves the variant, falling back to the first when a stale cart names one that is gone. */
+export function findVariant(product: Product, variantId?: string): Variant | undefined {
+  if (product.variants.length === 0) return undefined;
+  return product.variants.find((variant) => variant.id === variantId) ?? product.variants[0];
+}
+
+/** Authoritative unit price. Both the cart preview and checkout call this. */
+export function unitPriceCents(product: Product, variantId?: string): number {
+  return findVariant(product, variantId)?.priceCents ?? product.priceCents;
+}
+
+/**
+ * What to suggest next to a bag.
+ *
+ * Rule-based rather than "people also bought", because there is no order
+ * history to mine yet and a random four-up reads as filler. The band pulls in
+ * the things that attach to it; a bag without the band is offered the band.
+ */
+export function recommendationsFor(slugsInBag: string[], limit = 3): Product[] {
+  const inBag = new Set(slugsInBag);
+  const hasBand = inBag.has("terrifit-v1");
+
+  const preferred = hasBand
+    ? ["v1-strap-set", "v1-powerpack", "terrifit-membership", "recovery-protein", "night-magnesium"]
+    : ["terrifit-v1", "recovery-protein", "pure-creatine", "daily-hydration"];
+
+  const picked = preferred
+    .filter((slug) => !inBag.has(slug))
+    .map((slug) => findProduct(slug))
+    .filter((product): product is Product => Boolean(product));
+
+  // Top up from the rest of the catalogue if the rules ran out.
+  for (const product of products) {
+    if (picked.length >= limit) break;
+    if (inBag.has(product.slug) || picked.some((item) => item.slug === product.slug)) continue;
+    picked.push(product);
+  }
+
+  return picked.slice(0, limit);
+}
+
+/**
+ * The right photograph for one line of a bag or an order.
+ *
+ * A colourway is the product as far as the customer is concerned: someone who
+ * chose Midnight expects to see Midnight in their bag, not a generic hero shot
+ * of the Ember one. Falls back to the product's own first image.
+ */
+export function lineImage(
+  product: Product,
+  variantId?: string,
+): { src: string; alt: string } {
+  const variant = findVariant(product, variantId);
+  if (variant?.image) {
+    return { src: variant.image, alt: `${product.name} in ${variant.label}` };
+  }
+  const shot = product.media[0];
+  return { src: shot?.src ?? "", alt: shot?.alt ?? product.name };
+}

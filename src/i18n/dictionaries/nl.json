@@ -1,0 +1,856 @@
+{
+  "meta": {
+    "title": "Terrifit — sociale wellness-app, de V1 band en geteste supplementen",
+    "description": "Terrifit is de sociale app voor alles wat je voor je lichaam doet, de V1 band die je slaap, herstel en training meet, en een winkel met supplementen en spullen die echt getest zijn.",
+    "ogAlt": "Terrifit — de sociale wellness-app, de V1 band en de winkel"
+  },
+  "nav": {
+    "theMap": "De Map",
+    "checkIns": "Check-ins",
+    "creators": "Voor creators",
+    "safeguards": "Waarborgen",
+    "join": "Op de wachtlijst",
+    "joinShort": "Aanmelden",
+    "openMenu": "Menu openen",
+    "closeMenu": "Menu sluiten",
+    "theme": "Thema",
+    "themeSystem": "Systeem",
+    "themeLight": "Licht",
+    "themeDark": "Donker",
+    "language": "Taal",
+    "skipToContent": "Naar de inhoud"
+  },
+  "hero": {
+    "eyebrow": "Wellness, wearables en voeding",
+    "headline": "Don’t do great, do terrific.",
+    "sub": "Een sociale app voor alles wat je voor je lichaam doet, de V1 band die laat zien hoe het echt met je gaat, en een winkel met supplementen en spullen die we zelf zouden gebruiken.",
+    "primaryCta": "Op de wachtlijst",
+    "secondaryCta": "Aanmelden als creator",
+    "reassurance": "Eén mail zodra jouw markt opengaat. Verder niets.",
+    "liveLabel": "Op de wachtlijst",
+    "countriesLabel": "Geregistreerde markten",
+    "creatorLabel": "Resterende oprichtersplaatsen"
+  },
+  "trustBar": {
+    "items": [
+      {
+        "value": "Live",
+        "label": "Een feed van mensen die trainen zoals jij wilt"
+      },
+      {
+        "value": "24/7",
+        "label": "Hartslag, slaap en herstel via de V1 band"
+      },
+      {
+        "value": "Getest",
+        "label": "Elk supplement in de winkel, batch voor batch"
+      },
+      {
+        "value": "80%",
+        "label": "Van elke verkoop gaat naar de maker erachter"
+      }
+    ]
+  },
+  "mapAnatomy": {
+    "eyebrow": "De Map",
+    "headline": "Geen pdf. Een levend plan.",
+    "body": "Een Map is een gestructureerd transformatieplan met een versiegeschiedenis, verplichte check-ins en een echte coach erachter. Hij past zich aan je voortgang aan, en elke wijziging wordt vastgelegd.",
+    "tabs": {
+      "training": {
+        "label": "Training",
+        "headline": "Een schema, geen spreadsheet",
+        "body": "Sessies, oefeningen, demonstratievideo en voorgeschreven gewichten, vastgelegd terwijl je ze afwerkt — zo wordt therapietrouw gemeten in plaats van beweerd."
+      },
+      "nutrition": {
+        "label": "Voeding",
+        "headline": "Doelen met een reden erachter",
+        "body": "Dagdoelen, maaltijdadvies en de redenering erachter. Geschreven door de coach die de Map verkocht, niet gegenereerd door een rekenmachine."
+      },
+      "checkins": {
+        "label": "Check-ins",
+        "headline": "De verantwoordingslus",
+        "body": "Wekelijkse inzending met foto's, maten, herstel en therapietrouw. Je coach reageert, en de Map wordt bijgesteld."
+      },
+      "supplements": {
+        "label": "Supplementen",
+        "headline": "Altijd vermeld",
+        "body": "Aanbevelingen met getrackte koopklinks. Elke affiliate-relatie en elke commissie voor de creator staat op dezelfde pagina vermeld."
+      },
+      "milestones": {
+        "label": "Mijlpalen",
+        "headline": "Vooruitgang met een vorm",
+        "body": "Weekdoelen en mijlpalen die een blok van twaalf weken al vanaf week één leesbaar maken."
+      }
+    },
+    "sample": {
+      "mapTitle": "Hypertrofiebasis — 12 weken",
+      "coach": "Coach · geverifieerd kracht & conditie",
+      "week": "Week 5 van 12",
+      "adherence": "Therapietrouw",
+      "nextSession": "Volgende sessie",
+      "sessionName": "Onderlichaam — achterste keten",
+      "version": "v3 · 2 dagen geleden bijgewerkt",
+      "supportLine": "Inclusief wekelijkse check-inbeoordeling gedurende 12 weken"
+    }
+  },
+  "prototypes": {
+    "eyebrow": "Interface",
+    "headline": "Een precisie-instrument dat je in één blik leest.",
+    "body": "Grote cijfers, één duidelijke hiërarchie en bijna geen beweging. Gemaakt voor een donkere gymvloer en net zo scherp in daglicht.",
+    "tabs": {
+      "feed": {
+        "label": "Start",
+        "caption": "Je dagoverzicht staat boven de feed, niet verstopt in een tabblad."
+      },
+      "map": {
+        "label": "Map",
+        "caption": "Alles wat de Map bevat, en precies welke begeleiding erbij zit."
+      },
+      "checkin": {
+        "label": "Check-in",
+        "caption": "Ingediend in minder dan twee minuten. Jij kiest wie het ziet."
+      },
+      "dashboard": {
+        "label": "Coach",
+        "caption": "Elke cliënt, gesorteerd op wie deze week aandacht nodig heeft."
+      },
+      "progress": {
+        "label": "Voortgang",
+        "caption": "Standaard privé. Uitgelegd, nooit gediagnosticeerd."
+      }
+    }
+  },
+  "checkIns": {
+    "eyebrow": "Wekelijkse check-in",
+    "headline": "Voortgangsfoto's, op jouw voorwaarden.",
+    "body": "Foto's, gewicht, maten, herstel, therapietrouw en een geschreven reflectie. Jij bepaalt wie elke check-in ziet — per check-in, niet één keer weggestopt in de instellingen.",
+    "visibilityTitle": "Wie deze check-in kan zien",
+    "visibility": {
+      "private": {
+        "label": "Privé",
+        "note": "Alleen jij"
+      },
+      "coach": {
+        "label": "Alleen de coach",
+        "note": "Jij en de coach van deze Map"
+      },
+      "friends": {
+        "label": "Geselecteerde vrienden",
+        "note": "Mensen die je stuk voor stuk aanwijst"
+      },
+      "community": {
+        "label": "Community",
+        "note": "Eén community waar je bij hoort"
+      },
+      "public": {
+        "label": "Openbaar",
+        "note": "Iedereen op Terrifit"
+      }
+    },
+    "faceBlurLabel": "Mijn gezicht vervagen",
+    "faceBlurOn": "Aan",
+    "faceBlurOff": "Uit",
+    "faceBlurNote": "Gezichtsherkenning werkt alleen met jouw uitdrukkelijke toestemming en kan volledig worden uitgezet.",
+    "warningTitle": "We doen niet alsof het anders is",
+    "warningBody": "Schermafbeeldingen zijn op geen enkel platform volledig te voorkomen. Vervaging, privézichtbaarheid en meldingen verkleinen het risico, ze nemen het niet weg. Deel alleen wat de app wat jou betreft mag verlaten.",
+    "dragHint": "Sleep om de sterkte van de vervaging te zien"
+  },
+  "creators": {
+    "eyebrow": "Voor coaches, diëtisten en creators",
+    "headline": "Laat je passie inkomen opleveren.",
+    "body": "Volgers zijn geen bedrijf. Terrifit geeft je geverifieerde diploma's, gestructureerde producten om te verkopen, en het gereedschap om de kopers echt te volgen.",
+    "economicsTitle": "Wat jij houdt",
+    "economics": [
+      {
+        "item": "Map-verkopen",
+        "you": "80%",
+        "platform": "20% platform"
+      },
+      {
+        "item": "Betaalde abonnementen",
+        "you": "75%",
+        "platform": "25% platform"
+      },
+      {
+        "item": "Livestreams en fooien",
+        "you": "75%",
+        "platform": "25% platform"
+      },
+      {
+        "item": "Betaalde communities",
+        "you": "Commissie van toepassing",
+        "platform": "Tarief bekend vóór lancering"
+      },
+      {
+        "item": "Affiliate-producten",
+        "you": "Jouw deel van 10–15%",
+        "platform": "Commissie betaald door het merk"
+      }
+    ],
+    "economicsFootnote": "De percentages gelden over de bruto-omzet, vóór betaalkosten, belastingen en app-storekosten, die op elke uitbetalingsafrekening apart worden gespecificeerd.",
+    "toolsTitle": "Het dashboard erachter",
+    "tools": [
+      "Elke cliënt van elke Map, met therapietrouw in realtime",
+      "Ontbrekende check-ins zichtbaar voordat de cliënt afhaakt",
+      "Cliënten met risico en inactieve cliënten op urgentie gesorteerd",
+      "Vragen van cliënten in één wachtrij, niet in vijf inboxen",
+      "Nodige Map-aanpassingen en aankomende mijlpalen",
+      "Omzet, terugbetalingen en de effectiviteit van Maps in totaal"
+    ],
+    "obligationTitle": "De verplichting, duidelijk gesteld",
+    "obligationBody": "Bevat een Map doorlopende begeleiding, dan wordt van je verwacht dat je die cliënten ook volgt. De productpagina moet het niveau en de duur van die begeleiding vermelden voordat iemand betaalt. Wij handhaven dat.",
+    "foundingTitle": "Voordelen voor oprichtende creators",
+    "founding": [
+      "Verlaagde platformcommissie in je eerste twaalf maanden",
+      "Voorrang bij diplomaverificatie vóór de publieke lancering",
+      "Uitgelichte plaatsing in jouw markt bij de lancering",
+      "Directe inbreng in de roadmap van het creator-dashboard",
+      "Permanent oprichtersinsigne op je professionele profiel"
+    ],
+    "cta": "Aanmelden als creator"
+  },
+  "community": {
+    "eyebrow": "Communities en livestreams",
+    "headline": "Waar het werk gedeeld wordt.",
+    "body": "Thema-communities, afzonderlijke sportscholen, lokale groepen en communities rond één Map of challenge. Openbaar of privé, gratis of betaald, met echte moderatie.",
+    "items": [
+      {
+        "title": "Communities",
+        "body": "Berichten, discussies, materialen, evenementen, ranglijsten en betaald lidmaatschap."
+      },
+      {
+        "title": "Livestreams",
+        "body": "Alleen voor abonnees, met ticket of openbaar. Chat, polls, fooien en herhalingen."
+      },
+      {
+        "title": "Anonimiteit",
+        "body": "Onder je echte naam of onder een pseudoniem. Jouw keuze, per account."
+      },
+      {
+        "title": "Consulten",
+        "body": "Boekbare sessies met geverifieerde coaches en diëtisten."
+      }
+    ],
+    "phaseNote": "Communities komen met de lancering. Livestreams volgen direct daarna."
+  },
+  "progress": {
+    "eyebrow": "Voortgang en gezondheid",
+    "headline": "Jouw data. Standaard privé.",
+    "body": "Therapietrouw, kracht, conditie, slaap, herstel, activiteit, maten en lichaamssamenstelling in één privédashboard, met wekelijkse, tweewekelijkse en maandelijkse vergelijkingen.",
+    "metricsTitle": "Wat wordt bijgehouden",
+    "metrics": [
+      "Map-therapietrouw en reeksen",
+      "Gewicht en lichaamsmaten",
+      "Kracht- en conditieprestaties",
+      "Slaap, herstel en rusthartslag",
+      "Stappen, activiteit en calorieën",
+      "Lichaamssamenstelling in InBody-stijl"
+    ],
+    "integrationsTitle": "Werkt samen met",
+    "integrations": [
+      "Apple Health",
+      "Health Connect",
+      "Ondersteunde wearables",
+      "Handmatig invoeren"
+    ],
+    "disclaimerTitle": "Scores die zichzelf uitleggen",
+    "disclaimerBody": "Gezondheidsscores en schattingen van lichaamsleeftijd tonen altijd hun invoer en hun beperkingen. Het zijn fitheidssignalen, geen medische diagnoses, en Terrifit zal ze nooit als zodanig presenteren."
+  },
+  "safeguards": {
+    "eyebrow": "Waarborgen",
+    "headline": "Het deel dat de meeste fitness-apps overslaan.",
+    "body": "Ingebouwd vanaf de eerste versie, niet toegevoegd na het eerste incident.",
+    "items": [
+      {
+        "title": "Geverifieerde kwalificaties",
+        "body": "Coaches en diëtisten worden geverifieerd voordat ze mogen verkopen. Diploma's worden getoond met de instantie die ze afgaf."
+      },
+      {
+        "title": "Begeleiding, geen medisch advies",
+        "body": "Een duidelijke, gehandhaafde grens tussen sportbegeleiding en medisch advies — in de teksten en in het moderatiebeleid."
+      },
+      {
+        "title": "Versleutelde gezondheidsdata",
+        "body": "Gezondheidsdata is versleuteld en interne toegang is beperkt en gecontroleerd. Beheerhandelingen worden vastgelegd."
+      },
+      {
+        "title": "Bescherming van voortgangsfoto's",
+        "body": "Gezichtsvervaging, zichtbaarheid per check-in, en echte handhaving tegen intimidatie en geseksualiseerd misbruik."
+      },
+      {
+        "title": "Vermelde affiliaties",
+        "body": "Elke affiliate-link, sponsoring en creatorcommissie wordt vermeld op de plek waar hij verschijnt."
+      },
+      {
+        "title": "Export en verwijdering",
+        "body": "Neem je data mee of verwijder het account volledig. Aankoopgegevens en Map-versies worden bewaard zolang dat verplicht is."
+      },
+      {
+        "title": "Terugbetalingen en geschillen",
+        "body": "Gepubliceerd terugbetalingsbeleid, een echt geschillenproces en uitgestelde uitbetalingen zolang een geschil loopt."
+      },
+      {
+        "title": "Leeftijdsbescherming",
+        "body": "Leeftijdsgrenzen en ouderlijke waarborgen per markt, en nergens onderbouwde transformatiebeloftes zonder bewijs."
+      }
+    ]
+  },
+  "waitlist": {
+    "eyebrow": "Wachtlijst",
+    "headline": "Claim je plek.",
+    "body": "Vertel ons wie je bent en wat je echt wilt. Dat bepaalt wat we eerst bouwen, en welke markt als eerste opengaat.",
+    "roleLabel": "Ik meld me aan als",
+    "roles": {
+      "athlete": {
+        "label": "Sporter",
+        "note": "Ik wil trainen met een Map"
+      },
+      "coach": {
+        "label": "Coach",
+        "note": "Ik train cliënten"
+      },
+      "nutritionist": {
+        "label": "Diëtist",
+        "note": "Ik adviseer over voeding"
+      },
+      "creator": {
+        "label": "Creator",
+        "note": "Ik bouw een fitnesspubliek op"
+      },
+      "brand": {
+        "label": "Merk",
+        "note": "Supplementen, kleding of materiaal"
+      }
+    },
+    "fields": {
+      "name": "Naam",
+      "namePlaceholder": "Hoe we je mogen aanspreken",
+      "email": "E-mail",
+      "emailPlaceholder": "jij@voorbeeld.nl",
+      "country": "Markt",
+      "countryPlaceholder": "Kies je markt",
+      "handle": "Belangrijkste account",
+      "handlePlaceholder": "@jouwaccount",
+      "audience": "Grootte van je publiek",
+      "audiencePlaceholder": "Kies een bereik",
+      "credentials": "Kwalificaties",
+      "credentialsPlaceholder": "Certificeringen, uitgevende instantie, jaren ervaring",
+      "brandName": "Merknaam",
+      "brandNamePlaceholder": "Geregistreerde merknaam",
+      "brandWebsite": "Website",
+      "brandWebsitePlaceholder": "https://",
+      "brandCategory": "Categorie",
+      "brandCategoryPlaceholder": "Kies een categorie",
+      "features": "Wat voor jou het belangrijkst is",
+      "featuresNote": "Kies alles wat van toepassing is — dit is het vraagsignaal waarop we bouwen."
+    },
+    "audienceRanges": [
+      "Minder dan 1.000",
+      "1.000 – 10.000",
+      "10.000 – 100.000",
+      "100.000 – 1 mln.",
+      "Meer dan 1 mln."
+    ],
+    "brandCategories": [
+      "Supplementen",
+      "Kleding",
+      "Materiaal",
+      "Accessoires",
+      "Digitale producten"
+    ],
+    "features": {
+      "maps": "Maps kopen of verkopen",
+      "checkins": "Wekelijkse check-ins en feedback van de coach",
+      "coaching": "Rechtstreeks berichten met je coach",
+      "communities": "Communities",
+      "livestreams": "Livestreams en fooien",
+      "marketplace": "Affiliate-productmarktplaats",
+      "health": "Gezondheids- en wearabledata",
+      "anonymity": "Anoniem deelnemen"
+    },
+    "consent": "Ik ga ermee akkoord e-mails te ontvangen over de lancering van Terrifit. Ik kan me altijd afmelden.",
+    "submit": "Op de wachtlijst",
+    "submitCreator": "Aanmelden voor een oprichtersplaats",
+    "submitting": "Bezig met verzenden…",
+    "success": {
+      "title": "Je staat erop.",
+      "positionLabel": "Jouw positie",
+      "referralTitle": "Klim in de lijst",
+      "referralBody": "Iedereen die zich via jouw link aanmeldt, brengt je tien plaatsen omhoog. Oprichtersplaatsen worden van bovenaf toegekend.",
+      "copy": "Link kopiëren",
+      "copied": "Gekopieerd",
+      "share": "Delen",
+      "roleNoteCreator": "De diplomaverificatie opent vóór de publieke lancering. We mailen je zodra je beoordelingsmoment klaarstaat.",
+      "roleNoteBrand": "Identiteits- en compliancecontroles zijn verplicht voordat een product live gaat. We nemen contact op met de vereisten."
+    },
+    "errors": {
+      "required": "Dit veld is verplicht",
+      "email": "Vul een geldig e-mailadres in",
+      "consent": "Ga akkoord om verder te gaan",
+      "duplicate": "Dat e-mailadres staat al op de lijst.",
+      "generic": "Er ging iets mis. Probeer het opnieuw.",
+      "network": "Kon de server niet bereiken. Controleer je verbinding en probeer het opnieuw."
+    },
+    "referredBanner": "Je bent uitgenodigd. Je vriend klimt tien plaatsen zodra jij je aanmeldt."
+  },
+  "faq": {
+    "eyebrow": "Vragen",
+    "headline": "Voordat je het vraagt.",
+    "items": [
+      {
+        "q": "Wat is een Map precies?",
+        "a": "Een gestructureerd transformatieplan: trainingsschema, oefeninstructie met video, voedingsdoelen, supplementadvies, weekdoelen, mijlpalen en verplichte check-ins. Het heeft een versiegeschiedenis, en de coach die het verkocht kan het bijstellen naarmate je vordert. Maps kunnen kant-en-klaar zijn of voor één persoon gemaakt, eenmalig gekocht of via abonnement."
+      },
+      {
+        "q": "Is Terrifit gewoon nóg een fitnessfeed?",
+        "a": "De feed is de voordeur, niet het product. Het product is de lus erachter: een Map kopen, hem trainen, wekelijks inchecken, begeleid worden, en eindigen met een vastgelegd bewijs van wat er werkelijk veranderde."
+      },
+      {
+        "q": "Wie mag er verkopen op Terrifit?",
+        "a": "Coaches en diëtisten moeten de diplomaverificatie doorstaan voordat ze iets mogen aanbieden. Merken doorlopen identiteits- en compliancecontroles. Verificatiestatus en uitgevende instantie staan op het profiel."
+      },
+      {
+        "q": "Wat kost het mij als creator?",
+        "a": "Terrifit neemt 20% van Map-verkopen, en 25% van betaalde abonnementen, livestreamopbrengsten en fooien. Betaalkosten, belastingen en app-storekosten staan apart op je afrekening in plaats van verstopt in de commissie."
+      },
+      {
+        "q": "Hoe privé zijn mijn voortgangsfoto's?",
+        "a": "Standaard privé. De zichtbaarheid kies je per check-in: privé, alleen coach, met naam genoemde vrienden, één community, of openbaar. Gezichtsvervaging is beschikbaar, gezichtsherkenning vraagt je uitdrukkelijke toestemming, en geen enkel platform kan schermafbeeldingen volledig voorkomen. Dat zeggen we in het product, niet alleen hier."
+      },
+      {
+        "q": "Verkoopt Terrifit supplementen?",
+        "a": "Nee. Terrifit treedt op als affiliate. Merken regelen voorraad, verzending, support, retouren en productclaims, en het afrekenen gebeurt op hun site. Elke affiliate-link en elke creatorcommissie wordt vermeld waar hij verschijnt."
+      },
+      {
+        "q": "Wanneer is de lancering?",
+        "a": "Eerst de kernlus — profielen, feed, Maps, check-ins, creator-dashboards, berichten en uitbetalingen — markt voor markt. De wachtlijst bepaalt de volgorde. Livestreams volgen direct daarna, gezondheidsintegraties daarna."
+      }
+    ]
+  },
+  "footer": {
+    "tagline": "Don’t do great, do terrific.",
+    "productTitle": "Product",
+    "product": [
+      "De Map",
+      "Wekelijkse check-ins",
+      "Voor creators",
+      "Communities",
+      "Voortgang"
+    ],
+    "companyTitle": "Bedrijf",
+    "company": [
+      "Over ons",
+      "Vacatures",
+      "Pers",
+      "Contact"
+    ],
+    "legalTitle": "Juridisch",
+    "legal": [
+      "Privacy",
+      "Voorwaarden",
+      "Terugbetalingen en geschillen",
+      "Affiliate-vermelding",
+      "Cookies"
+    ],
+    "disclaimer": "Terrifit biedt sportbegeleiding en coachinggereedschap. Terrifit geeft geen medisch advies, diagnose of behandeling. Gezondheidsscores en schattingen van lichaamsleeftijd zijn schattingen, geen klinische metingen. Raadpleeg een bevoegde zorgverlener voordat je met een programma begint.",
+    "rights": "Alle rechten voorbehouden.",
+    "languageLabel": "Taal"
+  },
+  "mock": {
+    "date": "wo 12 mrt",
+    "greeting": "Goedemorgen, Sara",
+    "streakUnit": "dagen op rij",
+    "mapProgress": "Map-voortgang",
+    "nextWorkout": "Volgende sessie",
+    "nextWorkoutValue": "Onderlichaam · 17:30",
+    "checkInDue": "Check-in",
+    "checkInDueValue": "Zondag inleveren",
+    "recovery": "Herstel",
+    "feedAuthor": "Nadia K.",
+    "feedRole": "Geverifieerde coach",
+    "feedTime": "2 u geleden",
+    "feedCaption": "Week 8. Hetzelfde getal op de weegschaal, een ander lichaam. De volledige uitsplitsing staat in de Map.",
+    "feedTag": "Transformatie",
+    "likes": "1.284",
+    "comments": "96",
+    "photoHidden": "Voortgangsfoto — zichtbaarheid bepaalt de sporter",
+    "mapPrice": "149 USD",
+    "mapRating": "4,8",
+    "mapReviews": "212 beoordelingen",
+    "mapSections": [
+      "Trainingsschema",
+      "Voedingsdoelen",
+      "Supplementadvies",
+      "Wekelijkse check-ins"
+    ],
+    "mapSupport": "Wekelijkse check-inbeoordeling · 12 weken",
+    "mapCta": "Map voortzetten",
+    "checkInTitle": "Check-in week 5",
+    "photoFront": "Voorkant",
+    "photoSide": "Zijkant",
+    "photoBack": "Rug",
+    "weight": "Gewicht",
+    "weightValue": "78,4 kg",
+    "waist": "Taille",
+    "waistValue": "82 cm",
+    "sleep": "Slaap",
+    "sleepValue": "7 u 10 min",
+    "visibility": "Zichtbaar voor",
+    "visibilityValue": "Alleen de coach",
+    "submitCheckIn": "Check-in versturen",
+    "dashboardTitle": "Vraagt aandacht",
+    "dashboardSub": "12 van 84 cliënten",
+    "clients": [
+      {
+        "name": "Omar H.",
+        "map": "Basis 12 weken",
+        "status": "Check-in ontbreekt",
+        "tone": "bad",
+        "adherence": 41
+      },
+      {
+        "name": "Lena R.",
+        "map": "Recomp 16",
+        "status": "Risico",
+        "tone": "warn",
+        "adherence": 63
+      },
+      {
+        "name": "Yusuf A.",
+        "map": "Basis 12 weken",
+        "status": "Op schema",
+        "tone": "good",
+        "adherence": 94
+      },
+      {
+        "name": "Maya T.",
+        "map": "Kracht 8",
+        "status": "Op schema",
+        "tone": "good",
+        "adherence": 88
+      }
+    ],
+    "revenue": "Deze maand",
+    "revenueValue": "8.420 USD",
+    "revenueDelta": "+18%",
+    "progressTitle": "Deze week",
+    "ringAdherence": "Therapietrouw",
+    "ringRecovery": "Herstel",
+    "ringSleep": "Slaap",
+    "comparisons": [
+      {
+        "label": "Gewicht",
+        "value": "−3,2 kg"
+      },
+      {
+        "label": "Taille",
+        "value": "−4,0 cm"
+      },
+      {
+        "label": "Back squat",
+        "value": "+12,5 kg"
+      },
+      {
+        "label": "Rusthartslag",
+        "value": "−4 bpm"
+      }
+    ],
+    "vsLastMonth": "t.o.v. vorige maand",
+    "privateBadge": "Privé"
+  },
+  "mapPanel": {
+    "sessionsThisWeek": "Sessies deze week",
+    "protein": "Eiwit",
+    "carbs": "Koolhydraten",
+    "fat": "Vet",
+    "nextCheckIn": "Volgende check-in",
+    "checkInItems": [
+      "Foto's",
+      "Gewicht",
+      "Maten",
+      "Herstel",
+      "Reflectie"
+    ],
+    "supplementName": "Creatine monohydraat",
+    "supplementDose": "5 g per dag",
+    "disclosure": "Affiliate-link · commissie vermeld",
+    "milestones": [
+      {
+        "week": "Week 4",
+        "label": "Krachtnulmeting opnieuw",
+        "done": true
+      },
+      {
+        "week": "Week 8",
+        "label": "Foto's halverwege",
+        "done": false
+      },
+      {
+        "week": "Week 12",
+        "label": "Eindmeting en evaluatie",
+        "done": false
+      }
+    ]
+  },
+  "marquee": [
+    "Geverifieerde coaches",
+    "Gestructureerde Maps",
+    "Wekelijkse check-ins",
+    "Feedback van de coach",
+    "Standaard privé",
+    "Gezichtsvervaging",
+    "Map-versiegeschiedenis",
+    "Uitbetalingen aan creators",
+    "Echte verantwoording"
+  ],
+  "statement": {
+    "lead": "De meeste fitness-apps tellen je trainingen.",
+    "emphasis": "Terrifit maakt er iemand verantwoordelijk voor."
+  },
+  "finalCta": {
+    "eyebrow": "Oprichterslichting",
+    "headline": "Hij sluit zodra hij vol is.",
+    "sub": "Zet je op de wachtlijst en vertel ons welke markt als eerste open moet. Oprichtersplaatsen worden van bovenaf toegekend.",
+    "primary": "Op de wachtlijst",
+    "secondary": "Aanmelden als creator",
+    "note": "Eén mail zodra jouw markt opengaat. Verder niets."
+  },
+  "personaCommon": {
+    "stepsTitle": "Hoe aanmelden werkt",
+    "applyCta": "Start je aanmelding",
+    "otherSites": "Terrifit voor",
+    "sites": {
+      "main": "Sporters",
+      "creator": "Creators",
+      "coach": "Coaches",
+      "nutritionist": "Diëtisten",
+      "brand": "Merken"
+    },
+    "backToMain": "Hoofdsite",
+    "whatYouKeep": "Wat jij houdt"
+  },
+  "personas": {
+    "creator": {
+      "eyebrow": "Terrifit voor creators",
+      "headline": "Maak van een publiek een bedrijf dat van jou is.",
+      "sub": "Verkoop gestructureerde Maps, draai betaalde communities en livestreams, en houd 80% van wat je verdient — met het gereedschap om je kopers echt te begeleiden.",
+      "points": [
+        {
+          "title": "Verkoop structuur, geen shout-outs",
+          "body": "Een Map is een echt product: training, voeding, check-ins, mijlpalen en een versiegeschiedenis die je klanten kunnen zien."
+        },
+        {
+          "title": "Houd 80%",
+          "body": "20% platformcommissie op Map-verkopen. Betaalkosten, belastingen en storekosten staan er apart naast, nooit erin verstopt."
+        },
+        {
+          "title": "Zie wie afhaakt",
+          "body": "Therapietrouw, ontbrekende check-ins en cliënten met risico worden zichtbaar voordat ze stilvallen en opzeggen."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Meld je aan",
+          "body": "Vertel ons over je publiek, je markt en wat je wilt verkopen."
+        },
+        {
+          "title": "Verificatie",
+          "body": "Identiteit en, als je coacht, diploma's. Beoordeeld vóór de publieke lancering."
+        },
+        {
+          "title": "Bouw je eerste Map",
+          "body": "We helpen je hem te structureren, te beprijzen en de begeleiding vast te leggen waaraan je je verbindt."
+        }
+      ]
+    },
+    "coach": {
+      "eyebrow": "Terrifit voor coaches",
+      "headline": "Stop met je coachpraktijk runnen vanuit een chat-app.",
+      "sub": "Programma's, check-ins, feedback, betalingen en cliëntopvolging op één plek — met je diploma's geverifieerd en zichtbaar op je profiel.",
+      "points": [
+        {
+          "title": "Alle cliënten, één dashboard",
+          "body": "Therapietrouw in realtime, ontbrekende check-ins en openstaande vragen, gesorteerd op wie je deze week echt nodig heeft."
+        },
+        {
+          "title": "Geverifieerde diploma's",
+          "body": "Je certificering en de instantie die hem afgaf, zichtbaar op je profiel. Verificatie gaat vooraf aan verkopen."
+        },
+        {
+          "title": "Word fatsoenlijk betaald",
+          "body": "Maps eenmalig of via abonnement, ingeplande uitbetalingen, en een gepubliceerd terugbetalings- en geschillenbeleid erachter."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Meld je aan",
+          "body": "Vertel ons hoe je coacht en hoeveel cliënten je nu begeleidt."
+        },
+        {
+          "title": "Laat je certificering verifiëren",
+          "body": "Certificering en uitgevende instantie, beoordeeld vóór de publieke lancering."
+        },
+        {
+          "title": "Neem je cliënten mee",
+          "body": "We helpen je bestaande programma's om te zetten naar Maps en je cliëntenbestand te importeren."
+        }
+      ]
+    },
+    "nutritionist": {
+      "eyebrow": "Terrifit voor diëtisten",
+      "headline": "Voedingsadvies dat de echte week overleeft.",
+      "sub": "Doelen, maaltijdadvies en wekelijkse check-ins gekoppeld aan echte metingen, met een duidelijke, gehandhaafde grens tussen advies en medische begeleiding.",
+      "points": [
+        {
+          "title": "Doelen met een reden",
+          "body": "Dagdoelen en maaltijdadvies die jij schrijft, gekoppeld aan de Map waarop je cliënt daadwerkelijk traint."
+        },
+        {
+          "title": "Gemeten, niet geraden",
+          "body": "Gewicht, maten, lichaamssamenstelling in InBody-stijl en therapietrouw, wekelijks beoordeeld."
+        },
+        {
+          "title": "Een duidelijke vakgrens",
+          "body": "Advies wordt nooit als diagnose gepresenteerd. Die grens wordt gehandhaafd in het product en in het moderatiebeleid."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Meld je aan",
+          "body": "Vertel ons over je praktijk en waar je geregistreerd staat."
+        },
+        {
+          "title": "Laat je registratie verifiëren",
+          "body": "Registratie-instantie en kwalificaties, beoordeeld voordat je mag adviseren."
+        },
+        {
+          "title": "Publiceer je eerste plan",
+          "body": "Een losse voedings-Map, of voeding gekoppeld aan de trainings-Map van een coach."
+        }
+      ]
+    },
+    "brand": {
+      "eyebrow": "Terrifit voor merken",
+      "headline": "Bereik mensen midden in hun transformatie, niet midden in het scrollen.",
+      "sub": "Plaats producten, werk met geverifieerde creators, en betaal alleen commissie op afgeronde verkopen. Afrekenen, logistiek en de klantrelatie blijven van jou.",
+      "points": [
+        {
+          "title": "Affiliate, geen marktplaats",
+          "body": "Het afrekenen blijft op jouw site. Terrifit stuurt getrackt verkeer en neemt 10–15% op afgeronde verkopen."
+        },
+        {
+          "title": "Geverifieerde creators",
+          "body": "Werk met coaches en diëtisten van wie de diploma's echt zijn gecontroleerd, niet slechts beweerd."
+        },
+        {
+          "title": "Jij houdt de regie",
+          "body": "Voorraad, verzending, klantenservice, retouren en productclaims blijven volledig bij jou."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Meld je aan",
+          "body": "Vertel ons over je merk, je categorieën en de markten waarnaar je verzendt."
+        },
+        {
+          "title": "Identiteits- en compliancecontrole",
+          "body": "Bedrijfsverificatie en beoordeling van productclaims voordat een aanbod live gaat."
+        },
+        {
+          "title": "Koppel de tracking",
+          "body": "Getrackte links, codes of server-naar-server-attributie — en dan aan de slag met creators."
+        }
+      ],
+      "responsibilities": "Merken blijven verantwoordelijk voor voorraad, productconformiteit, verzending, klantenservice, retouren en terugbetalingen, productclaims en beperkingen per rechtsgebied. Terrifit treedt op als affiliate en regelt daar niets van."
+    }
+  },
+  "howItWorks": {
+    "eyebrow": "Hoe het werkt",
+    "headline": "Vier stappen. Elke week. Onbeperkt.",
+    "body": "De lus is het product. Al het andere op Terrifit bestaat om deze vier stappen betrouwbaar te laten plaatsvinden, en om te bewijzen dát ze plaatsvonden.",
+    "steps": [
+      {
+        "title": "Vind een coach die je kunt controleren",
+        "body": "Diploma's worden geverifieerd voordat iemand mag verkopen, en beoordelingen komen van mensen die de Map hebben afgemaakt, niet van mensen die hem kochten."
+      },
+      {
+        "title": "Koop de Map",
+        "body": "Eén betaling of een abonnement. De productpagina vermeldt vóór betaling precies welke begeleiding erbij zit en hoe lang."
+      },
+      {
+        "title": "Train hem, en leg hem vast",
+        "body": "Sessies, gewichten en voedingsdoelen worden vastgelegd terwijl je ze afwerkt — zo wordt therapietrouw gemeten in plaats van beweerd."
+      },
+      {
+        "title": "Check in, en word bijgestuurd",
+        "body": "Foto's, maten en een geschreven reflectie, elke week. Je coach reageert, en de Map verandert daarop."
+      }
+    ]
+  },
+  "loop": {
+    "eyebrow": "De lus",
+    "headline": "Waarom het zich opstapelt.",
+    "body": "Elke fase betaalt de volgende. Ontdekking levert een aankoop op, de aankoop schept verantwoording, verantwoording levert bewijs, en bewijs leidt tot de volgende ontdekking. Een feed alleen doet niets daarvan.",
+    "nodes": [
+      "Ontdekken",
+      "Volgen",
+      "Map kopen",
+      "Trainen",
+      "Inchecken",
+      "Begeleiding krijgen",
+      "Bewijs delen",
+      "Reeks opbouwen"
+    ]
+  },
+  "audiences": {
+    "eyebrow": "Voor wie",
+    "headline": "Vijf kanten van één markt.",
+    "body": "Sporters, coaches, diëtisten, creators en merken krijgen elk hun eigen plek op Terrifit, met een aanmelding die past bij wat ze werkelijk moeten doen.",
+    "visit": "Bekijk de site",
+    "athleteBody": "Train op een Map van iemand van wie de diploma's zijn gecontroleerd, en houd een privéverslag bij van wat er werkelijk veranderde."
+  },
+  "roadmap": {
+    "eyebrow": "Roadmap",
+    "headline": "Wat er komt, en wanneer.",
+    "body": "Markt voor markt, in deze volgorde. De wachtlijst bepaalt welke markt als eerste gaat.",
+    "phases": [
+      {
+        "label": "Fase 1",
+        "title": "De kernlus",
+        "items": [
+          "Profielen en geverifieerde diploma's",
+          "Sociale feed en volgen",
+          "Maps: maken en kopen",
+          "Privé wekelijkse check-ins",
+          "Cliëntdashboards voor creators",
+          "Berichten tussen coach en cliënt",
+          "Betalingen en uitbetalingen aan creators"
+        ]
+      },
+      {
+        "label": "Fase 2",
+        "title": "Community en schaal",
+        "items": [
+          "Thema-communities",
+          "Creator-abonnementen",
+          "Coach Pro-gereedschap",
+          "Affiliate-marktplaats",
+          "Consulten boeken",
+          "Livestreams en fooien"
+        ]
+      },
+      {
+        "label": "Fase 3",
+        "title": "Data en bereik",
+        "items": [
+          "Apple Health en Health Connect",
+          "Geavanceerde gezondheidsanalyse",
+          "Aanbevelingsalgoritmes",
+          "Merkcampagnes en plaatsing",
+          "Challenges en ranglijsten",
+          "Uitbreiding internationale uitbetalingen"
+        ]
+      }
+    ]
+  }
+}

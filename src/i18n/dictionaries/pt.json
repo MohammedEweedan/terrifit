@@ -1,0 +1,856 @@
+{
+  "meta": {
+    "title": "Terrifit — app social de bem-estar, a pulseira V1 e suplementos testados",
+    "description": "A Terrifit é a app social para tudo o que fazes pelo teu corpo, a pulseira V1 que mede o teu sono, a tua recuperação e o teu treino, e uma loja de suplementos e equipamento realmente testados.",
+    "ogAlt": "Terrifit — a app social de bem-estar, a pulseira V1 e a loja"
+  },
+  "nav": {
+    "theMap": "O Mapa",
+    "checkIns": "Registos",
+    "creators": "Para criadores",
+    "safeguards": "Salvaguardas",
+    "join": "Entrar na lista de espera",
+    "joinShort": "Entrar",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu",
+    "theme": "Tema",
+    "themeSystem": "Sistema",
+    "themeLight": "Claro",
+    "themeDark": "Escuro",
+    "language": "Idioma",
+    "skipToContent": "Ir para o conteúdo"
+  },
+  "hero": {
+    "eyebrow": "Bem-estar, tecnologia e nutrição",
+    "headline": "Don’t do great, do terrific.",
+    "sub": "Uma app social para tudo o que fazes pelo teu corpo, a pulseira V1 que mostra como estás mesmo, e uma loja com suplementos e equipamento que nós próprios usaríamos.",
+    "primaryCta": "Entrar na lista de espera",
+    "secondaryCta": "Candidatar-me como criador",
+    "reassurance": "Um único email quando o teu mercado abrir. Mais nada.",
+    "liveLabel": "Na lista de espera",
+    "countriesLabel": "Mercados registados",
+    "creatorLabel": "Vagas de criador fundador restantes"
+  },
+  "trustBar": {
+    "items": [
+      {
+        "value": "Ao vivo",
+        "label": "Um feed de gente que treina como tu queres treinar"
+      },
+      {
+        "value": "24/7",
+        "label": "Ritmo cardíaco, sono e recuperação com a pulseira V1"
+      },
+      {
+        "value": "Testado",
+        "label": "Cada suplemento da loja, lote a lote"
+      },
+      {
+        "value": "80%",
+        "label": "De cada venda vai para o criador que a mereceu"
+      }
+    ]
+  },
+  "mapAnatomy": {
+    "eyebrow": "O Mapa",
+    "headline": "Não é um PDF. É um plano vivo.",
+    "body": "Um Mapa é um plano de transformação estruturado com histórico de versões, registos obrigatórios e um treinador real por trás. Adapta-se ao teu progresso, e cada alteração fica registada.",
+    "tabs": {
+      "training": {
+        "label": "Treino",
+        "headline": "Um plano, não uma folha de cálculo",
+        "body": "Sessões, exercícios, vídeo de demonstração e cargas prescritas, registados à medida que os cumpres — assim a adesão é medida em vez de declarada."
+      },
+      "nutrition": {
+        "label": "Nutrição",
+        "headline": "Objetivos com razão por trás",
+        "body": "Objetivos diários, orientação de refeições e o raciocínio que os sustenta. Escritos pelo treinador que vendeu o Mapa, não gerados por uma calculadora."
+      },
+      "checkins": {
+        "label": "Registos",
+        "headline": "O ciclo de responsabilidade",
+        "body": "Envio semanal com fotos, medidas, recuperação e adesão. O teu treinador responde, e o Mapa é ajustado."
+      },
+      "supplements": {
+        "label": "Suplementos",
+        "headline": "Sempre divulgado",
+        "body": "Recomendações com links de compra rastreados. Cada relação de afiliação e cada comissão do criador é indicada na própria página."
+      },
+      "milestones": {
+        "label": "Marcos",
+        "headline": "Progresso com forma",
+        "body": "Objetivos semanais e marcos que tornam um bloco de doze semanas legível já a partir da primeira."
+      }
+    },
+    "sample": {
+      "mapTitle": "Base de hipertrofia — 12 semanas",
+      "coach": "Treinador · força e condição verificado",
+      "week": "Semana 5 de 12",
+      "adherence": "Adesão",
+      "nextSession": "Próxima sessão",
+      "sessionName": "Inferior — cadeia posterior",
+      "version": "v3 · atualizado há 2 dias",
+      "supportLine": "Inclui revisão semanal dos registos durante 12 semanas"
+    }
+  },
+  "prototypes": {
+    "eyebrow": "Interface",
+    "headline": "Um instrumento de precisão que se lê num relance.",
+    "body": "Números grandes, uma hierarquia clara e quase nenhum movimento. Feito para um ginásio às escuras e igualmente nítido à luz do dia.",
+    "tabs": {
+      "feed": {
+        "label": "Início",
+        "caption": "O teu resumo do dia fica acima do conteúdo, não enterrado num separador."
+      },
+      "map": {
+        "label": "Mapa",
+        "caption": "Tudo o que o Mapa contém, e exatamente que apoio inclui."
+      },
+      "checkin": {
+        "label": "Registo",
+        "caption": "Enviado em menos de dois minutos. Escolhes quem o vê."
+      },
+      "dashboard": {
+        "label": "Treinador",
+        "caption": "Cada cliente, ordenado por quem precisa de ti esta semana."
+      },
+      "progress": {
+        "label": "Progresso",
+        "caption": "Privado por omissão. Explicado, nunca diagnosticado."
+      }
+    }
+  },
+  "checkIns": {
+    "eyebrow": "Registo semanal",
+    "headline": "Fotos de progresso, nos teus termos.",
+    "body": "Fotografias, peso, medidas, recuperação, adesão e uma reflexão escrita. Decides quem vê cada registo — e essa decisão é tomada registo a registo, não uma única vez escondida nas definições.",
+    "visibilityTitle": "Quem pode ver este registo",
+    "visibility": {
+      "private": {
+        "label": "Privado",
+        "note": "Só tu"
+      },
+      "coach": {
+        "label": "Só o treinador",
+        "note": "Tu e o treinador deste Mapa"
+      },
+      "friends": {
+        "label": "Amigos selecionados",
+        "note": "Pessoas que indicas uma a uma"
+      },
+      "community": {
+        "label": "Comunidade",
+        "note": "Uma comunidade a que pertences"
+      },
+      "public": {
+        "label": "Público",
+        "note": "Qualquer pessoa na Terrifit"
+      }
+    },
+    "faceBlurLabel": "Desfocar o meu rosto",
+    "faceBlurOn": "Ativado",
+    "faceBlurOff": "Desativado",
+    "faceBlurNote": "A deteção facial funciona com o teu consentimento explícito e pode ser totalmente desligada.",
+    "warningTitle": "Não vamos fingir o contrário",
+    "warningBody": "As capturas de ecrã não podem ser totalmente impedidas em nenhuma plataforma. Desfocar, manter privado e denunciar reduzem o risco, mas não o eliminam. Partilha apenas o que aceitas que saia da aplicação.",
+    "dragHint": "Arrasta para pré-visualizar a intensidade do desfoque"
+  },
+  "creators": {
+    "eyebrow": "Para treinadores, nutricionistas e criadores",
+    "headline": "Faz da tua paixão um rendimento.",
+    "body": "Seguidores não são um negócio. A Terrifit dá-te credenciais verificadas, produtos estruturados para vender e as ferramentas para acompanhar de facto quem os comprou.",
+    "economicsTitle": "O que ficas a ganhar",
+    "economics": [
+      {
+        "item": "Vendas de Mapas",
+        "you": "80%",
+        "platform": "20% plataforma"
+      },
+      {
+        "item": "Subscrições pagas",
+        "you": "75%",
+        "platform": "25% plataforma"
+      },
+      {
+        "item": "Diretos e gorjetas",
+        "you": "75%",
+        "platform": "25% plataforma"
+      },
+      {
+        "item": "Comunidades pagas",
+        "you": "Aplica-se comissão",
+        "platform": "Taxa publicada antes do lançamento"
+      },
+      {
+        "item": "Produtos de afiliação",
+        "you": "A tua parte dos 10–15%",
+        "platform": "Comissão paga pela marca"
+      }
+    ],
+    "economicsFootnote": "As percentagens incidem sobre a receita bruta, antes de encargos de pagamento, impostos e comissões das lojas de aplicações, discriminados em separado em cada extrato de pagamento.",
+    "toolsTitle": "O painel por trás",
+    "tools": [
+      "Cada cliente de cada Mapa, com adesão em tempo real",
+      "Registos em falta visíveis antes de o cliente desaparecer",
+      "Clientes em risco e inativos ordenados por urgência",
+      "Perguntas dos clientes numa só fila, não em cinco caixas de entrada",
+      "Ajustes de Mapa necessários e marcos que se aproximam",
+      "Receita, reembolsos e eficácia agregada dos Mapas"
+    ],
+    "obligationTitle": "A obrigação, dita com clareza",
+    "obligationBody": "Se um Mapa inclui apoio contínuo, espera-se que acompanhes esses clientes. A página do produto tem de indicar o nível e a duração desse apoio antes de alguém pagar. Nós fazemos cumprir isto.",
+    "foundingTitle": "Benefícios de criador fundador",
+    "founding": [
+      "Comissão de plataforma reduzida nos primeiros doze meses",
+      "Verificação prioritária de credenciais antes do lançamento público",
+      "Destaque no teu mercado no lançamento",
+      "Influência direta no roteiro do painel de criador",
+      "Distintivo de fundador no teu perfil profissional, para sempre"
+    ],
+    "cta": "Candidatar-me como criador"
+  },
+  "community": {
+    "eyebrow": "Comunidades e diretos",
+    "headline": "Onde o trabalho se partilha.",
+    "body": "Comunidades temáticas, ginásios específicos, grupos locais e comunidades criadas à volta de um só Mapa ou desafio. Públicas ou privadas, gratuitas ou pagas, com moderação a sério.",
+    "items": [
+      {
+        "title": "Comunidades",
+        "body": "Publicações, discussões, recursos, eventos, classificações e adesão paga."
+      },
+      {
+        "title": "Diretos",
+        "body": "Só para subscritores, com bilhete ou públicos. Chat, sondagens, gorjetas e repetições."
+      },
+      {
+        "title": "Anonimato",
+        "body": "Com o teu nome real ou um pseudónimo. A escolha é tua, conta a conta."
+      },
+      {
+        "title": "Consultas",
+        "body": "Sessões marcáveis com treinadores e nutricionistas verificados."
+      }
+    ],
+    "phaseNote": "As comunidades saem com o lançamento. Os diretos seguem-se logo a seguir."
+  },
+  "progress": {
+    "eyebrow": "Progresso e saúde",
+    "headline": "Os teus dados. Privados por omissão.",
+    "body": "Adesão, força, resistência, sono, recuperação, atividade, medidas e composição corporal num único painel privado, com comparações semanais, quinzenais e mensais.",
+    "metricsTitle": "O que é registado",
+    "metrics": [
+      "Adesão ao Mapa e sequências",
+      "Peso e medidas corporais",
+      "Desempenho de força e resistência",
+      "Sono, recuperação e frequência cardíaca em repouso",
+      "Passos, atividade e calorias",
+      "Composição corporal ao estilo InBody"
+    ],
+    "integrationsTitle": "Liga-se a",
+    "integrations": [
+      "Apple Health",
+      "Health Connect",
+      "Wearables compatíveis",
+      "Registo manual"
+    ],
+    "disclaimerTitle": "Índices que se explicam",
+    "disclaimerBody": "Os índices de saúde e as estimativas de idade corporal mostram sempre os seus dados de entrada e os seus limites. São sinais de forma física, não diagnósticos médicos, e a Terrifit nunca os apresentará como tal."
+  },
+  "safeguards": {
+    "eyebrow": "Salvaguardas",
+    "headline": "A parte que quase todas as apps de fitness ignoram.",
+    "body": "Integrado desde a primeira versão, não acrescentado depois do primeiro incidente.",
+    "items": [
+      {
+        "title": "Qualificações verificadas",
+        "body": "Treinadores e nutricionistas são verificados antes de poderem vender. As credenciais aparecem com a entidade que as emitiu."
+      },
+      {
+        "title": "Orientação, não aconselhamento médico",
+        "body": "Uma fronteira clara e aplicada entre treino desportivo e aconselhamento médico, nos textos e na política de moderação."
+      },
+      {
+        "title": "Encriptação dos dados de saúde",
+        "body": "Os dados de saúde são encriptados e o acesso interno é restrito e auditado. As ações administrativas ficam registadas."
+      },
+      {
+        "title": "Proteção das fotos de progresso",
+        "body": "Desfoque do rosto, visibilidade escolhida em cada registo, e atuação real contra assédio e uso sexualizado."
+      },
+      {
+        "title": "Afiliações divulgadas",
+        "body": "Cada link de afiliação, patrocínio e comissão de criador é divulgado no local onde aparece."
+      },
+      {
+        "title": "Exportação e eliminação",
+        "body": "Leva os teus dados ou elimina a conta por completo. Os registos de compra e as versões de Mapa são conservados conforme exigido."
+      },
+      {
+        "title": "Reembolsos e litígios",
+        "body": "Política de reembolso publicada, um processo de litígio a sério, e pagamentos adiados enquanto houver um litígio aberto."
+      },
+      {
+        "title": "Proteção por idade",
+        "body": "Restrições de idade e salvaguardas parentais por mercado, sem quaisquer promessas de transformação sem fundamento."
+      }
+    ]
+  },
+  "waitlist": {
+    "eyebrow": "Lista de espera",
+    "headline": "Garante o teu lugar.",
+    "body": "Diz-nos quem és e o que queres mesmo. É isso que decide o que construímos primeiro e que mercado abre primeiro.",
+    "roleLabel": "Entro como",
+    "roles": {
+      "athlete": {
+        "label": "Atleta",
+        "note": "Quero treinar com um Mapa"
+      },
+      "coach": {
+        "label": "Treinador",
+        "note": "Treino clientes"
+      },
+      "nutritionist": {
+        "label": "Nutricionista",
+        "note": "Faço aconselhamento nutricional"
+      },
+      "creator": {
+        "label": "Criador",
+        "note": "Construo audiência em fitness"
+      },
+      "brand": {
+        "label": "Marca",
+        "note": "Suplementos, vestuário ou equipamento"
+      }
+    },
+    "fields": {
+      "name": "Nome",
+      "namePlaceholder": "Como queres que te tratemos",
+      "email": "Email",
+      "emailPlaceholder": "tu@exemplo.com",
+      "country": "Mercado",
+      "countryPlaceholder": "Seleciona o teu mercado",
+      "handle": "Conta principal",
+      "handlePlaceholder": "@aminhaconta",
+      "audience": "Dimensão da audiência",
+      "audiencePlaceholder": "Seleciona um intervalo",
+      "credentials": "Qualificações",
+      "credentialsPlaceholder": "Certificações, entidade emissora, anos de prática",
+      "brandName": "Nome da marca",
+      "brandNamePlaceholder": "Nome registado",
+      "brandWebsite": "Site",
+      "brandWebsitePlaceholder": "https://",
+      "brandCategory": "Categoria",
+      "brandCategoryPlaceholder": "Seleciona uma categoria",
+      "features": "O que mais te importa",
+      "featuresNote": "Escolhe tudo o que se aplica — é este o sinal de procura sobre o qual construímos."
+    },
+    "audienceRanges": [
+      "Menos de 1000",
+      "1000 – 10 000",
+      "10 000 – 100 000",
+      "100 000 – 1 M",
+      "Mais de 1 M"
+    ],
+    "brandCategories": [
+      "Suplementos",
+      "Vestuário",
+      "Equipamento",
+      "Acessórios",
+      "Produtos digitais"
+    ],
+    "features": {
+      "maps": "Comprar ou vender Mapas",
+      "checkins": "Registos semanais e resposta do treinador",
+      "coaching": "Mensagens diretas com o treinador",
+      "communities": "Comunidades",
+      "livestreams": "Diretos e gorjetas",
+      "marketplace": "Loja de produtos de afiliação",
+      "health": "Dados de saúde e wearables",
+      "anonymity": "Participação anónima"
+    },
+    "consent": "Aceito receber emails sobre o lançamento da Terrifit. Posso cancelar a qualquer momento.",
+    "submit": "Entrar na lista de espera",
+    "submitCreator": "Candidatar-me a uma vaga fundadora",
+    "submitting": "A enviar…",
+    "success": {
+      "title": "Estás dentro.",
+      "positionLabel": "A tua posição",
+      "referralTitle": "Sobe na lista",
+      "referralBody": "Cada pessoa que entra pelo teu link faz-te subir dez lugares. As vagas de criador fundador são atribuídas a partir do topo.",
+      "copy": "Copiar link",
+      "copied": "Copiado",
+      "share": "Partilhar",
+      "roleNoteCreator": "A verificação de credenciais abre antes do lançamento público. Enviamos email assim que a tua vaga de análise estiver pronta.",
+      "roleNoteBrand": "São exigidas verificações de identidade e conformidade antes de qualquer produto ficar disponível. Entramos em contacto com os requisitos."
+    },
+    "errors": {
+      "required": "Este campo é obrigatório",
+      "email": "Introduz um email válido",
+      "consent": "Aceita para continuar",
+      "duplicate": "Esse email já está na lista.",
+      "generic": "Algo correu mal. Tenta novamente.",
+      "network": "Não foi possível contactar o servidor. Verifica a ligação e tenta novamente."
+    },
+    "referredBanner": "Foste convidado. O teu amigo sobe dez lugares quando entrares."
+  },
+  "faq": {
+    "eyebrow": "Perguntas",
+    "headline": "Antes de perguntares.",
+    "items": [
+      {
+        "q": "O que é exatamente um Mapa?",
+        "a": "Um plano de transformação estruturado: plano de treino, instrução dos exercícios em vídeo, objetivos de nutrição, orientação de suplementação, objetivos semanais, marcos e registos obrigatórios. Tem histórico de versões, e o treinador que o vendeu pode ajustá-lo à medida que progrides. Os Mapas podem ser prontos ou feitos para uma só pessoa, comprados uma vez ou por subscrição."
+      },
+      {
+        "q": "A Terrifit é só mais um feed de fitness?",
+        "a": "O feed é a porta de entrada, não o produto. O produto é o ciclo por trás: comprar um Mapa, treiná-lo, fazer o registo semanal, ser acompanhado, e ficar com um registo do que mudou de facto."
+      },
+      {
+        "q": "Quem pode vender na Terrifit?",
+        "a": "Treinadores e nutricionistas têm de passar a verificação de credenciais antes de publicar seja o que for. As marcas passam por verificações de identidade e conformidade. O estado de verificação e a entidade emissora aparecem no perfil."
+      },
+      {
+        "q": "Quanto me custa como criador?",
+        "a": "A Terrifit fica com 20% das vendas de Mapas, e 25% das subscrições pagas, receitas de diretos e gorjetas. Encargos de pagamento, impostos e comissões das lojas de aplicações são discriminados em separado no extrato, em vez de escondidos dentro da comissão."
+      },
+      {
+        "q": "Quão privadas são as minhas fotos de progresso?",
+        "a": "Privadas por omissão. A visibilidade é escolhida em cada registo: privado, só o treinador, amigos indicados, uma comunidade, ou público. O desfoque do rosto está disponível, a deteção facial exige o teu consentimento explícito, e nenhuma plataforma consegue impedir totalmente capturas de ecrã. Dizemo-lo dentro do produto, não só aqui."
+      },
+      {
+        "q": "A Terrifit vende suplementos?",
+        "a": "Não. A Terrifit atua como afiliada. As marcas tratam do stock, do envio, do apoio, das devoluções e das alegações do produto, e o pagamento é feito no site delas. Cada link de afiliação e cada comissão de criador é divulgada onde aparece."
+      },
+      {
+        "q": "Quando é o lançamento?",
+        "a": "Primeiro o ciclo principal — perfis, feed, Mapas, registos, painéis de criador, mensagens e pagamentos — mercado a mercado. A lista de espera decide a ordem. Os diretos seguem-se logo a seguir, e as integrações de saúde depois disso."
+      }
+    ]
+  },
+  "footer": {
+    "tagline": "Don’t do great, do terrific.",
+    "productTitle": "Produto",
+    "product": [
+      "O Mapa",
+      "Registos semanais",
+      "Para criadores",
+      "Comunidades",
+      "Progresso"
+    ],
+    "companyTitle": "Empresa",
+    "company": [
+      "Sobre nós",
+      "Carreiras",
+      "Imprensa",
+      "Contacto"
+    ],
+    "legalTitle": "Legal",
+    "legal": [
+      "Privacidade",
+      "Termos",
+      "Reembolsos e litígios",
+      "Divulgação de afiliação",
+      "Cookies"
+    ],
+    "disclaimer": "A Terrifit fornece orientação desportiva e ferramentas de treino. A Terrifit não fornece aconselhamento médico, diagnóstico ou tratamento. Os índices de saúde e as estimativas de idade corporal são estimativas, não medições clínicas. Fala com um profissional de saúde qualificado antes de iniciares qualquer programa.",
+    "rights": "Todos os direitos reservados.",
+    "languageLabel": "Idioma"
+  },
+  "mock": {
+    "date": "Qua, 12 mar",
+    "greeting": "Bom dia, Sara",
+    "streakUnit": "dias seguidos",
+    "mapProgress": "Progresso do Mapa",
+    "nextWorkout": "Próxima sessão",
+    "nextWorkoutValue": "Inferior · 17:30",
+    "checkInDue": "Registo",
+    "checkInDueValue": "Entrega domingo",
+    "recovery": "Recuperação",
+    "feedAuthor": "Nadia K.",
+    "feedRole": "Treinadora verificada",
+    "feedTime": "há 2 h",
+    "feedCaption": "Semana 8. O mesmo número na balança, outro corpo. A análise completa está dentro do Mapa.",
+    "feedTag": "Transformação",
+    "likes": "1284",
+    "comments": "96",
+    "photoHidden": "Foto de progresso — a visibilidade é controlada pelo atleta",
+    "mapPrice": "149 USD",
+    "mapRating": "4,8",
+    "mapReviews": "212 avaliações",
+    "mapSections": [
+      "Plano de treino",
+      "Objetivos de nutrição",
+      "Orientação de suplementação",
+      "Registos semanais"
+    ],
+    "mapSupport": "Revisão semanal dos registos · 12 semanas",
+    "mapCta": "Continuar o Mapa",
+    "checkInTitle": "Registo da semana 5",
+    "photoFront": "Frente",
+    "photoSide": "Perfil",
+    "photoBack": "Costas",
+    "weight": "Peso",
+    "weightValue": "78,4 kg",
+    "waist": "Cintura",
+    "waistValue": "82 cm",
+    "sleep": "Sono",
+    "sleepValue": "7 h 10 min",
+    "visibility": "Visível para",
+    "visibilityValue": "Só o treinador",
+    "submitCheckIn": "Enviar registo",
+    "dashboardTitle": "Precisa de atenção",
+    "dashboardSub": "12 de 84 clientes",
+    "clients": [
+      {
+        "name": "Omar H.",
+        "map": "Base 12 semanas",
+        "status": "Registo em falta",
+        "tone": "bad",
+        "adherence": 41
+      },
+      {
+        "name": "Lena R.",
+        "map": "Recomposição 16",
+        "status": "Em risco",
+        "tone": "warn",
+        "adherence": 63
+      },
+      {
+        "name": "Yusuf A.",
+        "map": "Base 12 semanas",
+        "status": "Em dia",
+        "tone": "good",
+        "adherence": 94
+      },
+      {
+        "name": "Maya T.",
+        "map": "Força 8",
+        "status": "Em dia",
+        "tone": "good",
+        "adherence": 88
+      }
+    ],
+    "revenue": "Este mês",
+    "revenueValue": "8420 USD",
+    "revenueDelta": "+18%",
+    "progressTitle": "Esta semana",
+    "ringAdherence": "Adesão",
+    "ringRecovery": "Recuperação",
+    "ringSleep": "Sono",
+    "comparisons": [
+      {
+        "label": "Peso",
+        "value": "−3,2 kg"
+      },
+      {
+        "label": "Cintura",
+        "value": "−4,0 cm"
+      },
+      {
+        "label": "Agachamento",
+        "value": "+12,5 kg"
+      },
+      {
+        "label": "FC em repouso",
+        "value": "−4 bpm"
+      }
+    ],
+    "vsLastMonth": "face ao mês passado",
+    "privateBadge": "Privado"
+  },
+  "mapPanel": {
+    "sessionsThisWeek": "Sessões desta semana",
+    "protein": "Proteína",
+    "carbs": "Hidratos",
+    "fat": "Gordura",
+    "nextCheckIn": "Próximo registo",
+    "checkInItems": [
+      "Fotos",
+      "Peso",
+      "Medidas",
+      "Recuperação",
+      "Reflexão"
+    ],
+    "supplementName": "Creatina monohidratada",
+    "supplementDose": "5 g por dia",
+    "disclosure": "Link de afiliação · comissão divulgada",
+    "milestones": [
+      {
+        "week": "Semana 4",
+        "label": "Reteste de força de referência",
+        "done": true
+      },
+      {
+        "week": "Semana 8",
+        "label": "Fotos de meio do programa",
+        "done": false
+      },
+      {
+        "week": "Semana 12",
+        "label": "Reteste final e revisão",
+        "done": false
+      }
+    ]
+  },
+  "marquee": [
+    "Treinadores verificados",
+    "Mapas estruturados",
+    "Registos semanais",
+    "Resposta do treinador",
+    "Privado por omissão",
+    "Desfoque do rosto",
+    "Histórico de versões",
+    "Pagamentos a criadores",
+    "Responsabilidade a sério"
+  ],
+  "statement": {
+    "lead": "Quase todas as apps de fitness contam os teus treinos.",
+    "emphasis": "A Terrifit põe alguém a responder por eles."
+  },
+  "finalCta": {
+    "eyebrow": "Turma fundadora",
+    "headline": "Fecha quando estiver cheia.",
+    "sub": "Entra na lista de espera e diz-nos que mercado abrir primeiro. As vagas de criador fundador são atribuídas a partir do topo da lista.",
+    "primary": "Entrar na lista de espera",
+    "secondary": "Candidatar-me como criador",
+    "note": "Um único email quando o teu mercado abrir. Mais nada."
+  },
+  "personaCommon": {
+    "stepsTitle": "Como funciona a adesão",
+    "applyCta": "Iniciar a candidatura",
+    "otherSites": "Terrifit para",
+    "sites": {
+      "main": "Atletas",
+      "creator": "Criadores",
+      "coach": "Treinadores",
+      "nutritionist": "Nutricionistas",
+      "brand": "Marcas"
+    },
+    "backToMain": "Site principal",
+    "whatYouKeep": "O que ficas a ganhar"
+  },
+  "personas": {
+    "creator": {
+      "eyebrow": "Terrifit para criadores",
+      "headline": "Transforma uma audiência num negócio que é teu.",
+      "sub": "Vende Mapas estruturados, dinamiza comunidades pagas e diretos, e fica com 80% do que ganhas — com as ferramentas para apoiar mesmo quem te comprou.",
+      "points": [
+        {
+          "title": "Vende estrutura, não menções",
+          "body": "Um Mapa é um produto a sério: treino, nutrição, registos, marcos e um histórico de versões que os teus clientes podem ver."
+        },
+        {
+          "title": "Fica com 80%",
+          "body": "20% de comissão nas vendas de Mapas. Encargos de pagamento, impostos e comissões das lojas são discriminados à parte, nunca escondidos lá dentro."
+        },
+        {
+          "title": "Vê quem está a ceder",
+          "body": "Adesão, registos em falta e clientes em risco, visíveis antes de desaparecerem e cancelarem."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Candidata-te",
+          "body": "Fala-nos da tua audiência, do teu mercado e do que queres vender."
+        },
+        {
+          "title": "Verificação",
+          "body": "Identidade e, se treinares, credenciais. Analisadas antes do lançamento público."
+        },
+        {
+          "title": "Cria o teu primeiro Mapa",
+          "body": "Ajudamos-te a estruturá-lo, a defini-lo em preço e a fixar o apoio a que te comprometes."
+        }
+      ]
+    },
+    "coach": {
+      "eyebrow": "Terrifit para treinadores",
+      "headline": "Deixa de gerir o teu negócio a partir de uma app de mensagens.",
+      "sub": "Programas, registos, feedback, pagamentos e acompanhamento de clientes num só sítio — com as tuas credenciais verificadas e visíveis no perfil.",
+      "points": [
+        {
+          "title": "Todos os clientes, um painel",
+          "body": "Adesão em tempo real, registos em falta e perguntas em aberto, ordenados por quem precisa mesmo de ti esta semana."
+        },
+        {
+          "title": "Credenciais verificadas",
+          "body": "A tua certificação e a entidade que a emitiu, visíveis no teu perfil. A verificação vem antes de poderes vender."
+        },
+        {
+          "title": "Recebe como deve ser",
+          "body": "Mapas de pagamento único ou por subscrição, pagamentos agendados, e uma política de reembolsos e litígios publicada."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Candidata-te",
+          "body": "Diz-nos como treinas e quantos clientes acompanhas neste momento."
+        },
+        {
+          "title": "Verifica a tua certificação",
+          "body": "Certificação e entidade emissora, analisadas antes do lançamento público."
+        },
+        {
+          "title": "Traz os teus clientes",
+          "body": "Ajudamos-te a converter os programas atuais em Mapas e a importar a tua carteira."
+        }
+      ]
+    },
+    "nutritionist": {
+      "eyebrow": "Terrifit para nutricionistas",
+      "headline": "Aconselhamento nutricional que sobrevive à semana real.",
+      "sub": "Objetivos, orientação de refeições e registos semanais ligados a medições reais, com uma fronteira clara e aplicada entre orientação e aconselhamento médico.",
+      "points": [
+        {
+          "title": "Objetivos com razão",
+          "body": "Objetivos diários e orientação de refeições que escreves tu, ligados ao Mapa que o teu cliente está mesmo a treinar."
+        },
+        {
+          "title": "Medido, não presumido",
+          "body": "Peso, medidas, composição corporal ao estilo InBody e adesão, revistos em ciclo semanal."
+        },
+        {
+          "title": "Uma fronteira profissional clara",
+          "body": "A orientação nunca é apresentada como diagnóstico. Esse limite é aplicado no produto e na política de moderação."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Candidata-te",
+          "body": "Fala-nos da tua prática e de onde estás inscrito."
+        },
+        {
+          "title": "Verifica a tua inscrição",
+          "body": "Ordem profissional e qualificações, analisadas antes de poderes aconselhar."
+        },
+        {
+          "title": "Publica o teu primeiro plano",
+          "body": "Um Mapa de nutrição autónomo, ou nutrição ligada ao Mapa de treino de um treinador."
+        }
+      ]
+    },
+    "brand": {
+      "eyebrow": "Terrifit para marcas",
+      "headline": "Chega às pessoas a meio da transformação, não a meio do scroll.",
+      "sub": "Publica produtos, trabalha com criadores verificados e paga comissão só sobre vendas concluídas. O pagamento, a logística e a relação com o cliente continuam a ser teus.",
+      "points": [
+        {
+          "title": "Afiliação, não marketplace",
+          "body": "O pagamento fica no teu site. A Terrifit envia tráfego rastreado e leva 10–15% sobre vendas concluídas."
+        },
+        {
+          "title": "Criadores verificados",
+          "body": "Trabalha com treinadores e nutricionistas cujas credenciais foram mesmo verificadas, não apenas declaradas."
+        },
+        {
+          "title": "Manténs o controlo",
+          "body": "Stock, envio, apoio ao cliente, devoluções e alegações do produto continuam inteiramente teus."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Candidata-te",
+          "body": "Fala-nos da tua marca, das tuas categorias e dos mercados para onde envias."
+        },
+        {
+          "title": "Identidade e conformidade",
+          "body": "Verificação da empresa e análise das alegações do produto antes de algo ficar disponível."
+        },
+        {
+          "title": "Liga o rastreio",
+          "body": "Links rastreados, códigos ou atribuição servidor a servidor — e depois é arrancar com criadores."
+        }
+      ],
+      "responsibilities": "As marcas continuam responsáveis pelo stock, pela conformidade do produto, pelo envio, pelo apoio ao cliente, pelas devoluções e reembolsos, pelas alegações do produto e pelas restrições por jurisdição. A Terrifit atua como afiliada e não gere nenhum desses aspetos."
+    }
+  },
+  "howItWorks": {
+    "eyebrow": "Como funciona",
+    "headline": "Quatro passos. Todas as semanas. Sem fim.",
+    "body": "O ciclo é o produto. Tudo o resto na Terrifit existe para que estes quatro passos aconteçam de forma fiável, e para provar que aconteceram.",
+    "steps": [
+      {
+        "title": "Encontra um treinador que consigas verificar",
+        "body": "As credenciais são verificadas antes de alguém poder vender, e as avaliações vêm de quem terminou o Mapa, não de quem o comprou."
+      },
+      {
+        "title": "Compra o Mapa",
+        "body": "Pagamento único ou subscrição. A página do produto indica exatamente que apoio inclui e por quanto tempo, antes de pagares."
+      },
+      {
+        "title": "Treina-o e regista-o",
+        "body": "Sessões, cargas e objetivos de nutrição registados à medida que os cumpres — assim a adesão é medida em vez de declarada."
+      },
+      {
+        "title": "Faz o registo e recebe ajustes",
+        "body": "Fotos, medidas e uma reflexão escrita todas as semanas. O teu treinador responde, e o Mapa muda em função disso."
+      }
+    ]
+  },
+  "loop": {
+    "eyebrow": "O ciclo",
+    "headline": "Porque é que se acumula.",
+    "body": "Cada etapa paga a seguinte. A descoberta gera uma compra, a compra cria responsabilidade, a responsabilidade produz prova, e a prova gera a descoberta seguinte. Um feed sozinho não faz nada disso.",
+    "nodes": [
+      "Descobrir",
+      "Seguir",
+      "Comprar um Mapa",
+      "Treinar",
+      "Fazer o registo",
+      "Ser acompanhado",
+      "Partilhar a prova",
+      "Criar uma sequência"
+    ]
+  },
+  "audiences": {
+    "eyebrow": "Para quem é",
+    "headline": "Cinco lados de um mesmo mercado.",
+    "body": "Atletas, treinadores, nutricionistas, criadores e marcas têm cada um o seu espaço na Terrifit, com uma adesão pensada para o que precisam mesmo de fazer.",
+    "visit": "Ver o site",
+    "athleteBody": "Treina com um Mapa feito por alguém cujas credenciais foram verificadas, e guarda um registo privado do que mudou de facto."
+  },
+  "roadmap": {
+    "eyebrow": "Roteiro",
+    "headline": "O que sai, e quando.",
+    "body": "Mercado a mercado, por esta ordem. A lista de espera decide qual vai primeiro.",
+    "phases": [
+      {
+        "label": "Fase 1",
+        "title": "O ciclo principal",
+        "items": [
+          "Perfis e credenciais verificadas",
+          "Feed social e seguidores",
+          "Mapas: criação e compra",
+          "Registos semanais privados",
+          "Painéis de clientes para criadores",
+          "Mensagens treinador–cliente",
+          "Pagamentos e transferências a criadores"
+        ]
+      },
+      {
+        "label": "Fase 2",
+        "title": "Comunidade e escala",
+        "items": [
+          "Comunidades temáticas",
+          "Subscrições de criador",
+          "Ferramentas Coach Pro",
+          "Loja de afiliação",
+          "Marcação de consultas",
+          "Diretos e gorjetas"
+        ]
+      },
+      {
+        "label": "Fase 3",
+        "title": "Dados e alcance",
+        "items": [
+          "Apple Health e Health Connect",
+          "Análise de saúde avançada",
+          "Algoritmos de recomendação",
+          "Campanhas e destaques de marca",
+          "Desafios e classificações",
+          "Expansão internacional de pagamentos"
+        ]
+      }
+    ]
+  }
+}

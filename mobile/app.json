@@ -1,0 +1,75 @@
+{
+  "expo": {
+    "name": "Terrifit",
+    "slug": "terrifit",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "terrifit",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "backgroundColor": "#08090a",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.terrifit.app",
+      "icon": "./assets/icon.png"
+    },
+    "android": {
+      "package": "com.terrifit.app",
+      "edgeToEdgeEnabled": true,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#08090a"
+      }
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-font",
+      "expo-system-ui",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 160,
+          "resizeMode": "contain",
+          "backgroundColor": "#08090a"
+        }
+      ],
+      [
+        "react-native-ble-plx",
+        {
+          "isBackgroundEnabled": true,
+          "modes": [
+            "central"
+          ],
+          "neverForLocation": true,
+          "bluetoothAlwaysPermission": "Terrifit uses Bluetooth to find, securely pair and sync your Terrifit V1 band."
+        }
+      ],
+      "expo-sqlite",
+      "@kingstinct/react-native-healthkit",
+      [
+        "@kingstinct/react-native-healthkit",
+        {
+          "NSHealthShareUsageDescription": "Terrifit reads your heart-rate variability, resting heart rate, sleep, steps, energy and weight to work out your daily recovery. It is never written back and never leaves your account.",
+          "background": false
+        }
+      ],
+      [
+        "@stripe/stripe-react-native",
+        {
+          "merchantIdentifier": "merchant.com.terrifit.app",
+          "enableGooglePay": true
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "icon": "./assets/icon.png"
+  }
+}
