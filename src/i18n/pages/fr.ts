@@ -22,7 +22,7 @@ export const fr: PagesTranslation = {
     meta: {
       title: "Terrifit V1 — le bracelet qui vous dit quand pousser",
       description:
-        "V1 mesure en continu la fréquence cardiaque, la VFC, le sommeil, l’oxygène sanguin et la température cutanée. Plus de 14 jours d’autonomie, étanche à 100 mètres, quatre tissages, et une synchronisation directe avec Apple Santé et Google Health Connect.",
+        "V1 mesure en continu la fréquence cardiaque, la VFC, le sommeil, l’oxygène sanguin et la température cutanée. Plus de 14 jours d’autonomie, certifiée IP68, cinq tissages, et une synchronisation directe avec Apple Santé et Google Health Connect.",
     },
     nav: ["Aperçu", "Design", "Mesures", "Batterie", "Applis", "Fiche technique"],
     buy: "Précommander",
@@ -78,7 +78,7 @@ export const fr: PagesTranslation = {
       eyebrow: "Eau et transpiration",
       title: "Nagez avec, douchez-vous avec, transpirez dedans",
       body:
-        "La V1 est certifiée IP68 et étanche à 10 ATM, soit 100 mètres. L’eau salée et le chlore n’attaquent pas le bracelet, et le capteur continue de mesurer tout le temps que vous passez dans l’eau.",
+        "La V1 est certifiée IP68 : la pluie, la sueur et la douche ne posent aucun problème. Ce n'est pas une montre de plongée — retirez-la avant de nager ou d'aller dans la mer.",
     },
     integrations: {
       eyebrow: "Compatible avec vos autres applis",
@@ -326,7 +326,7 @@ export const fr: PagesTranslation = {
     empty: "Rien ici pour l’instant.",
     partnerBadge: "Produit partenaire",
     originalBadge: "Fabriqué par Terrifit",
-    stock: { in: "En stock", low: "Bientôt épuisé", preorder: "Précommande" },
+    stock: { in: "En stock", low: "Bientôt épuisé", preorder: "Précommande", out: "Rupture de stock" },
     addToBag: "Ajouter au panier",
     added: "Ajouté",
     viewProduct: "Voir",

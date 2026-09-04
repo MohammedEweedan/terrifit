@@ -7,6 +7,7 @@ import { isLocale, localeMeta, locales } from "@/i18n/config";
 import { themeScript } from "@/lib/theme";
 import { CartProvider } from "@/lib/shop/cart";
 import { CartDrawer } from "@/components/shop/CartDrawer";
+import { listProducts } from "@/lib/shop/catalog-store";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -82,6 +83,7 @@ export default async function LocaleLayout({
   if (!isLocale(locale)) notFound();
 
   const meta = localeMeta[locale];
+  const catalog = await listProducts();
 
   return (
     <html
@@ -97,7 +99,7 @@ export default async function LocaleLayout({
       <body className="min-h-full">
         {/* The bag wraps every route, not just the shop: adding the V1 from the
             band page has to survive navigating to the shop to check out. */}
-        <CartProvider>
+        <CartProvider catalog={catalog}>
           {children}
           <CartDrawer locale={locale} />
         </CartProvider>

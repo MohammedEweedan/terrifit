@@ -96,3 +96,16 @@ export async function lookupPostcode(country: string, postal: string): Promise<A
   );
   return (await response.json()) as AddressLookup;
 }
+
+/** Streets matching what has been typed, narrowed to the postcode if valid. */
+export async function searchStreets(
+  country: string,
+  postal: string,
+  query: string,
+): Promise<AddressLookup> {
+  const response = await fetch(
+    `${API_BASE}/api/address?country=${encodeURIComponent(country)}`
+    + `&postal=${encodeURIComponent(postal)}&q=${encodeURIComponent(query)}`,
+  );
+  return (await response.json()) as AddressLookup;
+}

@@ -56,7 +56,25 @@ export type FitnessAge = {
   vo2max: number | null;
   /** Everything the estimate leaned on, for the "why this number" panel. */
   basis: string[];
+  /**
+   * The same inputs, structured, so the app can plot each one rather than
+   * printing a bullet list. `position` is 0–1 across the range this input can
+   * meaningfully take, and `effect` is the direction it pushed the estimate.
+   */
+  factors: FitnessFactor[];
   caveat: string;
+};
+
+export type FitnessFactor = {
+  label: string;
+  /** Already formatted, with its unit. */
+  value: string;
+  /** Where this reading sits in its own range, 0–1. */
+  position: number;
+  /** What it did to the number: younger, older, or nothing either way. */
+  effect: "younger" | "older" | "neutral";
+  /** A few words on why it counts. */
+  note: string;
 };
 
 /**
@@ -154,13 +172,27 @@ export function fitnessAge(
   const restingHr = mean(restingValues.slice(0, 14));
 
   if (profile.age == null || restingHr == null || restingValues.length < 5) {
-    return { years: null, chronological: profile.age, delta: null, capped: false, vo2max: null, basis: [], caveat };
+    return { years: null, chronological: profile.age, delta: null, capped: false, vo2max: null, basis: [], factors: [], caveat };
   }
 
   const basis: string[] = [
     `Resting heart rate ${Math.round(restingHr)} bpm, averaged over ${Math.min(14, restingValues.length)} days`,
     `Estimated maximum heart rate ${Math.round(maxHeartRate(profile.age))} bpm`,
   ];
+
+  const factors: FitnessFactor[] = [];
+
+  // Resting heart rate is the input that actually moves the number, so it is
+  // plotted against the population spread rather than an arbitrary scale:
+  // 40 bpm is athletic, 90 is high, and the bar reads left-to-right as better.
+  const restingPosition = Math.max(0, Math.min(1, (90 - restingHr) / 50));
+  factors.push({
+    label: "Resting heart rate",
+    value: `${Math.round(restingHr)} bpm`,
+    position: restingPosition,
+    effect: restingHr < medianRestingHr(profile.sex) ? "younger" : restingHr > medianRestingHr(profile.sex) ? "older" : "neutral",
+    note: `Averaged over ${Math.min(14, restingValues.length)} days`,
+  });
 
   let vo2 = estimateVo2Max(profile.age, restingHr);
 
@@ -180,6 +212,16 @@ export function fitnessAge(
     } else {
       basis.push(`BMI ${bmi.toFixed(1)}, inside the healthy range`);
     }
+
+    // Plotted so the middle of the bar is the middle of the healthy range,
+    // because both ends of BMI count against the estimate.
+    factors.push({
+      label: "Body mass index",
+      value: bmi.toFixed(1),
+      position: Math.max(0, Math.min(1, 1 - Math.abs(bmi - 21.75) / 10)),
+      effect: bmi > 25 || bmi < 18.5 ? "older" : "neutral",
+      note: bmi > 25 ? "Above the healthy range" : bmi < 18.5 ? "Below the healthy range" : "Inside the healthy range",
+    });
   }
 
   // Training volume. The HUNT model asks how often and how hard you exercise;
@@ -195,6 +237,15 @@ export function fitnessAge(
     } else {
       basis.push(`${Math.round(kcal)} kcal a day of activity on average`);
     }
+
+    factors.push({
+      label: "Daily activity",
+      value: `${Math.round(kcal)} kcal`,
+      // 800 kcal a day of active energy is where the benefit plateaus here.
+      position: Math.max(0, Math.min(1, kcal / 800)),
+      effect: kcal >= 600 ? "younger" : kcal < 200 ? "older" : "neutral",
+      note: "Active energy, 28-day average",
+    });
   }
 
   // Still reported, because it is a recognisable figure — but it no longer
@@ -245,8 +296,21 @@ export function fitnessAge(
   // Flat enough that more fitness would barely move it: the number is a bound.
   const capped = Math.abs(bounded) >= MAX_SWING * 0.9;
 
+  // VO₂max last: it is a recognisable figure and worth plotting, but it is
+  // derived from the same resting heart rate as the first factor, so it is
+  // shown as a result rather than an input that pushed anything.
+  factors.push({
+    label: "VO₂max",
+    value: `${Math.round(vo2 * 10) / 10} ml/kg/min`,
+    // 15–75 is the range this estimate is clamped to.
+    position: Math.max(0, Math.min(1, (vo2 - 15) / 60)),
+    effect: "neutral",
+    note: "Estimated aerobic capacity",
+  });
+
   return {
     years,
+    factors,
     chronological: profile.age,
     delta: years - profile.age,
     capped,

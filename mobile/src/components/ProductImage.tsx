@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Image, StyleSheet, Text, View, type StyleProp, type ViewStyle } from "react-native";
+import { Image, StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
+import { Text } from "@/components/AppText";
 import { API_BASE } from "@/api";
 import { display, theme } from "@/theme";
 

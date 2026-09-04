@@ -1,12 +1,18 @@
 import { useRef, type ReactNode } from "react";
-import { Animated, RefreshControl, StyleSheet, Text, View } from "react-native";
+import { Animated, RefreshControl, StyleSheet, View } from "react-native";
+import { Text } from "@/components/AppText";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { TerrifitSpinner } from "./TerrifitSpinner";
 import { ScrollContext } from "@/scroll";
-import { display, theme } from "@/theme";
+import { AnnouncementBar } from "./AnnouncementBar";
+import { usePreferences } from "@/preferences";
+import { fonts, arabicBlack, bodyBlack, display, theme } from "@/theme";
 
 type Props = {
   title: string;
   eyebrow?: string;
+  /** Sits on the title row, right-aligned. A cart, a filter, a history link. */
+  titleAction?: React.ReactNode;
   refreshing?: boolean;
   onRefresh?: () => void;
   children: ReactNode;
@@ -21,9 +27,11 @@ type Props = {
  * because content passing behind a transparent bar reads as a rendering fault,
  * and it grows a hairline once you have scrolled past it.
  */
-export function Screen({ title, eyebrow, refreshing = false, onRefresh, children, header }: Props) {
+export function Screen({ title, eyebrow, titleAction, refreshing = false, onRefresh, children, header }: Props) {
   const insets = useSafeAreaInsets();
+  const { locale } = usePreferences();
   const scrollY = useRef(new Animated.Value(0)).current;
+  const arabic = locale === "ar";
 
   // Header row plus breathing room, so a screen with no title still clears it.
   const HEADER_HEIGHT = 74;
@@ -51,8 +59,12 @@ export function Screen({ title, eyebrow, refreshing = false, onRefresh, children
               <RefreshControl
                 refreshing={refreshing}
                 onRefresh={onRefresh}
-                tintColor={theme.accent}
-                colors={[theme.accent]}
+                // The system indicator is hidden rather than removed:
+                // RefreshControl owns the pull gesture and the rubber-banding,
+                // and reimplementing those to change a spinner would be a bad
+                // trade. Our mark is drawn over the space it leaves.
+                tintColor="transparent"
+                colors={["transparent"]}
                 progressViewOffset={insets.top + HEADER_HEIGHT}
               />
             ) : undefined
@@ -60,16 +72,60 @@ export function Screen({ title, eyebrow, refreshing = false, onRefresh, children
         >
           {title || eyebrow ? (
             <View style={s.header}>
-              {eyebrow ? <Text style={s.eyebrow}>{eyebrow}</Text> : null}
-              {title ? <Text style={s.title}>{title}</Text> : null}
+              <View style={s.headerText}>
+                {eyebrow ? <Text style={[s.eyebrow, { fontFamily: arabic ? arabicBlack : bodyBlack, letterSpacing: arabic ? 0 : 2 }]}>{eyebrow}</Text> : null}
+                {title ? <Text style={[s.title, { fontFamily: arabic ? arabicBlack : display, letterSpacing: arabic ? 0 : undefined }]}>{title}</Text> : null}
+              </View>
+              {titleAction}
             </View>
           ) : null}
           {children}
         </Animated.ScrollView>
 
+        {/* Sits where the system spinner would have been, and is driven by the
+            pull itself: `contentOffset.y` goes negative as the list is dragged
+            past the top, so the mark fades and grows in with the gesture and
+            starts turning once the refresh actually fires. */}
+        {onRefresh ? (
+          <Animated.View
+            pointerEvents="none"
+            style={[
+              s.refresh,
+              {
+                top: insets.top + HEADER_HEIGHT - 6,
+                opacity: refreshing
+                  ? 1
+                  : scrollY.interpolate({ inputRange: [-70, -12, 0], outputRange: [1, 0, 0], extrapolate: "clamp" }),
+                transform: [
+                  {
+                    scale: refreshing
+                      ? 1
+                      : scrollY.interpolate({ inputRange: [-70, -12], outputRange: [1, 0.6], extrapolate: "clamp" }),
+                  },
+                ],
+              },
+            ]}
+          >
+            <TerrifitSpinner size={26} spinning={refreshing} />
+          </Animated.View>
+        ) : null}
+
         {header ? (
           <View pointerEvents="box-none" style={[s.pinned, { paddingTop: insets.top }]}>
-            <View style={s.pinnedInner}>{header}</View>
+            {/* The ground behind the header, not the header itself. At rest it
+                is invisible, so the aurora at the top of the page bleeds up
+                through it instead of stopping at a rectangle. It reaches full
+                opacity by the time anything solid could scroll underneath. */}
+            <Animated.View
+              pointerEvents="none"
+              style={[StyleSheet.absoluteFill, { backgroundColor: theme.bg, opacity: border }]}
+            />
+            <View style={s.pinnedInner}>
+              {header}
+              {/* One line of news under the mark. Renders nothing when there is
+                  nothing unread, so it costs no height on an ordinary day. */}
+              <AnnouncementBar />
+            </View>
             <Animated.View style={[s.hairline, { opacity: border }]} />
           </View>
         ) : null}
@@ -82,14 +138,15 @@ const s = StyleSheet.create({
   flex: { flex: 1, backgroundColor: theme.bg },
   scroll: { flex: 1, backgroundColor: theme.bg },
   content: { paddingHorizontal: 18 },
-  pinned: { position: "absolute", top: 0, left: 0, right: 0, backgroundColor: theme.bg },
+  pinned: { position: "absolute", top: 0, left: 0, right: 0 },
   pinnedInner: { paddingHorizontal: 18 },
   hairline: { height: 1, backgroundColor: theme.line },
-  header: { marginBottom: 20 },
-  eyebrow: { color: theme.accent, fontSize: 10, fontWeight: "800", letterSpacing: 2, textTransform: "uppercase" },
+  refresh: { position: "absolute", left: 0, right: 0, alignItems: "center" },
+  header: { flexDirection: "row", alignItems: "flex-end", gap: 14, marginBottom: 20 },
+  headerText: { flex: 1 },
+  eyebrow: { color: theme.accent, fontSize: 10, fontFamily: fonts.black, fontWeight: "800", textTransform: "uppercase" },
   title: {
     color: theme.ink,
-    fontFamily: display,
     fontSize: 34,
     lineHeight: 42,
     textTransform: "uppercase",

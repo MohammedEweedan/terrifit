@@ -1,12 +1,17 @@
-import { ActivityIndicator, StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import { StyleSheet, View, useWindowDimensions } from "react-native";
+import { Text } from "@/components/AppText";
 import { Screen } from "@/components/Screen";
 import { Sparkline } from "@/components/Sparkline";
 import { useBody, useDashboard } from "@/data";
 import { plural, shortDate, sourceName, weight } from "@/format";
-import { display, theme } from "@/theme";
+import { fonts, display, theme } from "@/theme";
+import { usePreferences } from "@/preferences";
+import { screenCopy } from "@/i18n/screens";
 import type { BodyScan } from "@/api";
+import { TerrifitSpinner } from "@/components/TerrifitSpinner";
 
 export default function BodyScreen() {
+  const copy = screenCopy[usePreferences().locale];
   const { data, error, loading, refreshing, reload } = useBody();
   const dashboard = useDashboard();
   const { width } = useWindowDimensions();
@@ -23,12 +28,12 @@ export default function BodyScreen() {
 
   return (
     <Screen eyebrow="Composition" title="Body" refreshing={refreshing} onRefresh={reload}>
-      {loading && !data ? <ActivityIndicator color={theme.accent} style={{ marginTop: 40 }} /> : null}
+      {loading && !data ? <TerrifitSpinner style={{ marginTop: 40 }} /> : null}
       {error ? <Text style={s.error}>{error}</Text> : null}
 
       {data && scans.length === 0 ? (
         <View style={s.card}>
-          <Text style={s.emptyTitle}>No scans yet</Text>
+          <Text style={s.emptyTitle}>{copy.noScansYet}</Text>
           <Text style={s.emptyBody}>
             Import an InBody or a smart-scale export on the website and every weigh-in since your first one shows up
             here, with the trend line that a single reading can never give you.
@@ -80,7 +85,7 @@ export default function BodyScreen() {
 
           {fatSeries.filter((v) => v != null).length >= 2 ? (
             <View style={s.card}>
-              <Text style={s.cardLabel}>Body fat over time</Text>
+              <Text style={s.cardLabel}>{copy.bodyFatOverTime}</Text>
               <Sparkline points={fatSeries} width={chartWidth} height={80} colour={theme.accent} />
               <Text style={s.note}>
                 One scan is a snapshot with a margin of error. The line between them is the part you can act on.
@@ -90,13 +95,13 @@ export default function BodyScreen() {
 
           {muscleSeries.filter((v) => v != null).length >= 2 ? (
             <View style={s.card}>
-              <Text style={s.cardLabel}>Skeletal muscle over time</Text>
+              <Text style={s.cardLabel}>{copy.muscleOverTime}</Text>
               <Sparkline points={muscleSeries} width={chartWidth} height={80} colour={theme.good} />
-              <Text style={s.note}>Holding muscle while fat comes down is the whole job. This is where you check.</Text>
+              <Text style={s.note}>{copy.muscleNote}</Text>
             </View>
           ) : null}
 
-          <Text style={s.listHead}>Every scan</Text>
+          <Text style={s.listHead}>{copy.everyScan}</Text>
           {scans.map((scan) => (
             <ScanRow key={scan.id} scan={scan} units={units} />
           ))}
@@ -161,17 +166,17 @@ function delta(
 
 const s = StyleSheet.create({
   card: { backgroundColor: theme.surface, borderWidth: 1, borderColor: theme.line, borderRadius: 4, padding: 18, marginBottom: 12 },
-  cardLabel: { color: theme.ink2, fontSize: 10, fontWeight: "800", letterSpacing: 1.6, textTransform: "uppercase", marginBottom: 14 },
+  cardLabel: { color: theme.ink2, fontSize: 10, fontFamily: fonts.black, fontWeight: "800", letterSpacing: 1.6, textTransform: "uppercase", marginBottom: 14 },
   grid: { flexDirection: "row", flexWrap: "wrap" },
   metric: { width: "50%", paddingVertical: 10, paddingRight: 10 },
-  metricLabel: { color: theme.muted, fontSize:10, fontWeight: "800", letterSpacing: 1.2, textTransform: "uppercase" },
+  metricLabel: { color: theme.muted, fontSize:10, fontFamily: fonts.black, fontWeight: "800", letterSpacing: 1.2, textTransform: "uppercase" },
   metricValue: { color: theme.ink, fontFamily: display, fontSize: 24, marginTop: 5, includeFontPadding: false },
-  metricDelta: { fontSize: 11, fontWeight: "700", marginTop: 4, fontVariant: ["tabular-nums"] },
+  metricDelta: { fontSize: 11, fontFamily: fonts.bold, fontWeight: "700", marginTop: 4, fontVariant: ["tabular-nums"] },
   source: { color: theme.muted, fontSize: 11, marginTop: 12, borderTopWidth: 1, borderTopColor: theme.line, paddingTop: 12 },
   note: { color: theme.ink2, fontSize: 12, lineHeight: 18, marginTop: 12 },
-  listHead: { color: theme.accent, fontSize: 10, fontWeight: "800", letterSpacing: 1.6, textTransform: "uppercase", marginTop: 12, marginBottom: 10 },
+  listHead: { color: theme.accent, fontSize: 10, fontFamily: fonts.black, fontWeight: "800", letterSpacing: 1.6, textTransform: "uppercase", marginTop: 12, marginBottom: 10 },
   row: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: theme.line },
-  rowDate: { color: theme.ink, fontSize: 14, fontWeight: "600" },
+  rowDate: { color: theme.ink, fontSize: 14, fontFamily: fonts.semibold, fontWeight: "600" },
   rowSource: { color: theme.muted, fontSize: 11, marginTop: 3 },
   rowValue: { color: theme.ink2, fontSize: 14, width: 78, textAlign: "right", fontVariant: ["tabular-nums"] },
   emptyTitle: { color: theme.ink, fontFamily: display, fontSize: 22, textTransform: "uppercase" },

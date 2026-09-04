@@ -4,6 +4,9 @@ import { BandExperience } from "@/components/band/BandExperience";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { isLocale, locales } from "@/i18n/config";
 import { getPagesCopy } from "@/i18n/pages";
+import { getProduct } from "@/lib/shop/catalog-store";
+
+export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -28,9 +31,11 @@ export async function generateMetadata({
 export default async function BandPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
+  const product = await getProduct("terrifit-v1");
+  if (!product) notFound();
   return (
     <SiteShell locale={locale}>
-      <BandExperience locale={locale} copy={getPagesCopy(locale).band} />
+      <BandExperience locale={locale} copy={getPagesCopy(locale).band} product={product} />
     </SiteShell>
   );
 }

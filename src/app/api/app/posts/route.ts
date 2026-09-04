@@ -18,7 +18,7 @@ export async function POST(request: Request) {
   const user = await getRequestUser(request);
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
-  if (!rateLimit(`post:${user.id}:${clientKey(request)}`, 20, 60_000)) {
+  if (!(await rateLimit(`post:${user.id}:${clientKey(request)}`, 20, 60_000))) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 

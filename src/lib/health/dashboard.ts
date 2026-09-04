@@ -45,6 +45,8 @@ export type Dashboard = {
     recovery: number | null;
     /** The T Score for that day, scored only against the days before it. */
     tScore: number | null;
+    /** The fitness age estimate on that day, from the days before it. */
+    fitnessAge: number | null;
     hrvMs: number | null;
     restingHr: number | null;
     averageHr: number | null;
@@ -150,6 +152,14 @@ export async function loadDashboard(
     date: day.date.toISOString(),
     recovery: recoveryScore(day, days.slice(index + 1)).value,
     tScore: tScore(day, days.slice(index + 1), activityLevel).value,
+    // Estimated per day so the modal can chart the trend. The member's age on
+    // an older day is their age now, which is close enough over 90 days and
+    // far better than pretending the series does not exist.
+    fitnessAge: fitnessAge(day, days.slice(index + 1), {
+      age: ageFrom(member?.dateOfBirth ?? null),
+      sex: (member?.sex ?? "undisclosed") as Sex,
+      heightCm: member?.heightCm ?? null,
+    }).years,
     hrvMs: day.hrvMs,
     restingHr: day.restingHr,
     averageHr: day.averageHr,

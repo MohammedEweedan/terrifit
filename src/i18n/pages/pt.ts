@@ -22,7 +22,7 @@ export const pt: PagesTranslation = {
     meta: {
       title: "Terrifit V1 — a pulseira que te diz quando carregar",
       description:
-        "A V1 mede sem parar o teu ritmo cardíaco, VFC, sono, oxigénio no sangue e temperatura da pele. Mais de 14 dias de bateria, à prova de água até 100 metros, quatro tecidos, e sincroniza diretamente com a Apple Saúde e o Google Health Connect.",
+        "A V1 mede sem parar o teu ritmo cardíaco, VFC, sono, oxigénio no sangue e temperatura da pele. Mais de 14 dias de bateria, certificação IP68, cinco tecidos, e sincroniza diretamente com a Apple Saúde e o Google Health Connect.",
     },
     nav: ["Visão geral", "Design", "Medição", "Bateria", "Apps", "Ficha técnica"],
     buy: "Reservar",
@@ -42,7 +42,7 @@ export const pt: PagesTranslation = {
       { label: "Peso com a bracelete" },
     ],
     colourways: {
-      eyebrow: "Quatro cores",
+      eyebrow: "Cinco cores",
       title: "Braceletes tecidas, não estampadas",
       body:
         "Cada bracelete é tecida com dois fios de cor diferente em vez de tingida de uma só. Muda conforme a luz, disfarça as marcas de uma semana dura e não desbota como uma bracelete estampada ao fim de uns meses de cloro e suor.",
@@ -78,7 +78,7 @@ export const pt: PagesTranslation = {
       eyebrow: "Água e suor",
       title: "Podes nadar, tomar banho e suar com ela",
       body:
-        "A V1 tem certificação IP68 e resistência de 10 ATM, ou seja, 100 metros. Água salgada e cloro não afetam a bracelete, e o sensor continua a medir todo o tempo que estiveres dentro de água.",
+        "A V1 tem certificação IP68, por isso chuva, suor e duche não são problema. Não é um relógio de mergulho — tira-a antes de nadares ou entrares no mar.",
     },
     integrations: {
       eyebrow: "Funciona com as tuas outras apps",
@@ -326,7 +326,7 @@ export const pt: PagesTranslation = {
     empty: "Ainda não há nada aqui.",
     partnerBadge: "Produto de parceiro",
     originalBadge: "Feito pela Terrifit",
-    stock: { in: "Em stock", low: "Quase esgotado", preorder: "Reserva" },
+    stock: { in: "Em stock", low: "Quase esgotado", preorder: "Reserva", out: "Esgotado" },
     addToBag: "Adicionar ao cesto",
     added: "Adicionado",
     viewProduct: "Ver",

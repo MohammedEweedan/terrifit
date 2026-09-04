@@ -67,12 +67,20 @@ export function methodConfigured(method: PaymentMethod): boolean {
 }
 
 /**
- * Sandbox is allowed unless production explicitly turns it off. Set
- * `ALLOW_SANDBOX_CHECKOUT=false` in a live environment so an unconfigured rail
- * fails loudly instead of taking a fake order.
+ * Whether an unconfigured payment rail may record a fake, unpaid order.
+ *
+ * Off in production unless somebody deliberately turns it on, and on
+ * everywhere else. It used to be the other way round — allowed unless the
+ * environment said `false` — which meant the one deployment that most needed
+ * the protection, a live site whose Stripe keys had not been set yet, was
+ * exactly the one that accepted orders nobody had paid for. The safe default
+ * belongs on the side of the mistake that is easy to make.
  */
 export function sandboxAllowed(): boolean {
-  return env("ALLOW_SANDBOX_CHECKOUT").toLowerCase() !== "false";
+  const flag = env("ALLOW_SANDBOX_CHECKOUT").toLowerCase();
+  if (flag === "true") return true;
+  if (flag === "false") return false;
+  return process.env.NODE_ENV !== "production";
 }
 
 export function availableMethods(): PaymentMethod[] {

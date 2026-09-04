@@ -5,7 +5,7 @@ import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import { createContext, useCallback, useContext, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { Dictionary } from "@/i18n";
-import type { Locale } from "@/i18n/config";
+import { localeMeta, type Locale } from "@/i18n/config";
 import type { MarketOption } from "@/lib/markets";
 import { TerrifitHeader } from "@/components/navigation/TerrifitHeader";
 import { TerrifitFooter } from "@/components/navigation/TerrifitFooter";
@@ -14,6 +14,7 @@ import { clearHash, getHash, getServerHash, subscribeHash } from "@/lib/hash";
 import { TerrificWord, splitHeadline } from "@/components/brand/TerrificWord";
 import { BandCallouts } from "@/components/band/BandCallouts";
 import { LaunchRoadmap } from "@/components/marketing/LaunchRoadmap";
+import { AnnouncementBar, type Announcement } from "@/components/marketing/AnnouncementBar";
 import { getPagesCopy } from "@/i18n/pages";
 
 import bandProduct from "../../../public/media/terrifit-band-new.png";
@@ -29,41 +30,47 @@ import { AppShowcase } from "@/components/platform/AppShowcase";
 import trainWorkLive from "../../../public/media/train-work-live.jpg";
 
 
+/**
+ * The Maps on the landing page.
+ *
+ * These are the real Maps from `src/lib/maps/catalog.ts` — same names, same
+ * coaches, same lengths — because the app screenshot two sections down shows
+ * that catalogue and a visitor can read both. The previous list was six
+ * invented programmes with invented star ratings, which the app contradicted
+ * on the same page. Nothing here carries a rating: no Map has been reviewed yet
+ * and a borrowed number is worse than no number.
+ */
 const mapCards: Array<{
   title: string;
-  duration: string;
+  weeks: number;
+  perWeek: number;
   level: string;
-  rating: string;
   creator: string;
-  price: string;
   image: StaticImageData;
 }> = [
   {
-    title: "Strength Builder",
-    duration: "12 weeks",
-    level: "Intermediate",
-    rating: "4.9",
-    creator: "Jordan Cole",
-    price: "$42",
+    title: "Hypertrophy Base",
+    weeks: 12,
+    perWeek: 4,
+    level: "Returning",
+    creator: "Dara Okafor",
     image: boxer,
   },
   {
-    title: "Lean & Athletic",
-    duration: "8 weeks",
-    level: "Beginner",
-    rating: "4.8",
-    creator: "Maya Reyes",
-    price: "$34",
-    image: cyclist,
+    title: "Strength Five",
+    weeks: 10,
+    perWeek: 3,
+    level: "Steady",
+    creator: "Ivan Petrov",
+    image: kettlebell,
   },
   {
-    title: "Endurance Edge",
-    duration: "10 weeks",
-    level: "Advanced",
-    rating: "4.9",
-    creator: "Eli Hart",
-    price: "$48",
-    image: kettlebell,
+    title: "Engine Builder",
+    weeks: 8,
+    perWeek: 5,
+    level: "New",
+    creator: "Nadia Haddad",
+    image: cyclist,
   },
 ];
 
@@ -94,20 +101,27 @@ export function TerrifitLanding({
   locale,
   markets,
   copy,
+  waitlistCount,
+  announcement,
 }: {
   locale: Locale;
   markets: MarketOption[];
   copy: Dictionary;
+  /** Real signups, counted per request. Zero hides the card rather than faking one. */
+  waitlistCount: number;
+  /** One line of news under the header. Null once the offer closes. */
+  announcement: Announcement | null;
 }) {
   return (
     <CopyContext.Provider value={copy}><div className="tf-site">
       <TerrifitHeader locale={locale} copy={copy} />
+      <AnnouncementBar announcement={announcement} />
       <main>
         <Hero locale={locale} />
         <MetricRail />
         <LaunchRoadmap locale={locale} copy={getPagesCopy(locale).roadmap} />
         <BandSection locale={locale} />
-        <PlatformSection locale={locale} />
+        <PlatformSection locale={locale} waitlistCount={waitlistCount} />
         <MapsSection locale={locale} />
         <LifestyleSection locale={locale} />
         <ShopSection locale={locale} />
@@ -270,7 +284,7 @@ const APP_CAPABILITIES = [
   { title: "Maps you can actually run", body: "Sets, reps and weights logged as you go, carried forward to next week." },
 ] as const;
 
-function PlatformSection({ locale }: { locale: Locale }) {
+function PlatformSection({ locale, waitlistCount }: { locale: Locale; waitlistCount: number }) {
   const copy = useCopy();
   const ui = marketingUi[locale];
   const detail = marketingDetails[locale];
@@ -329,9 +343,19 @@ function PlatformSection({ locale }: { locale: Locale }) {
               <button type="button" onClick={() => openWaitlist()}><small>{detail.app[3]}</small><b>Google Play</b></button>
             </div>
           </div>
-          <div className="tf-live-card">
-            <span>{detail.app[4]}</span><strong>24,891</strong><small>{detail.app[5]}</small>
-          </div>
+          {/* A real count, queried per request. This card used to render a
+              hard-coded 24,891 under a "live network" label, on a pre-launch
+              site whose store badges say "coming soon" — a fabricated user
+              count is the one claim here with actual legal exposure. If nobody
+              has joined yet the card does not render at all, because zero is
+              honest and a placeholder is not. */}
+          {waitlistCount > 0 ? (
+            <div className="tf-live-card">
+              <span>{detail.app[4]}</span>
+              <strong>{waitlistCount.toLocaleString(localeMeta[locale].htmlLang)}</strong>
+              <small>{detail.app[5]}</small>
+            </div>
+          ) : null}
         </Reveal>
       </div>
     </section>
@@ -354,11 +378,11 @@ function MapsSection({ locale }: { locale: Locale }) {
               <Link href={`/${locale}/maps?map=${encodeURIComponent(map.title)}`} aria-label={`View ${map.title}`}>
                 <Image src={map.image} alt="" placeholder="blur" sizes="(max-width: 700px) 84vw, 30vw" />
                 <div className="tf-map-shade" />
-                <div className="tf-map-card-top"><span>{copy.roadmap.phases[index].label}</span><b>★ {map.rating}</b></div>
+                <div className="tf-map-card-top"><span>{map.level}</span><b>{map.perWeek}×/{detail.common[7].toLowerCase()}</b></div>
                 <div className="tf-map-card-copy">
                   <small>{map.creator} <i>✓</i></small>
                   <h3>{map.title}</h3>
-                  <div><span>{map.duration.replace(/\D/g, "")} {detail.common[8]}</span><strong>{map.price}</strong></div>
+                  <div><span>{map.weeks} {detail.common[8]}</span><strong>{copy.mapAnatomy.eyebrow}</strong></div>
                 </div>
               </Link>
             </Reveal>

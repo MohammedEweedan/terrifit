@@ -20,7 +20,7 @@ const DUMMY_HASH =
   "scrypt$00000000000000000000000000000000$" + "0".repeat(128);
 
 export async function POST(request: Request) {
-  if (!rateLimit(`login:${clientKey(request)}`, 10, 60_000)) {
+  if (!(await rateLimit(`login:${clientKey(request)}`, 10, 60_000))) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 

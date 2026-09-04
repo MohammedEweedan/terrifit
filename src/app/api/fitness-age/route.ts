@@ -23,7 +23,7 @@ const schema = z.object({
 });
 
 export async function POST(request: Request) {
-  if (!rateLimit(`fitnessage:${clientKey(request)}`, 30, 60_000)) {
+  if (!(await rateLimit(`fitnessage:${clientKey(request)}`, 30, 60_000))) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 

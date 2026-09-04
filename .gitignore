@@ -43,3 +43,20 @@ next-env.d.ts
 # Local SQLite development database
 dev.db
 dev.db-journal
+
+# Generated deliverables — pitch decks, screenshot packs, exported PDFs.
+# Regenerated from the repo whenever they are needed, and about 42 MB of
+# binaries that git cannot delta-compress, so they are kept out of history.
+/output/
+/tmp/
+
+# Supplier documents. Large, not ours to redistribute, and — while they sat in
+# public/ — served publicly by Next.js at /media/<filename>. Kept locally,
+# never committed and never deployed.
+/vendor/
+/public/media/*.pdf
+
+# Generated Prisma client — about 11 MB including WASM binaries, rebuilt by the
+# `postinstall` script on every clone and deploy. Committing generated output
+# means every schema change is a large binary diff nobody can review.
+/src/generated/

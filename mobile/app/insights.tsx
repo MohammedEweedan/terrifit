@@ -1,15 +1,15 @@
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
+import { Text } from "@/components/AppText";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAppState } from "@/app-state";
 import { useDashboard } from "@/data";
-import { display, theme } from "@/theme";
+import { fonts, display, theme } from "@/theme";
+import { ModalHeader } from "@/components/ModalHeader";
+import { TerrifitSpinner } from "@/components/TerrifitSpinner";
+import { Sparkline } from "@/components/Sparkline";
+import type { Dashboard, Insight } from "@/api";
 
-const CONFIDENCE: Record<string, { label: string; tone: string }> = {
-  high: { label: "Strong evidence", tone: theme.good },
-  medium: { label: "Reasonable evidence", tone: theme.fair },
-  low: { label: "Early signal", tone: theme.muted },
-};
 
 /**
  * What your own history says about you.
@@ -22,22 +22,17 @@ export default function InsightsScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const { isPro } = useAppState();
+  const { width } = useWindowDimensions();
   const dashboard = useDashboard();
   const found = dashboard.data?.advanced.insights ?? [];
 
   return (
     <View style={s.page}>
-      <View style={[s.top, { paddingTop: insets.top + 10 }]}>
-        <Pressable onPress={() => router.back()} hitSlop={10}>
-          <Text style={s.close}>Done</Text>
-        </Pressable>
-        <Text style={s.topTitle}>Insights</Text>
-        <View style={{ width: 46 }} />
-      </View>
+      <ModalHeader title="Insights" />
 
       <ScrollView contentContainerStyle={[s.content, { paddingBottom: insets.bottom + 40 }]}>
         {dashboard.loading && !dashboard.data ? (
-          <ActivityIndicator color={theme.accent} style={{ marginTop: 50 }} />
+          <TerrifitSpinner style={{ marginTop: 50 }} />
         ) : null}
 
         {!isPro ? (
@@ -64,29 +59,9 @@ export default function InsightsScreen() {
         ) : null}
 
         {isPro
-          ? found.map((insight) => {
-              const confidence = CONFIDENCE[insight.confidence] ?? CONFIDENCE.low;
-              return (
-                <View key={insight.id} style={s.card}>
-                  <View style={s.cardTop}>
-                    <Text style={s.kind}>{insight.kind}</Text>
-                    <View style={[s.confidence, { borderColor: confidence.tone }]}>
-                      <Text style={[s.confidenceText, { color: confidence.tone }]}>{confidence.label}</Text>
-                    </View>
-                  </View>
-
-                  <Text style={s.title}>{insight.title}</Text>
-                  <Text style={s.body}>{insight.body}</Text>
-
-                  <View style={s.action}>
-                    <Text style={s.actionLabel}>What to do</Text>
-                    <Text style={s.actionText}>{insight.action}</Text>
-                  </View>
-
-                  <Text style={s.evidence}>{insight.evidence}</Text>
-                </View>
-              );
-            })
+          ? found.map((insight) => (
+              <InsightCard key={insight.id} insight={insight} history={dashboard.data?.history ?? []} width={width} />
+            ))
           : null}
       </ScrollView>
     </View>
@@ -96,23 +71,83 @@ export default function InsightsScreen() {
 const s = StyleSheet.create({
   page: { flex: 1, backgroundColor: theme.bg },
   top: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 18, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: theme.line },
-  close: { color: theme.accent, fontSize: 14, fontWeight: "700", width: 46 },
-  topTitle: { color: theme.ink, fontSize: 11, fontWeight: "900", letterSpacing: 1.5, textTransform: "uppercase" },
+  close: { color: theme.accent, fontSize: 14, fontFamily: fonts.bold, fontWeight: "700", width: 46 },
+  topTitle: { color: theme.ink, fontSize: 11, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1.5, textTransform: "uppercase" },
   content: { paddingHorizontal: 18, paddingTop: 18 },
   card: { borderRadius: 22, borderWidth: 1, borderColor: theme.line, backgroundColor: theme.surface, padding: 18, marginBottom: 14 },
-  cardTop: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 10 },
-  kind: { color: theme.muted, fontSize: 10, fontWeight: "900", letterSpacing: 1.3, textTransform: "uppercase" },
-  confidence: { borderWidth: 1, borderRadius: 999, paddingHorizontal: 9, paddingVertical: 4 },
-  confidenceText: { fontSize: 10, fontWeight: "900" },
-  title: { color: theme.ink, fontSize: 20, fontWeight: "900", marginTop: 12, letterSpacing: -0.3 },
+  title: { color: theme.ink, fontSize: 20, fontFamily: fonts.black, fontWeight: "900", letterSpacing: -0.3 },
   body: { color: theme.ink2, fontSize: 14, lineHeight: 21, marginTop: 9 },
-  action: { marginTop: 16, padding: 14, borderRadius: 16, backgroundColor: theme.accentSoft, borderLeftWidth: 3, borderLeftColor: theme.accent },
-  actionLabel: { color: theme.accent, fontSize: 10, fontWeight: "900", letterSpacing: 1.3, textTransform: "uppercase" },
-  actionText: { color: theme.ink, fontSize: 14, lineHeight: 21, marginTop: 7 },
+  // Marked by a rule rather than set entirely in the accent: a whole paragraph
+  // of orange shouts, and the point is that this is the part to act on, not
+  // that it is louder than the finding above it.
+  actionRow: { flexDirection: "row", gap: 12, marginTop: 16 },
+  actionRule: { width: 3, borderRadius: 2, backgroundColor: theme.accent },
+  action: { flex: 1, color: theme.ink, fontSize: 14, lineHeight: 21, fontFamily: fonts.semibold, fontWeight: "600" },
+  chart: { marginTop: 14, marginBottom: 4 },
+  chartLabel: { color: theme.muted, fontSize: 10, fontFamily: fonts.black, fontWeight: "800", letterSpacing: 0.8, textTransform: "uppercase", marginTop: 8 },
   evidence: { color: theme.muted, fontSize: 11, lineHeight: 16, marginTop: 14 },
   locked: { padding: 22, borderRadius: 22, borderWidth: 1, borderColor: theme.lineStrong, backgroundColor: theme.surface, alignItems: "center" },
   lockedTitle: { color: theme.ink, fontFamily: display, fontSize: 26, textTransform: "uppercase", textAlign: "center" },
   lockedBody: { color: theme.ink2, fontSize: 14, lineHeight: 21, textAlign: "center", marginTop: 12 },
   primary: { height: 52, borderRadius: 26, backgroundColor: theme.accent, paddingHorizontal: 32, alignItems: "center", justifyContent: "center", marginTop: 22 },
-  primaryText: { color: "#fff", fontSize: 11, fontWeight: "900", letterSpacing: 1, textTransform: "uppercase" },
+  primaryText: { color: "#fff", fontSize: 11, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1, textTransform: "uppercase" },
 });
+
+/**
+ * Which line backs each finding.
+ *
+ * An insight that says your sleep is short should show the sleep line, not a
+ * confidence badge — the reader can then see the claim rather than being asked
+ * to trust it. Kinds with no single series (a record, a weekday pattern) get
+ * no chart rather than a decorative one.
+ */
+const SERIES: Record<
+  string,
+  { read: (row: Dashboard["history"][number]) => number | null; label: string; tone: string } | undefined
+> = {
+  sleep: { read: (row) => row.sleepMinutes, label: "Sleep", tone: theme.sleep },
+  recovery: { read: (row) => row.recovery, label: "Recovery", tone: theme.good },
+  load: { read: (row) => row.hrvMs, label: "HRV", tone: theme.good },
+  activity: { read: (row) => row.steps, label: "Steps", tone: theme.accent },
+  weight: { read: (row) => row.weightKg, label: "Weight", tone: theme.ink2 },
+};
+
+function InsightCard({
+  insight,
+  history,
+  width,
+}: {
+  insight: Insight;
+  history: Dashboard["history"];
+  width: number;
+}) {
+  const series = SERIES[insight.kind];
+
+  // Oldest first, last six weeks: enough to show a trend, short enough that a
+  // sparkline is still readable.
+  const points = series
+    ? [...history].slice(0, 42).reverse().map((row) => row.date && series.read(row)).filter((value): value is number => value != null)
+    : [];
+
+  return (
+    <View style={s.card}>
+      <Text style={s.title}>{insight.title}</Text>
+      <Text style={s.body}>{insight.body}</Text>
+
+      {points.length >= 6 ? (
+        <View style={s.chart}>
+          <Sparkline points={points} width={width - 76} height={64} colour={series?.tone} />
+          <Text style={s.chartLabel}>
+            {series?.label} · last {points.length} days
+          </Text>
+        </View>
+      ) : null}
+
+      <View style={s.actionRow}>
+        <View style={s.actionRule} />
+        <Text style={s.action}>{insight.action}</Text>
+      </View>
+      <Text style={s.evidence}>{insight.evidence}</Text>
+    </View>
+  );
+}

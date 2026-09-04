@@ -3,6 +3,7 @@ import { requireAdmin } from "@/lib/admin";
 import { isLocale } from "@/i18n/config";
 import { AdminConsole } from "@/components/admin/AdminConsole";
 import { adminAudit, adminMembers, adminOrders, adminOverview, adminPosts } from "@/lib/admin-data";
+import { listProducts } from "@/lib/shop/catalog-store";
 
 export const dynamic = "force-dynamic";
 
@@ -21,12 +22,13 @@ export default async function AdminPage({ params }: { params: Promise<{ locale: 
   const admin = await requireAdmin();
   if (!admin) redirect(`/${locale}/signin?next=/${locale}/admin`);
 
-  const [overview, members, orders, posts, audit] = await Promise.all([
+  const [overview, members, orders, posts, audit, products] = await Promise.all([
     adminOverview(),
     adminMembers(),
     adminOrders(),
     adminPosts(),
     adminAudit(),
+    listProducts({ includeInactive: true }),
   ]);
 
   return (
@@ -38,6 +40,7 @@ export default async function AdminPage({ params }: { params: Promise<{ locale: 
       orders={orders}
       posts={posts}
       audit={audit}
+      products={products}
     />
   );
 }

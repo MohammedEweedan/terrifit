@@ -62,10 +62,10 @@ export function planState(user: {
   };
 }
 
-/** Pricing. Yearly is two months free, and carries the Fuel welcome box. */
+/** Pricing. Physical Terrifuel bundles are sold separately so checkout can capture protein choice and delivery. */
 export const PRICING = {
-  monthly: { cents: 499, label: "£4.99 a month" },
-  yearly: { cents: 3900, label: "£39 a year", note: "Two months free" },
+  monthly: { cents: 499, label: "$4.99 a month" },
+  yearly: { cents: 3900, label: "$39 a year", note: "Two months free" },
 } as const;
 
 /** Copy for the upgrade prompt, per metric, so it names the thing being sold. */

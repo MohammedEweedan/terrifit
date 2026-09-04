@@ -68,6 +68,25 @@ const patchSchema = z.object({
     .optional()
     .nullable(),
   bio: z.string().trim().max(400).optional().nullable(),
+  /**
+   * A data URI. Capped at 400 KB of base64 because it lives in a row that is
+   * read on every profile load — anything larger belongs in object storage,
+   * and the app downscales before sending.
+   */
+  avatarImage: z
+    .string()
+    .trim()
+    .max(400_000)
+    .regex(/^data:image\/(jpeg|png|webp);base64,/, "not_an_image")
+    .optional()
+    .nullable(),
+  /** One emoji. Length is in code points, not UTF-16 units, so 👩🏽‍🦰 counts as one. */
+  avatarEmoji: z
+    .string()
+    .trim()
+    .refine((value) => value.length === 0 || [...new Intl.Segmenter().segment(value)].length === 1, "not_one_emoji")
+    .optional()
+    .nullable(),
   dateOfBirth: z.string().datetime().optional().nullable(),
   sex: z.enum(SEXES).optional().nullable(),
   heightCm: z.coerce.number().min(80).max(260).optional().nullable(),
@@ -123,8 +142,20 @@ export async function PATCH(request: Request) {
     });
   }
 
+  // Exactly one avatar at a time. Setting a photo clears the emoji and vice
+  // versa, so nothing downstream has to decide which of two set values wins.
+  const avatar =
+    profileFields.avatarImage
+      ? { avatarImage: profileFields.avatarImage, avatarEmoji: null }
+      : profileFields.avatarEmoji
+        ? { avatarEmoji: profileFields.avatarEmoji, avatarImage: null }
+        : profileFields.avatarImage === null || profileFields.avatarEmoji === null
+          ? { avatarImage: null, avatarEmoji: null }
+          : {};
+
   const data = {
     ...profileFields,
+    ...avatar,
     ...(dateOfBirth !== undefined ? { dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : null } : {}),
     ...(activities !== undefined ? { activities: JSON.stringify(activities) } : {}),
     ...(healthConditions !== undefined ? { healthConditions: JSON.stringify(healthConditions) } : {}),

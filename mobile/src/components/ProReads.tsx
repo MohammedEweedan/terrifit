@@ -1,8 +1,12 @@
 import { useEffect, useRef } from "react";
-import { Animated, Easing, Pressable, StyleSheet, Text, View } from "react-native";
+import { Animated, Easing, Pressable, StyleSheet, View } from "react-native";
+import { Text } from "@/components/AppText";
 import { useRouter } from "expo-router";
-import { theme } from "@/theme";
+import { CardTitle, type CardIcon } from "./CardTitle";
+import { fonts, theme } from "@/theme";
 import type { Insight, SleepQuality, StressReading } from "@/api";
+import { metricLabel } from "@/metric-labels";
+import { usePreferences } from "@/preferences";
 
 /**
  * The three Pro reads, under the gauges.
@@ -23,6 +27,7 @@ export function ProReads({
   insight: Insight | null;
 }) {
   const router = useRouter();
+  const { t, locale } = usePreferences();
   if (!stress && !sleep && !insight) return null;
 
   return (
@@ -30,7 +35,8 @@ export function ProReads({
       <View style={s.pair}>
         {stress ? (
           <Read
-            label="Load"
+            label={metricLabel("load", locale)}
+            icon="load"
             value={stress.value}
             suffix=""
             // High load is the bad end, so the ramp runs the other way.
@@ -40,7 +46,7 @@ export function ProReads({
                   : stress.value >= 45 ? theme.fair
                     : theme.good
             }
-            caption={stress.band === "unknown" ? "Not enough signal" : capitalise(stress.band)}
+            caption={stress.band === "unknown" ? t("noData") : bandWord(stress.band, t)}
             detail={stress.drivers[0] ?? stress.caveat}
             index={0}
           />
@@ -48,7 +54,8 @@ export function ProReads({
 
         {sleep ? (
           <Read
-            label="Sleep quality"
+            label={metricLabel("sleepQuality", locale)}
+            icon="sleep"
             value={sleep.value}
             suffix=""
             tone={
@@ -57,7 +64,7 @@ export function ProReads({
                   : sleep.value >= 55 ? theme.fair
                     : theme.poor
             }
-            caption={sleep.value == null ? "No reading" : band(sleep.value)}
+            caption={sleep.value == null ? t("noReading") : qualityWord(sleep.value, t)}
             detail={sleep.parts[0]?.detail ?? sleep.missing.map((item) => `No ${item.toLowerCase()}`).join(" · ")}
             index={1}
           />
@@ -74,7 +81,7 @@ export function ProReads({
           <Text style={s.insightBody} numberOfLines={3}>
             {insight.action}
           </Text>
-          <Text style={s.insightMore}>All insights ›</Text>
+          <Text style={s.insightMore}>{t("allInsights")} ›</Text>
         </Pressable>
       ) : null}
     </View>
@@ -82,9 +89,10 @@ export function ProReads({
 }
 
 function Read({
-  label, value, suffix, tone, caption, detail, index,
+  label, icon, value, suffix, tone, caption, detail, index,
 }: {
   label: string;
+  icon: CardIcon;
   value: number | null;
   suffix: string;
   tone: string;
@@ -113,23 +121,33 @@ function Read({
         },
       ]}
     >
-      <Text style={s.readLabel}>{label}</Text>
-      <View style={s.readValueRow}>
-        <Text style={[s.readValue, { color: tone }]}>{value == null ? "—" : Math.round(value)}{suffix}</Text>
-        <Text style={[s.readCaption, { color: tone }]}>{caption}</Text>
-      </View>
+      <CardTitle icon={icon} title={label} compact />
+      <Text style={[s.readValue, { color: tone }]}>
+        {value == null ? "—" : Math.round(value)}
+        {suffix}
+      </Text>
+      <Text style={[s.readCaption, { color: tone }]}>{caption}</Text>
       <Text style={s.readDetail} numberOfLines={3}>{detail}</Text>
     </Animated.View>
   );
 }
 
-const capitalise = (word: string) => word.charAt(0).toUpperCase() + word.slice(1);
+type Translate = ReturnType<typeof usePreferences>["t"];
 
-function band(value: number): string {
-  if (value >= 85) return "Excellent";
-  if (value >= 75) return "Good";
-  if (value >= 55) return "Fair";
-  return "Poor";
+/** The load bands, named in the member's language. */
+function bandWord(band: string, t: Translate): string {
+  if (band === "calm") return t("calm");
+  if (band === "steady") return t("steady");
+  if (band === "elevated") return t("elevated");
+  if (band === "high") return t("high");
+  return t("severe");
+}
+
+function qualityWord(value: number, t: Translate): string {
+  if (value >= 85) return t("excellent");
+  if (value >= 75) return t("good");
+  if (value >= 55) return t("fair");
+  return t("poor");
 }
 
 const s = StyleSheet.create({
@@ -144,11 +162,17 @@ const s = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 13,
   },
-  readLabel: { color: theme.muted, fontSize: 10, fontWeight: "900", letterSpacing: 1.2, textTransform: "uppercase" },
-  readValueRow: { flexDirection: "row", alignItems: "baseline", gap: 8, marginTop: 7 },
-  readValue: { fontSize: 26, fontWeight: "900", letterSpacing: -0.8 },
-  readCaption: { fontSize: 10, fontWeight: "900", letterSpacing: 0.8, textTransform: "uppercase" },
-  readDetail: { color: theme.muted, fontSize: 11, lineHeight: 16, marginTop: 8 },
+  // Centred, with the figure carrying it and the note hanging off the bottom
+  // right so it reads as a footnote rather than a second line of its own.
+  readValue: { fontSize: 40, fontFamily: fonts.black, fontWeight: "900", letterSpacing: -1.2, textAlign: "center" },
+  readCaption: {
+    fontSize: 10, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 0.8,
+    textTransform: "uppercase", textAlign: "center", marginTop: 2,
+  },
+  readDetail: {
+    color: theme.muted, fontSize: 11, lineHeight: 15,
+    alignSelf: "flex-end", textAlign: "right", marginTop: 10,
+  },
 
   insight: {
     marginTop: 10,
@@ -160,9 +184,9 @@ const s = StyleSheet.create({
     paddingVertical: 15,
   },
   insightHead: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
-  insightEyebrow: { color: theme.accent, fontSize: 10, fontWeight: "900", letterSpacing: 1.4, textTransform: "uppercase" },
-  confidence: { color: theme.muted, fontSize: 10, fontWeight: "800", textTransform: "uppercase", letterSpacing: 0.8 },
-  insightTitle: { color: theme.ink, fontSize: 16, fontWeight: "900", marginTop: 9, lineHeight: 22 },
+  insightEyebrow: { color: theme.accent, fontSize: 10, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1.4, textTransform: "uppercase" },
+  confidence: { color: theme.muted, fontSize: 10, fontFamily: fonts.black, fontWeight: "800", textTransform: "uppercase", letterSpacing: 0.8 },
+  insightTitle: { color: theme.ink, fontSize: 16, fontFamily: fonts.black, fontWeight: "900", marginTop: 9, lineHeight: 22 },
   insightBody: { color: theme.ink2, fontSize: 13, lineHeight: 19, marginTop: 7 },
-  insightMore: { color: theme.accent, fontSize: 11, fontWeight: "900", letterSpacing: 0.6, marginTop: 11 },
+  insightMore: { color: theme.accent, fontSize: 11, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 0.6, marginTop: 11 },
 });

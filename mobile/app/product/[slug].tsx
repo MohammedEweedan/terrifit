@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from "react";
-import { ActivityIndicator, Animated, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Animated, Pressable, StyleSheet, View } from "react-native";
+import { Text } from "@/components/AppText";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { type ShopVariant } from "@/api";
@@ -8,7 +9,10 @@ import { ProductImage } from "@/components/ProductImage";
 import { ReviewSummary } from "@/components/Reviews";
 import { useCart } from "@/cart";
 import { useShop } from "@/data";
-import { display, theme } from "@/theme";
+import { fonts, display, theme } from "@/theme";
+import { TerrifitSpinner } from "@/components/TerrifitSpinner";
+import { usePreferences } from "@/preferences";
+import { commerceCopy } from "@/i18n/commerce";
 
 export default function ProductScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
@@ -16,6 +20,8 @@ export default function ProductScreen() {
   const insets = useSafeAreaInsets();
   const shop = useShop();
   const cart = useCart();
+  const preferences = usePreferences();
+  const copy = commerceCopy[preferences.locale];
 
   const scrollY = useRef(new Animated.Value(0)).current;
   const product = shop.data?.products.find((item) => item.slug === slug);
@@ -28,8 +34,11 @@ export default function ProductScreen() {
   }, [product, variantId]);
 
   // A colourway variant carries its own photograph; sizes do not.
-  const image = colourwayImage(shop.data?.colourways ?? [], variant) ?? product?.image ?? null;
+  const image = variant?.image ?? colourwayImage(shop.data?.colourways ?? [], variant) ?? product?.image ?? null;
   const needsChoice = Boolean(product && product.variants.length > 1 && variantId === null);
+  const soldOut = Boolean(product && (variant
+    ? variant.stockQuantity <= 0 && !variant.allowBackorder
+    : product.stockQuantity <= 0 && !product.allowBackorder));
 
   function add() {
     if (!product) return;
@@ -38,7 +47,7 @@ export default function ProductScreen() {
       variantId: variant?.id ?? null,
       name: product.name,
       variantLabel: variant?.label ?? null,
-      priceCents: product.priceCents,
+      priceCents: variant?.priceCents ?? product.priceCents,
       image,
     });
     setAdded(true);
@@ -54,7 +63,7 @@ export default function ProductScreen() {
       >
         <ProductImage uri={image} name={product?.name ?? "Terrifit"} style={s.imageWrap} />
 
-        {shop.loading && !product ? <ActivityIndicator color={theme.accent} style={{ marginTop: 60 }} /> : null}
+        {shop.loading && !product ? <TerrifitSpinner style={{ marginTop: 60 }} /> : null}
 
         {product ? (
           <View style={s.content}>
@@ -68,16 +77,14 @@ export default function ProductScreen() {
                 }}
                 label={
                   needsChoice
-                    ? `${product.variants.length > 1 ? "Colourway" : "Option"} · required`
-                    : product.variants.length > 1
-                      ? "Colourway"
-                      : "Option"
+                    ? `${product.variantLabel ?? copy.option} · ${copy.required}`
+                    : product.variantLabel ?? copy.option
                 }
               />
             ) : null}
 
             <Text style={[s.brand, product.variants.length > 0 && s.brandAfterPicker]}>
-              {product.brand} · {product.partner ? "Verified partner" : "Terrifit original"}
+              {product.brand} · {product.partner ? copy.verifiedPartner : copy.terrifitOriginal}
             </Text>
             <Text style={s.title}>{product.name}</Text>
             <Text style={s.tagline}>{product.tagline}</Text>
@@ -105,7 +112,7 @@ export default function ProductScreen() {
 
             {product.specGroups && product.specGroups.length > 0 ? (
               <>
-                <Text style={s.section}>The full spec sheet</Text>
+                <Text style={s.section}>{copy.fullSpecs}</Text>
                 {product.specGroups.map((group) => (
                   <View key={group.title} style={s.specGroup}>
                     <Text style={s.specGroupTitle}>{group.title}</Text>
@@ -122,7 +129,7 @@ export default function ProductScreen() {
               </>
             ) : product.specs.length > 0 ? (
               <>
-                <Text style={s.section}>Specification</Text>
+                <Text style={s.section}>{copy.specification}</Text>
                 <View style={s.specs}>
                   {product.specs.map(([key, value]) => (
                     <View key={key} style={s.spec}>
@@ -138,8 +145,8 @@ export default function ProductScreen() {
           </View>
         ) : shop.error ? (
           <View style={s.content}>
-            <Text style={s.title}>Unavailable</Text>
-            <Text style={s.description}>We couldn&apos;t load this product. Pull back and try again.</Text>
+            <Text style={s.title}>{copy.unavailable}</Text>
+            <Text style={s.description}>{copy.unavailableBody}</Text>
           </View>
         ) : null}
       </Animated.ScrollView>
@@ -163,10 +170,10 @@ export default function ProductScreen() {
       </Animated.View>
 
       <View pointerEvents="box-none" style={[s.topBar, { paddingTop: insets.top + 6 }]}>
-        <Pressable onPress={() => router.back()} style={s.circle} accessibilityLabel="Back">
+        <Pressable onPress={() => router.back()} style={s.circle} accessibilityLabel={copy.back}>
           <Text style={s.circleText}>‹</Text>
         </Pressable>
-        <Pressable onPress={() => router.push("/cart" as never)} style={s.circle} accessibilityLabel="Bag">
+        <Pressable onPress={() => router.push("/cart" as never)} style={s.circle} accessibilityLabel={copy.bag}>
           <Text style={s.bagText}>◻</Text>
           {cart.count > 0 ? (
             <View style={s.badge}>
@@ -180,12 +187,12 @@ export default function ProductScreen() {
         <View style={[s.buyBar, { paddingBottom: Math.max(insets.bottom, 14) }]}>
           {added ? (
             <Pressable onPress={() => router.push("/cart" as never)} style={[s.buy, s.buyDone]}>
-              <Text style={s.buyText}>In your bag · View</Text>
+              <Text style={s.buyText}>{copy.inBag} · {copy.view}</Text>
             </Pressable>
           ) : (
-            <Pressable onPress={add} disabled={needsChoice} style={[s.buy, needsChoice && s.dim]}>
+            <Pressable onPress={add} disabled={needsChoice || soldOut} style={[s.buy, (needsChoice || soldOut) && s.dim]}>
               <Text style={s.buyText}>
-                {needsChoice ? "Choose an option" : `Add to bag · ${variant?.price ?? product.price}`}
+                {soldOut ? copy.outOfStock ?? copy.unavailable : needsChoice ? copy.chooseOption : `${copy.addToBag} · ${variant?.price ?? product.price}`}
               </Text>
             </Pressable>
           )}
@@ -214,7 +221,7 @@ const s = StyleSheet.create({
     backgroundColor: theme.bg, borderBottomWidth: 1, borderBottomColor: theme.line,
     alignItems: "center",
   },
-  topName: { color: theme.ink, fontSize: 13, fontWeight: "900", letterSpacing: 0.6, maxWidth: "58%" },
+  topName: { color: theme.ink, fontSize: 13, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 0.6, maxWidth: "58%" },
   topBar: {
     position: "absolute", top: 0, left: 0, right: 0,
     flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 16,
@@ -223,38 +230,38 @@ const s = StyleSheet.create({
     width: 42, height: 42, borderRadius: 21, backgroundColor: "rgba(8,9,10,0.55)",
     borderWidth: 1, borderColor: "rgba(255,255,255,0.18)", alignItems: "center", justifyContent: "center",
   },
-  circleText: { color: "#fff", fontSize: 22, fontWeight: "900", lineHeight: 24, marginTop: -2 },
+  circleText: { color: "#fff", fontSize: 22, fontFamily: fonts.black, fontWeight: "900", lineHeight: 24, marginTop: -2 },
   bagText: { color: "#fff", fontSize: 16 },
   badge: {
     position: "absolute", top: -3, right: -3, minWidth: 19, height: 19, borderRadius: 10,
     backgroundColor: theme.accent, alignItems: "center", justifyContent: "center",
     paddingHorizontal: 4, borderWidth: 2, borderColor: theme.bg,
   },
-  badgeText: { color: "#fff", fontSize: 10, fontWeight: "900" },
+  badgeText: { color: "#fff", fontSize: 10, fontFamily: fonts.black, fontWeight: "900" },
   imageWrap: { height: IMAGE_HEIGHT },
   // `contain`, not `cover`: these are product photographs on a plain ground and
   // cropping them cuts the clasp off the end of the strap.
   content: { paddingHorizontal: 20, paddingTop: 22 },
-  brand: { color: theme.accent, fontSize: 10, fontWeight: "900", letterSpacing: 1.4, textTransform: "uppercase" },
+  brand: { color: theme.accent, fontSize: 10, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1.4, textTransform: "uppercase" },
   title: { color: theme.ink, fontFamily: display, fontSize: 38, textTransform: "uppercase", marginTop: 8 },
   tagline: { color: theme.ink2, fontSize: 15, lineHeight: 22, marginTop: 6 },
   priceRow: { flexDirection: "row", alignItems: "baseline", gap: 12, marginTop: 18, paddingBottom: 18, borderBottomWidth: 1, borderBottomColor: theme.line },
   price: { color: theme.ink, fontFamily: display, fontSize: 32 },
   compare: { color: theme.muted, fontSize: 15, textDecorationLine: "line-through" },
   brandAfterPicker: { marginTop: 24 },
-  section: { color: theme.accent, fontSize: 10, fontWeight: "900", letterSpacing: 1.5, textTransform: "uppercase", marginTop: 24, marginBottom: 12 },
+  section: { color: theme.accent, fontSize: 10, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1.5, textTransform: "uppercase", marginTop: 24, marginBottom: 12 },
   // The straps are near-black products; on a dark card they need a lit stage
   // to be distinguishable from each other at thumbnail size.
   description: { color: theme.ink2, fontSize: 14, lineHeight: 22, marginTop: 22 },
   highlights: { marginTop: 18, gap: 10 },
   highlight: { flexDirection: "row", gap: 10, alignItems: "flex-start" },
-  check: { color: theme.good, fontSize: 13, fontWeight: "900" },
+  check: { color: theme.good, fontSize: 13, fontFamily: fonts.black, fontWeight: "900" },
   highlightText: { color: theme.ink, fontSize: 13, lineHeight: 19, flex: 1 },
   specGroup: { marginBottom: 14 },
-  specGroupTitle: { color: theme.ink, fontSize: 13, fontWeight: "900", letterSpacing: 0.4, marginBottom: 9 },
+  specGroupTitle: { color: theme.ink, fontSize: 13, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 0.4, marginBottom: 9 },
   specs: { borderRadius: 18, borderWidth: 1, borderColor: theme.line, backgroundColor: theme.surface, overflow: "hidden" },
   spec: { flexDirection: "row", justifyContent: "space-between", gap: 14, padding: 14, borderBottomWidth: 1, borderBottomColor: theme.line },
-  specKey: { color: theme.muted, fontSize: 12, fontWeight: "800" },
+  specKey: { color: theme.muted, fontSize: 12, fontFamily: fonts.black, fontWeight: "800" },
   specValue: { color: theme.ink, fontSize: 12, flex: 1, textAlign: "right" },
   ship: { color: theme.muted, fontSize: 12, marginTop: 18 },
   buyBar: {
@@ -264,5 +271,5 @@ const s = StyleSheet.create({
   buy: { height: 54, borderRadius: 27, backgroundColor: theme.accent, alignItems: "center", justifyContent: "center" },
   buyDone: { backgroundColor: theme.good },
   dim: { opacity: 0.45 },
-  buyText: { color: "#fff", fontSize: 12, fontWeight: "900", letterSpacing: 1, textTransform: "uppercase" },
+  buyText: { color: "#fff", fontSize: 12, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1, textTransform: "uppercase" },
 });

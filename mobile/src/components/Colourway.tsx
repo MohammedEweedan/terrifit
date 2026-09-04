@@ -1,19 +1,32 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useId } from "react";
+import { Pressable, StyleSheet, View } from "react-native";
+import { Text } from "@/components/AppText";
 import Svg, { Defs, Rect, Stop, LinearGradient as SvgGradient } from "react-native-svg";
-import { theme } from "@/theme";
+import { fonts, theme } from "@/theme";
 
 /**
  * A colourway chip, drawn the way the web shop draws it.
  *
  * The straps are an interwoven two-tone yarn, so the swatch is a hard-edged
- * diagonal split rather than a blend — a soft gradient would suggest a fade
- * that does not exist on the actual product. Single-colour options fall back to
- * a flat fill, and an option with no colour at all gets the surface tone rather
- * than a black hole.
+ * alternating diagonal stripe rather than a blend — the same repeating weave
+ * shown on the website. Single-colour options fall back to a flat fill, and an
+ * option with no colour at all gets the surface tone rather than a black hole.
  */
 export function Colourway({ colours, size = 54, selected }: { colours: string[]; size?: number; selected: boolean }) {
-  const id = `weave-${colours.join("-") || "none"}`;
+  const id = `weave-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
   const [first, second] = [colours[0] ?? theme.lineStrong, colours[1] ?? colours[0] ?? theme.lineStrong];
+  // The web gradient changes yarn every 3 px. A diagonal is longer than the
+  // circle's width, so use its hypotenuse to keep the stripe density the same.
+  const stripeCount = Math.max(2, Math.ceil((Math.SQRT2 * size) / 3));
+  const stops = Array.from({ length: stripeCount }, (_, index) => {
+    const start = index / stripeCount;
+    const end = (index + 1) / stripeCount;
+    const colour = index % 2 === 0 ? first : second;
+    return [
+      <Stop key={`${index}-start`} offset={start} stopColor={colour} />,
+      <Stop key={`${index}-end`} offset={end} stopColor={colour} />,
+    ];
+  }).flat();
 
   return (
     <View
@@ -25,11 +38,8 @@ export function Colourway({ colours, size = 54, selected }: { colours: string[];
     >
       <Svg width={size} height={size}>
         <Defs>
-          <SvgGradient id={id} x1="0" y1="0" x2="1" y2="1">
-            <Stop offset="0%" stopColor={first} />
-            <Stop offset="48%" stopColor={first} />
-            <Stop offset="48%" stopColor={second} />
-            <Stop offset="100%" stopColor={second} />
+          <SvgGradient id={id} x1="0%" y1="100%" x2="100%" y2="0%">
+            {stops}
           </SvgGradient>
         </Defs>
         <Rect x={0} y={0} width={size} height={size} rx={size / 2} fill={`url(#${id})`} />
@@ -94,8 +104,8 @@ function Swatch({
 const s = StyleSheet.create({
   wrap: { marginTop: 4 },
   head: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between" },
-  label: { color: theme.muted, fontSize: 10, fontWeight: "900", letterSpacing: 1.3, textTransform: "uppercase" },
-  chosen: { color: theme.ink, fontSize: 14, fontWeight: "800" },
+  label: { color: theme.muted, fontSize: 10, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1.3, textTransform: "uppercase" },
+  chosen: { color: theme.ink, fontSize: 14, fontFamily: fonts.black, fontWeight: "800" },
   row: { flexDirection: "row", gap: 12, marginTop: 12 },
   swatchTap: { padding: 2 },
   chip: {

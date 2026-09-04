@@ -8,7 +8,7 @@ export const runtime = "nodejs";
 export async function POST(request: Request) {
   // A contact form is the most-abused endpoint on any marketing site. Three a
   // minute is far more than a person needs and far less than a script wants.
-  if (!rateLimit(`contact:${clientKey(request)}`, 3, 60_000)) {
+  if (!(await rateLimit(`contact:${clientKey(request)}`, 3, 60_000))) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 

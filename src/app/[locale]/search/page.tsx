@@ -5,6 +5,7 @@ import { SiteShell } from "@/components/layout/SiteShell";
 import { isLocale } from "@/i18n/config";
 import { getPagesCopy } from "@/i18n/pages";
 import { search } from "@/lib/search";
+import { listProducts } from "@/lib/shop/catalog-store";
 
 export const metadata: Metadata = {
   title: "Search — Terrifit",
@@ -34,7 +35,8 @@ export default async function SearchPage({
   const { q } = await searchParams;
   const query = (q ?? "").slice(0, 120).trim();
   const copy = getPagesCopy(locale).search;
-  const results = query ? search(locale, query, 40) : [];
+  const products = query ? await listProducts() : [];
+  const results = query ? search(locale, query, 40, products) : [];
 
   return (
     <SiteShell locale={locale} className="sh-site">

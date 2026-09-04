@@ -10,7 +10,7 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import { findProduct, findVariant, unitPriceCents, type Product, type Variant } from "./catalog";
+import { findVariant, unitPriceCents, type Product, type Variant } from "./catalog";
 import { useHydrated } from "@/lib/client-value";
 
 const STORAGE_KEY = "terrifit.cart.v1";
@@ -85,9 +85,7 @@ function parse(raw: string): CartItem[] {
     const items = parsed.flatMap((value) => {
       if (!value || typeof value !== "object") return [];
       const item = value as Partial<CartItem>;
-      // Drop lines whose product has since left the catalogue rather than
-      // rendering an empty row the customer cannot remove.
-      if (typeof item.slug !== "string" || !findProduct(item.slug)) return [];
+      if (typeof item.slug !== "string") return [];
       return [{
         slug: item.slug,
         variantId: typeof item.variantId === "string" ? item.variantId : undefined,
@@ -134,6 +132,8 @@ function write(items: CartItem[]) {
 /* -------------------------------------------------------------------------- */
 
 type CartValue = {
+  /** The current server-supplied catalogue, also used by recommendations. */
+  catalog: Product[];
   items: CartItem[];
   lines: CartLine[];
   count: number;
@@ -157,7 +157,7 @@ export function lineKey(item: Pick<CartItem, "slug" | "variantId" | "subscribe">
   return `${item.slug}::${item.variantId ?? "-"}::${item.subscribe ? "sub" : "one"}`;
 }
 
-export function CartProvider({ children }: { children: ReactNode }) {
+export function CartProvider({ children, catalog }: { children: ReactNode; catalog: Product[] }) {
   const items = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const ready = useHydrated();
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -210,7 +210,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<CartValue>(() => {
     const lines: CartLine[] = items.flatMap((item) => {
-      const product = findProduct(item.slug);
+      const product = catalog.find((candidate) => candidate.slug === item.slug);
       if (!product) return [];
       const variant = findVariant(product, item.variantId);
       const base = unitPriceCents(product, variant?.id);
@@ -229,6 +229,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
 
     return {
+      catalog,
       items,
       lines,
       count: lines.reduce((total, line) => total + line.quantity, 0),
@@ -243,7 +244,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       openDrawer: () => setDrawerOpen(true),
       closeDrawer: () => setDrawerOpen(false),
     };
-  }, [items, ready, add, setQty, remove, clear, drawerOpen]);
+  }, [items, ready, add, setQty, remove, clear, drawerOpen, catalog]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

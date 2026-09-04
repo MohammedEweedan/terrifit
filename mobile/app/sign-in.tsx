@@ -1,12 +1,17 @@
 import { useState } from "react";
 import {
   Linking,
-  KeyboardAvoidingView, Platform, Pressable, ScrollView,
-  StyleSheet, Text, TextInput, View,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  TextInput,
 } from "react-native";
+import { Text } from "@/components/AppText";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSession } from "@/session";
-import { display, theme } from "@/theme";
+import { fonts, display, theme } from "@/theme";
 import { API_BASE, ApiError, MIN_PASSWORD } from "@/api";
 import { TerrifitMark } from "@/components/TerrifitMark";
 
@@ -159,7 +164,7 @@ const s = StyleSheet.create({
   wrap: { paddingHorizontal: 24 },
   title: { color: theme.ink, fontFamily: display, fontSize: 40, marginTop: 22, textTransform: "uppercase" },
   lede: { color: theme.ink2, fontSize: 15, lineHeight: 22, marginTop: 8 },
-  label: { color: theme.ink2, fontSize: 11, fontWeight: "800", letterSpacing: 1.4, textTransform: "uppercase", marginBottom: 8, marginTop: 20 },
+  label: { color: theme.ink2, fontSize: 11, fontFamily: fonts.black, fontWeight: "800", letterSpacing: 1.4, textTransform: "uppercase", marginBottom: 8, marginTop: 20 },
   input: {
     height: 52, borderWidth: 1, borderColor: theme.lineStrong, borderRadius: 3,
     paddingHorizontal: 14, color: theme.ink, fontSize: 16, backgroundColor: theme.surface,
@@ -170,8 +175,8 @@ const s = StyleSheet.create({
     alignItems: "center", justifyContent: "center", backgroundColor: theme.accent,
   },
   buttonDim: { opacity: 0.55 },
-  buttonText: { color: "#fff", fontSize: 13, fontWeight: "800", letterSpacing: 1, textTransform: "uppercase" },
+  buttonText: { color: "#fff", fontSize: 13, fontFamily: fonts.black, fontWeight: "800", letterSpacing: 1, textTransform: "uppercase" },
   switch: { marginTop: 18, alignSelf: "center", paddingVertical: 8 },
-  switchText: { color: theme.accent, fontSize: 13, fontWeight: "700" },
+  switchText: { color: theme.accent, fontSize: 13, fontFamily: fonts.bold, fontWeight: "700" },
   footnote: { color: theme.muted, fontSize: 12, lineHeight: 18, marginTop: 14, textAlign: "center" },
 });

@@ -39,6 +39,18 @@ describe("parseNominatim", () => {
     assert.equal(result.addresses.length, 1);
   });
 
+  it("reports area, not street, when only the settlement came back", () => {
+    // Nominatim answers many postcodes with the city and nothing else. Calling
+    // that "street" made the app offer an address picker that filled in nothing.
+    const result = parseNominatim(
+      [{ address: { city: "Coventry", state: "England", postcode: "CV1 1JD" } }],
+      "CV11JD",
+    );
+    assert.equal(result.precision, "area");
+    assert.equal(result.addresses[0].line1, "");
+    assert.equal(result.addresses[0].city, "Coventry");
+  });
+
   it("skips rows with neither a street nor a settlement", () => {
     const result = parseNominatim([{ address: { country: "United Kingdom" } }, {}], "CV11GU");
     assert.equal(result.precision, "none");

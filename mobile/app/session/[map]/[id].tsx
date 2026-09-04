@@ -1,14 +1,22 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  ActivityIndicator, Alert, KeyboardAvoidingView, Platform, Pressable,
-  ScrollView, StyleSheet, Text, TextInput, View,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  View,
 } from "react-native";
+import { Text } from "@/components/AppText";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { finishSession, type LoggedEntry, type LoggedSet } from "@/api";
 import { useSessionRuntime } from "@/data";
 import { useSession } from "@/session";
-import { display, theme } from "@/theme";
+import { fonts, display, theme } from "@/theme";
+import { TerrifitSpinner } from "@/components/TerrifitSpinner";
 
 /** "5×3" and "3×10 each side" both mean three or five sets. */
 function setCount(scheme: string): number {
@@ -153,7 +161,7 @@ export default function SessionScreen() {
       ) : null}
 
       <ScrollView contentContainerStyle={[s.content, { paddingBottom: insets.bottom + 120 }]} keyboardShouldPersistTaps="handled">
-        {runtime.loading && !data ? <ActivityIndicator color={theme.accent} style={{ marginTop: 50 }} /> : null}
+        {runtime.loading && !data ? <TerrifitSpinner style={{ marginTop: 50 }} /> : null}
 
         {data ? (
           <>
@@ -241,38 +249,38 @@ const s = StyleSheet.create({
   page: { flex: 1, backgroundColor: theme.bg },
   flex: { flex: 1 },
   top: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 18, paddingBottom: 12 },
-  cancel: { color: theme.accent, fontSize: 14, fontWeight: "700", width: 54 },
-  topTitle: { color: theme.ink, fontSize: 13, fontWeight: "900", flex: 1, textAlign: "center" },
-  counter: { color: theme.ink2, fontSize: 13, fontWeight: "800", width: 54, textAlign: "right" },
+  cancel: { color: theme.accent, fontSize: 14, fontFamily: fonts.bold, fontWeight: "700", width: 54 },
+  topTitle: { color: theme.ink, fontSize: 13, fontFamily: fonts.black, fontWeight: "900", flex: 1, textAlign: "center" },
+  counter: { color: theme.ink2, fontSize: 13, fontFamily: fonts.black, fontWeight: "800", width: 54, textAlign: "right" },
   track: { height: 3, backgroundColor: theme.line },
   fill: { height: 3, backgroundColor: theme.accent },
   rest: { flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: theme.accentSoft, paddingHorizontal: 18, paddingVertical: 12 },
-  restLabel: { color: theme.accent, fontSize: 10, fontWeight: "900", letterSpacing: 1.2, textTransform: "uppercase" },
+  restLabel: { color: theme.accent, fontSize: 10, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1.2, textTransform: "uppercase" },
   restValue: { color: theme.ink, fontFamily: display, fontSize: 24, flex: 1 },
-  restSkip: { color: theme.accent, fontSize: 12, fontWeight: "800" },
+  restSkip: { color: theme.accent, fontSize: 12, fontFamily: fonts.black, fontWeight: "800" },
   content: { paddingHorizontal: 18, paddingTop: 16 },
-  meta: { color: theme.accent, fontSize: 10, fontWeight: "900", letterSpacing: 1.2, textTransform: "uppercase" },
+  meta: { color: theme.accent, fontSize: 10, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1.2, textTransform: "uppercase" },
   last: { color: theme.muted, fontSize: 12, lineHeight: 18, marginTop: 8, marginBottom: 18 },
   exercise: { borderRadius: 20, borderWidth: 1, borderColor: theme.line, backgroundColor: theme.surface, padding: 15, marginBottom: 12 },
   exerciseTop: { flexDirection: "row", alignItems: "flex-start", gap: 10 },
-  exerciseName: { color: theme.ink, fontSize: 16, fontWeight: "900" },
-  scheme: { color: theme.accent, fontSize: 12, fontWeight: "800", marginTop: 4 },
-  restHint: { color: theme.muted, fontSize: 11, fontWeight: "700" },
+  exerciseName: { color: theme.ink, fontSize: 16, fontFamily: fonts.black, fontWeight: "900" },
+  scheme: { color: theme.accent, fontSize: 12, fontFamily: fonts.black, fontWeight: "800", marginTop: 4 },
+  restHint: { color: theme.muted, fontSize: 11, fontFamily: fonts.bold, fontWeight: "700" },
   cue: { color: theme.ink2, fontSize: 12, lineHeight: 18, marginTop: 10, marginBottom: 12 },
   setRow: { flexDirection: "row", alignItems: "center", gap: 9, marginTop: 8 },
-  setIndex: { color: theme.muted, fontSize: 12, fontWeight: "900", width: 16 },
+  setIndex: { color: theme.muted, fontSize: 12, fontFamily: fonts.black, fontWeight: "900", width: 16 },
   input: {
     flex: 1, height: 44, borderRadius: 12, borderWidth: 1, borderColor: theme.lineStrong,
-    color: theme.ink, fontSize: 15, fontWeight: "700", textAlign: "center", backgroundColor: theme.bg,
+    color: theme.ink, fontSize: 15, fontFamily: fonts.bold, fontWeight: "700", textAlign: "center", backgroundColor: theme.bg,
   },
   times: { color: theme.muted, fontSize: 13 },
   tick: { width: 44, height: 44, borderRadius: 12, borderWidth: 1, borderColor: theme.lineStrong, alignItems: "center", justifyContent: "center" },
   tickOn: { backgroundColor: theme.good, borderColor: theme.good },
-  tickText: { color: theme.muted, fontSize: 17, fontWeight: "900" },
+  tickText: { color: theme.muted, fontSize: 17, fontFamily: fonts.black, fontWeight: "900" },
   tickTextOn: { color: "#07100c" },
-  volume: { color: theme.ink2, fontSize: 12, fontWeight: "700", textAlign: "center", marginTop: 6 },
+  volume: { color: theme.ink2, fontSize: 12, fontFamily: fonts.bold, fontWeight: "700", textAlign: "center", marginTop: 6 },
   footer: { paddingHorizontal: 18, paddingTop: 12, borderTopWidth: 1, borderTopColor: theme.line, backgroundColor: theme.surface },
   finish: { height: 52, borderRadius: 26, backgroundColor: theme.accent, alignItems: "center", justifyContent: "center" },
   finishBusy: { opacity: 0.6 },
-  finishText: { color: "#fff", fontSize: 11, fontWeight: "900", letterSpacing: 1, textTransform: "uppercase" },
+  finishText: { color: "#fff", fontSize: 11, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1, textTransform: "uppercase" },
 });

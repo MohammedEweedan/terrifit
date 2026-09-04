@@ -48,6 +48,7 @@ export function parseNominatim(rows: NominatimRow[], fallbackPostal: string): Lo
     if (!label || seen.has(label)) continue;
     seen.add(label);
 
+
     addresses.push({
       label,
       line1,
@@ -59,6 +60,14 @@ export function parseNominatim(rows: NominatimRow[], fallbackPostal: string): Lo
   }
 
   if (addresses.length === 0) return { precision: "none", addresses };
+
+  // Precision is decided by what actually came back, not by the fact that
+  // *something* did. Nominatim will happily answer a postcode with the city
+  // alone; calling that "street" made the app promise an address it could not
+  // deliver, and the picker then filled in nothing.
+  const anyStreet = addresses.some((address) => address.line1.length > 0);
+  if (!anyStreet) return { precision: "area", addresses };
+
   const exact = addresses.some((address) => /^\d/.test(address.line1));
   return { precision: exact ? "exact" : "street", addresses };
 }

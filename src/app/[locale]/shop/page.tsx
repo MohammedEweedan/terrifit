@@ -4,6 +4,7 @@ import { SiteShell } from "@/components/layout/SiteShell";
 import { ShopCatalog } from "@/components/shop/ShopCatalog";
 import { isLocale, locales } from "@/i18n/config";
 import { getPagesCopy } from "@/i18n/pages";
+import { listProducts } from "@/lib/shop/catalog-store";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -28,9 +29,10 @@ export async function generateMetadata({
 export default async function ShopPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
+  const products = await listProducts();
   return (
     <SiteShell locale={locale} className="sh-site">
-      <ShopCatalog locale={locale} copy={getPagesCopy(locale).shop} />
+      <ShopCatalog locale={locale} copy={getPagesCopy(locale).shop} products={products} />
     </SiteShell>
   );
 }

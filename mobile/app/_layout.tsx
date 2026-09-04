@@ -1,33 +1,66 @@
 import { useEffect } from "react";
 import { Stack, useRouter, useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { View, ActivityIndicator } from "react-native";
-import { useFonts, Anton_400Regular } from "@expo-google-fonts/anton";
+import { View } from "react-native";
+import { Anton_400Regular } from "@expo-google-fonts/anton";
+import {
+  NotoKufiArabic_400Regular, NotoKufiArabic_500Medium, NotoKufiArabic_700Bold, NotoKufiArabic_900Black,
+} from "@expo-google-fonts/noto-kufi-arabic";
+import { useFonts } from "expo-font";
+import {
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+  Inter_800ExtraBold,
+  Inter_900Black,
+} from "@expo-google-fonts/inter";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { SessionProvider, useSession } from "@/session";
 import { AppStateProvider, useAppState } from "@/app-state";
 import { PreferencesProvider, usePreferences } from "@/preferences";
+import { HeadlinePreferencesProvider } from "@/headline";
 import { StatPreferencesProvider } from "@/stats";
 import { CartProvider } from "@/cart";
 import { PaymentsProvider } from "@/payments";
+import { ThemeTransition } from "@/components/ThemeTransition";
+import { syncNativeBackground } from "@/appearance";
+import { appearanceMode } from "@/theme";
 import { theme } from "@/theme";
+import { TerrifitSpinner } from "@/components/TerrifitSpinner";
 
 export default function RootLayout() {
-  const [fontsLoaded] = useFonts({ Anton_400Regular });
+  const [fontsLoaded] = useFonts({
+    Anton_400Regular,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    Inter_800ExtraBold,
+    Inter_900Black,
+    NotoKufiArabic_400Regular,
+    NotoKufiArabic_500Medium,
+    NotoKufiArabic_700Bold,
+    NotoKufiArabic_900Black,
+  });
 
   return (
     <SafeAreaProvider>
-      <PreferencesProvider><StatPreferencesProvider><CartProvider><PaymentsProvider><SessionProvider><AppStateProvider><AppRoot fontsLoaded={fontsLoaded}/></AppStateProvider></SessionProvider></PaymentsProvider></CartProvider></StatPreferencesProvider></PreferencesProvider>
+      <PreferencesProvider><StatPreferencesProvider><HeadlinePreferencesProvider><CartProvider><PaymentsProvider><SessionProvider><AppStateProvider><><AppRoot fontsLoaded={fontsLoaded}/><ThemeTransition/></></AppStateProvider></SessionProvider></PaymentsProvider></CartProvider></HeadlinePreferencesProvider></StatPreferencesProvider></PreferencesProvider>
     </SafeAreaProvider>
   );
 }
 
-function AppRoot({fontsLoaded}:{fontsLoaded:boolean}){const preferences=usePreferences();return <><StatusBar style={preferences.scheme==="light"?"dark":"light"}/>{fontsLoaded&&preferences.ready?<Gate/>:<Splash/>}</>}
+function AppRoot({fontsLoaded}:{fontsLoaded:boolean}){const preferences=usePreferences();
+  // Once, at startup: the window colour compiled into the app is fixed, and in
+  // light mode it is the wrong one until something repaints it.
+  useEffect(()=>{syncNativeBackground(appearanceMode)},[]);
+  return <><StatusBar style={preferences.scheme==="light"?"dark":"light"}/>{fontsLoaded&&preferences.ready?<Gate/>:<Splash/>}</>}
 
 function Splash() {
   return (
     <View style={{ flex: 1, backgroundColor: theme.bg, alignItems: "center", justifyContent: "center" }}>
-      <ActivityIndicator color={theme.accent} />
+      <TerrifitSpinner />
     </View>
   );
 }
@@ -77,7 +110,12 @@ function Gate() {
       <Stack.Screen name="session/[map]/[id]" options={{ presentation: "fullScreenModal" }} />
       <Stack.Screen name="cart" options={{ presentation: "modal" }} />
       <Stack.Screen name="checkout" />
+      <Stack.Screen name="addresses" options={{ presentation: "modal" }} />
+      <Stack.Screen name="health-connections" options={{ presentation: "modal" }} />
+      <Stack.Screen name="orders" options={{ presentation: "modal" }} />
+      <Stack.Screen name="report" options={{ presentation: "modal" }} />
       <Stack.Screen name="admin" />
+      <Stack.Screen name="admin-product" />
       <Stack.Screen name="signal" options={{ presentation: "modal" }} />
       <Stack.Screen name="fitness-age" options={{ presentation: "modal" }} />
       <Stack.Screen name="pro" options={{ presentation: "modal" }} />

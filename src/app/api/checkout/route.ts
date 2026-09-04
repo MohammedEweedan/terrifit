@@ -2,11 +2,10 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { clientKey, rateLimit } from "@/lib/rate-limit";
 import { checkoutSchema } from "@/lib/validation";
-import { generateOrderNumber, orderDescription, priceCart, totalsFor } from "@/lib/shop/orders";
+import { orderDescription, priceCart, writeOrder } from "@/lib/shop/orders";
 import { findCountry, validPostal } from "@/lib/shop/countries";
-import { currencyForLocale, findCurrency, priceIn } from "@/lib/shop/currency";
-import { isLocale, type Locale } from "@/i18n/config";
 import { availableMethods, createPayment, methodConfigured } from "@/lib/shop/payments";
+import { inventoryProblems, listProducts } from "@/lib/shop/catalog-store";
 
 export const runtime = "nodejs";
 
@@ -40,7 +39,7 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  if (!rateLimit(`checkout:${clientKey(request)}`, 8, 60_000)) {
+  if (!(await rateLimit(`checkout:${clientKey(request)}`, 8, 60_000))) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 
@@ -60,7 +59,12 @@ export async function POST(request: Request) {
   }
 
   const input = parsed.data;
-  const { lines, subtotalCents, hasPhysical } = priceCart(input.items);
+  const unavailable = await inventoryProblems(input.items);
+  if (unavailable.length > 0) {
+    return NextResponse.json({ error: "out_of_stock", items: unavailable }, { status: 409 });
+  }
+  const catalogue = await listProducts();
+  const { lines, hasPhysical } = priceCart(input.items, catalogue);
   if (lines.length === 0) {
     return NextResponse.json({ error: "empty_cart" }, { status: 422 });
   }
@@ -89,63 +93,24 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "method_unavailable" }, { status: 422 });
   }
 
-  const totals = totalsFor(subtotalCents, hasPhysical);
-  const number = generateOrderNumber();
-
-  const currency =
-    findCurrency(input.currency ?? "")
-    ?? currencyForLocale((isLocale(input.locale) ? input.locale : "en") as Locale);
-  const chargeAmount = priceIn(totals.totalCents, currency);
-
   try {
-    // The order is written before the gateway is called, so a customer who is
-    // charged always has a record here to reconcile against.
-    const order = await prisma.order.create({
-      data: {
-        number,
-        email: input.email,
-        name: input.name,
-        phone: input.phone || null,
-        line1: input.line1 || null,
-        line2: input.line2 || null,
-        city: input.city || null,
-        postcode: input.postcode || null,
-        country: input.country || null,
-        subtotalCents: totals.subtotalCents,
-        shippingCents: totals.shippingCents,
-        taxCents: totals.taxCents,
-        totalCents: totals.totalCents,
-        paymentMethod: input.paymentMethod,
-        currency: currency.code,
-        locale: input.locale,
-        items: {
-          create: lines.map((line) => ({
-            slug: line.slug,
-            variantId: line.variantId,
-            title: line.title,
-            variant: line.variant,
-            unitCents: line.unitCents,
-            quantity: line.quantity,
-            subscribe: line.subscribe,
-          })),
-        },
-      },
-    });
+    const written = await writeOrder(input);
+    if (!written) return NextResponse.json({ error: "empty_cart" }, { status: 422 });
 
     const origin = publicOrigin(request);
     const payment = await createPayment({
       method: input.paymentMethod,
-      orderNumber: number,
-      amountCents: chargeAmount,
-      currency: currency.code,
+      orderNumber: written.number,
+      amountCents: written.chargeAmount,
+      currency: written.currency.code,
       email: input.email,
-      description: orderDescription(lines),
-      successUrl: `${origin}/${input.locale}/shop/order/${number}`,
-      cancelUrl: `${origin}/${input.locale}/shop/checkout?cancelled=${number}`,
+      description: orderDescription(written.lines),
+      successUrl: `${origin}/${input.locale}/shop/order/${written.number}`,
+      cancelUrl: `${origin}/${input.locale}/shop/checkout?cancelled=${written.number}`,
     });
 
     await prisma.order.update({
-      where: { id: order.id },
+      where: { id: written.id },
       data: {
         paymentStatus: payment.status === "failed" ? "failed" : payment.status,
         paymentRef: payment.reference,
@@ -154,17 +119,17 @@ export async function POST(request: Request) {
     });
 
     if (payment.status === "failed") {
-      return NextResponse.json({ error: "payment", number }, { status: 502 });
+      return NextResponse.json({ error: "payment", number: written.number }, { status: 502 });
     }
 
     return NextResponse.json(
       {
-        number,
+        number: written.number,
         redirectUrl: payment.redirectUrl ?? null,
         sandbox: payment.sandbox,
-        totals,
-        currency: currency.code,
-        chargeAmount,
+        totals: written.totals,
+        currency: written.currency.code,
+        chargeAmount: written.chargeAmount,
       },
       { status: 201 },
     );

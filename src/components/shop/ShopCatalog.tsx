@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import type { Locale } from "@/i18n/config";
 import type { PagesCopy } from "@/i18n/pages";
-import { CATEGORIES, products, type Category } from "@/lib/shop/catalog";
+import type { Product } from "@/lib/shop/catalog";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { LaunchRoadmap } from "@/components/marketing/LaunchRoadmap";
 import Image from "next/image";
@@ -12,9 +12,10 @@ import { getPagesCopy } from "@/i18n/pages";
 
 type Sort = "featured" | "priceLow" | "priceHigh" | "rating";
 
-export function ShopCatalog({ locale, copy }: { locale: Locale; copy: PagesCopy["shop"] }) {
-  const [category, setCategory] = useState<Category | "all">("all");
+export function ShopCatalog({ locale, copy, products }: { locale: Locale; copy: PagesCopy["shop"]; products: Product[] }) {
+  const [category, setCategory] = useState("all");
   const [sort, setSort] = useState<Sort>("featured");
+  const categories = useMemo(() => [...new Set(products.map((product) => product.category))], [products]);
 
   const visible = useMemo(() => {
     const list = products.filter((product) => category === "all" || product.category === category);
@@ -25,7 +26,7 @@ export function ShopCatalog({ locale, copy }: { locale: Locale; copy: PagesCopy[
       if (sort === "priceHigh") return b.priceCents - a.priceCents;
       return b.rating - a.rating;
     });
-  }, [category, sort]);
+  }, [category, sort, products]);
 
   return (
     <>
@@ -67,7 +68,7 @@ export function ShopCatalog({ locale, copy }: { locale: Locale; copy: PagesCopy[
               >
                 {copy.categories.all}
               </button>
-              {CATEGORIES.map((key) => (
+              {categories.map((key) => (
                 <button
                   key={key}
                   type="button"
@@ -75,7 +76,7 @@ export function ShopCatalog({ locale, copy }: { locale: Locale; copy: PagesCopy[
                   className={category === key ? "is-active" : undefined}
                   onClick={() => setCategory(key)}
                 >
-                  {copy.categories[key]}
+                  {copy.categories[key as keyof typeof copy.categories] ?? key}
                 </button>
               ))}
             </div>

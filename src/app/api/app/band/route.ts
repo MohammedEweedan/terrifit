@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getRequestUser } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { V1_COLOURWAYS } from "@/lib/shop/catalog";
+import { swatchColours } from "@/lib/shop/catalog";
+import { getV1Colourways } from "@/lib/shop/catalog-store";
 
 export const runtime = "nodejs";
 
@@ -29,10 +30,10 @@ export async function GET(request: Request) {
   const user = await getRequestUser(request);
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
-  const band = await prisma.bandDevice.findFirst({
+  const [band, colourways] = await Promise.all([prisma.bandDevice.findFirst({
     where: { userId: user.id },
     orderBy: { pairedAt: "desc" },
-  });
+  }), getV1Colourways()]);
 
   return NextResponse.json(
     {
@@ -47,11 +48,12 @@ export async function GET(request: Request) {
             lastSyncAt: band.lastSyncAt?.toISOString() ?? null,
           }
         : null,
-      colourways: V1_COLOURWAYS.map((variant) => ({
+      colourways: colourways.map((variant) => ({
         id: variant.id,
         label: variant.label,
         note: variant.note ?? null,
         swatch: variant.swatch ?? null,
+        swatchColours: swatchColours(variant.swatch),
         accent: variant.accent ?? null,
         image: variant.image ?? null,
       })),
@@ -77,6 +79,11 @@ export async function POST(request: Request) {
   }
 
   const { serial, colourway } = parsed.data;
+  const colourways = await getV1Colourways();
+  const selectedColourway = colourway ?? colourways[0]?.id;
+  if (!selectedColourway || !colourways.some((variant) => variant.id === selectedColourway)) {
+    return NextResponse.json({ error: "validation", fields: ["colourway"] }, { status: 422 });
+  }
 
   const owned = await prisma.bandDevice.findUnique({ where: { serial }, select: { userId: true } });
   if (owned && owned.userId !== user.id) {
@@ -86,8 +93,8 @@ export async function POST(request: Request) {
   const firmware = parsed.data.simulated ? "1.4.2-sim" : "1.0.0";
   const band = await prisma.bandDevice.upsert({
     where: { serial },
-    update: { userId: user.id, colourway: colourway ?? "ember", firmware, lastSyncAt: new Date() },
-    create: { userId: user.id, serial, colourway: colourway ?? "ember", firmware, lastSyncAt: new Date() },
+    update: { userId: user.id, colourway: selectedColourway, firmware, lastSyncAt: new Date() },
+    create: { userId: user.id, serial, colourway: selectedColourway, firmware, lastSyncAt: new Date() },
   });
 
   await prisma.notification.create({
@@ -122,4 +129,42 @@ export async function DELETE(request: Request) {
 
   await prisma.bandDevice.deleteMany({ where: { userId: user.id } });
   return NextResponse.json({ ok: true });
+}
+
+const changeSchema = z.object({
+  colourway: z.string().trim().min(1).max(40),
+});
+
+/**
+ * Changing which strap is on the band.
+ *
+ * Straps come off in about four seconds, so the colourway set at pairing is
+ * a snapshot of that afternoon, not a property of the device. The shop pictures
+ * the V1 in whatever is actually on the wrist, so this has to be changeable
+ * without unpairing and starting again.
+ */
+export async function PATCH(request: Request) {
+  const user = await getRequestUser(request);
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+
+  const parsed = changeSchema.safeParse(await request.json().catch(() => null));
+  if (!parsed.success) return NextResponse.json({ error: "validation" }, { status: 422 });
+
+  const { colourway } = parsed.data;
+  // Checked against the catalogue: an unknown id would leave the shop and the
+  // band page with no art to show and no label to print.
+  const colourways = await getV1Colourways();
+  if (!colourways.some((variant) => variant.id === colourway)) {
+    return NextResponse.json({ error: "validation", fields: ["colourway"] }, { status: 422 });
+  }
+
+  // Scoped to the owner in the same statement, so this can only ever touch
+  // a band the caller actually has.
+  const changed = await prisma.bandDevice.updateMany({
+    where: { userId: user.id },
+    data: { colourway },
+  });
+  if (changed.count === 0) return NextResponse.json({ error: "not_found" }, { status: 404 });
+
+  return NextResponse.json({ colourway });
 }

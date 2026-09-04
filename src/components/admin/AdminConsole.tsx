@@ -2,19 +2,38 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import type { Product } from "@/lib/shop/catalog";
 
 type Admin = { id: string; email: string; name: string };
 
 type Overview = {
-  members: { total: number; newThisWeek: number; pro: number; trialing: number };
+  members: { total: number; newThisWeek: number; pro: number; payingCustomers: number; trialing: number };
   waitlist: number;
   subscriptions: { monthly: number; yearly: number; mrrCents: number; arrCents: number };
-  orders: { total: number; thisWeek: number; revenueCents: number };
+  orders: { total: number; thisWeek: number; paid: number; sandbox: number; revenueCents: number };
+  payments: {
+    byCurrency: PaymentBucket[];
+    byMethod: Array<{ method: string; orders: number; revenue: PaymentBucket[] }>;
+    byStatus: Array<{ status: string; orders: number }>;
+  };
+  sales: {
+    terrifuel: SalesMetric;
+    band: SalesMetric;
+    accessories: SalesMetric;
+    products: Array<SalesMetric & { slug: string; name: string; category: string; brand: string }>;
+  };
   content: { posts: number; comments: number };
   devices: number;
   contact: number;
   imports: number;
 };
+
+type PaymentBucket = {
+  currency: string; grossCents: number; refundedCents: number; netCents: number;
+  paidOrders: number; refundedOrders: number; averageOrderCents: number;
+};
+
+type SalesMetric = { units: number; orders: number; revenue: Array<{ currency: string; cents: number }> };
 
 type Member = {
   id: string; email: string; name: string; handle: string | null; role: string;
@@ -23,6 +42,7 @@ type Member = {
 
 type Order = {
   id: string; number: string; email: string; name: string; totalCents: number;
+  currency: string;
   paymentMethod: string; paymentStatus: string; fulfillmentStatus: string; sandbox: boolean;
   createdAt: string; address: string | null;
   items: Array<{ title: string; variantLabel: string | null; quantity: number; unitPriceCents: number }>;
@@ -39,10 +59,13 @@ type Entry = {
   actor: { name: string; email: string }; createdAt: string;
 };
 
-const TABS = ["Overview", "Members", "Orders", "Content", "Audit"] as const;
+const TABS = ["Overview", "Products", "Orders", "Revenue", "Members", "Content", "Audit"] as const;
 type Tab = (typeof TABS)[number];
 
-const money = (cents: number) => `$${(cents / 100).toFixed(2)}`;
+const money = (cents: number, currency = "USD") =>
+  new Intl.NumberFormat("en", { style: "currency", currency }).format(cents / 100);
+const salesRevenue = (metric: SalesMetric) =>
+  metric.revenue.length ? metric.revenue.map((entry) => money(entry.cents, entry.currency)).join(" · ") : "No paid sales";
 const when = (iso: string) => new Date(iso).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
 
 /**
@@ -60,6 +83,7 @@ export function AdminConsole({
   orders,
   posts,
   audit: entries,
+  products,
 }: {
   locale: string;
   admin: Admin;
@@ -68,6 +92,7 @@ export function AdminConsole({
   orders: Order[];
   posts: Post[];
   audit: Entry[];
+  products: Product[];
 }) {
   const router = useRouter();
   const [tab, setTab] = useState<Tab>("Overview");
@@ -156,7 +181,8 @@ export function AdminConsole({
       {tab === "Overview" ? (
         <section className="ad-grid">
           <Stat label="Members" value={overview.members.total} note={`${overview.members.newThisWeek} joined this week`} />
-          <Stat label="Pro" value={overview.members.pro} note={`${Math.round((overview.members.pro / Math.max(1, overview.members.total)) * 100)}% of members`} />
+          <Stat label="Paying customers" value={overview.members.payingCustomers} note={`${Math.round((overview.members.payingCustomers / Math.max(1, overview.members.total)) * 100)}% of members`} />
+          <Stat label="Pro access" value={overview.members.pro} note="Paid and comped accounts" />
           <Stat label="On trial" value={overview.members.trialing} note="Not yet paying" />
           <Stat
             label="MRR"
@@ -165,11 +191,45 @@ export function AdminConsole({
           />
           <Stat label="ARR" value={money(overview.subscriptions.arrCents)} note="MRR × 12" />
           <Stat label="Waitlist" value={overview.waitlist} note="Signed up before launch" />
-          <Stat label="Orders" value={overview.orders.total} note={`${overview.orders.thisWeek} this week`} />
-          <Stat label="Revenue" value={money(overview.orders.revenueCents)} note="Paid orders only" />
+          <Stat label="Paid orders" value={overview.orders.paid} note={`${overview.orders.thisWeek} all orders this week`} />
+          <Stat label="Terrifuel" value={overview.sales.terrifuel.units} note={`${overview.sales.terrifuel.orders} paid orders · ${salesRevenue(overview.sales.terrifuel)}`} />
+          <Stat label="Band sales" value={overview.sales.band.units} note={`${overview.sales.band.orders} paid orders · ${salesRevenue(overview.sales.band)}`} />
+          <Stat label="Accessory sales" value={overview.sales.accessories.units} note={`${overview.sales.accessories.orders} paid orders · ${salesRevenue(overview.sales.accessories)}`} />
           <Stat label="Posts" value={overview.content.posts} note={`${overview.content.comments} comments`} />
           <Stat label="Bands paired" value={overview.devices} note="V1 registrations" />
           <Stat label="Health imports" value={overview.imports} note={`${overview.contact} contact messages`} />
+        </section>
+      ) : null}
+
+      {tab === "Products" ? (
+        <section className="ad-scroller">
+          <div className="ad-section-head">
+            <div><h2>Products and stock</h2><p className="ad-note">Live catalogue state used by the website, app and checkout.</p></div>
+          </div>
+          <table className="ad-table">
+            <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Status</th><th>Variants</th><th className="num">Stock</th><th>Sales</th></tr></thead>
+            <tbody>
+              {products.map((product) => {
+                const stock = product.variants.length
+                  ? product.variants.reduce((total, variant) => total + (variant.stockQuantity ?? 0), 0)
+                  : product.stockQuantity ?? 0;
+                const metric = overview.sales.products.find((item) => item.slug === product.slug);
+                return <tr key={product.slug}>
+                  <th scope="row">{product.name}<small>{product.brand} · {product.slug}</small></th>
+                  <td>{product.category}</td>
+                  <td>{money(product.priceCents)}</td>
+                  <td><span className={`ad-pill ${product.active === false ? "ad-failed" : "ad-paid"}`}>{product.active === false ? "archived" : "active"}</span></td>
+                  <td>{product.variants.map((variant) => <small key={variant.id} className="ad-variant">
+                    <span className="ad-swatch" aria-hidden="true">{(variant.colours ?? []).map((colour) => <i key={colour} style={{ backgroundColor: colour }} />)}</span>
+                    {variant.label} · {variant.stockQuantity ?? 0}
+                  </small>)}</td>
+                  <td className="num">{stock}</td>
+                  <td>{metric ? `${metric.units} units` : "0 units"}<small>{metric ? salesRevenue(metric) : "No paid sales"}</small></td>
+                </tr>;
+              })}
+            </tbody>
+          </table>
+          <p className="ad-note">Create, edit, archive, change images, colour combinations and exact variant stock in the mobile console’s Products tab.</p>
         </section>
       ) : null}
 
@@ -254,7 +314,7 @@ export function AdminConsole({
                       </small>
                     ))}
                   </td>
-                  <td className="num">{money(order.totalCents)}</td>
+                  <td className="num">{money(order.totalCents, order.currency)}</td>
                   <td>
                     <span className={`ad-pill ad-${order.paymentStatus}`}>{order.paymentStatus}</span>
                     <small>{order.paymentMethod}</small>
@@ -286,6 +346,29 @@ export function AdminConsole({
             Marking an order refunded records a refund somebody performed in the payment provider. It does not move
             any money on its own.
           </p>
+        </section>
+      ) : null}
+
+      {tab === "Revenue" ? (
+        <section>
+          <div className="ad-grid">
+            {overview.payments.byCurrency.map((bucket) => <Stat key={bucket.currency} label={`${bucket.currency} net revenue`} value={money(bucket.netCents, bucket.currency)} note={`${money(bucket.grossCents, bucket.currency)} gross · ${money(bucket.refundedCents, bucket.currency)} refunded`} />)}
+            <Stat label="MRR" value={money(overview.subscriptions.mrrCents)} note={`${overview.subscriptions.monthly} monthly · ${overview.subscriptions.yearly} yearly`} />
+            <Stat label="ARR" value={money(overview.subscriptions.arrCents)} note="MRR × 12" />
+          </div>
+          <h2 className="ad-subhead">Payments by currency</h2>
+          <div className="ad-scroller"><table className="ad-table"><thead><tr><th>Currency</th><th className="num">Gross</th><th className="num">Refunded</th><th className="num">Net</th><th className="num">Paid orders</th><th className="num">AOV</th></tr></thead><tbody>
+            {overview.payments.byCurrency.map((bucket) => <tr key={bucket.currency}><th>{bucket.currency}</th><td className="num">{money(bucket.grossCents, bucket.currency)}</td><td className="num">{money(bucket.refundedCents, bucket.currency)}</td><td className="num">{money(bucket.netCents, bucket.currency)}</td><td className="num">{bucket.paidOrders}</td><td className="num">{money(bucket.averageOrderCents, bucket.currency)}</td></tr>)}
+          </tbody></table></div>
+          <h2 className="ad-subhead">Payment methods</h2>
+          <div className="ad-scroller"><table className="ad-table"><thead><tr><th>Method</th><th className="num">Paid orders</th><th>Net revenue</th></tr></thead><tbody>
+            {overview.payments.byMethod.map((method) => <tr key={method.method}><th>{method.method}</th><td className="num">{method.orders}</td><td>{method.revenue.map((bucket) => `${money(bucket.netCents, bucket.currency)} ${bucket.currency}`).join(" · ")}</td></tr>)}
+          </tbody></table></div>
+          <h2 className="ad-subhead">Products</h2>
+          <div className="ad-scroller"><table className="ad-table"><thead><tr><th>Product</th><th>Business line</th><th className="num">Orders</th><th className="num">Units</th><th>Revenue</th></tr></thead><tbody>
+            {overview.sales.products.map((product) => <tr key={product.slug}><th>{product.name}<small>{product.brand}</small></th><td>{product.category}</td><td className="num">{product.orders}</td><td className="num">{product.units}</td><td>{salesRevenue(product)}</td></tr>)}
+          </tbody></table></div>
+          <p className="ad-note">Test orders are excluded. Values stay in their original currency instead of being added into a misleading dollar total.</p>
         </section>
       ) : null}
 

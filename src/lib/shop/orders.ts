@@ -6,7 +6,9 @@ import { currencyForLocale, findCurrency, priceIn, type Currency } from "./curre
 import { findCountry, validPostal } from "@/lib/shop/countries";
 import { randomInt } from "node:crypto";
 import { findProduct, findVariant, unitPriceCents, type Product } from "./catalog";
-import { orderTotalCents } from "./shipping";
+import { listProducts } from "./catalog-store";
+import { ESTIMATED_TAX_RATE, orderTotalCents } from "./shipping";
+import { FUEL_GIFT_THRESHOLD_CENTS, giftsFor, launchOfferState, type LaunchGift } from "./launch-offer";
 import type { CheckoutInput } from "@/lib/validation";
 
 /**
@@ -25,7 +27,7 @@ export type PricedLine = {
   product: Product;
 };
 
-export function priceCart(items: CheckoutInput["items"]): {
+export function priceCart(items: CheckoutInput["items"], catalogue?: Product[]): {
   lines: PricedLine[];
   subtotalCents: number;
   hasPhysical: boolean;
@@ -33,7 +35,7 @@ export function priceCart(items: CheckoutInput["items"]): {
   const lines: PricedLine[] = [];
 
   for (const item of items) {
-    const product = findProduct(item.slug);
+    const product = catalogue?.find((candidate) => candidate.slug === item.slug) ?? findProduct(item.slug);
     // A line naming a product that no longer exists is dropped rather than
     // failing the whole order — the customer keeps the rest of their bag.
     if (!product) continue;
@@ -103,11 +105,14 @@ export async function writeOrder(input: CheckoutInput): Promise<{
   /** The currency actually charged, and the total expressed in it. */
   currency: Currency;
   chargeAmount: number;
+  /** Founding-hundred kit added to this order at no charge. */
+  gifts: LaunchGift[];
 } | null> {
-  const { lines, subtotalCents, hasPhysical } = priceCart(input.items);
-  if (lines.length === 0) return null;
+  const catalogue = await listProducts();
+  const { lines: baseLines, subtotalCents: baseSubtotalCents, hasPhysical } = priceCart(input.items, catalogue);
+  if (baseLines.length === 0) return null;
 
-  const totals = totalsFor(subtotalCents, hasPhysical);
+  const baseTotals = totalsFor(baseSubtotalCents, hasPhysical);
   const number = generateOrderNumber();
 
   // Resolved from the table, never taken on trust: an unknown code would be
@@ -115,7 +120,31 @@ export async function writeOrder(input: CheckoutInput): Promise<{
   const currency =
     findCurrency(input.currency ?? "")
     ?? currencyForLocale((isLocale(input.locale) ? input.locale : "en") as Locale);
-  const chargeAmount = priceIn(totals.totalCents, currency);
+
+  // Catalogue items are deliberate price points in every currency. Build the
+  // charged subtotal from those unit prices so the bag, order row, receipt and
+  // PaymentIntent all agree exactly; converting only the final USD total made
+  // a EUR order display one amount and charge another.
+  const lines = baseLines.map((line) => ({ ...line, unitCents: priceIn(line.unitCents, currency) }));
+  const subtotalCents = lines.reduce((total, line) => total + line.unitCents * line.quantity, 0);
+  const shippingCents = baseTotals.shippingCents === 0 ? 0 : priceIn(baseTotals.shippingCents, currency);
+  const taxCents = Math.round(subtotalCents * ESTIMATED_TAX_RATE);
+  const totals = {
+    subtotalCents,
+    shippingCents,
+    taxCents,
+    totalCents: subtotalCents + shippingCents + taxCents,
+  };
+  const chargeAmount = totals.totalCents;
+
+  // Earned server-side from the priced bag, never sent by the browser. The
+  // threshold is converted into the charged currency so $150 of Terrifuel is
+  // the same bar in every market.
+  const offer = await launchOfferState();
+  const gifts = giftsFor(lines, {
+    open: offer.open,
+    thresholdCents: priceIn(FUEL_GIFT_THRESHOLD_CENTS, currency),
+  });
 
   const order = await prisma.order.create({
     data: {
@@ -136,21 +165,32 @@ export async function writeOrder(input: CheckoutInput): Promise<{
       currency: currency.code,
       locale: input.locale,
       items: {
-        create: lines.map((line) => ({
-          slug: line.slug,
-          variantId: line.variantId,
-          title: line.title,
-          variant: line.variant,
-          unitCents: line.unitCents,
-          quantity: line.quantity,
-          subscribe: line.subscribe,
-        })),
+        create: [
+          ...lines.map((line) => ({
+            slug: line.slug,
+            variantId: line.variantId,
+            title: line.title,
+            variant: line.variant,
+            unitCents: line.unitCents,
+            quantity: line.quantity,
+            subscribe: line.subscribe,
+          })),
+          ...gifts.map((gift) => ({
+            slug: gift.slug,
+            variantId: null,
+            title: gift.title,
+            variant: gift.reason,
+            unitCents: 0,
+            quantity: 1,
+            subscribe: false,
+          })),
+        ],
       },
     },
     select: { id: true },
   });
 
-  return { id: order.id, number, lines, totals, hasPhysical, currency, chargeAmount };
+  return { id: order.id, number, lines, totals, hasPhysical, currency, chargeAmount, gifts };
 }
 
 /**

@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
+import { Text } from "@/components/AppText";
 import { syncHealth } from "@/api";
 import { healthAvailable, readHealth, requestHealthAccess } from "@/health";
 import { useSession } from "@/session";
-import { theme } from "@/theme";
+import { fonts, theme } from "@/theme";
+import { TerrifitSpinner } from "./TerrifitSpinner";
 
 type Phase = "idle" | "asking" | "reading" | "sending" | "done" | "error";
 
@@ -80,7 +82,7 @@ export function HealthSync({ onDone }: { onDone?: () => void }) {
       {phase === "error" ? <Text style={s.error}>{message}</Text> : null}
 
       <Pressable onPress={() => void sync()} disabled={busy} style={[s.button, busy && s.buttonBusy]}>
-        {busy ? <ActivityIndicator color="#fff" size="small" /> : null}
+        {busy ? <TerrifitSpinner size={22} /> : null}
         <Text style={s.buttonText}>
           {phase === "asking"
             ? "Waiting for permission…"
@@ -103,7 +105,7 @@ const s = StyleSheet.create({
   head: { flexDirection: "row", gap: 13, alignItems: "flex-start" },
   mark: { width: 40, height: 40, borderRadius: 14, backgroundColor: theme.accentSoft, alignItems: "center", justifyContent: "center" },
   markText: { color: theme.accent, fontSize: 18 },
-  title: { color: theme.ink, fontSize: 15, fontWeight: "900" },
+  title: { color: theme.ink, fontSize: 15, fontFamily: fonts.black, fontWeight: "900" },
   body: { color: theme.ink2, fontSize: 12, lineHeight: 18, marginTop: 5 },
   error: { color: theme.fair, fontSize: 12, lineHeight: 18, marginTop: 12 },
   button: {
@@ -111,5 +113,5 @@ const s = StyleSheet.create({
     flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 9,
   },
   buttonBusy: { opacity: 0.7 },
-  buttonText: { color: "#fff", fontSize: 11, fontWeight: "900", letterSpacing: 1, textTransform: "uppercase" },
+  buttonText: { color: "#fff", fontSize: 11, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1, textTransform: "uppercase" },
 });

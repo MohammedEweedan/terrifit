@@ -43,7 +43,7 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
   const user = await getRequestUser(request);
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
-  if (!rateLimit(`comment:${user.id}:${clientKey(request)}`, 30, 60_000)) {
+  if (!(await rateLimit(`comment:${user.id}:${clientKey(request)}`, 30, 60_000))) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 

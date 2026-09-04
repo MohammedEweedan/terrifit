@@ -1,4 +1,5 @@
-import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
+import { Text } from "@/components/AppText";
 import { useRouter } from "expo-router";
 import { AppHeader } from "@/components/AppHeader";
 import { DailySignal } from "@/components/DailySignal";
@@ -6,8 +7,11 @@ import { HealthSync } from "@/components/HealthSync";
 import { Screen } from "@/components/Screen";
 import { useAppState } from "@/app-state";
 import { useDashboard, useMaps, useNotifications } from "@/data";
-import { duration, plural, sourceName } from "@/format";
-import { display, theme } from "@/theme";
+import { duration, sourceName } from "@/format";
+import { fonts, display, theme } from "@/theme";
+import { usePreferences } from "@/preferences";
+import { screenCopy } from "@/i18n/screens";
+import { TerrifitSpinner } from "@/components/TerrifitSpinner";
 
 /**
  * Today.
@@ -18,6 +22,7 @@ import { display, theme } from "@/theme";
  * filler.
  */
 export default function TodayScreen() {
+  const copy = screenCopy[usePreferences().locale];
   const router = useRouter();
   const { band, refresh } = useAppState();
   const dashboard = useDashboard();
@@ -37,41 +42,30 @@ export default function TodayScreen() {
         maps.reload();
         notices.reload();
       }}
-      header={<AppHeader unread={notices.data?.unread ?? 0} />}
+      header={<AppHeader unread={notices.data?.unread ?? 0}/>}
     >
       {dashboard.loading && !dashboard.data ? (
-        <ActivityIndicator color={theme.accent} style={{ marginTop: 40 }} />
+        <TerrifitSpinner style={{ marginTop: 40 }} />
       ) : null}
 
       <DailySignal data={dashboard.data} open />
 
       {latest ? null : (
         <View style={s.onboard}>
-          <Text style={s.onboardTitle}>Nothing to score yet</Text>
-          <Text style={s.onboardBody}>
-            Connect Apple Health and every number above fills in from what your watch already recorded. It takes about
-            a minute and nothing is typed in.
-          </Text>
+          <Text style={s.onboardTitle}>{copy.nothingToScore}</Text>
+          <Text style={s.onboardBody}>{copy.connectAppleHealth}</Text>
           <HealthSync onDone={refresh} />
         </View>
       )}
-
-      <Pressable onPress={() => router.push("/insights" as never)} style={s.next}>
-        <View style={s.flex}>
-          <Text style={s.nextLabel}>Insights</Text>
-          <Text style={s.nextTitle}>What your own history says, and what to do about it</Text>
-        </View>
-        <Text style={s.chevron}>›</Text>
-      </Pressable>
 
       {active ? (
         <Pressable onPress={() => router.push(`/map/${active.mapId}` as never)} style={s.next}>
           <View style={s.flex}>
             <Text style={s.nextLabel}>
-              {active.name} · week {active.week} of {active.weeks}
+              {active.name} · {copy.weekLabel} {active.week} {copy.ofLabel} {active.weeks}
             </Text>
             <Text style={s.nextTitle}>
-              {active.done} of {active.sessionsPerWeek} sessions done this week
+              {active.done} {copy.ofLabel} {active.sessionsPerWeek} {copy.sessionsThisWeek}
             </Text>
           </View>
           <Text style={s.chevron}>›</Text>
@@ -79,8 +73,8 @@ export default function TodayScreen() {
       ) : (
         <Pressable onPress={() => router.push("/maps" as never)} style={s.next}>
           <View style={s.flex}>
-            <Text style={s.nextLabel}>No Map running</Text>
-            <Text style={s.nextTitle}>Pick a programme and the app plans your week</Text>
+            <Text style={s.nextLabel}>{copy.noMapRunning}</Text>
+            <Text style={s.nextTitle}>{copy.pickAProgramme}</Text>
           </View>
           <Text style={s.chevron}>›</Text>
         </Pressable>
@@ -89,8 +83,8 @@ export default function TodayScreen() {
       {!band?.band ? (
         <Pressable onPress={() => router.push("/pair-band" as never)} style={s.next}>
           <View style={s.flex}>
-            <Text style={s.nextLabel}>No V1 paired</Text>
-            <Text style={s.nextTitle}>Measured beats imported. Pair a band when you have one.</Text>
+            <Text style={s.nextLabel}>{copy.noV1Paired}</Text>
+            <Text style={s.nextTitle}>{copy.measuredBeatsImported}</Text>
           </View>
           <Text style={s.chevron}>›</Text>
         </Pressable>
@@ -98,14 +92,14 @@ export default function TodayScreen() {
 
       {lastRow ? (
         <Text style={s.footnote}>
-          Last night: {duration(lastRow.sleepMinutes)} asleep
-          {lastRow.steps != null ? ` · ${lastRow.steps.toLocaleString()} steps yesterday` : ""}
+          {copy.lastNight}: {duration(lastRow.sleepMinutes)} {copy.asleep}
+          {lastRow.steps != null ? ` · ${lastRow.steps.toLocaleString()} ${copy.stepsYesterday}` : ""}
         </Text>
       ) : null}
 
       {dashboard.data ? (
         <Text style={s.sources}>
-          Built from {plural(dashboard.data.dayCount, "day")} of data
+          {copy.builtFrom} {dashboard.data.dayCount} {copy.daysOfData}
           {dashboard.data.sources.length
             ? ` · ${dashboard.data.sources.map(sourceName).join(", ")}`
             : ""}
@@ -126,8 +120,8 @@ const s = StyleSheet.create({
     flexDirection: "row", alignItems: "center", gap: 12, padding: 16, marginBottom: 12,
     borderRadius: 20, borderWidth: 1, borderColor: theme.line, backgroundColor: theme.surface,
   },
-  nextLabel: { color: theme.accent, fontSize: 10, fontWeight: "900", letterSpacing: 1.2, textTransform: "uppercase" },
-  nextTitle: { color: theme.ink, fontSize: 14, fontWeight: "800", marginTop: 5, lineHeight: 20 },
+  nextLabel: { color: theme.accent, fontSize: 10, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1.2, textTransform: "uppercase" },
+  nextTitle: { color: theme.ink, fontSize: 14, fontFamily: fonts.black, fontWeight: "800", marginTop: 5, lineHeight: 20 },
   chevron: { color: theme.muted, fontSize: 26 },
   footnote: { color: theme.ink2, fontSize: 12, textAlign: "center", marginTop: 10 },
   sources: { color: theme.muted, fontSize: 11, textAlign: "center", marginTop: 8 },

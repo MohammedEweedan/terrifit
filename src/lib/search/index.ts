@@ -2,7 +2,7 @@ import { getDictionary } from "@/i18n";
 import { getPagesCopy } from "@/i18n/pages";
 import { marketingUi } from "@/i18n/marketing";
 import type { Locale } from "@/i18n/config";
-import { products } from "@/lib/shop/catalog";
+import type { Product } from "@/lib/shop/catalog";
 
 /**
  * Site-wide search.
@@ -49,12 +49,7 @@ function tokenise(value: string): string[] {
 
 /* -------------------------------------------------------------------------- */
 
-const cache = new Map<Locale, SearchDoc[]>();
-
-export function buildIndex(locale: Locale): SearchDoc[] {
-  const cached = cache.get(locale);
-  if (cached) return cached;
-
+export function buildIndex(locale: Locale, products: Product[]): SearchDoc[] {
   const pages = getPagesCopy(locale);
   const dict = getDictionary(locale);
   const ui = marketingUi[locale];
@@ -178,9 +173,11 @@ export function buildIndex(locale: Locale): SearchDoc[] {
       kind: "map",
       title: map.name,
       subtitle: map.summary,
-      body: `${map.type} ${map.level} ${map.creator} ${map.equipment} ${map.weeks} ${map.days}`,
+      body: `${map.type} ${map.level} ${map.creator} ${map.credential} ${map.equipment} ${map.weeks} ${map.days}`,
       href: at("/maps#library"),
-      badge: map.price,
+      // Maps come with membership, so the badge is the length rather than a
+      // price. Nothing here is sold separately.
+      badge: `${map.weeks} ${pages.maps.library.weeksLabel}`,
     });
   }
 
@@ -318,7 +315,6 @@ export function buildIndex(locale: Locale): SearchDoc[] {
     });
   }
 
-  cache.set(locale, docs);
   return docs;
 }
 
@@ -331,13 +327,13 @@ type Scored = { doc: SearchDoc; score: number };
  * the title, which beats anything in the body; a document has to match every
  * token the visitor typed, so adding a word always narrows the results.
  */
-export function search(locale: Locale, query: string, limit = 12): SearchResult[] {
+export function search(locale: Locale, query: string, limit = 12, products: Product[] = []): SearchResult[] {
   const tokens = tokenise(query);
   if (tokens.length === 0) return [];
 
   const results: Scored[] = [];
 
-  for (const doc of buildIndex(locale)) {
+  for (const doc of buildIndex(locale, products)) {
     const title = normalise(doc.title);
     const subtitle = normalise(doc.subtitle);
     const body = normalise(doc.body);

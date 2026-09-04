@@ -1,7 +1,8 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import Storage from "expo-sqlite/kv-store";
+import { usePreferences } from "./preferences";
 
-const KEY = "terrifit.cart";
+const KEY = (currency: string) => `terrifit.cart.${currency}`;
 
 export type CartLine = {
   slug: string;
@@ -18,6 +19,7 @@ type Cart = {
   lines: CartLine[];
   count: number;
   subtotalCents: number;
+  currency: string;
   add: (line: Omit<CartLine, "quantity">, quantity?: number) => void;
   setQuantity: (slug: string, variantId: string | null, quantity: number) => void;
   remove: (slug: string, variantId: string | null) => void;
@@ -38,24 +40,26 @@ const same = (line: CartLine, slug: string, variantId: string | null) =>
  * to invent a cheaper total.
  */
 export function CartProvider({ children }: { children: ReactNode }) {
+  const { currencyCode } = usePreferences();
   const [lines, setLines] = useState<CartLine[]>([]);
 
   useEffect(() => {
     try {
-      const stored = Storage.getItemSync(KEY);
+      const stored = Storage.getItemSync(KEY(currencyCode));
       if (stored) {
         const parsed: unknown = JSON.parse(stored);
         if (Array.isArray(parsed)) setLines(parsed as CartLine[]);
-      }
+      } else setLines([]);
     } catch {
       // A corrupt bag is an empty bag rather than a crash on launch.
+      setLines([]);
     }
-  }, []);
+  }, [currencyCode]);
 
   const write = useCallback((next: CartLine[]) => {
     setLines(next);
-    void Storage.setItem(KEY, JSON.stringify(next)).catch(() => {});
-  }, []);
+    void Storage.setItem(KEY(currencyCode), JSON.stringify(next)).catch(() => {});
+  }, [currencyCode]);
 
   const add = useCallback(
     (line: Omit<CartLine, "quantity">, quantity = 1) => {
@@ -98,12 +102,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
       lines,
       count: lines.reduce((total, line) => total + line.quantity, 0),
       subtotalCents: lines.reduce((total, line) => total + line.priceCents * line.quantity, 0),
+      currency: currencyCode,
       add,
       setQuantity,
       remove,
       clear,
     }),
-    [lines, add, setQuantity, remove, clear],
+    [lines, currencyCode, add, setQuantity, remove, clear],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

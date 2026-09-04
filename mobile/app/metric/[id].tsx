@@ -1,12 +1,17 @@
 import { useMemo, useState } from "react";
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
+import { Text } from "@/components/AppText";
+import { useLocalSearchParams } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { MetricChart, type Point } from "@/components/MetricChart";
 import { useDashboard } from "@/data";
-import { STAT_BLURBS, STAT_LABELS, type StatId } from "@/stats";
-import { theme } from "@/theme";
+import { STAT_BLURBS, type StatId } from "@/stats";
+import { metricLabel, type MetricKey } from "@/metric-labels";
+import { usePreferences } from "@/preferences";
+import { fonts, theme } from "@/theme";
 import type { Dashboard } from "@/api";
+import { ModalHeader } from "@/components/ModalHeader";
+import { TerrifitSpinner } from "@/components/TerrifitSpinner";
 
 /**
  * The ranges the stored data can honestly support.
@@ -49,10 +54,10 @@ const READERS: Record<StatId, { read: (row: Row) => number | null; format: (v: n
  */
 export default function MetricScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const router = useRouter();
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const dashboard = useDashboard();
+  const { locale } = usePreferences();
   const [days, setDays] = useState<number>(30);
 
   const statId = (id && id in READERS ? id : "hrv") as StatId;
@@ -102,13 +107,7 @@ export default function MetricScreen() {
 
   return (
     <View style={s.page}>
-      <View style={[s.top, { paddingTop: insets.top + 10 }]}>
-        <Pressable onPress={() => router.back()} hitSlop={10}>
-          <Text style={s.close}>Done</Text>
-        </Pressable>
-        <Text style={s.topTitle}>{STAT_LABELS[statId]}</Text>
-        <View style={{ width: 42 }} />
-      </View>
+      <ModalHeader title={metricLabel(statId as MetricKey, locale)} />
 
       <View style={s.ranges}>
         {RANGES.map((range) => {
@@ -123,7 +122,7 @@ export default function MetricScreen() {
 
       <ScrollView contentContainerStyle={[s.content, { paddingBottom: insets.bottom + 40 }]}>
         {dashboard.loading && !dashboard.data ? (
-          <ActivityIndicator color={theme.accent} style={{ marginTop: 60 }} />
+          <TerrifitSpinner style={{ marginTop: 60 }} />
         ) : null}
 
         {warning ? (
@@ -151,7 +150,6 @@ export default function MetricScreen() {
             colour={reader.tone}
             format={reader.format}
             viewWidth={width - 36 - 2}
-            better={reader.better}
           />
         </View>
 
@@ -197,8 +195,8 @@ const s = StyleSheet.create({
     paddingHorizontal: 18,
     paddingBottom: 12,
   },
-  close: { color: theme.accent, fontSize: 14, fontWeight: "700" },
-  topTitle: { color: theme.ink, fontSize: 11, fontWeight: "900", letterSpacing: 1.5, textTransform: "uppercase" },
+  close: { color: theme.accent, fontSize: 14, fontFamily: fonts.bold, fontWeight: "700" },
+  topTitle: { color: theme.ink, fontSize: 11, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1.5, textTransform: "uppercase" },
   ranges: {
     flexDirection: "row",
     gap: 6,
@@ -212,13 +210,13 @@ const s = StyleSheet.create({
   },
   range: { paddingHorizontal: 20, paddingVertical: 8, borderRadius: 13 },
   rangeOn: { backgroundColor: theme.ink },
-  rangeText: { color: theme.muted, fontSize: 10, fontWeight: "900", letterSpacing: 0.6 },
+  rangeText: { color: theme.muted, fontSize: 10, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 0.6 },
   rangeTextOn: { color: theme.bg },
   content: { paddingHorizontal: 18 },
   headline: { flexDirection: "row", alignItems: "center", gap: 12 },
-  value: { color: theme.ink, fontSize: 34, fontWeight: "900", letterSpacing: -1 },
+  value: { color: theme.ink, fontSize: 34, fontFamily: fonts.black, fontWeight: "900", letterSpacing: -1 },
   delta: { borderWidth: 1, borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 },
-  deltaText: { fontSize: 11, fontWeight: "900" },
+  deltaText: { fontSize: 11, fontFamily: fonts.black, fontWeight: "900" },
   blurb: { color: theme.ink2, fontSize: 13, marginTop: 6, marginBottom: 18 },
   card: {
     borderRadius: 22,
@@ -230,8 +228,8 @@ const s = StyleSheet.create({
   },
   stats: { flexDirection: "row", flexWrap: "wrap", marginTop: 18 },
   stat: { width: "50%", paddingVertical: 12 },
-  statLabel: { color: theme.muted, fontSize:10, fontWeight: "900", letterSpacing: 1.2, textTransform: "uppercase" },
-  statValue: { color: theme.ink, fontSize: 18, fontWeight: "900", marginTop: 6 },
+  statLabel: { color: theme.muted, fontSize:10, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1.2, textTransform: "uppercase" },
+  statValue: { color: theme.ink, fontSize: 18, fontFamily: fonts.black, fontWeight: "900", marginTop: 6 },
   note: { color: theme.muted, fontSize: 11, lineHeight: 17, marginTop: 14 },
   warning: { flexDirection: "row", alignItems: "center", gap: 10, borderWidth: 1, borderRadius: 14, padding: 13, marginBottom: 16 },
   warningDot: { width: 7, height: 7, borderRadius: 4 },
@@ -239,5 +237,5 @@ const s = StyleSheet.create({
   legend: { flexDirection: "row", gap: 16, marginTop: 14 },
   legendItem: { flexDirection: "row", alignItems: "center", gap: 7 },
   legendDot: { width: 8, height: 8, borderRadius: 4 },
-  legendText: { color: theme.muted, fontSize: 11, fontWeight: "700" },
+  legendText: { color: theme.muted, fontSize: 11, fontFamily: fonts.bold, fontWeight: "700" },
 });

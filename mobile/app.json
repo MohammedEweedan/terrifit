@@ -5,7 +5,7 @@
     "version": "0.1.0",
     "orientation": "portrait",
     "scheme": "terrifit",
-    "userInterfaceStyle": "dark",
+    "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "backgroundColor": "#08090a",
     "ios": {
@@ -32,7 +32,13 @@
           "image": "./assets/splash-icon.png",
           "imageWidth": 160,
           "resizeMode": "contain",
-          "backgroundColor": "#08090a"
+          "backgroundColor": "#f6f6f4",
+          "dark": {
+            "image": "./assets/splash-icon.png",
+            "imageWidth": 160,
+            "resizeMode": "contain",
+            "backgroundColor": "#08090a"
+          }
         }
       ],
       [

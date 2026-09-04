@@ -7,16 +7,18 @@ import type { PagesCopy } from "@/i18n/pages";
 import { Shot } from "@/components/ui/Shot";
 import { useCart } from "@/lib/shop/cart";
 import { discountPercent, formatMoney } from "@/lib/shop/money";
-import { products, unitPriceCents, type Product } from "@/lib/shop/catalog";
+import { unitPriceCents, type Product } from "@/lib/shop/catalog";
 import { ProductCard } from "@/components/shop/ProductCard";
 
 export function ProductDetail({
   locale,
   product,
+  products,
   copy,
 }: {
   locale: Locale;
   product: Product;
+  products: Product[];
   copy: PagesCopy["shop"];
 }) {
   const cart = useCart();
@@ -26,6 +28,9 @@ export function ProductDetail({
   const [shot, setShot] = useState(0);
 
   const variant = product.variants.find((option) => option.id === variantId);
+  const soldOut = variant
+    ? (variant.stockQuantity ?? 0) <= 0 && variant.allowBackorder !== true
+    : (product.stockQuantity ?? 0) <= 0 && product.allowBackorder !== true;
   const base = unitPriceCents(product, variantId);
   const discount = subscribe ? (product.subscription?.discountPercent ?? 0) : 0;
   const unit = Math.round(base * (1 - discount / 100));
@@ -170,9 +175,10 @@ export function ProductDetail({
                 <button
                   type="button"
                   className="sh-button sh-button-block"
+                  disabled={soldOut}
                   onClick={() => cart.add({ slug: product.slug, variantId, quantity, subscribe })}
                 >
-                  {copy.product.addToBag} · <span className="numeric">{formatMoney(unit * quantity, locale)}</span>
+                  {soldOut ? copy.stock.out : <>{copy.product.addToBag} · <span className="numeric">{formatMoney(unit * quantity, locale)}</span></>}
                 </button>
               </div>
 

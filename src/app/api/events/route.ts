@@ -7,7 +7,7 @@ export const runtime = "nodejs";
 
 export async function POST(request: Request) {
   // Analytics never reports failure to the client — it must not affect the UI.
-  if (!rateLimit(`events:${clientKey(request)}`, 120, 60_000)) {
+  if (!(await rateLimit(`events:${clientKey(request)}`, 120, 60_000))) {
     return new NextResponse(null, { status: 204 });
   }
 

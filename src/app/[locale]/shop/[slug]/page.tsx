@@ -2,13 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { ProductDetail } from "@/components/shop/ProductDetail";
-import { isLocale, locales } from "@/i18n/config";
+import { isLocale } from "@/i18n/config";
 import { getPagesCopy } from "@/i18n/pages";
-import { findProduct, products } from "@/lib/shop/catalog";
+import { getProduct, listProducts } from "@/lib/shop/catalog-store";
 
-export function generateStaticParams() {
-  return locales.flatMap((locale) => products.map((product) => ({ locale, slug: product.slug })));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -16,7 +14,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
   const { locale, slug } = await params;
-  const product = findProduct(slug);
+  const product = await getProduct(slug);
   if (!isLocale(locale) || !product) return {};
   const title = `${product.name} — ${product.tagline}`;
   return {
@@ -33,11 +31,11 @@ export default async function ProductPage({
   params: Promise<{ locale: string; slug: string }>;
 }) {
   const { locale, slug } = await params;
-  const product = findProduct(slug);
+  const [product, products] = await Promise.all([getProduct(slug), listProducts()]);
   if (!isLocale(locale) || !product) notFound();
   return (
     <SiteShell locale={locale} className="sh-site">
-      <ProductDetail locale={locale} product={product} copy={getPagesCopy(locale).shop} />
+      <ProductDetail locale={locale} product={product} products={products} copy={getPagesCopy(locale).shop} />
     </SiteShell>
   );
 }

@@ -1,9 +1,9 @@
 // Terrifit — waitlist + demand-measurement schema.
 //
-// Dev runs on SQLite so the site boots with zero infrastructure.
-// Production: change provider to "postgresql" and point DATABASE_URL at it.
-// Array-shaped fields are stored as JSON strings so the schema is portable
-// between both providers without a migration rewrite.
+// Postgres in every environment, so what is tested is what ships. Array-shaped
+// fields are still stored as JSON strings rather than native arrays: the app
+// reads them through `JSON.parse` either way, and keeping the column type
+// portable means a future move costs nothing.
 
 generator client {
   provider = "prisma-client-js"
@@ -11,7 +11,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 model WaitlistEntry {
@@ -126,9 +126,21 @@ model Order {
   paymentRef    String?
   // Set when the order went through a gateway running in sandbox mode.
   sandbox       Boolean @default(false)
+  // Idempotency guard: webhooks can be delivered more than once, but physical
+  // inventory must leave the shelf exactly once per paid order.
+  inventoryCommittedAt DateTime?
 
-  // pending | fulfilled | cancelled
+  // pending | packed | shipped | delivered | cancelled
   fulfillmentStatus String @default("pending")
+
+  /// Carrier key from `src/lib/shop/carriers.ts`, e.g. "royal-mail".
+  carrier        String?
+  trackingNumber String?
+  /// When each step actually happened, so the tracking page is a timeline
+  /// rather than one status word with no history behind it.
+  packedAt    DateTime?
+  shippedAt   DateTime?
+  deliveredAt DateTime?
 
   locale String      @default("en")
   items  OrderItem[]
@@ -249,6 +261,8 @@ model User {
   enrollments   MapEnrollment[]
   reviews       ProductReview[]
   passwordResets PasswordReset[]
+  reportLinks    ReportLink[]
+  addresses      SavedAddress[]
   sessionLogs   SessionLog[]
   following     Follow[]        @relation("follower")
   followers     Follow[]        @relation("followee")
@@ -284,6 +298,61 @@ model PasswordReset {
   @@index([expiresAt])
 }
 
+/// An address somebody has used before, so they never type it twice.
+///
+/// Kept per user and separate from `Order`, which snapshots the address as it
+/// was at the time — editing a saved address must not rewrite where a parcel
+/// that already shipped was sent.
+model SavedAddress {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// What the customer calls it. "Home", "Mum's", "The gym".
+  label String?
+
+  name     String
+  phone    String?
+  line1    String
+  line2    String?
+  city     String
+  postcode String
+  country  String
+
+  /// Offered first at checkout. Exactly one per user is true.
+  isDefault Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, isDefault])
+}
+
+/// A short-lived link that opens one report in a browser.
+///
+/// The app holds a bearer token the browser cannot see, so "print this" needs
+/// a handover. The token is stored hashed like every other credential here,
+/// expires in minutes, and is consumed on first use — a printed report is a
+/// snapshot, not a standing URL somebody can share by accident.
+model ReportLink {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  tokenHash String @unique
+  /// The report's shape, so the link reproduces exactly what was asked for.
+  sections  String
+  days      Int
+
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([expiresAt])
+}
+
 model Session {
   id String @id @default(cuid())
 
@@ -316,6 +385,12 @@ model Profile {
   // metric | imperial. Display only; everything is stored in SI.
   units       String    @default("metric")
   timezone    String?
+
+  /// A photo, stored as a data URI, or a single emoji. Exactly one is set:
+  /// picking a photo clears the emoji and vice versa, so there is never a
+  /// question of which one wins at render time.
+  avatarImage String?
+  avatarEmoji String?
 
   // strength | fat-loss | endurance | health | recomposition
   goal          String?
@@ -666,4 +741,117 @@ model AuditLog {
 
   @@index([createdAt])
   @@index([actorId, createdAt])
+}
+
+// ---------------------------------------------------------------------------
+// Store catalogue and inventory.
+//
+// These rows are the live source of truth for the website, native app and
+// checkout. Product copy, imagery, colourways and stock therefore change from
+// the staff console without an app release or a code deploy.
+// ---------------------------------------------------------------------------
+
+model ShopProduct {
+  id   String @id @default(cuid())
+  slug String @unique
+
+  name        String
+  tagline     String
+  category    String
+  brand       String
+  partner     Boolean @default(false)
+  description String
+
+  priceCents     Int
+  compareAtCents Int?
+  rating         Float   @default(0)
+  reviewCount    Int     @default(0)
+  /// JSON string[]
+  badges         String  @default("[]")
+  variantLabel   String?
+  /// JSON string[]
+  highlights     String  @default("[]")
+  /// JSON [string, string][]
+  specs          String  @default("[]")
+
+  shipsIn                    String
+  fulfilment                  String  @default("ship")
+  subscriptionLabel          String?
+  subscriptionDiscountPercent Int?
+
+  active            Boolean @default(true)
+  featured          Boolean @default(false)
+  sortOrder         Int     @default(0)
+  trackInventory    Boolean @default(true)
+  stockQuantity     Int     @default(0)
+  lowStockThreshold Int     @default(5)
+  allowBackorder    Boolean @default(false)
+
+  variants ShopVariant[]
+  media    ShopMedia[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([active, sortOrder])
+  @@index([category, active])
+}
+
+model ShopVariant {
+  id        String      @id @default(cuid())
+  productId String
+  product   ShopProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  key         String
+  label       String
+  note        String?
+  sku         String @unique
+  priceCents  Int?
+  image       String?
+  /// JSON string[] of hex colours. The clients draw the woven swatch.
+  colours     String @default("[]")
+  accent      String?
+
+  active            Boolean @default(true)
+  sortOrder         Int     @default(0)
+  stockQuantity     Int     @default(0)
+  lowStockThreshold Int     @default(5)
+  allowBackorder    Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([productId, key])
+  @@index([productId, active, sortOrder])
+}
+
+model ShopMedia {
+  id        String      @id @default(cuid())
+  productId String
+  product   ShopProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  src       String
+  alt       String
+  ratio     Float?
+  sortOrder Int    @default(0)
+
+  createdAt DateTime @default(now())
+
+  @@index([productId, sortOrder])
+}
+
+/// A fixed rate-limiting window, shared by every instance.
+///
+/// Held in the database rather than in process memory because the limit has to
+/// mean the same thing however many instances are serving: three of them with
+/// their own counters is three times the intended allowance, and a deploy
+/// resets all of them at once. The counter is advanced by a single upsert so
+/// concurrent requests cannot both read the same count and both decide they
+/// are under it.
+model RateLimit {
+  key     String   @id
+  count   Int      @default(0)
+  resetAt DateTime
+
+  @@index([resetAt])
 }

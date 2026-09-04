@@ -1,6 +1,9 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import * as SecureStore from "expo-secure-store";
 import { theme } from "./theme";
+import { weight, type UnitSystem } from "./units";
+import { metricLabel, type MetricKey } from "./metric-labels";
+import type { AppLocale } from "./preferences";
 import type { Dashboard } from "./api";
 
 /**
@@ -27,12 +30,18 @@ export type StatId = (typeof STAT_IDS)[number];
 /**
  * Metrics that only appear on a paid plan.
  *
- * The T Score is the one number that reads the member's whole history rather
- * than one morning, and average heart rate is the reading that only makes
- * sense against thirty days of context — both are what people are paying for.
- * A free account never sees them in the picker, so nothing is dangled.
+ * This list must agree with `PRO_METRICS` in `src/lib/health/plan.ts`, which is
+ * the server's own statement of what Pro buys: sleep quality, load, body
+ * battery and insights. Everything needed to answer "should I train today" —
+ * recovery, strain, sleep and **movement** — is free by policy.
+ *
+ * The T Score used to be listed here, which broke that policy three ways at
+ * once: the site markets it as one of the four core numbers, the web app hands
+ * it to every account for nothing, and the server sends it in the free payload
+ * regardless — so the paywall was a client-side curtain over a value already on
+ * the device. Average heart rate went the same way for the same reason.
  */
-export const PRO_STATS: StatId[] = ["tScore", "heartRate"];
+export const PRO_STATS: StatId[] = [];
 
 export type Stat = {
   id: StatId;
@@ -47,6 +56,7 @@ export type Stat = {
 
 const ORDER_KEY = "terrifit.stats.order";
 const HIDDEN_KEY = "terrifit.stats.hidden";
+const AGE_DELTA_KEY = "terrifit.stats.ageDelta";
 
 /** A sensible opening grid. Everything else is one tap away in Customise. */
 const DEFAULT_HIDDEN: StatId[] = ["weight", "readiness", "heartRate"];
@@ -85,7 +95,32 @@ export const STAT_BLURBS: Record<StatId, string> = {
  * comparison rather than a made-up one, because a confident "+8% on your
  * baseline" that nobody measured is worse than an empty tile.
  */
-export function buildStats(data: Dashboard | null): Record<StatId, Stat> {
+/**
+ * The handful of sentences the tiles compose, per language.
+ *
+ * Kept beside the code that builds them rather than in the UI dictionary,
+ * because they are fragments assembled into a sentence — "4 ms below your
+ * usual 66 ms" — and a translator needs to see them together to get the word
+ * order right.
+ */
+const PHRASES: Record<string, { noReading: string; notEnough: string; inLineWith: string; above: string; below: string }> = {
+  en: { noReading: "No reading yet", notEnough: "Not enough history to compare", inLineWith: "In line with your usual", above: "above your usual", below: "below your usual" },
+  es: { noReading: "Aún sin lectura", notEnough: "No hay historial suficiente", inLineWith: "En línea con tu media de", above: "por encima de tu media de", below: "por debajo de tu media de" },
+  ar: { noReading: "لا قراءة بعد", notEnough: "لا يوجد سجل كافٍ", inLineWith: "متوافق مع معدلك", above: "فوق معدلك البالغ", below: "دون معدلك البالغ" },
+  fr: { noReading: "Pas encore de mesure", notEnough: "Historique insuffisant", inLineWith: "Conforme à votre habitude de", above: "au-dessus de votre habitude de", below: "en dessous de votre habitude de" },
+  de: { noReading: "Noch kein Wert", notEnough: "Zu wenig Verlauf", inLineWith: "Wie dein Schnitt von", above: "über deinem Schnitt von", below: "unter deinem Schnitt von" },
+  nl: { noReading: "Nog geen meting", notEnough: "Te weinig historie", inLineWith: "In lijn met je gemiddelde van", above: "boven je gemiddelde van", below: "onder je gemiddelde van" },
+  pt: { noReading: "Ainda sem leitura", notEnough: "Histórico insuficiente", inLineWith: "Em linha com a tua média de", above: "acima da tua média de", below: "abaixo da tua média de" },
+  it: { noReading: "Ancora nessuna lettura", notEnough: "Storico insufficiente", inLineWith: "In linea con la tua media di", above: "sopra la tua media di", below: "sotto la tua media di" },
+  tr: { noReading: "Henüz ölçüm yok", notEnough: "Karşılaştırmak için yeterli geçmiş yok", inLineWith: "Her zamanki gibi", above: "ortalamanın üzerinde", below: "ortalamanın altında" },
+  ru: { noReading: "Замеров пока нет", notEnough: "Мало истории", inLineWith: "Как обычно —", above: "выше обычного", below: "ниже обычного" },
+};
+
+export function buildStats(
+  data: Dashboard | null,
+  units: UnitSystem = "metric",
+  locale: AppLocale = "en",
+): Record<StatId, Stat> {
   const history = data?.history ?? [];
   const latest = history[0];
 
@@ -113,12 +148,12 @@ export function buildStats(data: Dashboard | null): Record<StatId, Stat> {
     format: (value: number) => string,
     better: "higher" | "lower" | "neutral",
   ): string {
-    if (value == null) return "No reading yet";
-    if (mean == null) return "Not enough history to compare";
+    if (value == null) return phrase.noReading;
+    if (mean == null) return phrase.notEnough;
     const change = value - mean;
-    if (Math.abs(change) < Math.abs(mean) * 0.02) return `In line with your usual ${format(mean)}`;
-    const word = better === "neutral" ? (change > 0 ? "above" : "below") : (better === "higher") === change > 0 ? "better than" : "below";
-    return `${format(Math.abs(change))} ${word} your usual ${format(mean)}`;
+    if (Math.abs(change) < Math.abs(mean) * 0.02) return `${phrase.inLineWith} ${format(mean)}`;
+    const word = change > 0 ? phrase.above : phrase.below;
+    return `${format(Math.abs(change))} ${word} ${format(mean)}`;
   }
 
   function build(
@@ -132,7 +167,7 @@ export function buildStats(data: Dashboard | null): Record<StatId, Stat> {
     const mean = baseline(read);
     return {
       id,
-      label: STAT_LABELS[id],
+      label: metricLabel(id as MetricKey, locale),
       value,
       format,
       fill: position(read, value),
@@ -141,6 +176,7 @@ export function buildStats(data: Dashboard | null): Record<StatId, Stat> {
     };
   }
 
+  const phrase = PHRASES[locale] ?? PHRASES.en;
   const days = data?.dayCount ?? 0;
 
   return {
@@ -163,27 +199,38 @@ export function buildStats(data: Dashboard | null): Record<StatId, Stat> {
     active: build("active", (row) => row.activeKcal, (v) => `${Math.round(v)} kcal`, "higher", theme.accent),
     consistency: {
       id: "consistency",
-      label: STAT_LABELS.consistency,
+      label: metricLabel("consistency", locale),
       value: days > 0 ? days : null,
       format: (v) => `${Math.round(v)} ${Math.round(v) === 1 ? "day" : "days"}`,
       fill: Math.min(1, days / 90),
-      delta: days > 0 ? "Days of data on file" : "No reading yet",
+      delta: days > 0 ? "" : phrase.noReading,
       tone: theme.good,
     },
     heartRate: build("heartRate", (row) => row.averageHr, (v) => `${Math.round(v)} bpm`, "lower", theme.poor),
-    weight: build("weight", (row) => row.weightKg, (v) => `${v.toFixed(1)} kg`, "neutral", theme.ink2),
+    weight: build("weight", (row) => row.weightKg, (v) => weight(v, units), "neutral", theme.ink2),
     readiness: build("readiness", (row) => row.recovery, (v) => `${Math.round(v)}%`, "higher", theme.good),
   };
 }
 
 type StatPreferences = {
   ready: boolean;
+  /**
+   * Whether the fitness-age comparison shows on Today.
+   *
+   * Off by default: "8 years younger" against a birthday is the sort of line
+   * that lands differently depending on which way it points, and it is not
+   * information somebody needs every single morning. The number itself stays.
+   */
+  showAgeDelta: boolean;
+  setShowAgeDelta: (next: boolean) => void;
   /** Every stat, in the member's order. */
   order: StatId[];
   hidden: StatId[];
   visible: StatId[];
   toggle: (id: StatId) => void;
   move: (id: StatId, direction: -1 | 1) => void;
+  /** Replaces the whole order at once, for a drag that moved a tile far. */
+  reorder: (next: StatId[]) => void;
   reset: () => void;
 };
 
@@ -206,11 +253,17 @@ function sanitise(stored: string | null, fallback: StatId[]): StatId[] {
 export function StatPreferencesProvider({ children }: { children: ReactNode }) {
   const [order, setOrder] = useState<StatId[]>([...STAT_IDS]);
   const [hidden, setHidden] = useState<StatId[]>(DEFAULT_HIDDEN);
+  const [showAgeDelta, setShowAgeDeltaState] = useState(false);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    void Promise.all([SecureStore.getItemAsync(ORDER_KEY), SecureStore.getItemAsync(HIDDEN_KEY)])
-      .then(([storedOrder, storedHidden]) => {
+    void Promise.all([
+      SecureStore.getItemAsync(ORDER_KEY),
+      SecureStore.getItemAsync(HIDDEN_KEY),
+      SecureStore.getItemAsync(AGE_DELTA_KEY),
+    ])
+      .then(([storedOrder, storedHidden, storedAgeDelta]) => {
+        if (storedAgeDelta === "true") setShowAgeDeltaState(true);
         setOrder(sanitise(storedOrder, [...STAT_IDS]));
         if (storedHidden) {
           try {
@@ -255,7 +308,25 @@ export function StatPreferencesProvider({ children }: { children: ReactNode }) {
     [order, hidden, persist],
   );
 
-  const reset = useCallback(() => persist([...STAT_IDS], DEFAULT_HIDDEN), [persist]);
+  const setShowAgeDelta = useCallback((next: boolean) => {
+    setShowAgeDeltaState(next);
+    void SecureStore.setItemAsync(AGE_DELTA_KEY, String(next)).catch(() => {});
+  }, []);
+
+  const reorder = useCallback(
+    (next: StatId[]) => {
+      // Anything missing from the incoming list is appended rather than lost —
+      // a drag only knows about what is on screen.
+      const complete = [...next, ...STAT_IDS.filter((id) => !next.includes(id))];
+      persist(complete, hidden);
+    },
+    [hidden, persist],
+  );
+
+  const reset = useCallback(() => {
+    persist([...STAT_IDS], DEFAULT_HIDDEN);
+    setShowAgeDelta(false);
+  }, [persist, setShowAgeDelta]);
 
   const value = useMemo<StatPreferences>(
     () => ({
@@ -263,11 +334,14 @@ export function StatPreferencesProvider({ children }: { children: ReactNode }) {
       order,
       hidden,
       visible: order.filter((id) => !hidden.includes(id)),
+      showAgeDelta,
+      setShowAgeDelta,
       toggle,
       move,
+      reorder,
       reset,
     }),
-    [ready, order, hidden, toggle, move, reset],
+    [ready, order, hidden, showAgeDelta, setShowAgeDelta, toggle, move, reorder, reset],
   );
 
   return <Context.Provider value={value}>{children}</Context.Provider>;

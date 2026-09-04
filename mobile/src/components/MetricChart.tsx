@@ -1,7 +1,8 @@
 import { useMemo, useRef } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "@/components/AppText";
 import Svg, { Circle, Defs, LinearGradient, Line, Path, Stop, Text as SvgText } from "react-native-svg";
-import { theme } from "@/theme";
+import { fonts, theme } from "@/theme";
 
 export type Point = { date: string; value: number | null };
 
@@ -27,7 +28,6 @@ export function MetricChart({
   height = 230,
   minSpacing = 13,
   viewWidth,
-  better = "neutral",
 }: {
   points: Point[];
   colour: string;
@@ -35,8 +35,6 @@ export function MetricChart({
   height?: number;
   minSpacing?: number;
   viewWidth: number;
-  /** Which direction is good, so peaks and troughs can be marked meaningfully. */
-  better?: "higher" | "lower" | "neutral";
 }) {
   const scroller = useRef<ScrollView>(null);
   const present = points.filter((point): point is { date: string; value: number } => point.value != null);
@@ -193,7 +191,7 @@ const s = StyleSheet.create({
     right: 4,
     color: theme.muted,
     fontSize: 10,
-    fontWeight: "700",
+    fontFamily: fonts.bold, fontWeight: "700",
   },
   scroller: { flex: 1 },
   empty: { alignItems: "center", justifyContent: "center", paddingHorizontal: 24 },

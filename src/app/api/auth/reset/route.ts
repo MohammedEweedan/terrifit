@@ -37,7 +37,7 @@ const requestSchema = z.object({
  */
 export async function POST(request: Request) {
   // Tight, because this endpoint sends email on demand.
-  if (!rateLimit(`reset:${clientKey(request)}`, 5, 15 * 60_000)) {
+  if (!(await rateLimit(`reset:${clientKey(request)}`, 5, 15 * 60_000))) {
     return NextResponse.json({ ok: true });
   }
 
@@ -79,7 +79,7 @@ const confirmSchema = z.object({
 
 /** Sets the new password, if the link is real, unused and unexpired. */
 export async function PUT(request: Request) {
-  if (!rateLimit(`resetconfirm:${clientKey(request)}`, 10, 15 * 60_000)) {
+  if (!(await rateLimit(`resetconfirm:${clientKey(request)}`, 10, 15 * 60_000))) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 

@@ -1,205 +1,276 @@
-# Terrifit V1 — hardware blueprint and manufacturing cost estimate
+# Terrifit V1 — sourcing, unit economics and the V2 question
 
-**Status:** design intent for the first production run.
-**Last updated:** 2026-08-31.
-**Scope:** the band, the strap, the PowerPack and the retail box. Firmware and
-app are covered in [app-features.md](./app-features.md).
+**Status:** V1 is a white-labelled JCVital Pro V8 from J-Style / Youhong Medical,
+repackaged and rebranded. It is not a bespoke design.
+**Last updated:** 2026-09-04.
+**Supersedes:** the bespoke hardware blueprint dated 2026-08-31, which is
+preserved in §7 as the V2 design intent.
 
-Everything below is an engineering estimate, not a quotation. Component prices
-are indicative for a 50,000-unit build with a Shenzhen-based ODM and will move
-with the memory and passives market. Anything marked **[quote]** must be
-replaced with a real supplier number before this becomes a budget.
+The strategy changed for one reason. The bespoke path needed **$758,000 of NRE
+and a 50,000-unit first run** — roughly $4.1M of capital — before a single band
+shipped, to validate a product nobody had held. The white-label path buys the
+same category entry for a fraction of that, and defers the bespoke design until
+there is demand evidence to justify it.
 
 ---
 
-## 1. What it is
+## 1. What V1 actually is
 
-A screenless-except-for-a-strip, always-on wrist wearable. No touchscreen, no
-notifications, no app-on-wrist. It measures continuously and shows two things at
-a glance: the time and the T Score.
+The **JCVital Pro V8**, from Shenzhen Youhong Technology / Guangdong Youhong
+Medical (trading as J-Style, Joint Chinese Ltd), sold as the Terrifit V1 in
+Terrifit packaging with Terrifit strap colourways.
+
+Everything in this table comes from the supplier's 2026-04 catalogue and must be
+confirmed against a real datasheet before it appears in marketing copy.
 
 | | |
 |---|---|
-| Worn | Wrist or bicep (bicep sleeve is a later SKU) |
+| Form factor | Woven-strap band, sensor module on the outside of the wrist |
+| Battery life | **15 days** with continuous heart rate monitoring on |
+| Core sensing | Always-on PPG + **ECG electrodes** |
+| ECG readings | Sinus rhythm, high heart rate, low heart rate, AFib indication |
+| Continuous metrics | Heart rate, SpO₂, HRV, skin temperature, sleep staging |
+| Derived (supplier) | Stress & mood, BioAge & Recovery Index, VO₂max, BGEM glucose-risk score |
+| Activity | Multi-sport mode with metabolism management, 40+ sports |
+| Display | **None.** The module is unbranded metal — there is no screen |
+| Connectivity | Bluetooth LE to phone; supplier cloud optional |
+| Integration | **Documented SDK and cloud API**, offered as standard |
+| Straps | Woven, customisation supported — cream, orange, brown and black shown |
+
+### What changed against the bespoke blueprint
+
+Three things, and two of them are upgrades:
+
+1. **ECG is new.** The bespoke V1 was PPG-only. The V8 adds a medical-grade ECG
+   electrode pair with rhythm classification. This is the single biggest
+   capability gain, and also the single biggest regulatory liability — see §5.
+2. **Battery went up**, 14+ days estimated to 15 days rated.
+3. **The screen is gone.** This is the real loss. The bespoke design carried a
+   0.42″ mono OLED showing the time, the T Score and a four-dot battery gauge,
+   and a meaningful amount of the brand story was built on it — "side-glance
+   time", "four-dot battery", the T Score living on the wrist. **All of that
+   copy is now false and has been removed from the site.** The T Score survives
+   as a Terrifit-computed number in the app; it just is not on the band.
+
+### What we do not yet know
+
+Every one of these must be answered before a pre-order page takes money:
+
+- Does the SDK expose **raw IMU**, or only the classified activity output? The
+  rep counting, tempo and range-of-motion claims depend entirely on this. **[quote]**
+- Does the SDK expose **raw PPG / RR intervals**, or only the supplier's derived
+  HRV? Terrifit's recovery model needs the inputs, not somebody else's score. **[quote]**
+- Water rating. The bespoke spec claimed IP68 + 10 ATM. The V8's rating is
+  **not stated in the catalogue** and the site now claims nothing until it is. **[quote]**
+- Firmware update path — can we ship firmware, or does it come from J-Style? **[quote]**
+- Can the supplier cloud be **bypassed entirely** so data goes phone → Terrifit
+  API only? If not, the privacy copy has to change. **[quote]**
+- MOQ, unit price at MOQ, and packaging tooling cost. **[quote]**
+
+---
+
+## 2. The unit economics, parameterised
+
+We do not have a quote yet, so this is a model rather than a budget. Drop the
+real landed cost into `C` and every figure below follows.
+
+Let **C** = landed cost per unit (unit price + freight + duty + packaging).
+Retail is held at **$229**, unchanged from the bespoke plan.
+
+| Landed cost `C` | Gross margin at $229 | Margin dollars |
+|---:|---:|---:|
+| $70 | 69.4 % | $159 |
+| $85 | 62.9 % | $144 |
+| $100 | 56.3 % | $129 |
+| $120 | 47.6 % | $109 |
+| $140 | 38.9 % | $89 |
+
+For orientation only: the bespoke design landed at **$66.57 at 50,000 units**
+and **$83.90 at 10,000**. A white-label unit at a 1,000–2,000 MOQ will almost
+certainly land above both, because we are buying somebody else's margin as well
+as their hardware. **The trade is margin for capital, and that is the correct
+trade at this stage.** A 50 % margin on 800 units sold is a business. A 64 %
+margin on 50,000 units nobody ordered is a warehouse.
+
+### Capital required, both paths
+
+| | Bespoke V1 (abandoned) | White-label V1 |
+|---|---:|---:|
+| Tooling, fixtures, certification NRE | $758,000 | $0 — supplier holds it |
+| Packaging design + tooling | included above | **[quote]**, budget $4–12k |
+| First run | 50,000 units | 500–2,000 **[quote]** |
+| Inventory capital | $3,328,500 | `C` × MOQ |
+| **Total before first sale** | **≈ $4.09M** | **≈ $50k–$250k** |
+
+At a $100 landed cost and a 1,000-unit MOQ that is **$100,000 of inventory plus
+packaging** — an order of magnitude inside what pre-orders can plausibly fund,
+which is the entire point of the change.
+
+### What the supplier already holds, so we do not pay for it
+
+From the catalogue's qualification page: ISO 13485, ISO 9001, ISO 14001, medical
+device production and sales licences, and third-party audits from RBA, BSCI,
+Sedex, TUV, SGS and BV. They claim 100+ countries served and 2,000k units/month
+capacity.
+
+**This does not transfer to us.** See §5 — it de-risks manufacturing, not
+market access.
+
+---
+
+## 3. Packaging — the one thing we actually design
+
+With the electronics fixed, packaging and strap colourways are the entire
+physical brand surface. Budget the design effort here rather than spreading it.
+
+- **Outer sleeve** — Terrifit charcoal, signal-orange foil mark, matte laminate.
+- **Tray** — moulded pulp, not vac-formed PET. It reads better and it is cheaper
+  in small runs.
+- **What is in it** — band, one woven strap fitted, USB-C charge cable/cradle,
+  a fold-out card that is a genuine first-run setup guide, not a compliance leaflet.
+- **The card matters more than it looks.** It is the only Terrifit-authored
+  object in the box and it is what a pre-order buyer photographs.
+- **Strap colourways** — Ember, Black, Graphite, Midnight, Bubblegum. The
+  supplier's stock woven range (cream, orange, brown, black) covers three of
+  these directly; Midnight and Bubblegum are **[quote]** on custom dye lots.
+
+Regulatory marking on the box — CE, UKCA, FCC ID, WEEE, importer address — is
+**not optional** and is covered in §5.
+
+---
+
+## 4. The SDK path
+
+The catalogue states "SDK & Cloud Platform Support" on every JCVital product,
+and the companion-app feature list it ships with maps closely onto what the
+Terrifit app already does — sleep staging, HR, SpO₂, HRV, stress, temperature,
+activity, VO₂max, BioAge.
+
+The integration shape we want:
+
+```
+V8 band ──BLE──▶ Terrifit app (mobile/src/ble.ts)
+                      │
+                      └──▶ POST /api/app/band  ──▶ Terrifit scoring
+                                                    (src/lib/health/dashboard.ts)
+```
+
+Data goes band → our app → our API. The supplier cloud is not in the path.
+
+`mobile/src/ble.ts` and `ble-decode.ts` already exist against the bespoke
+protocol and will need rewriting to the vendor SDK — assume that work is real
+but bounded, on the order of two weeks once the SDK documentation is in hand.
+
+**The scoring stays ours.** This is the part that matters commercially: J-Style
+sells the same hardware to anybody, so the sensors are not a moat. Terrifit's
+recovery model, the T Score, and the "show the arithmetic behind every number"
+expansion are the product. The band is an input device.
+
+That is also the honest reason the app work was not wasted.
+
+---
+
+## 5. Regulatory — read this before writing any band copy
+
+**Putting your name on somebody else's device usually makes you the legal
+manufacturer.** Under EU MDR and UK MDR, and in most FDA readings, a white-label
+reseller who brands the device as their own takes on manufacturer obligations.
+J-Style's ISO 13485 and Chinese registrations do not transfer.
+
+Three tiers of risk, in order:
+
+1. **ECG / AFib detection — highest.** In the US, an ECG feature with rhythm
+   classification is a regulated function; Apple and Samsung both went through
+   FDA De Novo/510(k) for it. In the EU it is at minimum Class IIa under MDR.
+   **Recommendation: do not market ECG or AFib at launch.** Ship the hardware
+   with the feature dormant or described purely as "heart rhythm recording, not
+   a diagnostic", and revisit with regulatory counsel. Marketing AFib detection
+   without clearance is the fastest way to turn a pre-order book into a refund
+   event and an FDA warning letter.
+2. **BGEM non-invasive glucose risk — high.** Non-invasive glucose is the single
+   most scrutinised claim in consumer wearables, and the FDA has issued specific
+   public warnings about smartwatches claiming to measure blood glucose. Even
+   framed as "risk assessment", this invites enforcement.
+   **Recommendation: switch it off and never mention it.**
+3. **BioAge, recovery, stress, VO₂max — low.** These are wellness claims and are
+   fine, provided the existing "estimates, not clinical measurements"
+   disclaimer stays on screen. It currently does.
+
+Non-negotiable before shipping to a customer:
+- FCC ID and CE/UKCA marks present on the device or box (supplier should supply;
+  **confirm the certificates name a model we can legally rebrand**) **[quote]**
+- Importer of record named on the packaging for EU/UK
+- WEEE and battery-directive registration in each market sold
+- Product liability insurance — you are the manufacturer now
+- A published returns and warranty policy that a pre-order buyer can read
+
+---
+
+## 6. Pre-orders as the funding and validation instrument
+
+This is the plan and it is a good one, with three conditions attached.
+
+**What makes it work:** a pre-order is the only demand signal that costs the
+buyer something. A thousand waitlist rows tell you nothing; forty paid
+pre-orders tell you the price is right and the story lands.
+
+**Condition 1 — do not spend the money.** Pre-order revenue is a liability until
+the unit ships. Hold it. If the MOQ is not reached, refund it. Every consumer
+hardware disaster of the last decade is the same story: deposits spent on
+operations, then no product.
+
+**Condition 2 — publish a real date and a real refund policy.** "Ships when we
+hit 500 units, full refund on request until it ships, no questions" is both
+honest and more persuasive than a fixed date you might miss.
+
+**Condition 3 — say it is sourced.** Not in small print. A short, confident line
+— *V1 is built on a medical-grade platform from a manufacturer that has shipped
+to 100+ countries, in Terrifit packaging, running Terrifit's scoring* — is a
+stronger position than being caught at it later. The people who would care
+already recognise the form factor.
+
+**Suggested gate:** open pre-orders at $229 with a founding price, set the
+manufacturing trigger at the real MOQ, and show the count honestly on the page.
+That number replaces the fabricated "24,891 members" the site used to carry.
+
+---
+
+## 7. V2 — the bespoke design, deferred
+
+Nothing in the original blueprint was wrong. It was early. It is preserved here
+as the design intent for V2, to be built **only after V1 validates demand**.
+
+The V2 case rests on the thing the V8 took away: **the screen**. A screenless
+band that shows the time and one number — the T Score — at a glance, with a
+four-dot battery gauge, is a genuinely differentiated object and it is what the
+brand was written around.
+
+| | V2 design intent |
+|---|---|
+| Display | 0.42″ mono OLED, 128 × 32 — time + T Score + 4 battery dots |
+| Sensing | 100 Hz PPG, 5 LEDs / 4 photodiodes, overnight SpO₂, skin temp |
+| Battery | 14+ days typical, 11 days worst case |
+| Water | IP68 and 10 ATM (100 m) |
 | Weight | 27 g with strap, 19 g module only |
 | Module | 41.5 × 24.0 × 10.6 mm |
-| Battery life | 14+ days typical, 11 days worst case (100 Hz PPG + overnight SpO₂ + auto-detection) |
-| Water | IP68 and 10 ATM (100 m) |
-| Operating range | −20 °C to 60 °C |
 | Radio | Bluetooth LE 5.3 |
+| Landed cost | $66.57 at 50,000 units, $83.90 at 10,000 |
+| NRE | $758,000 — tooling $95k, fixtures $140k, certification $185k, OLED $60k, remainder mechanical and strap setup |
+
+**The trigger to start V2:** V1 sells through its first run at full margin, and
+retention on the app holds above the benchmark. Not before. The bespoke path
+only makes sense against demand you have already proven, and at that point the
+$758k is a financing conversation rather than a bet.
 
 ---
 
-## 2. Stack-up
+## 8. Open questions, ranked
 
-Bottom (skin side) to top:
-
-```
-┌──────────────────────────────────────────────┐
-│ 7  Anodised aluminium bezel + strap lugs     │  6063-T5, Type II anodise
-│ 6  OLED strip window (PMMA, AR-coated)       │  visible band 26 × 5 mm
-│ 5  0.42" mono OLED, 128 × 32                 │  time + T Score + 4 battery dots
-│ 4  Rigid-flex PCB, 6 layer                   │  SoC, PMIC, IMU, radio, antenna
-│ 3  Li-Po pouch cell, 115 mAh                 │  custom footprint, PCM on cell
-│ 2  Wireless charging receiver coil + magnets │  PowerPack docks here
-│ 1  Optical window (sapphire) + sensor array  │  5 LED / 4 photodiode, potted
-└──────────────────────────────────────────────┘
-       glass-filled nylon carrier, ultrasonically welded to the bezel
-```
-
-### Optical array (layer 1)
-
-Seen from the skin, the array sits inside a 14 mm circle:
-
-```
-        (IR)        LEDs      · green 525 nm ×2   — heart rate, HRV
-     PD ▫  ●  ▫ PD            · red 660 nm        — SpO₂
-        ●  ◎  ●               · infrared 940 nm   — SpO₂, perfusion
-     PD ▫  ●  ▫ PD            · amber 590 nm      — low-perfusion fallback
-        (grn)      ◎ = skin temperature thermopile
-```
-
-Four photodiodes at 90° reject motion artefact by differencing opposing pairs —
-this is what makes rep counting and bar-speed estimates usable during lifting,
-where a single-PD design mostly reports noise.
-
-### Sensors
-
-| Function | Part class | Sampling |
-|---|---|---|
-| PPG analogue front end | 8-channel AFE, integrated LED driver | 100 Hz continuous |
-| Motion | 6-axis accel + gyro, 16 g / 2000 dps | 50 Hz, 400 Hz in-session |
-| Skin temperature | Digital thermopile, ±0.1 °C | 1 Hz |
-| Capacitive touch | On-SoC, single pad under the bezel | wake / cycle display |
-| Haptics | 6 mm LRA | rest timers, session start and stop |
-
----
-
-## 3. Bill of materials
-
-Unit costs at 50,000 units, USD, delivered to the assembly line.
-
-### Electronics
-
-| Item | Est. unit | Notes |
-|---|---:|---|
-| BLE SoC (Cortex-M33 + radio, 1 MB flash) | 2.60 | **[quote]** nRF5340 class |
-| PPG analogue front end | 3.20 | **[quote]** multi-channel, integrated drivers |
-| LEDs ×5 and photodiodes ×4 | 1.30 | binned for wavelength consistency |
-| 6-axis IMU | 1.10 | |
-| Skin temperature sensor | 0.85 | |
-| PMIC, charger, protection | 2.40 | includes wireless-charge rectifier |
-| 0.42" mono OLED, 128 × 32 | 3.10 | **[quote]** the single biggest swing item |
-| LRA + driver | 1.20 | |
-| Rigid-flex PCB, 6 layer | 3.60 | ENIG, controlled impedance for the antenna |
-| Passives, crystals, connectors, shielding | 1.10 | |
-| Li-Po pouch cell, 115 mAh | 1.80 | custom footprint, IEC 62133 certified |
-| Wireless charging coil + retention magnets | 0.90 | |
-| **Electronics subtotal** | **23.15** | |
-
-### Mechanical
-
-| Item | Est. unit | Notes |
-|---|---:|---|
-| Aluminium bezel, CNC + anodise | 4.20 | 6 min cycle, Type II, 4 colourways |
-| Glass-filled nylon carrier, moulded | 1.10 | 2 parts |
-| Sapphire optical window | 0.75 | |
-| PMMA display window, AR coated | 0.45 | |
-| Gaskets, o-rings, adhesives, potting | 1.10 | the 10 ATM rating lives here |
-| Woven strap — jacquard, cut and sew | 2.80 | recycled nylon / elastane, 4 colourways, 3 sizes |
-| Clasp hardware, anodised | 1.30 | |
-| **Mechanical subtotal** | **11.70** | |
-
-### Assembly, test and pack
-
-| Item | Est. unit | Notes |
-|---|---:|---|
-| SMT, AOI, conformal coat | 2.90 | |
-| Optical calibration per unit | 1.60 | reference phantom, 22 s cycle |
-| Final assembly + ultrasonic weld | 2.10 | |
-| Pressure and leak test, 100 % | 1.10 | 12 bar, 60 s dwell |
-| Functional and RF test | 0.85 | |
-| Retail box, tray, printed matter | 2.40 | recycled board, no plastic |
-| **Assembly subtotal** | **10.95** | |
-
-### In the box
-
-| Item | Est. unit |
-|---|---:|
-| V1 PowerPack (500 mAh, USB-C, housing, PCB, assembly) | 8.60 |
-| Braided USB-C cable, 1 m | 0.90 |
-| **Accessories subtotal** | **9.50** |
-
-### Landed cost
-
-| | USD |
-|---|---:|
-| BOM + assembly | 55.30 |
-| Yield and scrap at 96 % first-pass | 2.30 |
-| Freight, duty, insurance | 2.10 |
-| Warranty reserve, 3 % of retail | 6.87 |
-| **Landed cost per unit** | **66.57** |
-
-At a **$229** retail price that is a **70.9 % gross margin** before payment
-processing, returns and fulfilment — roughly in line with the category, and the
-reason the membership matters: hardware margin alone does not fund the platform.
-
----
-
-## 4. Non-recurring engineering
-
-| Item | Est. USD |
-|---|---:|
-| Injection mould tooling, 3 parts, 2 cavities | 95,000 |
-| CNC fixtures, anodising line setup, 4 colours | 28,000 |
-| Rigid-flex tooling, stencils, test coupons | 18,000 |
-| OLED NRE and minimum order commitment | 60,000 |
-| Strap: loom setup, dye lots, 4 colourways | 22,000 |
-| Test fixtures — ICT, RF, optical, leak | 140,000 |
-| Certification — FCC, CE/RED, UKCA, IC, RCM, SRRC, Bluetooth QDID, IP68/10 ATM, ISO 10993 biocompatibility | 185,000 |
-| EVT / DVT / PVT builds, 3 × 300 units | 210,000 |
-| **Total NRE** | **758,000** |
-
-Amortised over the first 50,000 units that is **$15.16** a unit, taking the
-effective first-run cost to **$81.73** and the first-run margin to **64 %**.
-
----
-
-## 5. Volume sensitivity
-
-| Units | BOM + assembly | Landed | NRE per unit | Effective cost | Margin at $229 |
-|---:|---:|---:|---:|---:|---:|
-| 10,000 | 71.40 | 83.90 | 75.80 | 159.70 | 30 % |
-| 50,000 | 55.30 | 66.57 | 15.16 | 81.73 | 64 % |
-| 250,000 | 46.10 | 56.20 | 3.03 | 59.23 | 74 % |
-
-The 10,000-unit column is why a first run below about 25,000 units is a
-marketing exercise rather than a business. If the founding cohort does not clear
-that, the honest options are a higher launch price or a delayed run — not a
-thinner product.
-
----
-
-## 6. Cost risks
-
-1. **The OLED strip.** At $3.10 it is 13 % of electronics BOM and the least
-   commoditised part. A monochrome segment display would take about $2.40 out
-   but loses the T Score arc. Decide before tooling.
-2. **The 10 ATM rating.** 100 m costs roughly $1.80 a unit more than 5 ATM in
-   sealing, potting and test time. It is worth it: swimming is the single most
-   common reason a wearable comes off, and a band that comes off measures nothing.
-3. **Four photodiodes.** A two-PD design saves about $0.60 and loses in-session
-   rep counting, which is a headline feature of Maps. Not negotiable.
-4. **Aluminium.** A moulded bezel would save $3.10 a unit. It would also feel
-   like a $60 product.
-
----
-
-## 7. Open questions before PVT
-
-- Bicep sleeve as a launch SKU or a follow-on?
-- Does the T Score arc need its own segment, or is it drawn on the 128 × 32?
-- One strap size with an elastic weave, or three cut lengths? Three is $0.40
-  more a unit and considerably fewer returns.
-- Recycled-content claim on the strap: get the supplier attestation on file
-  before it appears anywhere on the site.
+1. Does the SDK expose raw IMU and RR intervals? Everything about rep counting
+   and our own recovery model depends on it.
+2. Unit price at what MOQ, landed where?
+3. Which certificates exist, for which model number, and may we rebrand under them?
+4. Can the supplier cloud be removed from the data path entirely?
+5. Custom strap dye lots for Midnight and Bubblegum — cost and minimum?
+6. Who owns firmware, and what is the update mechanism?
+7. Warranty terms from the supplier, and how they map to what we offer buyers.

@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { Animated, Easing, StyleSheet, Text, View, type LayoutChangeEvent } from "react-native";
+import { Animated, Easing, StyleSheet, View, type LayoutChangeEvent } from "react-native";
+import { Text } from "@/components/AppText";
 import Svg, { Defs, Rect, Stop, LinearGradient as SvgGradient } from "react-native-svg";
-import { theme } from "@/theme";
+import { CardTitle } from "./CardTitle";
+import { fonts, theme } from "@/theme";
 import type { BodyBattery } from "@/api";
+import { metricLabel } from "@/metric-labels";
+import { usePreferences } from "@/preferences";
 
 /**
  * The reservoir, across the top of a Pro dashboard.
@@ -13,6 +17,7 @@ import type { BodyBattery } from "@/api";
  * the thing a paying member gets that a free one does not.
  */
 export function BodyBatteryBar({ battery }: { battery: BodyBattery }) {
+  const { locale } = usePreferences();
   const level = battery.current;
   const charged = battery.charged;
 
@@ -40,12 +45,10 @@ export function BodyBatteryBar({ battery }: { battery: BodyBattery }) {
 
   return (
     <View style={s.wrap}>
-      <View style={s.head}>
-        <Text style={s.label}>Body battery</Text>
-        <Text style={[s.value, { color: tone }]}>{level == null ? "—" : Math.round(level)}</Text>
-      </View>
+      <CardTitle icon="battery" title={metricLabel("bodyBattery", locale)} />
 
-      <View style={s.track} onLayout={onLayout}>
+      <View style={s.meter}>
+        <View style={s.track} onLayout={onLayout}>
         <Animated.View style={[s.fillWrap, { width: fill }]}>
           {width > 0 ? (
             // The gradient is drawn at full track width and revealed by the
@@ -63,35 +66,29 @@ export function BodyBatteryBar({ battery }: { battery: BodyBattery }) {
           ) : null}
         </Animated.View>
 
-        {/* Where it sat when you woke, as a notch to read today against. */}
-        {charged != null && width > 0 ? (
-          <View style={[s.notch, { left: (Math.max(0, Math.min(100, charged)) / 100) * width - 2 }]} />
-        ) : null}
-      </View>
+          {/* Where it sat when you woke, as a notch to read today against. */}
+          {charged != null && width > 0 ? (
+            <View style={[s.notch, { left: (Math.max(0, Math.min(100, charged)) / 100) * width - 2 }]} />
+          ) : null}
+        </View>
 
-      <View style={s.foot}>
-        <Text style={s.narrative} numberOfLines={2}>
-          {battery.narrative}
-        </Text>
-        {battery.gained != null && battery.drained != null ? (
-          <Text style={s.ledger}>
-            +{Math.round(battery.gained)} / −{Math.round(battery.drained)}
-          </Text>
-        ) : null}
+        <Text style={[s.value, { color: tone }]}>{level == null ? "—" : Math.round(level)}</Text>
       </View>
     </View>
   );
 }
 
 const s = StyleSheet.create({
-  wrap: { marginBottom: 18 },
-  head: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between", marginBottom: 9 },
-  label: { color: theme.muted, fontSize: 10, fontWeight: "900", letterSpacing: 1.4, textTransform: "uppercase" },
-  value: { fontSize: 22, fontWeight: "900", letterSpacing: -0.6 },
-  track: { height: 10, borderRadius: 5, backgroundColor: theme.line, overflow: "hidden", justifyContent: "center" },
+  wrap: { marginBottom: 20 },
+  label: {
+    color: theme.muted, fontSize: 10, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1.4,
+    textTransform: "uppercase", marginBottom: 10,
+  },
+  // The reading sits at the end of the meter rather than floating above it, so
+  // the eye lands on the number where the bar stops.
+  meter: { flexDirection: "row", alignItems: "center", gap: 12 },
+  value: { fontSize: 22, fontFamily: fonts.black, fontWeight: "900", letterSpacing: -0.6, minWidth: 34, textAlign: "right" },
+  track: { flex: 1, height: 10, borderRadius: 5, backgroundColor: theme.line, overflow: "hidden", justifyContent: "center" },
   fillWrap: { height: 10, borderRadius: 5, overflow: "hidden" },
   notch: { position: "absolute", top: 0, bottom: 0, width: 2, backgroundColor: theme.lineStrong, zIndex: 2 },
-  foot: { flexDirection: "row", alignItems: "flex-start", gap: 12, marginTop: 9 },
-  narrative: { color: theme.ink2, fontSize: 12, lineHeight: 17, flex: 1 },
-  ledger: { color: theme.muted, fontSize: 11, fontWeight: "800", letterSpacing: 0.4 },
 });

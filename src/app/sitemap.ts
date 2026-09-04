@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { locales } from "@/i18n/config";
 import { destinations } from "@/lib/destinations";
 import { LEGAL_DOCUMENTS } from "@/lib/legal/content";
-import { products } from "@/lib/shop/catalog";
+import { listProducts } from "@/lib/shop/catalog-store";
 
 /**
  * The sitemap.
@@ -25,13 +25,14 @@ const PUBLIC_PATHS = [
   "fitness-age",
   ...destinations,
   ...LEGAL_DOCUMENTS.map((document) => `legal/${document.slug}`),
-  ...products.map((product) => `shop/${product.slug}`),
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
+  const products = await listProducts();
+  const paths = [...PUBLIC_PATHS, ...products.map((product) => `shop/${product.slug}`)];
 
-  return PUBLIC_PATHS.flatMap((path) =>
+  return paths.flatMap((path) =>
     locales.map((locale) => ({
       url: `${base}/${locale}${path ? `/${path}` : ""}`,
       lastModified: now,

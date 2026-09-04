@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { audit, FORBIDDEN, requireAdmin } from "@/lib/admin";
 import { prisma } from "@/lib/db";
+import { commitOrderInventory } from "@/lib/shop/catalog-store";
 
 export const runtime = "nodejs";
 
@@ -39,6 +40,10 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
   }
 
   const order = await prisma.order.update({ where: { id }, data: changes });
+
+  if (before.paymentStatus !== "paid" && changes.paymentStatus === "paid") {
+    await commitOrderInventory(order.id);
+  }
 
   await audit(admin.id, "order.update", order.number, { before, after: changes, note: note ?? null });
 

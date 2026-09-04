@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Animated, Text, type TextStyle, type StyleProp } from "react-native";
+import { Animated, type TextStyle, type StyleProp } from "react-native";
+import { Text } from "@/components/AppText";
 
 /**
  * Counts up to a value instead of snapping to it.

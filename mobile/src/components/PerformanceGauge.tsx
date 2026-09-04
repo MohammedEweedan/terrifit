@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Animated, StyleSheet, Text, View } from "react-native";
+import { Animated, StyleSheet, View } from "react-native";
+import { Text } from "@/components/AppText";
 import Svg, { Circle } from "react-native-svg";
 import { theme } from "@/theme";
 

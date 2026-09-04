@@ -42,7 +42,7 @@ export const de: PagesTranslation = {
       { label: "Gewicht mit Armband" },
     ],
     colourways: {
-      eyebrow: "Vier Farben",
+      eyebrow: "Fünf Farben",
       title: "Armbänder, die gewebt sind, nicht bedruckt",
       body:
         "Jedes Armband wird aus zwei Garnfarben gewebt statt einfarbig gefärbt. Es verändert sich im Licht, kaschiert die Spuren einer harten Trainingswoche und bleicht nicht aus wie ein bedrucktes Band nach ein paar Monaten Chlor und Schweiß.",
@@ -78,7 +78,7 @@ export const de: PagesTranslation = {
       eyebrow: "Wasser und Schweiß",
       title: "Damit kannst du schwimmen, duschen und alles vollschwitzen",
       body:
-        "V1 ist nach IP68 zertifiziert und bis 10 ATM wasserdicht, also 100 Meter. Salzwasser und Chlor machen dem Armband nichts, und der Sensor misst die ganze Zeit im Wasser weiter.",
+        "V1 ist nach IP68 zertifiziert, Regen, Schweiß und Dusche sind also kein Problem. Es ist keine Taucheruhr — nimm sie ab, bevor du Bahnen schwimmst oder ins Meer gehst.",
     },
     integrations: {
       eyebrow: "Läuft mit deinen anderen Apps",
@@ -326,7 +326,7 @@ export const de: PagesTranslation = {
     empty: "Hier ist noch nichts.",
     partnerBadge: "Partnerprodukt",
     originalBadge: "Von Terrifit",
-    stock: { in: "Auf Lager", low: "Fast weg", preorder: "Vorbestellung" },
+    stock: { in: "Auf Lager", low: "Fast weg", preorder: "Vorbestellung", out: "Ausverkauft" },
     addToBag: "In den Warenkorb",
     added: "Hinzugefügt",
     viewProduct: "Ansehen",

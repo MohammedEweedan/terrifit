@@ -1,4 +1,5 @@
 import Svg, { Path } from "react-native-svg";
+import { theme } from "@/theme";
 
 /**
  * The Terrifit mark, identical to the one on the site.
@@ -8,7 +9,7 @@ import Svg, { Path } from "react-native-svg";
  * glance and as turning when you look. The path data is copied verbatim from
  * `src/components/brand/TerrifitMark.tsx` — if one changes, both do.
  */
-export function TerrifitMark({ size = 20, colour = "#ff4d16" }: { size?: number; colour?: string }) {
+export function TerrifitMark({ size = 20, colour = theme.accent }: { size?: number; colour?: string }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill={colour}>
       {/* Top-left tile — rounded corner at top-right. */}

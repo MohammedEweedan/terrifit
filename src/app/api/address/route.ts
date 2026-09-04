@@ -29,21 +29,29 @@ const env = (key: string) => process.env[key]?.trim() || "";
  * so the app can say honestly how much still needs typing.
  */
 export async function GET(request: Request) {
-  if (!rateLimit(`address:${clientKey(request)}`, 30, 60_000)) {
+  if (!(await rateLimit(`address:${clientKey(request)}`, 30, 60_000))) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 
   const url = new URL(request.url);
   const country = (url.searchParams.get("country") ?? "").toUpperCase();
   const postal = (url.searchParams.get("postal") ?? "").trim();
+  /** Partial street text, for autocomplete as somebody types the address. */
+  const query = (url.searchParams.get("q") ?? "").trim();
 
   const known = findCountry(country);
   if (!known) return NextResponse.json({ error: "unknown_country" }, { status: 422 });
-  if (!validPostal(country, postal)) {
+  if (!query && !validPostal(country, postal)) {
     return NextResponse.json({ error: "invalid_postal" }, { status: 422 });
   }
 
   try {
+    // Typing in the address field searches streets rather than re-resolving
+    // the postcode, so the suggestions narrow as the words come in.
+    if (query.length >= 3) {
+      return NextResponse.json(await streetSearch(country, postal, query));
+    }
+
     if (country === "GB") {
       const paf = await royalMail(postal);
       if (paf) return NextResponse.json(paf);
@@ -113,6 +121,33 @@ async function nominatim(country: string, postal: string): Promise<Lookup> {
   });
 
   const response = await fetch(`https://nominatim.openstreetmap.org/search?${query}`, {
+    headers: { "User-Agent": "Terrifit/1.0 (checkout address lookup; support@terrifit.com)" },
+    signal: AbortSignal.timeout(5000),
+  });
+  if (!response.ok) return { precision: "none", addresses: [] };
+
+  return parseNominatim((await response.json()) as NominatimRow[], postal);
+}
+
+/**
+ * Streets matching what has been typed, inside the postcode where there is one.
+ *
+ * Nominatim's structured search takes `street` separately from `postalcode`, so
+ * a partial name is matched against roads rather than treated as a free-text
+ * blob that also matches shops and bus stops.
+ */
+async function streetSearch(country: string, postal: string, query: string): Promise<Lookup> {
+  const params = new URLSearchParams({
+    street: query,
+    country,
+    format: "jsonv2",
+    addressdetails: "1",
+    limit: "12",
+  });
+  // Narrowed to the postcode when there is a valid one; countrywide otherwise.
+  if (postal && validPostal(country, postal)) params.set("postalcode", postal);
+
+  const response = await fetch(`https://nominatim.openstreetmap.org/search?${params}`, {
     headers: { "User-Agent": "Terrifit/1.0 (checkout address lookup; support@terrifit.com)" },
     signal: AbortSignal.timeout(5000),
   });

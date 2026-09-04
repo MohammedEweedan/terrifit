@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import { signupSchema } from "@/lib/validation";
 import { clientKey, rateLimit } from "@/lib/rate-limit";
 import { createSession, hashPassword, setSessionCookie } from "@/lib/auth";
+import { demoDataEnabled, seedDemoHistory } from "@/lib/health/demo-seed";
 
 export const runtime = "nodejs";
 
@@ -12,7 +13,7 @@ function isNativeClient(body: unknown): boolean {
 }
 
 export async function POST(request: Request) {
-  if (!rateLimit(`signup:${clientKey(request)}`, 5, 60_000)) {
+  if (!(await rateLimit(`signup:${clientKey(request)}`, 5, 60_000))) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 
@@ -55,6 +56,17 @@ export async function POST(request: Request) {
       },
       select: { id: true, email: true, name: true, role: true },
     });
+
+    // Development and demo builds only — see demo-seed.ts. A real signup on a
+    // real deployment gets an empty account, which is the honest thing to hand
+    // somebody who has not worn anything yet.
+    if (demoDataEnabled()) {
+      try {
+        await seedDemoHistory(user.id);
+      } catch {
+        // Seeding is a convenience; never fail a signup over it.
+      }
+    }
 
     const session = await createSession(user.id, {
       userAgent: request.headers.get("user-agent"),

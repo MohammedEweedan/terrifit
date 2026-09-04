@@ -39,6 +39,15 @@ export type Score = {
   caveat?: string;
 };
 
+export type FitnessFactor = {
+  label: string;
+  value: string;
+  /** Where this reading sits in its own range, 0–1. */
+  position: number;
+  effect: "younger" | "older" | "neutral";
+  note: string;
+};
+
 export type FitnessAge = {
   years: number | null;
   chronological: number | null;
@@ -47,6 +56,7 @@ export type FitnessAge = {
   capped: boolean;
   vo2max: number | null;
   basis: string[];
+  factors: FitnessFactor[];
   caveat: string;
 };
 
@@ -101,6 +111,8 @@ export type Dashboard = {
     recovery: number | null;
     /** The T Score for that day, scored only against the days before it. */
     tScore: number | null;
+    /** The fitness age estimate on that day, from the days before it. */
+    fitnessAge: number | null;
     hrvMs: number | null;
     restingHr: number | null;
     averageHr: number | null;
@@ -246,6 +258,10 @@ export type ShopVariant = {
   /** The same swatch as plain hex, which is what a native view can paint. */
   swatchColours: string[];
   accent: string | null;
+  image: string | null;
+  stockQuantity: number;
+  allowBackorder: boolean;
+  priceCents: number;
   price: string;
 };
 
@@ -262,12 +278,15 @@ export type ShopProduct = {
   rating: number;
   reviews: number;
   badges: string[];
+  variantLabel: string | null;
   description: string;
   highlights: string[];
   specs: Array<[string, string]>;
   /** The full grouped spec sheet, where a product has one. */
   specGroups: Array<{ title: string; rows: Array<[string, string]> }> | null;
   stock: string;
+  stockQuantity: number;
+  allowBackorder: boolean;
   shipsIn: string;
   fulfilment: string;
   subscription: { label: string; discountPercent: number } | null;
@@ -289,6 +308,10 @@ export type Profile = {
     createdAt: string;
   };
   profile: {
+    /** A data URI, or null. Mutually exclusive with `avatarEmoji`. */
+    avatarImage: string | null;
+    /** One emoji, or null. Mutually exclusive with `avatarImage`. */
+    avatarEmoji: string | null;
     dateOfBirth: string | null;
     sex: string | null;
     heightCm: number | null;
@@ -311,6 +334,10 @@ export type ProfilePatch = Partial<{
   name: string;
   handle: string | null;
   bio: string | null;
+  /** A data URI. Setting this clears any emoji. */
+  avatarImage: string | null;
+  /** One emoji. Setting this clears any photo. */
+  avatarEmoji: string | null;
   dateOfBirth: string | null;
   sex: string | null;
   heightCm: number | null;
@@ -438,10 +465,10 @@ export function signIn(email: string, password: string) {
   });
 }
 
-export function signUp(name: string, email: string, password: string) {
+export function signUp(name: string, email: string, password: string, locale = "en") {
   return request<AuthResult>("/api/auth/signup", null, {
     method: "POST",
-    body: JSON.stringify({ name, email, password, consent: true, client: "native" }),
+    body: JSON.stringify({ name, email, password, locale, consent: true, client: "native" }),
   });
 }
 
@@ -468,34 +495,26 @@ export type ShopColourway = {
 export type Shop = {
   categories: string[];
   products: ShopProduct[];
+  currency: { code: string; symbol: string; decimals: 0 | 2 };
+  currencies: Array<{ code: string; symbol: string }>;
   colourways: ShopColourway[];
   recommended: string[];
   /** The colourway they actually own, so the V1 is pictured as theirs. */
   yourBand: { serial: string; colourway: string; label: string; image: string | null; accent: string | null } | null;
 };
 
-export const getShop = (token: string) => request<Shop>("/api/app/shop", token);
+export const getShop = (token: string, currency = "USD", locale = "en") =>
+  request<Shop>(`/api/app/shop?currency=${encodeURIComponent(currency)}&locale=${encodeURIComponent(locale)}`, token);
 export const getNotifications = (token: string) =>
   request<{ unread: number; notifications: Notification[] }>("/api/app/notifications", token);
 
-export const getFeed = (token: string, scope: "following" | "discover" = "following") =>
-  request<Feed>(`/api/app/feed?scope=${scope}`, token);
 
 export const getMap = (token: string, id: string) => request<MapDetail>(`/api/app/maps/${id}`, token);
 
 export const patchProfile = (token: string, patch: ProfilePatch) =>
   request<{ ok: true }>("/api/app/profile", token, { method: "PATCH", body: JSON.stringify(patch) });
 
-export const createPost = (
-  token: string,
-  input: { kind: Post["kind"]; body: string; mediaUrl?: string | null; visibility?: string },
-) => request<{ id: string; createdAt: string }>("/api/app/posts", token, {
-  method: "POST",
-  body: JSON.stringify(input),
-});
 
-export const likePost = (token: string, id: string) =>
-  request<{ liked: boolean; likeCount: number }>(`/api/app/posts/${id}/like`, token, { method: "POST" });
 
 export const pairBand = (token: string, serial: string, colourway?: string, simulated = false) =>
   request<{ band: Band }>("/api/app/band", token, {
@@ -525,11 +544,6 @@ export const enrollMap = (token: string, id: string) =>
     body: JSON.stringify({}),
   });
 
-export const completeSession = (token: string, id: string) =>
-  request<{ week: number; done: number; completed: boolean }>(`/api/app/maps/${id}`, token, {
-    method: "POST",
-    body: JSON.stringify({ action: "complete-session" }),
-  });
 
 export const leaveMap = (token: string, id: string) =>
   request<{ ok: true }>(`/api/app/maps/${id}`, token, { method: "DELETE" });
@@ -537,34 +551,10 @@ export const leaveMap = (token: string, id: string) =>
 export const markNotificationsRead = (token: string) =>
   request<{ ok: true }>("/api/app/notifications", token, { method: "POST" });
 
-export const getPublicProfile = (token: string, handle: string) =>
-  request<PublicProfile>(`/api/app/users/${encodeURIComponent(handle)}`, token);
 
-export const toggleFollow = (token: string, handle: string) =>
-  request<{ following: boolean; followers: number }>(
-    `/api/app/users/${encodeURIComponent(handle)}/follow`,
-    token,
-    { method: "POST" },
-  );
 
-export const getConversations = (token: string) =>
-  request<{ conversations: ConversationSummary[] }>("/api/app/messages", token);
 
 /** Opens (or reuses) a thread with someone and returns its id. */
-export const startConversation = (token: string, to: string, body?: string) =>
-  request<{ id: string }>("/api/app/messages", token, {
-    method: "POST",
-    body: JSON.stringify({ to, ...(body ? { body } : {}) }),
-  });
-
-export const getComments = (token: string, postId: string) =>
-  request<{ comments: PostComment[] }>(`/api/app/posts/${postId}/comments`, token);
-
-export const addComment = (token: string, postId: string, body: string) =>
-  request<PostComment>(`/api/app/posts/${postId}/comments`, token, {
-    method: "POST",
-    body: JSON.stringify({ body }),
-  });
 
 export const syncHealth = (token: string, source: string, days: unknown[]) =>
   request<{ written: number; skipped: number; totalDays: number }>("/api/app/health", token, {
@@ -628,27 +618,116 @@ export const checkout = (
   },
 ) => request<CheckoutResult>("/api/checkout", token, { method: "POST", body: JSON.stringify(payload) });
 
+export type AdminPaymentBucket = {
+  currency: string;
+  grossCents: number;
+  refundedCents: number;
+  netCents: number;
+  paidOrders: number;
+  refundedOrders: number;
+  averageOrderCents: number;
+};
+
 export type AdminOverview = {
-  members: { total: number; newThisWeek: number; pro: number; trialing: number };
+  members: { total: number; newThisWeek: number; pro: number; payingCustomers: number; trialing: number };
   /** Recurring revenue, with a yearly plan counted as a twelfth per month. */
   subscriptions: { monthly: number; yearly: number; mrrCents: number; arrCents: number };
   waitlist: number;
-  orders: { total: number; thisWeek: number; revenueCents: number };
+  orders: { total: number; thisWeek: number; paid: number; sandbox: number; revenueCents: number };
+  payments: {
+    byCurrency: AdminPaymentBucket[];
+    byMethod: Array<{
+      method: string;
+      orders: number;
+      revenue: AdminPaymentBucket[];
+    }>;
+    byStatus: Array<{ status: string; orders: number }>;
+  };
+  sales: {
+    terrifuel: AdminSalesMetric;
+    band: AdminSalesMetric;
+    accessories: AdminSalesMetric;
+    products: Array<AdminSalesMetric & { slug: string; name: string; category: string; brand: string }>;
+  };
   content: { posts: number; comments: number };
   devices: number;
   contact: number;
   imports: number;
 };
 
+export type AdminSalesMetric = {
+  units: number;
+  orders: number;
+  revenue: Array<{ currency: string; cents: number }>;
+};
+
 export type AdminOrder = {
   id: string; number: string; email: string; name: string; totalCents: number;
+  currency: string;
   paymentMethod: string; paymentStatus: string; fulfillmentStatus: string;
   sandbox: boolean; createdAt: string; address: string | null;
   items: Array<{ title: string; variantLabel: string | null; quantity: number; unitPriceCents: number }>;
 };
 
+export type AdminCatalogVariant = {
+  key: string;
+  label: string;
+  note: string | null;
+  sku: string;
+  priceCents: number | null;
+  image: string | null;
+  colours: string[];
+  accent: string | null;
+  active: boolean;
+  sortOrder: number;
+  stockQuantity: number;
+  lowStockThreshold: number;
+  allowBackorder: boolean;
+};
+
+export type AdminCatalogProduct = {
+  slug: string;
+  name: string;
+  tagline: string;
+  category: string;
+  brand: string;
+  partner: boolean;
+  description: string;
+  priceCents: number;
+  compareAtCents: number | null;
+  rating: number;
+  reviewCount: number;
+  badges: string[];
+  variantLabel: string | null;
+  highlights: string[];
+  specs: Array<[string, string]>;
+  shipsIn: string;
+  fulfilment: "ship" | "subscription";
+  subscriptionLabel: string | null;
+  subscriptionDiscountPercent: number | null;
+  active: boolean;
+  featured: boolean;
+  sortOrder: number;
+  trackInventory: boolean;
+  stockQuantity: number;
+  lowStockThreshold: number;
+  allowBackorder: boolean;
+  variants: AdminCatalogVariant[];
+  media: Array<{ src: string; alt: string; ratio: number | null; sortOrder: number }>;
+};
+
 export const getAdminOverview = (token: string) => request<AdminOverview>("/api/admin/overview", token);
 export const getAdminOrders = (token: string) => request<{ orders: AdminOrder[] }>("/api/admin/orders", token);
+export const getAdminCatalog = (token: string) => request<{ products: AdminCatalogProduct[] }>("/api/admin/catalog", token);
+
+export const createAdminProduct = (token: string, product: AdminCatalogProduct) =>
+  request<{ ok: true; slug: string }>("/api/admin/catalog", token, { method: "POST", body: JSON.stringify(product) });
+
+export const saveAdminProduct = (token: string, product: AdminCatalogProduct) =>
+  request<{ ok: true; slug: string }>(`/api/admin/catalog/${encodeURIComponent(product.slug)}`, token, { method: "PATCH", body: JSON.stringify(product) });
+
+export const archiveAdminProduct = (token: string, slug: string) =>
+  request<{ ok: true }>(`/api/admin/catalog/${encodeURIComponent(slug)}`, token, { method: "DELETE" });
 
 export const updateAdminOrder = (token: string, id: string, body: Record<string, string>) =>
   request<{ number: string; paymentStatus: string; fulfillmentStatus: string }>(`/api/admin/orders/${id}`, token, {
@@ -668,9 +747,9 @@ export type TogetherProduct = {
   needsChoice: boolean;
 };
 
-export const getTogether = (token: string, slugs: string[]) =>
+export const getTogether = (token: string, slugs: string[], currency = "USD", locale = "en") =>
   request<{ basis: "orders" | "curated"; sampleSize: number; products: TogetherProduct[] }>(
-    `/api/app/shop/together?slugs=${encodeURIComponent(slugs.join(","))}`,
+    `/api/app/shop/together?slugs=${encodeURIComponent(slugs.join(","))}&currency=${encodeURIComponent(currency)}&locale=${encodeURIComponent(locale)}`,
     token,
   );
 
@@ -719,7 +798,6 @@ export const startTrial = (token: string) =>
  */
 export const subscribePro = (token: string, interval: "monthly" | "yearly") =>
   request<PlanInfo & {
-    welcomeGift?: boolean;
     sandbox?: boolean;
     sheet?: {
       clientSecret: string | null;
@@ -781,6 +859,8 @@ export type PaymentSheetSetup = {
 export type AppCheckoutResult = {
   number: string;
   totals: { subtotalCents: number; taxCents: number; shippingCents: number; totalCents: number };
+  currency: string;
+  chargeAmount: number;
   /** True when Stripe has no keys yet: the order is recorded, nothing charged. */
   sandbox: boolean;
   /** Null in that case; otherwise everything the native sheet needs. */
@@ -804,6 +884,7 @@ export const appCheckout = (
     postcode?: string;
     country?: string;
     paymentMethod: string;
+    currency?: string;
     locale?: string;
   },
 ) => request<AppCheckoutResult>("/api/app/checkout", token, { method: "POST", body: JSON.stringify(payload) });
@@ -817,4 +898,96 @@ export const reportCheckout = (token: string | null, number: string, outcome: "c
   request<{ status: string }>("/api/app/checkout", token, {
     method: "PATCH",
     body: JSON.stringify({ number, outcome }),
+  });
+
+export type SavedAddress = {
+  id: string;
+  label: string | null;
+  name: string;
+  phone: string | null;
+  line1: string;
+  line2: string | null;
+  city: string;
+  postcode: string;
+  country: string;
+  isDefault: boolean;
+};
+
+export const getAddresses = (token: string | null) =>
+  request<{ addresses: SavedAddress[] }>("/api/app/addresses", token);
+
+export const saveAddress = (
+  token: string | null,
+  address: Omit<SavedAddress, "id" | "isDefault"> & { isDefault?: boolean },
+) => request<SavedAddress>("/api/app/addresses", token, { method: "POST", body: JSON.stringify(address) });
+
+export const deleteAddress = (token: string | null, id: string) =>
+  request<{ ok: true }>(`/api/app/addresses?id=${encodeURIComponent(id)}`, token, { method: "DELETE" });
+
+export type OrderLine = {
+  slug: string;
+  title: string;
+  variant: string | null;
+  quantity: number;
+  unitCents: number;
+};
+
+export type TrackedOrder = {
+  number: string;
+  placedAt: string;
+  paymentStatus: string;
+  /** pending | packed | shipped | delivered | cancelled */
+  fulfillmentStatus: string;
+  sandbox: boolean;
+  currency: string;
+  totalCents: number;
+  carrier: string | null;
+  trackingNumber: string | null;
+  /** Built server-side, so the app never has to know a carrier's URL shape. */
+  trackingUrl: string | null;
+  packedAt: string | null;
+  shippedAt: string | null;
+  deliveredAt: string | null;
+  shipsTo: string | null;
+  items: OrderLine[];
+};
+
+export const getOrders = (token: string | null) =>
+  request<{ orders: TrackedOrder[]; active: number }>("/api/app/orders", token);
+
+/** Changes which strap the band is pictured in, everywhere it appears. */
+export const setBandColourway = (token: string | null, colourway: string) =>
+  request<{ colourway: string }>("/api/app/band", token, {
+    method: "PATCH",
+    body: JSON.stringify({ colourway }),
+  });
+
+export type ReportBlock = { id: string; title: string; rows: Array<[string, string]>; note?: string };
+export type HealthReport = {
+  name: string;
+  generatedAt: string;
+  period: string;
+  blocks: ReportBlock[];
+};
+
+/**
+ * A report of the member's own data. Built server-side from the same function
+ * the dashboard draws from, so a printed report and the screen it came from
+ * can never quote different numbers.
+ */
+export const getReport = (token: string | null, options: { days?: number; sections?: string[] } = {}) => {
+  const query = new URLSearchParams();
+  if (options.days) query.set("days", String(options.days));
+  if (options.sections?.length) query.set("sections", options.sections.join(","));
+  return request<HealthReport>(`/api/app/report?${query}`, token);
+};
+
+/** The daily rows as CSV, for a spreadsheet rather than a read. */
+export const reportCsvUrl = (days: number) => `${API_BASE}/api/app/report?format=csv&days=${days}`;
+
+/** A short-lived browser link for the same report, so it can be printed. */
+export const getReportLink = (token: string | null, options: { days?: number; sections?: string[] } = {}) =>
+  request<{ url: string; expiresInMinutes: number }>("/api/app/report/link", token, {
+    method: "POST",
+    body: JSON.stringify(options),
   });

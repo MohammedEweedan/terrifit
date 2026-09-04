@@ -19,7 +19,7 @@ import { lineImage, recommendationsFor } from "@/lib/shop/catalog";
 export function CartRecommendations({ locale }: { locale: Locale }) {
   const cart = useCart();
   const copy = getPagesCopy(locale).shop;
-  const suggestions = recommendationsFor(cart.lines.map((line) => line.product.slug), 3);
+  const suggestions = recommendationsFor(cart.lines.map((line) => line.product.slug), 3, cart.catalog);
 
   if (cart.lines.length === 0 || suggestions.length === 0) return null;
 

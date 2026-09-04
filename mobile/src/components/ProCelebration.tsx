@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef } from "react";
-import { Animated, Easing, Modal, Pressable, StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { Animated, Easing, Modal, Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
+import { Text } from "@/components/AppText";
 import Svg, { Circle, Defs, RadialGradient, Stop } from "react-native-svg";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { TerrifitMark } from "./TerrifitMark";
-import { display, theme } from "@/theme";
+import { fonts, display, theme } from "@/theme";
 
 /** How many sparks fly out of the mark. Enough to read as a burst, not a mess. */
 const SPARKS = 22;
@@ -185,7 +186,7 @@ export function ProCelebration({
           <Text style={s.title}>You&apos;re in.</Text>
           <Text style={s.body}>
             {yearly
-              ? "Everything is unlocked, and your Fuel welcome box is on its way — protein, creatine and hydration to try."
+              ? "Everything is unlocked. Your Terrifuel sample bundle can be chosen separately in the shop, including whey or isolate."
               : "Everything is unlocked. Sleep quality, load, body battery and the insights that read across all of it."}
           </Text>
 
@@ -214,17 +215,17 @@ const s = StyleSheet.create({
   bloom: { position: "absolute", alignItems: "center", justifyContent: "center" },
   spark: { position: "absolute" },
   mark: { position: "absolute" },
-  word: { color: theme.ink, fontSize: 26, fontWeight: "900", letterSpacing: 5, marginTop: 22 },
-  pro: { color: theme.accent, fontSize: 13, fontWeight: "900", letterSpacing: 8 },
+  word: { color: theme.ink, fontSize: 26, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 5, marginTop: 22 },
+  pro: { color: theme.accent, fontSize: 13, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 8 },
   title: { color: theme.ink, fontFamily: display, fontSize: 38, textTransform: "uppercase", marginTop: 34 },
   body: { color: theme.ink2, fontSize: 14, lineHeight: 21, textAlign: "center", marginTop: 12 },
   unlocked: { alignSelf: "stretch", gap: 9, marginTop: 24 },
   unlockedRow: { flexDirection: "row", alignItems: "center", gap: 10 },
-  tick: { color: theme.accent, fontSize: 13, fontWeight: "900" },
+  tick: { color: theme.accent, fontSize: 13, fontFamily: fonts.black, fontWeight: "900" },
   unlockedText: { color: theme.ink2, fontSize: 13 },
   button: {
     height: 52, borderRadius: 26, backgroundColor: theme.accent,
     alignItems: "center", justifyContent: "center", alignSelf: "stretch", marginTop: 30,
   },
-  buttonText: { color: "#fff", fontSize: 12, fontWeight: "900", letterSpacing: 1, textTransform: "uppercase" },
+  buttonText: { color: "#fff", fontSize: 12, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1, textTransform: "uppercase" },
 });

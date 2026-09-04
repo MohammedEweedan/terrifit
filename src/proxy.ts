@@ -16,6 +16,10 @@ export function proxy(request: NextRequest) {
   if (
     pathname.startsWith("/api") ||
     pathname.startsWith("/_next") ||
+    // A printed report has no locale of its own: it is a snapshot of one
+    // person's data reached by a single-use link, and prefixing it would break
+    // the link the app just handed out.
+    pathname.startsWith("/report/") ||
     pathname === "/favicon.ico" ||
     PUBLIC_FILE.test(pathname)
   ) {

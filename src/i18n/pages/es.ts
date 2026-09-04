@@ -25,7 +25,7 @@ export const es: PagesTranslation = {
     meta: {
       title: "Terrifit V1: la pulsera que te dice cuándo apretar",
       description:
-        "V1 mide tu frecuencia cardiaca, VFC, sueño, oxígeno en sangre y temperatura de la piel sin parar. Más de 14 días de batería, sumergible a 100 metros, cuatro tejidos y sincronización directa con Apple Salud y Google Health Connect.",
+        "V1 mide tu frecuencia cardiaca, VFC, sueño, oxígeno en sangre y temperatura de la piel sin parar. Más de 14 días de batería, certificación IP68, cinco tejidos y sincronización directa con Apple Salud y Google Health Connect.",
     },
     nav: ["Resumen", "Diseño", "Medición", "Batería", "Apps", "Ficha técnica"],
     buy: "Reservar",
@@ -45,7 +45,7 @@ export const es: PagesTranslation = {
       { label: "De peso con la correa" },
     ],
     colourways: {
-      eyebrow: "Cuatro colores",
+      eyebrow: "Cinco colores",
       title: "Correas tejidas, no estampadas",
       body:
         "Cada correa se teje con dos hilos de distinto color en lugar de teñirse de uno plano. Cambia según le da la luz, disimula las marcas de una semana dura de entrenamiento y no se destiñe como una correa estampada tras unos meses de cloro y sudor.",
@@ -81,7 +81,7 @@ export const es: PagesTranslation = {
       eyebrow: "Agua y sudor",
       title: "Puedes nadar, ducharte y sudar con ella puesta",
       body:
-        "La V1 tiene certificación IP68 y resistencia de 10 ATM, es decir, 100 metros. El agua salada y el cloro no afectan a la correa, y el sensor sigue midiendo todo el tiempo que estés en el agua.",
+        "La V1 tiene certificación IP68, así que la lluvia, el sudor y la ducha no son problema. No es un reloj de buceo: quítatela antes de nadar o meterte en el mar.",
     },
     integrations: {
       eyebrow: "Funciona con tus otras apps",
@@ -329,7 +329,7 @@ export const es: PagesTranslation = {
     empty: "Aquí todavía no hay nada.",
     partnerBadge: "Producto de socio",
     originalBadge: "Hecho por Terrifit",
-    stock: { in: "En stock", low: "Quedan pocas", preorder: "Reserva" },
+    stock: { in: "En stock", low: "Quedan pocas", preorder: "Reserva", out: "Agotado" },
     addToBag: "Añadir a la bolsa",
     added: "Añadido",
     viewProduct: "Ver",

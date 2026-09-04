@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View } from "react-native";
-import { theme } from "@/theme";
+import { StyleSheet, View } from "react-native";
+import { Text } from "@/components/AppText";
+import { fonts, theme } from "@/theme";
 
 /**
  * The Pro mark.
@@ -24,7 +25,7 @@ const s = StyleSheet.create({
     paddingVertical: 2,
     alignSelf: "flex-start",
   },
-  text: { color: "#fff", fontSize: 10, fontWeight: "900", letterSpacing: 1 },
+  text: { color: "#fff", fontSize: 10, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1 },
   wordmark: { backgroundColor: "transparent", paddingHorizontal: 0, paddingVertical: 0 },
   wordmarkText: { color: theme.accent, fontSize: 10, letterSpacing: 3.4 },
 });

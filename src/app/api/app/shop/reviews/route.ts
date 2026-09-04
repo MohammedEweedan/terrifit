@@ -3,7 +3,7 @@ import { z } from "zod";
 import { getRequestUser } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { clientKey, rateLimit } from "@/lib/rate-limit";
-import { findProduct } from "@/lib/shop/catalog";
+import { getProduct } from "@/lib/shop/catalog-store";
 
 export const runtime = "nodejs";
 
@@ -21,7 +21,7 @@ export async function GET(request: Request) {
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const slug = new URL(request.url).searchParams.get("slug") ?? "";
-  if (!findProduct(slug)) return NextResponse.json({ error: "unknown_product" }, { status: 404 });
+  if (!await getProduct(slug)) return NextResponse.json({ error: "unknown_product" }, { status: 404 });
 
   const rows = await prisma.productReview.findMany({
     where: { slug, hidden: false },
@@ -75,7 +75,7 @@ export async function POST(request: Request) {
   const user = await getRequestUser(request);
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
-  if (!rateLimit(`review:${user.id}:${clientKey(request)}`, 5, 60_000)) {
+  if (!(await rateLimit(`review:${user.id}:${clientKey(request)}`, 5, 60_000))) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 
@@ -88,7 +88,7 @@ export async function POST(request: Request) {
   }
 
   const { slug, rating, title, body } = parsed.data;
-  if (!findProduct(slug)) return NextResponse.json({ error: "unknown_product" }, { status: 404 });
+  if (!await getProduct(slug)) return NextResponse.json({ error: "unknown_product" }, { status: 404 });
 
   // Verified is derived here and never accepted from the request: it is the
   // only thing separating a review that means something from one that does not.

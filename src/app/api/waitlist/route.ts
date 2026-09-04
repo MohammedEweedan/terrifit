@@ -9,7 +9,7 @@ import { getWaitlistStats } from "@/lib/stats";
 export const runtime = "nodejs";
 
 export async function POST(request: Request) {
-  if (!rateLimit(`waitlist:${clientKey(request)}`, 5, 60_000)) {
+  if (!(await rateLimit(`waitlist:${clientKey(request)}`, 5, 60_000))) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 

@@ -1,0 +1,230 @@
+import type { AppLocale } from "@/preferences";
+
+/**
+ * Complete copy for the Maps tab. No user-facing sentence lives in the screen.
+ *
+ * Goal and level labels are translated here rather than taken from the API,
+ * because the API returns them as stable identifiers — `hypertrophy`, `new` —
+ * which are the right thing to filter on and the wrong thing to show anyone.
+ */
+export type MapsCopy = {
+  eyebrow: string;
+  title: string;
+  lede: string;
+  inProgress: string;
+  weekOf: (week: number, weeks: number) => string;
+  sessionsThisWeek: (done: number, total: number) => string;
+  library: string;
+  mapCount: (count: number) => string;
+  all: string;
+  weeksLabel: string;
+  perWeekLabel: string;
+  coachLabel: string;
+  offline: string;
+  emptyTitle: string;
+  emptyBody: string;
+  goals: Record<string, string>;
+  levels: Record<string, string>;
+};
+
+const goalsEn = {
+  hypertrophy: "Size",
+  strength: "Strength",
+  endurance: "Endurance",
+  health: "Health",
+};
+
+const levelsEn = { new: "New to it", returning: "Returning", steady: "Steady" };
+
+export const mapsCopy: Record<AppLocale, MapsCopy> = {
+  en: {
+    eyebrow: "Plans that adapt",
+    title: "Maps",
+    lede: "A programme is only useful if it changes when your body does. Every Map responds to your recovery, your schedule and your progress.",
+    inProgress: "In progress",
+    weekOf: (week, weeks) => `Week ${week} of ${weeks}`,
+    sessionsThisWeek: (done, total) => `${done} of ${total} sessions this week`,
+    library: "The library",
+    mapCount: (count) => (count === 1 ? "1 Map" : `${count} Maps`),
+    all: "All",
+    weeksLabel: "Weeks",
+    perWeekLabel: "Per week",
+    coachLabel: "Coach",
+    offline: "Showing the Map library while Terrifit reconnects.",
+    emptyTitle: "Nothing here yet.",
+    emptyBody: "No Map matches that filter. Try another, or show them all.",
+    goals: goalsEn,
+    levels: levelsEn,
+  },
+  es: {
+    eyebrow: "Planes que se adaptan",
+    title: "Mapas",
+    lede: "Un programa solo sirve si cambia cuando cambia tu cuerpo. Cada Mapa responde a tu recuperación, tu agenda y tu progreso.",
+    inProgress: "En curso",
+    weekOf: (week, weeks) => `Semana ${week} de ${weeks}`,
+    sessionsThisWeek: (done, total) => `${done} de ${total} sesiones esta semana`,
+    library: "La biblioteca",
+    mapCount: (count) => (count === 1 ? "1 Mapa" : `${count} Mapas`),
+    all: "Todos",
+    weeksLabel: "Semanas",
+    perWeekLabel: "Por semana",
+    coachLabel: "Entrenador",
+    offline: "Mostrando la biblioteca mientras Terrifit se reconecta.",
+    emptyTitle: "Aquí no hay nada todavía.",
+    emptyBody: "Ningún Mapa coincide con ese filtro. Prueba otro o muéstralos todos.",
+    goals: { hypertrophy: "Volumen", strength: "Fuerza", endurance: "Resistencia", health: "Salud" },
+    levels: { new: "Empezando", returning: "Retomando", steady: "Constante" },
+  },
+  ar: {
+    eyebrow: "خطط تتكيّف معك",
+    title: "الخرائط",
+    lede: "البرنامج لا ينفع إلا إذا تغيّر عندما يتغيّر جسمك. كل خريطة تستجيب لتعافيك وجدولك وتقدّمك.",
+    inProgress: "قيد التنفيذ",
+    weekOf: (week, weeks) => `الأسبوع ${week} من ${weeks}`,
+    sessionsThisWeek: (done, total) => `${done} من ${total} حصص هذا الأسبوع`,
+    library: "المكتبة",
+    mapCount: (count) => (count === 1 ? "خريطة واحدة" : `${count} خرائط`),
+    all: "الكل",
+    weeksLabel: "أسابيع",
+    perWeekLabel: "أسبوعيًا",
+    coachLabel: "المدرّب",
+    offline: "نعرض مكتبة الخرائط ريثما يعيد تيريفت الاتصال.",
+    emptyTitle: "لا شيء هنا بعد.",
+    emptyBody: "لا توجد خريطة تطابق هذا التصفية. جرّب غيرها أو اعرضها كلها.",
+    goals: { hypertrophy: "الحجم", strength: "القوة", endurance: "التحمّل", health: "الصحة" },
+    levels: { new: "مبتدئ", returning: "عائد", steady: "منتظم" },
+  },
+  fr: {
+    eyebrow: "Des plans qui s’adaptent",
+    title: "Maps",
+    lede: "Un programme n’est utile que s’il change quand votre corps change. Chaque Map réagit à votre récupération, votre agenda et vos progrès.",
+    inProgress: "En cours",
+    weekOf: (week, weeks) => `Semaine ${week} sur ${weeks}`,
+    sessionsThisWeek: (done, total) => `${done} séances sur ${total} cette semaine`,
+    library: "La bibliothèque",
+    mapCount: (count) => (count === 1 ? "1 Map" : `${count} Maps`),
+    all: "Tout",
+    weeksLabel: "Semaines",
+    perWeekLabel: "Par semaine",
+    coachLabel: "Coach",
+    offline: "Bibliothèque affichée pendant que Terrifit se reconnecte.",
+    emptyTitle: "Rien ici pour l’instant.",
+    emptyBody: "Aucune Map ne correspond à ce filtre. Essayez-en un autre, ou affichez tout.",
+    goals: { hypertrophy: "Volume", strength: "Force", endurance: "Endurance", health: "Santé" },
+    levels: { new: "Débutant", returning: "Reprise", steady: "Régulier" },
+  },
+  de: {
+    eyebrow: "Pläne, die sich anpassen",
+    title: "Maps",
+    lede: "Ein Programm taugt nur, wenn es sich ändert, sobald dein Körper es tut. Jede Map reagiert auf deine Erholung, deinen Kalender und deinen Fortschritt.",
+    inProgress: "Läuft",
+    weekOf: (week, weeks) => `Woche ${week} von ${weeks}`,
+    sessionsThisWeek: (done, total) => `${done} von ${total} Einheiten diese Woche`,
+    library: "Die Bibliothek",
+    mapCount: (count) => (count === 1 ? "1 Map" : `${count} Maps`),
+    all: "Alle",
+    weeksLabel: "Wochen",
+    perWeekLabel: "Pro Woche",
+    coachLabel: "Coach",
+    offline: "Die Bibliothek wird angezeigt, während Terrifit sich neu verbindet.",
+    emptyTitle: "Hier ist noch nichts.",
+    emptyBody: "Keine Map passt zu diesem Filter. Nimm einen anderen oder zeig alle.",
+    goals: { hypertrophy: "Masse", strength: "Kraft", endurance: "Ausdauer", health: "Gesundheit" },
+    levels: { new: "Neu dabei", returning: "Wiedereinstieg", steady: "Konstant" },
+  },
+  nl: {
+    eyebrow: "Plannen die meebewegen",
+    title: "Maps",
+    lede: "Een programma is alleen nuttig als het verandert wanneer je lichaam verandert. Elke Map reageert op je herstel, je agenda en je voortgang.",
+    inProgress: "Bezig",
+    weekOf: (week, weeks) => `Week ${week} van ${weeks}`,
+    sessionsThisWeek: (done, total) => `${done} van ${total} sessies deze week`,
+    library: "De bibliotheek",
+    mapCount: (count) => (count === 1 ? "1 Map" : `${count} Maps`),
+    all: "Alles",
+    weeksLabel: "Weken",
+    perWeekLabel: "Per week",
+    coachLabel: "Coach",
+    offline: "De bibliotheek wordt getoond terwijl Terrifit opnieuw verbindt.",
+    emptyTitle: "Hier staat nog niets.",
+    emptyBody: "Geen Map past bij dat filter. Probeer een ander, of toon ze allemaal.",
+    goals: { hypertrophy: "Massa", strength: "Kracht", endurance: "Uithouding", health: "Gezondheid" },
+    levels: { new: "Nieuw", returning: "Terug", steady: "Constant" },
+  },
+  pt: {
+    eyebrow: "Planos que se adaptam",
+    title: "Maps",
+    lede: "Um programa só é útil se mudar quando o teu corpo muda. Cada Map responde à tua recuperação, à tua agenda e ao teu progresso.",
+    inProgress: "Em curso",
+    weekOf: (week, weeks) => `Semana ${week} de ${weeks}`,
+    sessionsThisWeek: (done, total) => `${done} de ${total} sessões esta semana`,
+    library: "A biblioteca",
+    mapCount: (count) => (count === 1 ? "1 Map" : `${count} Maps`),
+    all: "Tudo",
+    weeksLabel: "Semanas",
+    perWeekLabel: "Por semana",
+    coachLabel: "Treinador",
+    offline: "A mostrar a biblioteca enquanto o Terrifit se religa.",
+    emptyTitle: "Ainda não há nada aqui.",
+    emptyBody: "Nenhum Map corresponde a esse filtro. Experimenta outro, ou mostra todos.",
+    goals: { hypertrophy: "Volume", strength: "Força", endurance: "Resistência", health: "Saúde" },
+    levels: { new: "A começar", returning: "A regressar", steady: "Constante" },
+  },
+  it: {
+    eyebrow: "Programmi che si adattano",
+    title: "Maps",
+    lede: "Un programma serve solo se cambia quando cambia il tuo corpo. Ogni Map risponde al tuo recupero, ai tuoi impegni e ai tuoi progressi.",
+    inProgress: "In corso",
+    weekOf: (week, weeks) => `Settimana ${week} di ${weeks}`,
+    sessionsThisWeek: (done, total) => `${done} di ${total} sessioni questa settimana`,
+    library: "La libreria",
+    mapCount: (count) => (count === 1 ? "1 Map" : `${count} Map`),
+    all: "Tutto",
+    weeksLabel: "Settimane",
+    perWeekLabel: "A settimana",
+    coachLabel: "Coach",
+    offline: "Mostriamo la libreria mentre Terrifit si riconnette.",
+    emptyTitle: "Qui non c’è ancora nulla.",
+    emptyBody: "Nessuna Map corrisponde a questo filtro. Provane un altro, o mostrale tutte.",
+    goals: { hypertrophy: "Massa", strength: "Forza", endurance: "Resistenza", health: "Salute" },
+    levels: { new: "Alle prime armi", returning: "Di ritorno", steady: "Costante" },
+  },
+  tr: {
+    eyebrow: "Uyum sağlayan planlar",
+    title: "Haritalar",
+    lede: "Bir program ancak vücudun değiştiğinde değişiyorsa işe yarar. Her Harita toparlanmana, programına ve ilerlemene göre yanıt verir.",
+    inProgress: "Devam ediyor",
+    weekOf: (week, weeks) => `${weeks} haftanın ${week}. haftası`,
+    sessionsThisWeek: (done, total) => `Bu hafta ${total} seansın ${done} tanesi`,
+    library: "Kütüphane",
+    mapCount: (count) => (count === 1 ? "1 Harita" : `${count} Harita`),
+    all: "Hepsi",
+    weeksLabel: "Hafta",
+    perWeekLabel: "Haftada",
+    coachLabel: "Antrenör",
+    offline: "Terrifit yeniden bağlanırken kütüphane gösteriliyor.",
+    emptyTitle: "Burada henüz bir şey yok.",
+    emptyBody: "Bu filtreye uyan Harita yok. Başka birini dene ya da hepsini göster.",
+    goals: { hypertrophy: "Hacim", strength: "Kuvvet", endurance: "Dayanıklılık", health: "Sağlık" },
+    levels: { new: "Yeni başlıyor", returning: "Geri dönüyor", steady: "İstikrarlı" },
+  },
+  ru: {
+    eyebrow: "Планы, которые подстраиваются",
+    title: "Карты",
+    lede: "Программа полезна только тогда, когда меняется вместе с телом. Каждая Карта реагирует на восстановление, расписание и прогресс.",
+    inProgress: "В процессе",
+    weekOf: (week, weeks) => `Неделя ${week} из ${weeks}`,
+    sessionsThisWeek: (done, total) => `${done} из ${total} тренировок на этой неделе`,
+    library: "Библиотека",
+    mapCount: (count) => (count === 1 ? "1 Карта" : `Карт: ${count}`),
+    all: "Все",
+    weeksLabel: "Недель",
+    perWeekLabel: "В неделю",
+    coachLabel: "Тренер",
+    offline: "Показываем библиотеку, пока Terrifit восстанавливает связь.",
+    emptyTitle: "Здесь пока пусто.",
+    emptyBody: "Ни одна Карта не подходит под этот фильтр. Выберите другой или покажите все.",
+    goals: { hypertrophy: "Объём", strength: "Сила", endurance: "Выносливость", health: "Здоровье" },
+    levels: { new: "Начинаю", returning: "Возвращаюсь", steady: "Стабильно" },
+  },
+};

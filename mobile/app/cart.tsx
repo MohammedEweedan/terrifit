@@ -1,39 +1,38 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "@/components/AppText";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { type TogetherProduct } from "@/api";
 import { ProductImage } from "@/components/ProductImage";
 import { useCart } from "@/cart";
 import { useTogether } from "@/data";
-import { display, theme } from "@/theme";
-
-const money = (cents: number) => `$${(cents / 100).toFixed(cents % 100 === 0 ? 0 : 2)}`;
+import { fonts, display, scheme, theme } from "@/theme";
+import { ModalHeader } from "@/components/ModalHeader";
+import { usePreferences } from "@/preferences";
+import { commerceCopy, type CommerceCopy } from "@/i18n/commerce";
 
 export default function CartScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const cart = useCart();
+  const preferences = usePreferences();
+  const copy = commerceCopy[preferences.locale];
+  const money = preferences.money;
   const together = useTogether(cart.lines.map((line) => line.slug));
 
   return (
     <View style={s.page}>
-      <View style={[s.top, { paddingTop: insets.top + 10 }]}>
-        <Pressable onPress={() => router.back()} hitSlop={10}>
-          <Text style={s.close}>Done</Text>
-        </Pressable>
-        <Text style={s.topTitle}>Your bag</Text>
-        <Pressable onPress={cart.clear} hitSlop={10} disabled={cart.lines.length === 0}>
-          <Text style={[s.clear, cart.lines.length === 0 && s.dim]}>Clear</Text>
-        </Pressable>
-      </View>
+      <ModalHeader title={`${copy.yourBag} · ${preferences.currencyCode}`}
+        left={<Pressable onPress={cart.clear} hitSlop={10} disabled={cart.lines.length === 0}><Text style={[s.clear, cart.lines.length === 0 && s.dim]}>{copy.clear}</Text></Pressable>}
+      />
 
       <ScrollView contentContainerStyle={[s.content, { paddingBottom: insets.bottom + 200 }]}>
         {cart.lines.length === 0 ? (
           <View style={s.empty}>
-            <Text style={s.emptyTitle}>Nothing in the bag</Text>
-            <Text style={s.emptyBody}>Supplements, straps and the V1 all live in Fuel.</Text>
+            <Text style={s.emptyTitle}>{copy.emptyBag}</Text>
+            <Text style={s.emptyBody}>{copy.emptyBagBody}</Text>
             <Pressable onPress={() => router.replace("/shop" as never)} style={s.primary}>
-              <Text style={s.primaryText}>Open Fuel</Text>
+              <Text style={s.primaryText}>{copy.openShop}</Text>
             </Pressable>
           </View>
         ) : null}
@@ -49,7 +48,7 @@ export default function CartScreen() {
                 <Pressable
                   onPress={() => cart.setQuantity(line.slug, line.variantId, line.quantity - 1)}
                   style={s.step}
-                  accessibilityLabel={`Fewer ${line.name}`}
+                  accessibilityLabel={`${copy.fewer} ${line.name}`}
                 >
                   <Text style={s.stepText}>−</Text>
                 </Pressable>
@@ -57,12 +56,12 @@ export default function CartScreen() {
                 <Pressable
                   onPress={() => cart.setQuantity(line.slug, line.variantId, line.quantity + 1)}
                   style={s.step}
-                  accessibilityLabel={`More ${line.name}`}
+                  accessibilityLabel={`${copy.more} ${line.name}`}
                 >
                   <Text style={s.stepText}>+</Text>
                 </Pressable>
                 <Pressable onPress={() => cart.remove(line.slug, line.variantId)} style={s.removeButton}>
-                  <Text style={s.remove}>Remove</Text>
+                  <Text style={s.remove}>{copy.remove}</Text>
                 </Pressable>
               </View>
             </View>
@@ -71,11 +70,11 @@ export default function CartScreen() {
 
         {cart.lines.length > 0 && (together.data?.products.length ?? 0) > 0 ? (
           <View style={s.together}>
-            <Text style={s.togetherTitle}>Usually bought together</Text>
+            <Text style={s.togetherTitle}>{copy.boughtTogether}</Text>
             <Text style={s.togetherNote}>
               {together.data?.basis === "orders"
-                ? `From ${together.data.sampleSize} past orders that included what is in your bag.`
-                : "Picked to go with what is in your bag."}
+                ? copy.pastOrders(together.data.sampleSize)
+                : copy.pickedTogether}
             </Text>
             {together.data?.products.map((item) => (
               <Suggestion
@@ -92,6 +91,7 @@ export default function CartScreen() {
                   })
                 }
                 onOpen={() => router.push(`/product/${item.slug}` as never)}
+                copy={copy}
               />
             ))}
           </View>
@@ -100,13 +100,17 @@ export default function CartScreen() {
 
       {cart.lines.length > 0 ? (
         <View style={[s.footer, { paddingBottom: Math.max(insets.bottom, 14) }]}>
-          <View style={s.totalRow}>
-            <Text style={s.totalLabel}>Subtotal</Text>
+          {/* The total is the last thing read before paying, so it gets its
+              own block: centred, on the opposite ground to the page, with the
+              figure in the accent. Inverted in dark mode so the contrast holds
+              either way round. */}
+          <View style={s.totalBox}>
+            <Text style={s.totalLabel}>{copy.subtotal}</Text>
             <Text style={s.totalValue}>{money(cart.subtotalCents)}</Text>
+            <Text style={s.totalNote}>{copy.taxShipping}</Text>
           </View>
-          <Text style={s.totalNote}>Tax and shipping are worked out at checkout.</Text>
           <Pressable onPress={() => router.push("/checkout" as never)} style={s.primary}>
-            <Text style={s.primaryText}>Checkout</Text>
+            <Text style={s.primaryText}>{copy.checkout}</Text>
           </Pressable>
         </View>
       ) : null}
@@ -125,10 +129,12 @@ function Suggestion({
   item,
   onAdd,
   onOpen,
+  copy,
 }: {
   item: TogetherProduct;
   onAdd: () => void;
   onOpen: () => void;
+  copy: CommerceCopy;
 }) {
   return (
     <Pressable onPress={onOpen} style={s.suggestion}>
@@ -147,7 +153,7 @@ function Suggestion({
         style={s.suggestionAdd}
         accessibilityLabel={item.needsChoice ? `Choose options for ${item.name}` : `Add ${item.name}`}
       >
-        <Text style={s.suggestionAddText}>{item.needsChoice ? "Choose" : "Add"}</Text>
+        <Text style={s.suggestionAddText}>{item.needsChoice ? copy.choose : copy.add}</Text>
       </Pressable>
     </Pressable>
   );
@@ -160,38 +166,38 @@ const s = StyleSheet.create({
     flexDirection: "row", alignItems: "center", justifyContent: "space-between",
     paddingHorizontal: 18, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: theme.line,
   },
-  close: { color: theme.accent, fontSize: 14, fontWeight: "700" },
-  topTitle: { color: theme.ink, fontSize: 11, fontWeight: "900", letterSpacing: 1.5, textTransform: "uppercase" },
-  clear: { color: theme.ink2, fontSize: 13, fontWeight: "700" },
+  close: { color: theme.accent, fontSize: 14, fontFamily: fonts.bold, fontWeight: "700" },
+  topTitle: { color: theme.ink, fontSize: 11, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1.5, textTransform: "uppercase" },
+  clear: { color: theme.ink2, fontSize: 13, fontFamily: fonts.bold, fontWeight: "700" },
   dim: { opacity: 0.35 },
   content: { paddingHorizontal: 18, paddingTop: 14 },
   line: { flexDirection: "row", gap: 14, paddingVertical: 16, borderBottomWidth: 1, borderBottomColor: theme.line },
   thumb: { width: 84, height: 84, borderRadius: 16 },
-  name: { color: theme.ink, fontSize: 15, fontWeight: "900" },
+  name: { color: theme.ink, fontSize: 15, fontFamily: fonts.black, fontWeight: "900" },
   variant: { color: theme.muted, fontSize: 12, marginTop: 3 },
-  price: { color: theme.ink2, fontSize: 14, fontWeight: "700", marginTop: 6 },
+  price: { color: theme.ink2, fontSize: 14, fontFamily: fonts.bold, fontWeight: "700", marginTop: 6 },
   stepper: { flexDirection: "row", alignItems: "center", gap: 10, marginTop: 10 },
   step: {
     width: 32, height: 32, borderRadius: 16, borderWidth: 1, borderColor: theme.lineStrong,
     alignItems: "center", justifyContent: "center",
   },
-  stepText: { color: theme.ink, fontSize: 16, fontWeight: "900" },
-  quantity: { color: theme.ink, fontSize: 15, fontWeight: "900", minWidth: 20, textAlign: "center" },
+  stepText: { color: theme.ink, fontSize: 16, fontFamily: fonts.black, fontWeight: "900" },
+  quantity: { color: theme.ink, fontSize: 15, fontFamily: fonts.black, fontWeight: "900", minWidth: 20, textAlign: "center" },
   removeButton: { marginLeft: "auto" },
-  remove: { color: theme.muted, fontSize: 12, fontWeight: "700" },
+  remove: { color: theme.muted, fontSize: 12, fontFamily: fonts.bold, fontWeight: "700" },
   together: { marginTop: 26 },
-  togetherTitle: { color: theme.accent, fontSize: 10, fontWeight: "900", letterSpacing: 1.5, textTransform: "uppercase" },
+  togetherTitle: { color: theme.accent, fontSize: 10, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1.5, textTransform: "uppercase" },
   togetherNote: { color: theme.muted, fontSize: 11, lineHeight: 16, marginTop: 6, marginBottom: 14 },
   suggestion: {
     flexDirection: "row", alignItems: "center", gap: 12, padding: 11, marginBottom: 10,
     borderRadius: 18, borderWidth: 1, borderColor: theme.line, backgroundColor: theme.surface,
   },
   suggestionThumb: { width: 62, height: 62, borderRadius: 13 },
-  suggestionName: { color: theme.ink, fontSize: 14, fontWeight: "900" },
+  suggestionName: { color: theme.ink, fontSize: 14, fontFamily: fonts.black, fontWeight: "900" },
   suggestionTagline: { color: theme.muted, fontSize: 11, lineHeight: 15, marginTop: 3 },
-  suggestionPrice: { color: theme.ink2, fontSize: 12, fontWeight: "800", marginTop: 5 },
+  suggestionPrice: { color: theme.ink2, fontSize: 12, fontFamily: fonts.black, fontWeight: "800", marginTop: 5 },
   suggestionAdd: { borderRadius: 999, borderWidth: 1, borderColor: theme.accent, paddingHorizontal: 15, paddingVertical: 9 },
-  suggestionAddText: { color: theme.accent, fontSize: 11, fontWeight: "900", letterSpacing: 0.6, textTransform: "uppercase" },
+  suggestionAddText: { color: theme.accent, fontSize: 11, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 0.6, textTransform: "uppercase" },
   empty: { alignItems: "center", paddingVertical: 60 },
   emptyTitle: { color: theme.ink, fontFamily: display, fontSize: 24, textTransform: "uppercase" },
   emptyBody: { color: theme.ink2, fontSize: 13, marginTop: 8, textAlign: "center" },
@@ -199,10 +205,24 @@ const s = StyleSheet.create({
     position: "absolute", left: 0, right: 0, bottom: 0,
     paddingHorizontal: 18, paddingTop: 16, borderTopWidth: 1, borderTopColor: theme.line, backgroundColor: theme.surface,
   },
-  totalRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" },
-  totalLabel: { color: theme.ink2, fontSize: 12, fontWeight: "800", letterSpacing: 1, textTransform: "uppercase" },
-  totalValue: { color: theme.ink, fontFamily: display, fontSize: 30 },
-  totalNote: { color: theme.muted, fontSize: 11, marginTop: 5, marginBottom: 14 },
+  totalBox: {
+    alignItems: "center",
+    borderRadius: 20,
+    paddingVertical: 18,
+    paddingHorizontal: 20,
+    // Black card in light mode, white in dark: the opposite of whatever the
+    // page is, so the total separates from the list above it.
+    backgroundColor: scheme === "light" ? "#0d0e10" : "#f4f5f7",
+  },
+  totalLabel: {
+    color: scheme === "light" ? "rgba(255,255,255,0.62)" : "rgba(0,0,0,0.55)",
+    fontSize: 11, fontFamily: fonts.black, fontWeight: "800", letterSpacing: 1.4, textTransform: "uppercase",
+  },
+  totalValue: { color: theme.accent, fontFamily: display, fontSize: 40, marginTop: 6 },
+  totalNote: {
+    color: scheme === "light" ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)",
+    fontSize: 11, marginTop: 8, textAlign: "center",
+  },
   primary: { height: 52, borderRadius: 26, backgroundColor: theme.accent, alignItems: "center", justifyContent: "center", marginTop: 16 },
-  primaryText: { color: "#fff", fontSize: 11, fontWeight: "900", letterSpacing: 1, textTransform: "uppercase" },
+  primaryText: { color: "#fff", fontSize: 11, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1, textTransform: "uppercase" },
 });

@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db";
-import { findProduct, products, recommendationsFor, type Product } from "./catalog";
+import type { Product } from "./catalog";
+import { listProducts, recommendationsFrom } from "./catalog-store";
 
 /**
  * "Usually bought together", from what people actually bought together.
@@ -23,9 +24,10 @@ export type Together = {
 
 export async function boughtTogether(slugsInBag: string[], limit = 3): Promise<Together> {
   const inBag = new Set(slugsInBag);
+  const products = await listProducts();
 
   if (slugsInBag.length === 0) {
-    return { products: recommendationsFor([], limit), basis: "curated", sampleSize: 0 };
+    return { products: recommendationsFrom(products, [], limit), basis: "curated", sampleSize: 0 };
   }
 
   // Orders that contained at least one thing currently in the bag.
@@ -39,7 +41,7 @@ export async function boughtTogether(slugsInBag: string[], limit = 3): Promise<T
   });
 
   if (orders.length < MIN_ORDERS) {
-    return { products: recommendationsFor(slugsInBag, limit), basis: "curated", sampleSize: orders.length };
+    return { products: recommendationsFrom(products, slugsInBag, limit), basis: "curated", sampleSize: orders.length };
   }
 
   const counts = new Map<string, number>();
@@ -53,11 +55,11 @@ export async function boughtTogether(slugsInBag: string[], limit = 3): Promise<T
 
   const ranked = [...counts.entries()]
     .sort(([, a], [, b]) => b - a)
-    .map(([slug]) => findProduct(slug))
+    .map(([slug]) => products.find((product) => product.slug === slug))
     .filter((product): product is Product => Boolean(product));
 
   // Top up from the curated list if the data is thin on variety.
-  for (const product of recommendationsFor(slugsInBag, limit * 2)) {
+  for (const product of recommendationsFrom(products, slugsInBag, limit * 2)) {
     if (ranked.length >= limit) break;
     if (ranked.some((item) => item.slug === product.slug)) continue;
     ranked.push(product);

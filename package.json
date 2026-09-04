@@ -15,10 +15,11 @@
     "app:check": "npm run typecheck --prefix mobile",
     "test": "vitest run",
     "test:watch": "vitest",
-    "admin:grant": "node --experimental-strip-types scripts/grant-admin.mjs"
+    "admin:grant": "node --experimental-strip-types scripts/grant-admin.mjs",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@prisma/adapter-better-sqlite3": "^7.10.0",
+    "@prisma/adapter-pg": "^7.10.0",
     "@prisma/client": "^7.10.0",
     "framer-motion": "^12.43.0",
     "next": "16.3.3",

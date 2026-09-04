@@ -1,11 +1,16 @@
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "@/components/AppText";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useMapHistory } from "@/data";
-import { display, theme } from "@/theme";
+import { fonts, display, theme } from "@/theme";
+import { TerrifitSpinner } from "@/components/TerrifitSpinner";
+import { appScreens } from "@/i18n/app-screens";
+import { usePreferences } from "@/preferences";
 
 /** Everything you have actually done on this Map. */
 export default function MapHistoryScreen() {
+  const copy = appScreens[usePreferences().locale].maps;
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -18,16 +23,16 @@ export default function MapHistoryScreen() {
         <Pressable onPress={() => router.back()} hitSlop={10}>
           <Text style={s.back}>‹ Back</Text>
         </Pressable>
-        <Text style={s.topTitle}>Your history</Text>
+        <Text style={s.topTitle}>{copy.yourHistory}</Text>
         <View style={{ width: 52 }} />
       </View>
 
       <ScrollView contentContainerStyle={[s.content, { paddingBottom: insets.bottom + 40 }]}>
-        {history.loading && !data ? <ActivityIndicator color={theme.accent} style={{ marginTop: 50 }} /> : null}
+        {history.loading && !data ? <TerrifitSpinner style={{ marginTop: 50 }} /> : null}
 
         {data && data.sessions.length === 0 ? (
           <View style={s.empty}>
-            <Text style={s.emptyTitle}>Nothing logged yet</Text>
+            <Text style={s.emptyTitle}>{copy.nothingLogged}</Text>
             <Text style={s.emptyBody}>
               Finish a session and it lands here with every set you did — and next week&apos;s prescription starts
               from those numbers.
@@ -38,9 +43,9 @@ export default function MapHistoryScreen() {
         {data && data.sessions.length > 0 ? (
           <>
             <View style={s.summary}>
-              <Card value={String(data.summary.count)} label="Sessions" />
-              <Card value={`${Math.round(data.summary.totalVolumeKg / 1000)}t`} label="Total volume" />
-              <Card value={`${data.summary.bestVolumeKg.toLocaleString()}kg`} label="Best session" />
+              <Card value={String(data.summary.count)} label={copy.sessions} />
+              <Card value={`${Math.round(data.summary.totalVolumeKg / 1000)}t`} label={copy.totalVolume} />
+              <Card value={`${data.summary.bestVolumeKg.toLocaleString()}kg`} label={copy.bestSession} />
             </View>
 
             {data.sessions.map((session) => (
@@ -95,23 +100,23 @@ const s = StyleSheet.create({
   page: { flex: 1, backgroundColor: theme.bg },
   flex: { flex: 1 },
   top: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 18, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: theme.line },
-  back: { color: theme.accent, fontSize: 14, fontWeight: "700", width: 52 },
-  topTitle: { color: theme.ink, fontSize: 11, fontWeight: "900", letterSpacing: 1.5, textTransform: "uppercase" },
+  back: { color: theme.accent, fontSize: 14, fontFamily: fonts.bold, fontWeight: "700", width: 52 },
+  topTitle: { color: theme.ink, fontSize: 11, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1.5, textTransform: "uppercase" },
   content: { paddingHorizontal: 18, paddingTop: 16 },
   summary: { flexDirection: "row", gap: 10, marginBottom: 20 },
   card: { flex: 1, borderRadius: 16, borderWidth: 1, borderColor: theme.line, backgroundColor: theme.surface, padding: 14 },
   cardValue: { color: theme.ink, fontFamily: display, fontSize: 22 },
-  cardLabel: { color: theme.muted, fontSize: 10, fontWeight: "900", letterSpacing: 1, textTransform: "uppercase", marginTop: 5 },
+  cardLabel: { color: theme.muted, fontSize: 10, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1, textTransform: "uppercase", marginTop: 5 },
   session: { borderRadius: 18, borderWidth: 1, borderColor: theme.line, backgroundColor: theme.surface, padding: 15, marginBottom: 12 },
   sessionTop: { flexDirection: "row", alignItems: "flex-start", gap: 12 },
-  sessionName: { color: theme.ink, fontSize: 15, fontWeight: "900" },
+  sessionName: { color: theme.ink, fontSize: 15, fontFamily: fonts.black, fontWeight: "900" },
   sessionMeta: { color: theme.muted, fontSize: 11, marginTop: 4 },
   volume: { alignItems: "flex-end" },
   volumeValue: { color: theme.accent, fontFamily: display, fontSize: 22 },
   volumeLabel: { color: theme.muted, fontSize: 10 },
   entry: { flexDirection: "row", justifyContent: "space-between", gap: 12, paddingTop: 11, marginTop: 11, borderTopWidth: 1, borderTopColor: theme.line },
   entryName: { color: theme.ink2, fontSize: 13, flex: 1 },
-  entrySets: { color: theme.ink, fontSize: 12, fontWeight: "700" },
+  entrySets: { color: theme.ink, fontSize: 12, fontFamily: fonts.bold, fontWeight: "700" },
   empty: { paddingTop: 50, alignItems: "center" },
   emptyTitle: { color: theme.ink, fontFamily: display, fontSize: 24, textTransform: "uppercase" },
   emptyBody: { color: theme.ink2, fontSize: 13, lineHeight: 20, textAlign: "center", marginTop: 10 },

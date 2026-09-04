@@ -1,14 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import {
-  ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, ScrollView,
-  StyleSheet, Text, TextInput, View,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  View,
 } from "react-native";
+import { Text } from "@/components/AppText";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { sendMessage } from "@/api";
 import { useThread } from "@/data";
 import { useSession } from "@/session";
-import { theme } from "@/theme";
+import { fonts, theme } from "@/theme";
+import { TerrifitSpinner } from "@/components/TerrifitSpinner";
 
 /**
  * A conversation with a coach.
@@ -62,7 +69,7 @@ export default function ThreadScreen() {
       </View>
 
       <ScrollView ref={scroller} contentContainerStyle={s.content}>
-        {thread.loading && !data ? <ActivityIndicator color={theme.accent} style={{ marginTop: 50 }} /> : null}
+        {thread.loading && !data ? <TerrifitSpinner style={{ marginTop: 50 }} /> : null}
         {data?.messages.length === 0 ? (
           <Text style={s.empty}>
             Ask about the programme — a movement that does not feel right, a week you had to miss, a weight that is
@@ -101,8 +108,8 @@ export default function ThreadScreen() {
 const s = StyleSheet.create({
   page: { flex: 1, backgroundColor: theme.bg },
   top: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 18, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: theme.line },
-  back: { color: theme.accent, fontSize: 14, fontWeight: "700", width: 52 },
-  topTitle: { color: theme.ink, fontSize: 13, fontWeight: "900", flex: 1, textAlign: "center" },
+  back: { color: theme.accent, fontSize: 14, fontFamily: fonts.bold, fontWeight: "700", width: 52 },
+  topTitle: { color: theme.ink, fontSize: 13, fontFamily: fonts.black, fontWeight: "900", flex: 1, textAlign: "center" },
   content: { padding: 16, gap: 8 },
   empty: { color: theme.muted, fontSize: 13, lineHeight: 20, textAlign: "center", marginTop: 40, paddingHorizontal: 20 },
   bubbleRow: { flexDirection: "row" },
@@ -118,5 +125,5 @@ const s = StyleSheet.create({
   input: { flex: 1, minHeight: 44, maxHeight: 120, borderRadius: 22, borderWidth: 1, borderColor: theme.lineStrong, paddingHorizontal: 16, paddingVertical: 12, color: theme.ink, fontSize: 15 },
   send: { width: 44, height: 44, borderRadius: 22, backgroundColor: theme.accent, alignItems: "center", justifyContent: "center" },
   sendOff: { opacity: 0.4 },
-  sendText: { color: "#fff", fontSize: 20, fontWeight: "900" },
+  sendText: { color: "#fff", fontSize: 20, fontFamily: fonts.black, fontWeight: "900" },
 });

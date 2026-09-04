@@ -110,7 +110,6 @@ export async function POST(request: Request) {
     return NextResponse.json({
       ...planState(updated),
       sandbox: true,
-      welcomeGift: interval === "yearly",
     });
   }
 
@@ -140,7 +139,6 @@ export async function POST(request: Request) {
   return NextResponse.json({
     ...planState(user),
     sandbox: false,
-    welcomeGift: interval === "yearly",
     sheet: {
       clientSecret: setup.clientSecret,
       ephemeralKey: setup.ephemeralKey,

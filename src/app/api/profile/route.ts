@@ -17,7 +17,7 @@ export async function GET() {
 export async function PATCH(request: Request) {
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
-  if (!rateLimit(`profile:${clientKey(request)}`, 30, 60_000)) {
+  if (!(await rateLimit(`profile:${clientKey(request)}`, 30, 60_000))) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 

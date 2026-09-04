@@ -372,7 +372,7 @@ function Library({ locale, copy }: { locale: Locale; copy: PagesCopy["maps"] }) 
                 <div className="mp-map-body">
                   <header>
                     <h3>{item.name}</h3>
-                    <strong className="numeric">{item.price}</strong>
+                    <strong>{copy.library.included}</strong>
                   </header>
                   <p className="mp-map-summary">{item.summary}</p>
                   <dl className="mp-map-meta">
@@ -389,13 +389,14 @@ function Library({ locale, copy }: { locale: Locale; copy: PagesCopy["maps"] }) 
                       <dd className="numeric">{item.weeks}</dd>
                     </div>
                   </dl>
+                  {/* No star rating: nothing here has been reviewed yet, and a
+                      borrowed number is worse than an absent one. The coach's
+                      credential is the trust signal that is actually true. */}
                   <footer>
                     <span>
                       {copy.library.byLabel} <b>{item.creator}</b>
                     </span>
-                    <span className="numeric">
-                      ★ {item.rating} · {item.reviews.toLocaleString()}
-                    </span>
+                    <span className="mp-map-credential">{item.credential}</span>
                   </footer>
                   <Link className="mp-link" href={`/${locale}#waitlist`}>
                     {copy.library.viewMap} <span aria-hidden>→</span>

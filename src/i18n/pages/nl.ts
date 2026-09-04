@@ -22,7 +22,7 @@ export const nl: PagesTranslation = {
     meta: {
       title: "Terrifit V1 — de band die zegt wanneer je door kunt gaan",
       description:
-        "V1 meet non-stop je hartslag, HRV, slaap, zuurstof in je bloed en huidtemperatuur. Meer dan 14 dagen batterij, waterdicht tot 100 meter, vier weefsels, en het synct rechtstreeks naar Apple Health en Google Health Connect.",
+        "V1 meet non-stop je hartslag, HRV, slaap, zuurstof in je bloed en huidtemperatuur. Meer dan 14 dagen batterij, IP68-gecertificeerd, vijf weefsels, en het synct rechtstreeks naar Apple Health en Google Health Connect.",
     },
     nav: ["Overzicht", "Ontwerp", "Meten", "Batterij", "Apps", "Specs"],
     buy: "Pre-order",
@@ -42,7 +42,7 @@ export const nl: PagesTranslation = {
       { label: "Gewicht met bandje" },
     ],
     colourways: {
-      eyebrow: "Vier kleuren",
+      eyebrow: "Vijf kleuren",
       title: "Bandjes die geweven zijn, niet bedrukt",
       body:
         "Elk bandje is geweven uit twee kleuren garen in plaats van egaal geverfd. Het verandert met het licht, verbergt de sporen van een zware trainingsweek en verkleurt niet zoals een bedrukt bandje na een paar maanden chloor en zweet.",
@@ -78,7 +78,7 @@ export const nl: PagesTranslation = {
       eyebrow: "Water en zweet",
       title: "Je kunt ermee zwemmen, douchen en er flink in zweten",
       body:
-        "V1 is IP68-gecertificeerd en waterdicht tot 10 ATM, oftewel 100 meter. Zout water en chloor doen het bandje niets, en de sensor blijft de hele tijd doormeten terwijl je in het water zit.",
+        "V1 is IP68-gecertificeerd, dus regen, zweet en de douche zijn geen probleem. Het is geen duikhorloge — doe hem af voordat je baantjes gaat trekken of de zee in gaat.",
     },
     integrations: {
       eyebrow: "Werkt met je andere apps",
@@ -326,7 +326,7 @@ export const nl: PagesTranslation = {
     empty: "Hier staat nog niets.",
     partnerBadge: "Partnerproduct",
     originalBadge: "Van Terrifit",
-    stock: { in: "Op voorraad", low: "Bijna op", preorder: "Pre-order" },
+    stock: { in: "Op voorraad", low: "Bijna op", preorder: "Pre-order", out: "Uitverkocht" },
     addToBag: "In de tas",
     added: "Toegevoegd",
     viewProduct: "Bekijk",

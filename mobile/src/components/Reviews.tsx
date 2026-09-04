@@ -1,12 +1,22 @@
 import { useCallback, useEffect, useState } from "react";
 import {
-  ActivityIndicator, KeyboardAvoidingView, Modal, Platform, Pressable,
-  ScrollView, StyleSheet, Text, TextInput, View,
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  View,
 } from "react-native";
+import { Text } from "@/components/AppText";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { getReviews, writeReview, type ProductReviews } from "@/api";
 import { useSession } from "@/session";
-import { display, theme } from "@/theme";
+import { fonts, display, theme } from "@/theme";
+import { TerrifitSpinner } from "./TerrifitSpinner";
+import { appScreens } from "@/i18n/app-screens";
+import { usePreferences } from "@/preferences";
 
 const STARS = [1, 2, 3, 4, 5];
 
@@ -32,6 +42,7 @@ export function Stars({ rating, size = 13 }: { rating: number; size?: number }) 
  * to build.
  */
 export function ReviewSummary({ slug }: { slug: string }) {
+  const copy = appScreens[usePreferences().locale].reviews;
   const { token } = useSession();
   const [data, setData] = useState<ProductReviews | null>(null);
   const [open, setOpen] = useState(false);
@@ -50,11 +61,11 @@ export function ReviewSummary({ slug }: { slug: string }) {
 
   return (
     <>
-      <Pressable onPress={() => setOpen(true)} style={s.summary} accessibilityLabel="Read the reviews">
+      <Pressable onPress={() => setOpen(true)} style={s.summary} accessibilityLabel={copy.readTheReviews}>
         <Stars rating={average ?? 0} />
         <Text style={s.summaryText}>
           {average == null
-            ? "No reviews yet"
+            ? copy.noneYet
             : `${average.toFixed(1)} · ${total} ${total === 1 ? "review" : "reviews"}`}
         </Text>
         <Text style={s.summaryChevron}>›</Text>
@@ -91,6 +102,7 @@ function ReviewSheet({
   onWrite: () => void;
   reload: () => void;
 }) {
+  const copy = appScreens[usePreferences().locale].reviews;
   const insets = useSafeAreaInsets();
   useEffect(reload, [reload, slug]);
 
@@ -108,10 +120,10 @@ function ReviewSheet({
 
       <ScrollView contentContainerStyle={{ paddingHorizontal: 18, paddingBottom: insets.bottom + 40 }}>
         {data == null ? (
-          <ActivityIndicator color={theme.accent} style={{ marginTop: 40 }} />
+          <TerrifitSpinner style={{ marginTop: 40 }} />
         ) : total === 0 ? (
           <View style={s.empty}>
-            <Text style={s.emptyTitle}>Nobody has written one yet</Text>
+            <Text style={s.emptyTitle}>{copy.nobodyHasWritten}</Text>
             <Text style={s.emptyBody}>
               Reviews here come from people who bought the thing, and we do not carry over a score from anywhere
               else. If you own it, yours would be the first.
@@ -153,7 +165,7 @@ function ReviewSheet({
               <View key={review.id} style={s.review}>
                 <View style={s.reviewHead}>
                   <Stars rating={review.rating} />
-                  {review.verified ? <Text style={s.verified}>Verified purchase</Text> : null}
+                  {review.verified ? <Text style={s.verified}>{copy.verifiedPurchase}</Text> : null}
                 </View>
                 <Text style={s.reviewTitle}>{review.title}</Text>
                 <Text style={s.reviewBody}>{review.body}</Text>
@@ -167,7 +179,7 @@ function ReviewSheet({
         )}
 
         <Pressable onPress={onWrite} style={s.write}>
-          <Text style={s.writeText}>{data?.mine ? "Edit your review" : "Write a review"}</Text>
+          <Text style={s.writeText}>{data?.mine ? copy.editYourReview : copy.writeAReview}</Text>
         </Pressable>
       </ScrollView>
     </View>
@@ -182,6 +194,7 @@ function WriteReview({
   onClose: () => void;
   onSaved: () => void;
 }) {
+  const copy = appScreens[usePreferences().locale].reviews;
   const insets = useSafeAreaInsets();
   const { token } = useSession();
   const [rating, setRating] = useState(5);
@@ -202,7 +215,7 @@ function WriteReview({
       setBody("");
       onSaved();
     } catch {
-      setError("That didn't save. Try again in a moment.");
+      setError(copy.saveFailed);
     }
     setBusy(false);
   }
@@ -214,9 +227,9 @@ function WriteReview({
           <Pressable onPress={onClose} hitSlop={10}>
             <Text style={s.done}>Cancel</Text>
           </Pressable>
-          <Text style={s.sheetTitle}>Your review</Text>
+          <Text style={s.sheetTitle}>{copy.yourReview}</Text>
           <Pressable onPress={() => void save()} disabled={!ready || busy} hitSlop={10}>
-            <Text style={[s.done, (!ready || busy) && s.doneOff]}>{busy ? "Saving…" : "Post"}</Text>
+            <Text style={[s.done, (!ready || busy) && s.doneOff]}>{busy ? copy.saving : "Post"}</Text>
           </Pressable>
         </View>
 
@@ -230,22 +243,22 @@ function WriteReview({
             ))}
           </View>
 
-          <Text style={s.fieldLabel}>Headline</Text>
+          <Text style={s.fieldLabel}>{copy.headline}</Text>
           <TextInput
             value={title}
             onChangeText={setTitle}
             style={s.input}
-            placeholder="Sum it up in a few words"
+            placeholder={copy.headlinePlaceholder}
             placeholderTextColor={theme.muted}
             maxLength={80}
           />
 
-          <Text style={s.fieldLabel}>What you thought</Text>
+          <Text style={s.fieldLabel}>{copy.whatYouThought}</Text>
           <TextInput
             value={body}
             onChangeText={setBody}
             style={[s.input, s.textarea]}
-            placeholder="How you use it, how long you've had it, what you'd tell someone deciding."
+            placeholder={copy.bodyPlaceholder}
             placeholderTextColor={theme.muted}
             multiline
             maxLength={2000}
@@ -270,7 +283,7 @@ const s = StyleSheet.create({
   starOn: { color: theme.accent },
 
   summary: { flexDirection: "row", alignItems: "center", gap: 8, paddingVertical: 4 },
-  summaryText: { color: theme.ink2, fontSize: 12, fontWeight: "700" },
+  summaryText: { color: theme.ink2, fontSize: 12, fontFamily: fonts.bold, fontWeight: "700" },
   summaryChevron: { color: theme.muted, fontSize: 15 },
 
   sheet: { flex: 1, backgroundColor: theme.bg },
@@ -278,12 +291,12 @@ const s = StyleSheet.create({
     flexDirection: "row", alignItems: "center", justifyContent: "space-between",
     paddingHorizontal: 18, paddingBottom: 14,
   },
-  sheetTitle: { color: theme.ink, fontSize: 17, fontWeight: "900" },
-  done: { color: theme.accent, fontSize: 14, fontWeight: "700" },
+  sheetTitle: { color: theme.ink, fontSize: 17, fontFamily: fonts.black, fontWeight: "900" },
+  done: { color: theme.accent, fontSize: 14, fontFamily: fonts.bold, fontWeight: "700" },
   doneOff: { color: theme.muted },
 
   empty: { paddingVertical: 30 },
-  emptyTitle: { color: theme.ink, fontSize: 17, fontWeight: "900" },
+  emptyTitle: { color: theme.ink, fontSize: 17, fontFamily: fonts.black, fontWeight: "900" },
   emptyBody: { color: theme.ink2, fontSize: 13, lineHeight: 20, marginTop: 10 },
 
   overall: { flexDirection: "row", alignItems: "center", gap: 16, paddingVertical: 10 },
@@ -299,8 +312,8 @@ const s = StyleSheet.create({
 
   review: { paddingVertical: 16, borderTopWidth: 1, borderTopColor: theme.line },
   reviewHead: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
-  verified: { color: theme.good, fontSize: 10, fontWeight: "900", letterSpacing: 0.6, textTransform: "uppercase" },
-  reviewTitle: { color: theme.ink, fontSize: 15, fontWeight: "900", marginTop: 9 },
+  verified: { color: theme.good, fontSize: 10, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 0.6, textTransform: "uppercase" },
+  reviewTitle: { color: theme.ink, fontSize: 15, fontFamily: fonts.black, fontWeight: "900", marginTop: 9 },
   reviewBody: { color: theme.ink2, fontSize: 13, lineHeight: 20, marginTop: 6 },
   reviewMeta: { color: theme.muted, fontSize: 11, marginTop: 9 },
 
@@ -308,9 +321,9 @@ const s = StyleSheet.create({
     height: 52, borderRadius: 26, borderWidth: 1, borderColor: theme.accent,
     alignItems: "center", justifyContent: "center", marginTop: 24,
   },
-  writeText: { color: theme.accent, fontSize: 12, fontWeight: "900", letterSpacing: 1, textTransform: "uppercase" },
+  writeText: { color: theme.accent, fontSize: 12, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1, textTransform: "uppercase" },
 
-  fieldLabel: { color: theme.muted, fontSize: 10, fontWeight: "900", letterSpacing: 1.1, textTransform: "uppercase", marginTop: 20, marginBottom: 9 },
+  fieldLabel: { color: theme.muted, fontSize: 10, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1.1, textTransform: "uppercase", marginTop: 20, marginBottom: 9 },
   ratingRow: { flexDirection: "row", gap: 10 },
   bigStar: { color: theme.lineStrong, fontSize: 34 },
   input: {

@@ -59,7 +59,7 @@ export function ProductCard({
           </div>
           {/* A product with options has to be opened; adding a random size from
               a grid is how returns happen. */}
-          {product.variants.length > 1 ? (
+          {product.variants.length > 1 || product.stock === "out" ? (
             <Link className="sh-button sh-button-small" href={`/${locale}/shop/${product.slug}`}>
               {copy.viewProduct}
             </Link>

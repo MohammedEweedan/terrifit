@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import * as SecureStore from "expo-secure-store";
 import { signIn as apiSignIn, signUp as apiSignUp } from "./api";
 import { registerForPush, unregisterPush } from "./push";
+import { usePreferences } from "./preferences";
 
 const TOKEN_KEY = "terrifit.session";
 
@@ -25,6 +26,7 @@ const SessionContext = createContext<SessionValue | null>(null);
  * any backup would pick up.
  */
 export function SessionProvider({ children }: { children: ReactNode }) {
+  const { locale } = usePreferences();
   const [token, setToken] = useState<string | null>(null);
   const [name, setName] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
@@ -59,8 +61,8 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   );
 
   const signUp = useCallback(
-    async (name: string, email: string, password: string) => adopt(await apiSignUp(name, email, password)),
-    [adopt],
+    async (name: string, email: string, password: string) => adopt(await apiSignUp(name, email, password, locale)),
+    [adopt, locale],
   );
 
   // Registration is fire-and-forget: a denied prompt or a simulator must never

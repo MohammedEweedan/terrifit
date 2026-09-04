@@ -42,7 +42,7 @@ export const tr: PagesTranslation = {
       { label: "Kayışıyla birlikte ağırlık" },
     ],
     colourways: {
-      eyebrow: "Dört renk",
+      eyebrow: "Beş renk",
       title: "Baskı değil, dokuma kayışlar",
       body:
         "Her kayış tek renge boyanmak yerine iki farklı renkte iplikten dokunuyor. Işığa göre değişiyor, ağır bir antrenman haftasının izlerini saklıyor ve birkaç ay klor ve terden sonra baskılı bir kayış gibi solmuyor.",
@@ -78,7 +78,7 @@ export const tr: PagesTranslation = {
       eyebrow: "Su ve ter",
       title: "Onunla yüzebilir, duş alabilir ve içine ter dökebilirsin",
       body:
-        "V1 IP68 sertifikalı ve 10 ATM’ye, yani 100 metreye kadar su geçirmez. Tuzlu su ve klor kayışı etkilemez, sensör de suda kaldığın sürece ölçmeye devam eder.",
+        "V1 IP68 sertifikalıdır; yağmur, ter ve duş sorun değil. Dalış saati değildir — yüzmeden veya denize girmeden önce çıkarın.",
     },
     integrations: {
       eyebrow: "Diğer uygulamalarınla çalışır",
@@ -326,7 +326,7 @@ export const tr: PagesTranslation = {
     empty: "Burada henüz bir şey yok.",
     partnerBadge: "İş ortağı ürünü",
     originalBadge: "Terrifit üretimi",
-    stock: { in: "Stokta", low: "Neredeyse bitti", preorder: "Ön sipariş" },
+    stock: { in: "Stokta", low: "Neredeyse bitti", preorder: "Ön sipariş", out: "Stokta yok" },
     addToBag: "Sepete ekle",
     added: "Eklendi",
     viewProduct: "Görüntüle",

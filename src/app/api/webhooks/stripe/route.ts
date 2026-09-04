@@ -2,6 +2,7 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { sendReceipt } from "@/lib/shop/orders";
+import { commitOrderInventory } from "@/lib/shop/catalog-store";
 
 export const runtime = "nodejs";
 
@@ -80,6 +81,7 @@ export async function POST(request: Request) {
   // says the sheet closed. Failures here never fail the webhook — Stripe would
   // retry the whole event and we would double-charge nothing but the inbox.
   if (status === "paid" && order.paymentStatus !== "paid") {
+    await commitOrderInventory(order.id);
     await sendReceipt(order.id);
   }
 

@@ -83,7 +83,10 @@ export type ContactInput = z.infer<typeof contactSchema>;
  */
 export const checkoutItemSchema = z.object({
   slug: z.string().trim().min(1).max(80),
-  variantId: z.string().trim().max(60).optional(),
+  // Nullable, not just optional: "this product has no variant" is a real state
+  // a client holds as null, and rejecting it 422'd every cart containing an
+  // unvariated line — the charger, the membership — with no way to tell why.
+  variantId: z.string().trim().max(60).nullish().transform((value) => value ?? undefined),
   quantity: z.number().int().min(1).max(20),
   subscribe: z.boolean().default(false),
 });

@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import * as SecureStore from "expo-secure-store";
 import { ApiError, getBand, getProfile, pairBand, patchProfile, simulateBand, type Band, type BandState, type Profile, type ProfilePatch } from "./api";
 import { useSession } from "./session";
+import type { UnitSystem } from "./units";
 
 const ONBOARDED_KEY = "terrifit.onboarded";
 const PROFILE_DRAFT_KEY = "terrifit.profile-draft";
@@ -27,6 +28,8 @@ type AppState = {
   connectBand: (serial: string, colourway: string, arm?: WearArm) => Promise<{ band: Band; synced: boolean }>;
   /** True while Pro or a live trial. */
   isPro: boolean;
+  /** Metric or imperial, for everything the app prints. Stored in SI regardless. */
+  units: UnitSystem;
   /** Testing without hardware. Registers a real row flagged as simulated. */
   simulateV1: (colourway: string, arm?: WearArm) => Promise<Band>;
 };
@@ -215,6 +218,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       profile,
       band,
       isPro: profile?.user.plan === "pro" || profile?.user.plan === "trial",
+      units: profile?.profile?.units === "imperial" ? "imperial" : "metric",
       wearArm,
       loading,
       onboarded: localOnboarded || Boolean(profile?.profile?.onboardedAt),

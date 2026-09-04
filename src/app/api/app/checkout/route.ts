@@ -5,6 +5,7 @@ import { clientKey, rateLimit } from "@/lib/rate-limit";
 import { checkoutSchema } from "@/lib/validation";
 import { addressProblems, orderDescription, writeOrder } from "@/lib/shop/orders";
 import { createPaymentSheet } from "@/lib/shop/payments";
+import { inventoryProblems } from "@/lib/shop/catalog-store";
 
 export const runtime = "nodejs";
 
@@ -25,7 +26,7 @@ export async function POST(request: Request) {
   const user = await getRequestUser(request);
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
-  if (!rateLimit(`appcheckout:${user.id}:${clientKey(request)}`, 8, 60_000)) {
+  if (!(await rateLimit(`appcheckout:${user.id}:${clientKey(request)}`, 8, 60_000))) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 
@@ -38,6 +39,10 @@ export async function POST(request: Request) {
   }
 
   const input = parsed.data;
+  const unavailable = await inventoryProblems(input.items);
+  if (unavailable.length > 0) {
+    return NextResponse.json({ error: "out_of_stock", items: unavailable }, { status: 409 });
+  }
   const written = await writeOrder(input);
   if (!written) return NextResponse.json({ error: "empty_cart" }, { status: 422 });
 

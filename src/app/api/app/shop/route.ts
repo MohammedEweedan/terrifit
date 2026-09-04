@@ -3,7 +3,12 @@ import { getRequestUser } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getPagesCopy } from "@/i18n/pages";
-import { CATEGORIES, V1_COLOURWAYS, products, recommendationsFor, type Category } from "@/lib/shop/catalog";
+import {
+  CATEGORIES,
+  swatchColours,
+  type Category,
+} from "@/lib/shop/catalog";
+import { getV1Colourways, listProducts, recommendationsFrom } from "@/lib/shop/catalog-store";
 import { CURRENCIES, currencyForLocale, findCurrency, formatIn, priceIn } from "@/lib/shop/currency";
 import { localeMeta } from "@/i18n/config";
 
@@ -16,21 +21,6 @@ export const runtime = "nodejs";
  * shop can never quote different money, and the raw cents go along too for
  * anything the app wants to total itself.
  */
-/**
- * Pulls the hex colours out of a CSS swatch so the app can draw it.
- *
- * The catalogue stores swatches as CSS gradients because that is what the web
- * shop paints with, and React Native has no CSS gradient. Rather than keeping a
- * second copy of every colour in sync by hand, the colours are read back out of
- * the one definition that already exists.
- */
-function swatchColours(swatch: string | undefined): string[] {
-  if (!swatch) return [];
-  const found = swatch.match(/#[0-9a-f]{3,8}/gi) ?? [];
-  // A weave is two colours repeated; the app only needs each one once.
-  return [...new Set(found.map((hex) => hex.toLowerCase()))].slice(0, 4);
-}
-
 export async function GET(request: Request) {
   const user = await getRequestUser(request);
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
@@ -39,8 +29,10 @@ export async function GET(request: Request) {
   // rather than the device, so the app and the web shop agree.
   const account = await prisma.user.findUnique({ where: { id: user.id }, select: { locale: true } });
   const stored = account?.locale ?? "";
-  const locale: Locale = isLocale(stored) ? stored : "en";
+  const requestedLocale = new URL(request.url).searchParams.get("locale") ?? "";
+  const locale: Locale = isLocale(requestedLocale) ? requestedLocale : isLocale(stored) ? stored : "en";
   const copy = getPagesCopy(locale);
+  const [products, colourways] = await Promise.all([listProducts(), getV1Colourways()]);
 
   // The member's market decides the currency, and an explicit `?currency=`
   // overrides it — someone living abroad may well want to pay in their own.
@@ -57,7 +49,7 @@ export async function GET(request: Request) {
     orderBy: { pairedAt: "desc" },
     select: { colourway: true, serial: true },
   });
-  const owned = band ? V1_COLOURWAYS.find((variant) => variant.id === band.colourway) ?? null : null;
+  const owned = band ? colourways.find((variant) => variant.id === band.colourway) ?? null : null;
 
   const url = new URL(request.url);
   const requested = url.searchParams.get("category");
@@ -65,7 +57,7 @@ export async function GET(request: Request) {
 
   const list = category ? products.filter((product) => product.category === category) : products;
 
-  const recommended = recommendationsFor(band ? ["terrifit-v1"] : [], 4).map((product) => product.slug);
+  const recommended = recommendationsFrom(products, band ? ["terrifit-v1"] : [], 4).map((product) => product.slug);
 
   return NextResponse.json(
     {
@@ -87,7 +79,7 @@ export async function GET(request: Request) {
           }
         : null,
       recommended,
-      colourways: V1_COLOURWAYS.map((variant) => ({
+      colourways: colourways.map((variant) => ({
         id: variant.id,
         label: variant.label,
         note: variant.note ?? null,
@@ -111,6 +103,7 @@ export async function GET(request: Request) {
         rating: product.rating,
         reviews: product.reviews,
         badges: product.badges,
+        variantLabel: product.variantLabel ?? null,
         description: product.description,
         highlights: product.highlights,
         specs: product.specs,
@@ -119,6 +112,8 @@ export async function GET(request: Request) {
         // the product people research hardest before spending £229.
         specGroups: product.slug === "terrifit-v1" ? copy.band.specsSection.groups : null,
         stock: product.stock,
+        stockQuantity: product.stockQuantity ?? 0,
+        allowBackorder: product.allowBackorder ?? false,
         shipsIn: product.shipsIn,
         fulfilment: product.fulfilment,
         subscription: product.subscription ?? null,
@@ -132,6 +127,10 @@ export async function GET(request: Request) {
           swatch: variant.swatch ?? null,
           swatchColours: swatchColours(variant.swatch),
           accent: variant.accent ?? null,
+          image: variant.image ?? null,
+          stockQuantity: variant.stockQuantity ?? 0,
+          allowBackorder: variant.allowBackorder ?? false,
+          priceCents: priceIn(variant.priceCents ?? product.priceCents, currency),
           price: price(variant.priceCents ?? product.priceCents),
         })),
       })),

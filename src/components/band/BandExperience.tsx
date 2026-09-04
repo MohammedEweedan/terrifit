@@ -5,8 +5,9 @@ import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 import type { Locale } from "@/i18n/config";
 import type { PagesCopy } from "@/i18n/pages";
+import { BandScrollStory } from "@/components/band/BandScrollStory";
 import { Shot } from "@/components/ui/Shot";
-import { V1_COLOURWAYS, findProduct } from "@/lib/shop/catalog";
+import type { Product, Variant } from "@/lib/shop/catalog";
 import { useCart } from "@/lib/shop/cart";
 import { formatMoney } from "@/lib/shop/money";
 
@@ -22,13 +23,13 @@ const SECTIONS = ["overview", "design", "sensing", "battery", "integrations", "s
  * photographic slot is a `Shot`, so the page is complete and legible before the
  * art exists.
  */
-export function BandExperience({ locale, copy: band }: { locale: Locale; copy: PagesCopy["band"] }) {
-  const product = findProduct("terrifit-v1");
-  const price = product ? formatMoney(product.priceCents, locale) : "";
+export function BandExperience({ locale, copy: band, product }: { locale: Locale; copy: PagesCopy["band"]; product: Product }) {
+  const colourways = product.variants;
+  const price = formatMoney(product.priceCents, locale);
   // One colourway selection for the whole page: the hero and the design section
   // are two views of the same choice, and two pickers that could disagree would
   // be worse than one.
-  const [colourway, setColourway] = useState(V1_COLOURWAYS[0].id);
+  const [colourway, setColourway] = useState(colourways[0]?.id ?? "");
 
   return (
     <div className="bp">
@@ -38,15 +39,25 @@ export function BandExperience({ locale, copy: band }: { locale: Locale; copy: P
         price={price}
         colourway={colourway}
         onColourway={setColourway}
+        colourways={colourways}
       />
       <BandNav locale={locale} copy={band} />
       <StatBand items={band.stats} />
+      {/* The pinned sequence: one product, six claims, the reader moving past
+          it. Sits directly under the stat rail so the page's first scroll is
+          the story rather than a spec table. */}
+      <BandScrollStory
+        chapters={band.story.chapters}
+        image={band.hero.image}
+        statement={band.story.statement}
+      />
       <Colourways
         locale={locale}
         copy={band}
         price={price}
         colourway={colourway}
         onColourway={setColourway}
+        colourways={colourways}
       />
       <Sensing copy={band} />
       <DailyLoop copy={band} />
@@ -97,105 +108,98 @@ function BandHero({
   price,
   colourway,
   onColourway,
+  colourways,
 }: {
   locale: Locale;
   copy: PagesCopy["band"];
   price: string;
   colourway: string;
   onColourway: (id: string) => void;
+  colourways: Variant[];
 }) {
   const cart = useCart();
-  const current = V1_COLOURWAYS.find((option) => option.id === colourway) ?? V1_COLOURWAYS[0];
+  const current = colourways.find((option) => option.id === colourway) ?? colourways[0];
+  if (!current) return null;
 
   return (
-    <header className="bp-hero">
-      <div className="tf-shell">
-        {/* Title left, the paragraph beside it rather than under it, so the
-            product below still gets most of the first screen. */}
-        <div className="bp-hero-top">
-          <div className="bp-hero-title">
-            <p className="bp-eyebrow">{copy.hero.eyebrow}</p>
-            <h1>{copy.hero.title}</h1>
-          </div>
-          <div className="bp-hero-aside">
-            <p className="bp-lede">{copy.hero.sub}</p>
-            <p className="bp-hero-price numeric">
-              {copy.hero.priceNote} {price}
-            </p>
-            <a className="bp-link" href="#sensing">
-              {copy.hero.secondary} <span aria-hidden>→</span>
-            </a>
+    /**
+     * The Mac mini opening: everything on one axis.
+     *
+     * Eyebrow, headline, one line of copy, the product, then the price and the
+     * button — centred, stacked, generous. Nothing is beside anything else.
+     * The product is the largest object on the screen by a wide margin and the
+     * page's whole first impression is the object plus one sentence, which is
+     * the entire trick: an aside column and a spec rail up here would make it
+     * a catalogue page.
+     */
+    <header className="bp-hero bp-hero-centred">
+      <div className="bp-hero-inner">
+        <p className="bp-eyebrow">{copy.hero.eyebrow}</p>
+        <h1 className="bp-hero-headline">{copy.hero.title}</h1>
+        <p className="bp-hero-lede">{copy.hero.sub}</p>
+
+        <div className="bp-hero-stage-centred">
+          {/* Every colourway stays mounted and cross-fades, so switching is
+              instant instead of showing an empty frame while the next
+              photograph decodes. They share one grid cell. */}
+          <div className="bp-colourway-stack">
+            {colourways.map((option) => (
+              <div
+                key={option.id}
+                className={`bp-colourway-shot ${option.id === colourway ? "is-active" : ""}`}
+                aria-hidden={option.id !== colourway}
+              >
+                <Shot
+                  src={option.image ?? ""}
+                  alt={`Terrifit V1 in ${option.label} — ${option.note}, three-quarter view against a deep charcoal backdrop with the strap curved to show the weave`}
+                  ratio={1.35}
+                  priority={option.id === colourways[0]?.id}
+                  fit="contain"
+                  sizes="(max-width: 1024px) 92vw, 62vw"
+                />
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="bp-hero-stage">
-          <div className="bp-hero-product">
-            {/* The name is the caption for the photograph below it, so it takes
-                the colourway's own accent — picked to read on the dark ground. */}
-            <p className="bp-colourway-name" style={{ color: current.accent }} aria-live="polite">
-              {current.label}
-            </p>
-            {/* Every colourway stays mounted and cross-fades, so switching is
-                instant instead of showing an empty frame while the next
-                photograph decodes. They share one grid cell, so anything added
-                above them cannot knock the overlay out of place. */}
-            <div className="bp-colourway-stack">
-              {V1_COLOURWAYS.map((option) => (
-                <div
-                  key={option.id}
-                  className={`bp-colourway-shot ${option.id === colourway ? "is-active" : ""}`}
-                  aria-hidden={option.id !== colourway}
-                >
-                  <Shot
-                    src={option.image ?? ""}
-                    alt={`Terrifit V1 in ${option.label} — ${option.note}, three-quarter view against a deep charcoal backdrop with the strap curved to show the weave`}
-                    ratio={1.35}
-                    priority={option.id === V1_COLOURWAYS[0].id}
-                    fit="contain"
-                    sizes="(max-width: 1024px) 100vw, 58vw"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+        {/* The name is the caption for the photograph above it, so it takes the
+            colourway's own accent — picked to read on the dark ground. */}
+        <p className="bp-colourway-name" style={{ color: current.accent }} aria-live="polite">
+          {current.label}
+        </p>
 
-          <div className="bp-hero-buy">
-            <fieldset>
-              <legend>{copy.colourways.pickerLabel}</legend>
-              <div className="bp-swatches" role="radiogroup" aria-label={copy.colourways.pickerLabel}>
-                {V1_COLOURWAYS.map((option) => (
-                  <button
-                    key={option.id}
-                    type="button"
-                    role="radio"
-                    aria-checked={option.id === colourway}
-                    aria-label={`${option.label} — ${option.note}`}
-                    title={option.label}
-                    className={option.id === colourway ? "is-active" : undefined}
-                    onClick={() => onColourway(option.id)}
-                  >
-                    <i style={{ background: option.swatch }} aria-hidden />
-                  </button>
-                ))}
-              </div>
-            </fieldset>
-
-            <p className="bp-hero-colour-note">
-              <b style={{ color: current.accent }}>{current.label}</b>
-              {current.note}
-            </p>
-
+        <div className="bp-swatches bp-swatches-centred" role="radiogroup" aria-label={copy.colourways.pickerLabel}>
+          {colourways.map((option) => (
             <button
+              key={option.id}
               type="button"
-              className="bp-button bp-button-block"
-              onClick={() => cart.add({ slug: "terrifit-v1", variantId: current.id, quantity: 1 })}
+              role="radio"
+              aria-checked={option.id === colourway}
+              aria-label={`${option.label} — ${option.note}`}
+              title={option.label}
+              className={option.id === colourway ? "is-active" : undefined}
+              onClick={() => onColourway(option.id)}
             >
-              {copy.hero.cta} · <span className="numeric">{price}</span>
+              <i style={{ background: option.swatch }} aria-hidden />
             </button>
-            <Link className="bp-hero-detail-link" href={`/${locale}/shop/terrifit-v1`}>
-              {copy.colourways.cta}
-            </Link>
-          </div>
+          ))}
+        </div>
+
+        <p className="bp-hero-price numeric">
+          {copy.hero.priceNote} {price}
+        </p>
+
+        <div className="bp-hero-actions">
+          <button
+            type="button"
+            className="bp-button"
+            onClick={() => cart.add({ slug: "terrifit-v1", variantId: current.id, quantity: 1 })}
+          >
+            {copy.hero.cta}
+          </button>
+          <Link className="bp-hero-detail-link" href={`/${locale}/shop/terrifit-v1`}>
+            {copy.colourways.cta} <span aria-hidden>›</span>
+          </Link>
         </div>
       </div>
     </header>
@@ -280,15 +284,18 @@ function Colourways({
   price,
   colourway,
   onColourway,
+  colourways,
 }: {
   locale: Locale;
   copy: PagesCopy["band"];
   price: string;
   colourway: string;
   onColourway: (id: string) => void;
+  colourways: Variant[];
 }) {
   const cart = useCart();
-  const current = V1_COLOURWAYS.find((option) => option.id === colourway) ?? V1_COLOURWAYS[0];
+  const current = colourways.find((option) => option.id === colourway) ?? colourways[0];
+  if (!current) return null;
 
   return (
     <section className="bp-colourways bp-paper" id="design">
@@ -300,7 +307,7 @@ function Colourways({
         </Reveal>
 
         <div className="bp-weave-grid">
-          {V1_COLOURWAYS.map((option, index) => (
+          {colourways.map((option, index) => (
             <Reveal as="article" key={option.id} delay={index * 0.05}>
               <button
                 type="button"

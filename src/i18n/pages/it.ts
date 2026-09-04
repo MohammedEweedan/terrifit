@@ -22,7 +22,7 @@ export const it: PagesTranslation = {
     meta: {
       title: "Terrifit V1 — il bracciale che ti dice quando spingere",
       description:
-        "V1 misura di continuo battito, HRV, sonno, ossigeno nel sangue e temperatura cutanea. Oltre 14 giorni di autonomia, impermeabile fino a 100 metri, quattro tessuti, e i dati finiscono direttamente in Apple Salute e Google Health Connect.",
+        "V1 misura di continuo battito, HRV, sonno, ossigeno nel sangue e temperatura cutanea. Oltre 14 giorni di autonomia, certificato IP68, cinque tessuti, e i dati finiscono direttamente in Apple Salute e Google Health Connect.",
     },
     nav: ["Panoramica", "Design", "Misurazione", "Batteria", "App", "Scheda tecnica"],
     buy: "Preordina",
@@ -42,7 +42,7 @@ export const it: PagesTranslation = {
       { label: "Peso con il cinturino" },
     ],
     colourways: {
-      eyebrow: "Quattro colori",
+      eyebrow: "Cinque colori",
       title: "Cinturini tessuti, non stampati",
       body:
         "Ogni cinturino è tessuto con due filati di colore diverso invece che tinto in tinta unita. Cambia con la luce, nasconde i segni di una settimana pesante e non sbiadisce come un cinturino stampato dopo qualche mese di cloro e sudore.",
@@ -78,7 +78,7 @@ export const it: PagesTranslation = {
       eyebrow: "Acqua e sudore",
       title: "Ci puoi nuotare, farci la doccia e sudarci dentro",
       body:
-        "V1 è certificato IP68 e impermeabile fino a 10 ATM, cioè 100 metri. Acqua salata e cloro non intaccano il cinturino, e il sensore continua a misurare per tutto il tempo che stai in acqua.",
+        "V1 è certificato IP68, quindi pioggia, sudore e doccia non sono un problema. Non è un orologio subacqueo: toglilo prima di nuotare o entrare in mare.",
     },
     integrations: {
       eyebrow: "Funziona con le tue altre app",
@@ -326,7 +326,7 @@ export const it: PagesTranslation = {
     empty: "Qui non c’è ancora niente.",
     partnerBadge: "Prodotto partner",
     originalBadge: "Fatto da Terrifit",
-    stock: { in: "Disponibile", low: "Quasi finito", preorder: "Preordine" },
+    stock: { in: "Disponibile", low: "Quasi finito", preorder: "Preordine", out: "Esaurito" },
     addToBag: "Aggiungi al carrello",
     added: "Aggiunto",
     viewProduct: "Vedi",
