@@ -5169,3 +5169,48 @@ html[dir="rtl"] .tf-section-intro h2 { font-size: clamp(2.1rem, 3.6vw, 3.4rem); 
   .tf-site { --tf-announce-h: 30px; }
   .tf-announce { font-size: .74rem; }
 }
+
+/* ── Pre-order counter ────────────────────────────────────────────────────
+   Units reserved against the manufacturing trigger, plus the refund line.
+   Deliberately quiet: it is a fact, not a scarcity device. No countdown, no
+   "only N left", no colour change as it fills — those are the patterns that
+   make a real number read as a fake one. */
+
+.bp-preorder {
+  width: min(100%, 420px);
+  margin: 0 auto 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+  text-align: center;
+}
+
+.bp-preorder-meter {
+  height: 3px;
+  border-radius: 2px;
+  background: rgb(255 255 255 / .12);
+  overflow: hidden;
+}
+
+.bp-preorder-meter span {
+  display: block;
+  height: 100%;
+  background: var(--accent, #ff5a1f);
+  border-radius: 2px;
+  /* Grows when the number does, rather than snapping between renders. */
+  transition: width 600ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.bp-preorder p {
+  margin: 0;
+  font-size: .92rem;
+  color: var(--fg-2, #a3acb6);
+}
+.bp-preorder p strong { color: var(--fg, #f3f5f7); font-weight: 700; }
+
+.bp-preorder small {
+  font-size: .78rem;
+  line-height: 1.5;
+  color: var(--fg-3, #737d87);
+  text-wrap: pretty;
+}

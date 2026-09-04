@@ -326,6 +326,14 @@ export const en = {
     // Only figures the JCVital Pro V8 datasheet actually supports. The old rail
     // carried a 100 m water depth and a 27 g weight from the abandoned bespoke
     // design — see docs/v1-band-blueprint.md.
+    /** The reservation counter under the price. Counts units, never money. */
+    preorder: {
+      label: "Pre-order progress",
+      of: "of",
+      reserved: "reserved",
+      refund: "We place the manufacturing order at 500. Your card is charged now and refunded in full, on request, any time before your band ships.",
+      triggered: "The run is funded and ordered. Reserve now to be in the first shipment.",
+    },
     stats: [
       { value: "15", unit: "days", label: "Battery on one charge" },
       { value: "24/7", unit: "", label: "Continuous heart rate" },

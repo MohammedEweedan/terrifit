@@ -8,6 +8,7 @@ import type { PagesCopy } from "@/i18n/pages";
 import { BandScrollStory } from "@/components/band/BandScrollStory";
 import { Shot } from "@/components/ui/Shot";
 import type { Product, Variant } from "@/lib/shop/catalog";
+import type { PreorderState } from "@/lib/shop/preorder";
 import { useCart } from "@/lib/shop/cart";
 import { formatMoney } from "@/lib/shop/money";
 
@@ -23,7 +24,7 @@ const SECTIONS = ["overview", "design", "sensing", "battery", "integrations", "s
  * photographic slot is a `Shot`, so the page is complete and legible before the
  * art exists.
  */
-export function BandExperience({ locale, copy: band, product }: { locale: Locale; copy: PagesCopy["band"]; product: Product }) {
+export function BandExperience({ locale, copy: band, product, preorder }: { locale: Locale; copy: PagesCopy["band"]; product: Product; preorder: PreorderState }) {
   const colourways = product.variants;
   const price = formatMoney(product.priceCents, locale);
   // One colourway selection for the whole page: the hero and the design section
@@ -40,6 +41,7 @@ export function BandExperience({ locale, copy: band, product }: { locale: Locale
         colourway={colourway}
         onColourway={setColourway}
         colourways={colourways}
+        preorder={preorder}
       />
       <BandNav locale={locale} copy={band} />
       <StatBand items={band.stats} />
@@ -109,6 +111,7 @@ function BandHero({
   colourway,
   onColourway,
   colourways,
+  preorder,
 }: {
   locale: Locale;
   copy: PagesCopy["band"];
@@ -116,6 +119,7 @@ function BandHero({
   colourway: string;
   onColourway: (id: string) => void;
   colourways: Variant[];
+  preorder: PreorderState;
 }) {
   const cart = useCart();
   const current = colourways.find((option) => option.id === colourway) ?? colourways[0];
@@ -188,6 +192,21 @@ function BandHero({
         <p className="bp-hero-price numeric">
           {copy.hero.priceNote} {price}
         </p>
+
+        {/* The reservation count, from the order table. This is the number that
+            replaces the fabricated member count the site used to carry, and the
+            refund line sits with it because a deposit without a stated refund
+            is the thing people have learned not to trust. */}
+        <div className="bp-preorder" role="group" aria-label={copy.preorder.label}>
+          <div className="bp-preorder-meter">
+            <span style={{ width: `${Math.round(preorder.progress * 100)}%` }} />
+          </div>
+          <p>
+            <strong className="numeric">{preorder.reserved}</strong> {copy.preorder.of}{" "}
+            <span className="numeric">{preorder.trigger}</span> {copy.preorder.reserved}
+          </p>
+          <small>{preorder.triggered ? copy.preorder.triggered : copy.preorder.refund}</small>
+        </div>
 
         <div className="bp-hero-actions">
           <button

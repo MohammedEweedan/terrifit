@@ -5,6 +5,7 @@ import { SiteShell } from "@/components/layout/SiteShell";
 import { isLocale, locales } from "@/i18n/config";
 import { getPagesCopy } from "@/i18n/pages";
 import { getProduct } from "@/lib/shop/catalog-store";
+import { preorderState } from "@/lib/shop/preorder";
 
 export const dynamic = "force-dynamic";
 
@@ -33,9 +34,10 @@ export default async function BandPage({ params }: { params: Promise<{ locale: s
   if (!isLocale(locale)) notFound();
   const product = await getProduct("terrifit-v1");
   if (!product) notFound();
+  const preorder = await preorderState();
   return (
     <SiteShell locale={locale}>
-      <BandExperience locale={locale} copy={getPagesCopy(locale).band} product={product} />
+      <BandExperience locale={locale} copy={getPagesCopy(locale).band} product={product} preorder={preorder} />
     </SiteShell>
   );
 }
