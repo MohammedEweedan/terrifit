@@ -5214,3 +5214,856 @@ html[dir="rtl"] .tf-section-intro h2 { font-size: clamp(2.1rem, 3.6vw, 3.4rem); 
   color: var(--fg-3, #737d87);
   text-wrap: pretty;
 }
+
+/* ── Capabilities ─────────────────────────────────────────────────────────
+   A specification table that reads like one. Three columns of definition
+   lists, no cards, no icons — by the time somebody reaches this section they
+   have had the story and want the list, and decorating a list only makes it
+   slower to scan. */
+
+.tf-caps {
+  background: var(--bg);
+  padding: clamp(4rem, 11vh, 8rem) 0;
+  border-top: 1px solid var(--line, rgb(255 255 255 / .08));
+}
+
+.tf-caps-head { max-width: 62ch; margin-bottom: clamp(2.5rem, 6vh, 4rem); }
+
+.tf-caps-eyebrow {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--accent, #ff5a1f);
+  margin: 0 0 1rem;
+}
+
+.tf-caps h2 {
+  font-size: clamp(1.8rem, 4.2vw, 3rem);
+  line-height: 1.04;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+  margin: 0 0 1rem;
+}
+
+.tf-caps-lede {
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  line-height: 1.6;
+  color: var(--fg-2, #a3acb6);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.tf-caps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+
+.tf-caps-group h3 {
+  font-size: .74rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--fg-3, #737d87);
+  margin: 0 0 1.25rem;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid var(--line-strong, rgb(255 255 255 / .14));
+}
+
+.tf-caps-group dl { margin: 0; display: flex; flex-direction: column; gap: 1.15rem; }
+.tf-caps-group dt { font-size: .98rem; font-weight: 600; margin-bottom: .2rem; }
+.tf-caps-group dd {
+  margin: 0;
+  font-size: .87rem;
+  line-height: 1.5;
+  color: var(--fg-2, #a3acb6);
+  text-wrap: pretty;
+}
+
+.tf-caps-footnote {
+  margin: clamp(2.5rem, 6vh, 4rem) 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line, rgb(255 255 255 / .08));
+  font-size: .8rem;
+  line-height: 1.55;
+  color: var(--fg-3, #737d87);
+  max-width: 70ch;
+}
+
+/* ── Band page: tech specs, refined ───────────────────────────────────────
+   Apple's spec sheets are dense and still read easily, and the reason is
+   hierarchy rather than decoration: the *value* is the thing you came for, so
+   it carries the weight, and the label sits above it small and quiet.
+
+   The old grid was `repeat(4, 1fr)` — four columns at every width, so on a
+   phone each one was about eighty pixels and every value wrapped mid-word. */
+
+.bp-spec-groups {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+  gap: clamp(2.25rem, 4vw, 3rem) clamp(1.75rem, 3vw, 2.75rem);
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.bp-spec-groups h3 {
+  padding-bottom: .85rem;
+  margin-bottom: .35rem;
+  font-size: .68rem;
+  letter-spacing: .14em;
+}
+
+.bp-spec-groups dl > div {
+  gap: .3rem;
+  padding: 1.05rem 0;
+}
+
+/* Label above, value below — and the value is the larger of the two. Reading
+   a spec sheet is scanning for values; the labels are only there to say what
+   you are looking at. */
+.bp-spec-groups dt {
+  font-size: .7rem;
+  letter-spacing: .02em;
+  order: -1;
+}
+
+.bp-spec-groups dd {
+  font-size: .96rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -.005em;
+  /* Specs mix figures and words — "180 mAh", "IP68", "Bluetooth LE 5.3" — and
+     tabular figures keep the column of numbers aligned down the page. */
+  font-variant-numeric: tabular-nums;
+  text-wrap: pretty;
+}
+
+/* The last row in a group has the group's own rule beneath it already. */
+.bp-spec-groups dl > div:last-child { border-bottom: 0; padding-bottom: 0; }
+
+/* ── Band page: section rhythm ────────────────────────────────────────────
+   One scale for every section head on the page, so the eye learns the rhythm
+   and each new section announces itself the same way. Apple's product pages
+   are mostly this: the same three-part head, repeated, with a lot of air. */
+
+.bp-section-head { max-width: 60ch; }
+
+.bp-section-head h2 {
+  font-size: clamp(1.9rem, 4vw, 3.1rem);
+  line-height: 1.03;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+  margin-block: .65rem 0;
+}
+
+.bp-section-head .bp-lede {
+  margin-top: 1.1rem;
+  font-size: clamp(1rem, 1.35vw, 1.15rem);
+  line-height: 1.62;
+  text-wrap: pretty;
+}
+
+.bp-eyebrow {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+/* ── Fitness age: the result ──────────────────────────────────────────────
+   Two readings rather than one figure: the age on a dial that carries your
+   birthday beside it, and the resting heart rate on the distribution it was
+   actually judged against. A lone number with a verdict under it is what every
+   other calculator does, and it is precisely the thing nobody can check. */
+
+.fa-result {
+  --fa-tone: var(--accent, #ff5a1f);
+  margin-top: clamp(3rem, 8vh, 5rem);
+}
+.fa-result[data-tone="younger"] { --fa-tone: var(--good, #12d18e); }
+.fa-result[data-tone="older"]   { --fa-tone: var(--fair, #ffc53d); }
+
+.fa-readout {
+  display: grid;
+  grid-template-columns: minmax(0, 280px) 1fr;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: center;
+}
+
+.fa-dial { width: 100%; height: auto; overflow: visible; }
+.fa-dial-track {
+  fill: none;
+  stroke: var(--line-strong, rgb(255 255 255 / .14));
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+.fa-dial-span {
+  fill: none;
+  stroke: var(--fa-tone);
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: stroke-dasharray 700ms cubic-bezier(.22, 1, .36, 1);
+}
+.fa-dial-tick { stroke: var(--fg-3, #737d87); stroke-width: 2; }
+.fa-dial-marker {
+  fill: var(--fa-tone);
+  stroke: var(--bg, #08090b);
+  stroke-width: 3;
+}
+.fa-dial-end, .fa-dial-tone {
+  fill: var(--fg-3, #737d87);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+
+.fa-result-eyebrow {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--fa-tone);
+  margin: 0 0 .5rem;
+}
+
+.fa-number {
+  display: block;
+  font-family: "Anton", "Haettenschweiler", "Arial Narrow", sans-serif;
+  font-weight: 400;
+  font-size: clamp(4.5rem, 14vw, 8.5rem);
+  line-height: .88;
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.fa-verdict {
+  font-size: clamp(1.05rem, 2vw, 1.4rem);
+  line-height: 1.35;
+  color: var(--fg-2, #a3acb6);
+  text-wrap: balance;
+  margin: .9rem 0 0;
+  max-width: 26ch;
+}
+
+.fa-capped {
+  margin: 1rem 0 0;
+  padding: .75rem .95rem;
+  border-left: 3px solid var(--fair, #ffc53d);
+  background: rgb(255 197 61 / .1);
+  border-radius: 0 4px 4px 0;
+  font-size: .84rem;
+  line-height: 1.5;
+  color: var(--fg-2, #a3acb6);
+  max-width: 44ch;
+}
+
+/* --- The distribution ---------------------------------------------------- */
+
+.fa-scale {
+  margin: clamp(2.5rem, 6vh, 4rem) 0 0;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid var(--line, rgb(255 255 255 / .09));
+  border-radius: 10px;
+  background: var(--surface, #121519);
+}
+
+.fa-scale figcaption { display: flex; flex-direction: column; gap: .4rem; margin-bottom: 1.75rem; }
+.fa-scale figcaption strong { font-size: .95rem; }
+.fa-scale figcaption span {
+  font-size: .87rem;
+  line-height: 1.55;
+  color: var(--fg-2, #a3acb6);
+  text-wrap: pretty;
+}
+
+.fa-scale-track {
+  position: relative;
+  height: 6px;
+  border-radius: 3px;
+  /* Fitter on the left, less fit on the right — the direction the number
+     actually moves, so the picture and the sentence agree. */
+  background: linear-gradient(90deg,
+    var(--good, #12d18e) 0%,
+    var(--line-strong, #333a44) 50%,
+    var(--fair, #ffc53d) 100%);
+  opacity: .55;
+}
+
+.fa-scale-median {
+  position: absolute;
+  top: -5px; bottom: -5px;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--fg-2, #a3acb6);
+  border-radius: 1px;
+}
+
+.fa-scale-you {
+  position: absolute;
+  top: 50%;
+  width: 16px; height: 16px;
+  margin: -8px 0 0 -8px;
+  border-radius: 50%;
+  background: var(--fa-tone);
+  border: 3px solid var(--surface, #121519);
+  box-shadow: 0 0 0 1px var(--fa-tone);
+  transition: left 700ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.fa-scale-labels {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.1rem;
+  font-size: .74rem;
+  color: var(--fg-3, #737d87);
+}
+.fa-scale-mid-label {
+  position: absolute;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+/* --- Supporting figures -------------------------------------------------- */
+
+.fa-detail {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+  gap: 1px;
+  background: var(--line, rgb(255 255 255 / .09));
+  border: 1px solid var(--line, rgb(255 255 255 / .09));
+  border-radius: 10px;
+  overflow: hidden;
+  margin: clamp(1.5rem, 3vh, 2rem) 0 0;
+}
+.fa-detail > div { background: var(--surface, #121519); padding: 1.1rem 1.25rem; }
+.fa-detail dt { font-size: .74rem; color: var(--fg-3, #737d87); margin-bottom: .35rem; }
+.fa-detail dd {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.01em;
+}
+.fa-detail dd small { font-size: .78rem; font-weight: 500; color: var(--fg-3, #737d87); }
+
+.fa-cta .fa-text-link {
+  display: inline-block;
+  margin-left: 1.25rem;
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--accent, #ff5a1f);
+}
+
+@media (max-width: 720px) {
+  .fa-readout { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  .fa-dial { max-width: 300px; }
+  .fa-verdict, .fa-capped { margin-inline: auto; }
+}
+
+/* ── Order tracking ───────────────────────────────────────────────────────
+   The timeline is built from our own fulfilment dates, not the carrier feed,
+   so a packed order looks packed even when the carrier has not scanned it
+   yet. Carrier events sit underneath as detail. */
+
+.tk { max-width: 760px; margin: 0 auto; padding: clamp(4rem, 12vh, 8rem) clamp(1.25rem, 5vw, 2.5rem) 6rem; }
+
+.tk-eyebrow, .tk-result-eyebrow {
+  font-size: .72rem; font-weight: 700; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--accent, #ff5a1f);
+}
+.tk-result-eyebrow { color: var(--fg-3, #737d87); margin: 0 0 .3rem; }
+
+.tk-hero h1 {
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  line-height: 1.02; letter-spacing: -.03em;
+  text-wrap: balance; margin: 1rem 0 .9rem;
+}
+.tk-lede { font-size: 1.02rem; line-height: 1.6; color: var(--fg-2, #a3acb6); max-width: 52ch; margin: 0; }
+
+.tk-form { display: grid; gap: 1rem; margin-top: clamp(2rem, 5vh, 3rem); grid-template-columns: 1fr 1fr; align-items: end; }
+.tk-form label { display: flex; flex-direction: column; gap: .45rem; min-width: 0; }
+.tk-form label span { font-size: .8rem; font-weight: 600; color: var(--fg-2, #a3acb6); }
+.tk-form input {
+  height: 52px; padding: 0 1rem;
+  border: 1px solid var(--line-strong, #333a44); border-radius: 8px;
+  background: var(--surface, #121519); color: inherit;
+  font-size: 1rem; font-family: inherit;
+}
+.tk-form input:focus-visible { outline: 2px solid var(--accent, #ff5a1f); outline-offset: 1px; border-color: transparent; }
+.tk-form button {
+  grid-column: 1 / -1; height: 54px;
+  border: 0; border-radius: 8px;
+  background: var(--accent, #ff5a1f); color: #fff;
+  font-size: .95rem; font-weight: 700; font-family: inherit; cursor: pointer;
+}
+.tk-form button:disabled { opacity: .45; cursor: not-allowed; }
+
+.tk-error {
+  margin-top: 1.25rem; padding: .85rem 1rem;
+  border-left: 3px solid var(--poor, #ff5c5c);
+  background: rgb(255 92 92 / .1); border-radius: 0 4px 4px 0;
+  font-size: .9rem; line-height: 1.5;
+}
+
+.tk-result { margin-top: clamp(2.5rem, 6vh, 4rem); }
+.tk-result-head {
+  display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between;
+  padding-bottom: 1.5rem; border-bottom: 1px solid var(--line, rgb(255 255 255 / .09));
+}
+.tk-result-head strong { font-size: 1.4rem; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+.tk-eta { text-align: right; }
+
+/* The line runs behind the dots and lights up to the furthest step reached. */
+.tk-steps { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; gap: 0; }
+.tk-steps li {
+  display: grid; grid-template-columns: 26px 1fr auto; align-items: center; gap: .9rem;
+  padding: .95rem 0; position: relative;
+}
+.tk-steps li::before {
+  content: ""; position: absolute; left: 12px; top: 50%; bottom: -50%;
+  width: 2px; background: var(--line-strong, #333a44);
+}
+.tk-steps li:last-child::before { display: none; }
+.tk-steps li[data-done]::before { background: var(--accent, #ff5a1f); }
+
+.tk-dot {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 2px solid var(--line-strong, #333a44);
+  background: var(--bg, #08090b); position: relative; z-index: 1;
+}
+.tk-steps li[data-done] .tk-dot { border-color: var(--accent, #ff5a1f); background: var(--accent, #ff5a1f); }
+.tk-step-label { font-size: .96rem; font-weight: 600; color: var(--fg-3, #737d87); }
+.tk-steps li[data-done] .tk-step-label { color: var(--fg, #f3f5f7); }
+.tk-step-when { font-size: .84rem; color: var(--fg-3, #737d87); font-variant-numeric: tabular-nums; }
+
+.tk-carrier {
+  display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;
+  margin-top: 2rem; padding: 1.25rem;
+  border: 1px solid var(--line, rgb(255 255 255 / .09)); border-radius: 10px;
+  background: var(--surface, #121519);
+}
+.tk-tracking-number { font-size: 1rem; font-variant-numeric: tabular-nums; letter-spacing: .02em; word-break: break-all; }
+.tk-button {
+  display: inline-flex; align-items: center; gap: .45rem;
+  height: 46px; padding: 0 1.15rem; border-radius: 8px;
+  background: var(--accent, #ff5a1f); color: #fff;
+  font-size: .88rem; font-weight: 700; white-space: nowrap;
+}
+
+.tk-pending, .tk-cancelled {
+  margin-top: 2rem; padding: 1rem 1.15rem;
+  border: 1px dashed var(--line-strong, #333a44); border-radius: 10px;
+  font-size: .9rem; line-height: 1.55; color: var(--fg-2, #a3acb6);
+}
+
+.tk-events { margin-top: 2.5rem; }
+.tk-events h2 { font-size: .74rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--fg-3, #737d87); margin: 0 0 1rem; }
+.tk-events ol { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; }
+.tk-events li {
+  display: grid; grid-template-columns: 5.5rem 1fr; gap: .3rem 1rem;
+  padding: .85rem 0; border-top: 1px solid var(--line, rgb(255 255 255 / .09));
+  font-size: .88rem; line-height: 1.5;
+}
+.tk-events time { color: var(--fg-3, #737d87); font-variant-numeric: tabular-nums; }
+.tk-events em { grid-column: 2; font-style: normal; font-size: .8rem; color: var(--fg-3, #737d87); }
+
+@media (max-width: 560px) {
+  .tk-form { grid-template-columns: 1fr; }
+  .tk-eta { text-align: left; }
+}
+
+/* ── Shop, as a store ─────────────────────────────────────────────────────
+   The page opened with a magazine hero, a badge row and a launch roadmap
+   sitting between the reader and the products. That is marketing furniture in
+   a shopping flow. Structure now: a header that gets out of the way,
+   departments, the flagship, a dense grid under a sticky toolbar, and the
+   reassurance moved to the end where the decision to buy actually happens. */
+
+.sh-top {
+  padding: clamp(3rem, 8vh, 5rem) 0 clamp(1.75rem, 4vh, 2.5rem);
+  border-bottom: 1px solid var(--line, rgb(255 255 255 / .09));
+}
+.sh-top-inner {
+  display: flex; flex-wrap: wrap; gap: 1.5rem 2rem;
+  align-items: flex-end; justify-content: space-between;
+}
+.sh-top h1 {
+  font-size: clamp(1.9rem, 4.5vw, 3rem);
+  line-height: 1.03; letter-spacing: -.03em;
+  margin: .6rem 0 0; text-wrap: balance; max-width: 20ch;
+}
+
+.sh-search {
+  display: flex; align-items: center; gap: .6rem;
+  min-width: min(100%, 280px);
+  height: 46px; padding: 0 .95rem;
+  border: 1px solid var(--line-strong, #333a44); border-radius: 23px;
+  background: var(--surface, #121519);
+  color: var(--fg-3, #737d87);
+}
+.sh-search:focus-within { border-color: var(--accent, #ff5a1f); color: var(--fg, #f3f5f7); }
+.sh-search input {
+  flex: 1; min-width: 0; height: 100%;
+  border: 0; background: transparent; color: var(--fg, #f3f5f7);
+  font-size: .92rem; font-family: inherit;
+}
+.sh-search input:focus { outline: none; }
+.sh-search input::-webkit-search-cancel-button { filter: grayscale(1) opacity(.5); }
+
+/* --- Departments --------------------------------------------------------- */
+
+.sh-departments { padding: clamp(1.75rem, 4vh, 2.5rem) 0 0; }
+.sh-departments ul {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: .85rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+}
+.sh-departments button {
+  width: 100%; min-height: 96px;
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: .2rem;
+  padding: 1rem 1.1rem; cursor: pointer; text-align: left;
+  border: 1px solid var(--line, rgb(255 255 255 / .09)); border-radius: 12px;
+  background: var(--surface, #121519); color: inherit;
+  transition: border-color 160ms ease, transform 160ms ease;
+}
+.sh-departments button:hover { border-color: var(--accent, #ff5a1f); transform: translateY(-2px); }
+.sh-departments button strong { font-size: 1.02rem; letter-spacing: -.01em; }
+.sh-departments button span { font-size: .8rem; color: var(--fg-3, #737d87); font-variant-numeric: tabular-nums; }
+
+/* A quiet wash so the row reads as four places rather than four boxes. */
+.sh-departments button[data-tint="ember"] { background: linear-gradient(160deg, rgb(255 90 31 / .12), transparent 62%), var(--surface, #121519); }
+.sh-departments button[data-tint="sand"]  { background: linear-gradient(160deg, rgb(255 197 61 / .10), transparent 62%), var(--surface, #121519); }
+.sh-departments button[data-tint="slate"] { background: linear-gradient(160deg, rgb(163 172 182 / .10), transparent 62%), var(--surface, #121519); }
+.sh-departments button[data-tint="ink"]   { background: linear-gradient(160deg, rgb(18 209 142 / .10), transparent 62%), var(--surface, #121519); }
+
+/* --- Flagship ------------------------------------------------------------ */
+
+.sh-flagship { padding: clamp(1.75rem, 4vh, 2.5rem) 0 0; }
+.sh-flagship-inner {
+  display: grid; gap: clamp(1.5rem, 4vw, 3rem); align-items: center;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border: 1px solid var(--line, rgb(255 255 255 / .09)); border-radius: 16px;
+  background: linear-gradient(140deg, rgb(255 90 31 / .07), transparent 58%), var(--surface, #121519);
+}
+.sh-flagship-media { display: flex; align-items: center; justify-content: center; }
+.sh-flagship-media img { width: 100%; height: auto; max-height: 300px; object-fit: contain; }
+.sh-flagship-copy h2 { font-size: clamp(1.6rem, 3.2vw, 2.3rem); line-height: 1.05; letter-spacing: -.025em; margin: .5rem 0 .6rem; }
+.sh-flagship-copy > p { color: var(--fg-2, #a3acb6); margin: 0 0 1.15rem; }
+.sh-flagship-points { list-style: none; padding: 0; margin: 0 0 1.5rem; display: flex; flex-direction: column; gap: .5rem; }
+.sh-flagship-points li { position: relative; padding-left: 1.1rem; font-size: .89rem; color: var(--fg-2, #a3acb6); }
+.sh-flagship-points li::before { content: ""; position: absolute; left: 0; top: .55em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent, #ff5a1f); }
+.sh-flagship-buy { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.25rem; }
+.sh-flagship-buy .sh-price { font-size: 1.5rem; font-weight: 700; letter-spacing: -.02em; }
+
+/* --- Toolbar + grid ------------------------------------------------------ */
+
+.sh-tools {
+  position: sticky; top: var(--tf-header-h, 76px); z-index: 20;
+  display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;
+  margin: clamp(2rem, 5vh, 3rem) 0 1.5rem;
+  padding: .85rem 0;
+  background: var(--bg, #08090b);
+  border-bottom: 1px solid var(--line, rgb(255 255 255 / .09));
+}
+.sh-tools-end { display: flex; align-items: center; gap: 1.25rem; }
+.sh-count { font-size: .82rem; color: var(--fg-3, #737d87); margin: 0; white-space: nowrap; }
+
+@media (max-width: 640px) {
+  .sh-flagship-inner { grid-template-columns: 1fr; }
+  .sh-tools { position: static; }
+  .sh-tools-end { width: 100%; justify-content: space-between; }
+}
+
+/* ── Languages ────────────────────────────────────────────────────────────
+   Ten locales, printed in ten scripts. No flags: a flag is a country and a
+   language is not — Arabic is not Saudi Arabia, and Spanish belongs to twenty
+   countries before it belongs to Spain. */
+
+.tf-langs {
+  padding: clamp(4rem, 11vh, 8rem) 0;
+  border-top: 1px solid var(--line, rgb(255 255 255 / .08));
+  background: var(--bg);
+}
+
+.tf-langs-head { max-width: 60ch; }
+.tf-langs-eyebrow {
+  font-size: .72rem; font-weight: 700; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--accent, #ff5a1f); margin: 0 0 1rem;
+}
+.tf-langs h2 {
+  font-size: clamp(1.8rem, 4.2vw, 3rem);
+  line-height: 1.04; letter-spacing: -.02em;
+  text-wrap: balance; margin: 0 0 1rem;
+}
+.tf-langs-lede {
+  font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.6;
+  color: var(--fg-2, #a3acb6); margin: 0; text-wrap: pretty;
+}
+
+/* The line under test. A fixed min-height stops the section jumping as
+   languages of different lengths swap through it. */
+.tf-langs-line {
+  display: flex; align-items: center;
+  min-height: 4.5em;
+  margin: clamp(2.5rem, 6vh, 4rem) 0 clamp(2rem, 4vh, 2.5rem);
+  font-size: clamp(1.6rem, 4.4vw, 3.2rem);
+  line-height: 1.35;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+  animation: tf-langs-in 320ms cubic-bezier(.22, 1, .36, 1);
+}
+.tf-langs-line[dir="rtl"] { justify-content: flex-end; text-align: right; letter-spacing: 0; line-height: 1.5; }
+
+@keyframes tf-langs-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+.tf-langs-list {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: .5rem;
+}
+.tf-langs-list button {
+  padding: .5rem .9rem;
+  border: 1px solid var(--line-strong, #333a44); border-radius: 999px;
+  background: transparent; color: var(--fg-2, #a3acb6);
+  font-size: .88rem; font-family: inherit; cursor: pointer;
+  transition: border-color 140ms ease, color 140ms ease, background 140ms ease;
+}
+.tf-langs-list button:hover,
+.tf-langs-list button.is-active {
+  border-color: var(--accent, #ff5a1f);
+  color: var(--fg, #f3f5f7);
+  background: var(--accent-soft, rgb(255 90 31 / .1));
+}
+.tf-langs-list button:focus-visible { outline: 2px solid var(--accent, #ff5a1f); outline-offset: 2px; }
+
+.tf-langs-note {
+  margin: clamp(2rem, 5vh, 3rem) 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line, rgb(255 255 255 / .08));
+  max-width: 72ch;
+  font-size: .84rem; line-height: 1.6;
+  color: var(--fg-3, #737d87);
+}
+
+/* The line is the only thing here that animates, and it only animates on a
+   deliberate hover or tap. */
+@media (prefers-reduced-motion: reduce) {
+  .tf-langs-line { animation: none; }
+}
+
+/* ── Accent picker ────────────────────────────────────────────────────────
+   Ten discs, split diagonally because the same accent is two colours — one
+   for the dark ground, one for paper. Choosing writes three custom properties
+   on :root and the whole page repaints, since every accented thing already
+   resolves through them. */
+
+.tf-accents { margin-top: clamp(1.75rem, 4vh, 2.5rem); }
+
+.tf-accents-label {
+  font-size: .84rem;
+  color: var(--fg-3, #737d87);
+  margin: 0 0 .85rem;
+}
+
+.tf-accents-row { display: flex; flex-wrap: wrap; gap: .6rem; }
+
+.tf-accents-row button {
+  width: 34px; height: 34px; padding: 3px;
+  display: grid; place-items: center;
+  border: 2px solid transparent; border-radius: 50%;
+  background: transparent; cursor: pointer;
+  transition: border-color 140ms ease, transform 140ms ease;
+}
+.tf-accents-row button span {
+  width: 100%; height: 100%; border-radius: 50%;
+  border: 1px solid rgb(0 0 0 / .25);
+}
+.tf-accents-row button:hover { transform: scale(1.08); }
+.tf-accents-row button.is-active { border-color: var(--fg, #f3f5f7); }
+.tf-accents-row button:focus-visible { outline: 2px solid var(--accent, #ff5a1f); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tf-accents-row button:hover { transform: none; }
+}
+
+/* ── App showcase ─────────────────────────────────────────────────────────
+   No device frame. A CSS bezel is a drawing of a phone that is never quite the
+   one anybody owns, and it steals contrast from the screen it surrounds. The
+   capture is shown as itself — cornered, lifted off the page with a shadow.
+
+   Everything is sized from the *viewport height* rather than a fixed pixel
+   width. A phone screenshot is tall, so height is the dimension that runs out
+   first: on a 13" laptop a 320px-wide shot is taller than the fold, and on a
+   large monitor it looks like a thumbnail. Driving height and letting the
+   aspect ratio set the width fixes both ends at once. */
+
+.ax { background: var(--bg); overflow-x: clip; }
+.ax-shell { width: min(100% - 2.5rem, 1180px); margin-inline: auto; }
+
+.ax-eyebrow, .ax-kicker {
+  font-size: .7rem; font-weight: 700; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--accent, #ff5a1f); margin: 0 0 1.1rem;
+}
+
+/* The capture. One rule, used at every size on the page. */
+.ax-shot {
+  display: block;
+  height: clamp(300px, 56vh, 560px);
+  width: auto;
+  aspect-ratio: 1206 / 2622;
+  object-fit: cover;
+  border-radius: clamp(18px, 3.4vh, 34px);
+  background: #08090b;
+  box-shadow:
+    0 34px 80px rgb(0 0 0 / .55),
+    0 0 0 1px rgb(255 255 255 / .08);
+}
+
+/* --- Hero ---------------------------------------------------------------- */
+
+.ax-hero { padding: clamp(4rem, 13vh, 8rem) 0 0; text-align: center; }
+.ax-hero h1 {
+  font-size: clamp(2.5rem, 6.6vw, 5.2rem);
+  line-height: .96; letter-spacing: -.04em;
+  text-wrap: balance; max-width: 17ch; margin: 0 auto 1.4rem;
+}
+.ax-lede {
+  font-size: clamp(1.02rem, 1.5vw, 1.24rem); line-height: 1.58;
+  color: var(--fg-2, #a3acb6); max-width: 60ch; margin: 0 auto; text-wrap: pretty;
+}
+.ax-hero-actions {
+  display: flex; flex-wrap: wrap; gap: 1rem 1.9rem;
+  align-items: center; justify-content: center; margin-top: 2.4rem;
+}
+.ax-button {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 54px; padding: 0 1.8rem; border-radius: 27px;
+  background: var(--accent, #ff5a1f); color: var(--accent-fg, #fff);
+  font-weight: 700; font-size: .96rem;
+  transition: background 160ms ease, transform 160ms ease;
+}
+.ax-button:hover { background: var(--accent-hover, #ff7a45); transform: translateY(-1px); }
+.ax-text-link { color: var(--accent, #ff5a1f); font-weight: 600; font-size: .93rem; }
+
+/* Cropped by the fold on purpose: it reads as the top of something and pulls
+   the eye down into the sequence. */
+.ax-hero-shot {
+  display: flex; justify-content: center;
+  margin-top: clamp(2.5rem, 7vh, 4.5rem);
+  max-height: 34vh; overflow: hidden;
+}
+.ax-hero-shot .ax-shot { box-shadow: 0 -10px 70px rgb(0 0 0 / .4), 0 0 0 1px rgb(255 255 255 / .08); }
+
+/* --- Pinned sequence ----------------------------------------------------- */
+
+.ax-track { position: relative; }
+.ax-stage {
+  position: sticky; top: 0;
+  height: 100vh; height: 100dvh;
+  display: grid; grid-template-columns: auto minmax(0, 1fr);
+  align-items: center; justify-content: center;
+  gap: clamp(2rem, 8vw, 7rem);
+}
+
+/* Every screen shares one cell and cross-fades, so no chapter opens on an
+   empty frame while an image decodes. */
+.ax-screens { display: grid; place-items: center; }
+.ax-screens .ax-shot { grid-area: 1 / 1; will-change: opacity, transform; }
+
+.ax-chapters { display: grid; max-width: 46ch; }
+.ax-chapter { grid-area: 1 / 1; }
+.ax-chapter h2 {
+  font-size: clamp(1.8rem, 3.9vw, 3.2rem);
+  line-height: 1.03; letter-spacing: -.03em;
+  text-wrap: balance; margin: 0 0 1.1rem;
+}
+.ax-chapter p {
+  font-size: clamp(.98rem, 1.3vw, 1.12rem); line-height: 1.64;
+  color: var(--fg-2, #a3acb6); margin: 0; text-wrap: pretty;
+}
+
+/* Sits under the stacked chapters rather than in the flow of any one of them,
+   so it does not fade in and out with the copy. */
+.ax-pips {
+  grid-area: 1 / 1; align-self: end;
+  display: flex; gap: 7px; list-style: none; padding: 0; margin: 0;
+  align-items: center; pointer-events: none;
+}
+.ax-pips li { height: 3px; border-radius: 2px; background: var(--accent, #ff5a1f); }
+
+/* --- Colour picker ------------------------------------------------------- */
+
+.ax-tint {
+  padding: clamp(4rem, 12vh, 8rem) 0; text-align: center;
+  border-top: 1px solid var(--line, rgb(255 255 255 / .08));
+}
+.ax-tint h2 {
+  font-size: clamp(1.8rem, 4.2vw, 3rem);
+  line-height: 1.03; letter-spacing: -.03em;
+  text-wrap: balance; max-width: 20ch; margin: 0 auto 1.2rem;
+}
+.ax-tint-body {
+  font-size: 1.02rem; line-height: 1.62; color: var(--fg-2, #a3acb6);
+  max-width: 62ch; margin: 0 auto; text-wrap: pretty;
+}
+.ax-swatches { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin: 2.4rem 0 1.2rem; }
+.ax-swatches button {
+  width: 42px; height: 42px; padding: 4px;
+  display: grid; place-items: center;
+  border: 2px solid transparent; border-radius: 50%;
+  background: transparent; cursor: pointer;
+  transition: border-color 160ms ease, transform 160ms ease;
+}
+.ax-swatches button span { width: 100%; height: 100%; border-radius: 50%; box-shadow: inset 0 0 0 1px rgb(0 0 0 / .3); }
+.ax-swatches button:hover { transform: scale(1.1); }
+.ax-swatches button.is-active { border-color: var(--fg, #f3f5f7); }
+.ax-swatches button:focus-visible { outline: 2px solid var(--accent, #ff5a1f); outline-offset: 3px; }
+.ax-tint-note { font-size: .84rem; color: var(--fg-3, #737d87); margin: 0; }
+
+/* --- Features + close ---------------------------------------------------- */
+
+.ax-features { padding: clamp(4rem, 12vh, 8rem) 0; border-top: 1px solid var(--line, rgb(255 255 255 / .08)); }
+.ax-features h2 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1.03; letter-spacing: -.03em;
+  text-wrap: balance; max-width: 20ch; margin: 0 0 clamp(2.5rem, 6vh, 3.5rem);
+}
+.ax-features dl {
+  margin: 0; display: grid; gap: 2.3rem clamp(2rem, 4vw, 3.5rem);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+}
+.ax-features dt { font-size: 1.02rem; font-weight: 700; margin-bottom: .45rem; letter-spacing: -.01em; }
+.ax-features dd { margin: 0; font-size: .9rem; line-height: 1.6; color: var(--fg-2, #a3acb6); text-wrap: pretty; }
+
+.ax-close { padding: clamp(4rem, 12vh, 8rem) 0; text-align: center; border-top: 1px solid var(--line, rgb(255 255 255 / .08)); }
+.ax-close h2 {
+  font-size: clamp(1.9rem, 4.6vw, 3.4rem);
+  line-height: 1.02; letter-spacing: -.03em;
+  text-wrap: balance; max-width: 19ch; margin: 0 auto 1.2rem;
+}
+.ax-close > .ax-shell > p { font-size: 1.04rem; line-height: 1.62; color: var(--fg-2, #a3acb6); max-width: 54ch; margin: 0 auto; }
+.ax-badges { display: flex; flex-wrap: wrap; gap: .9rem; justify-content: center; margin: 2.2rem 0 1.3rem; }
+.ax-badges span { padding: .85rem 1.5rem; border-radius: 11px; border: 1px solid var(--line-strong, #333a44); font-weight: 700; font-size: .96rem; }
+.ax-note { font-size: .84rem; color: var(--fg-3, #737d87); }
+
+/* --- Reduced motion ------------------------------------------------------ */
+
+.ax-static { padding: clamp(3rem, 8vh, 5rem) 0; display: flex; flex-direction: column; gap: clamp(3rem, 8vh, 5rem); }
+.ax-static article { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(1.5rem, 5vw, 4rem); align-items: center; }
+.ax-static h2 { font-size: clamp(1.6rem, 3.2vw, 2.4rem); line-height: 1.05; letter-spacing: -.02em; margin: 0 0 .9rem; }
+.ax-static p { color: var(--fg-2, #a3acb6); line-height: 1.62; margin: 0; }
+
+/* Below the two-column breakpoint the phone shrinks hard: the copy needs the
+   room more than the picture does. */
+@media (max-width: 900px) {
+  .ax-stage { grid-template-columns: 1fr; align-content: center; gap: clamp(1.25rem, 3vh, 2rem); justify-items: center; }
+  .ax-shot { height: clamp(210px, 34vh, 320px); }
+  .ax-chapter { text-align: center; }
+  .ax-chapters { max-width: none; justify-items: center; }
+  .ax-pips { position: relative; justify-content: center; margin-top: 1.5rem; align-self: auto; }
+  .ax-hero-shot { max-height: 26vh; }
+  .ax-static article { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+}

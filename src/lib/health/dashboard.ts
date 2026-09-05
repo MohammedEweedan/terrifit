@@ -21,7 +21,7 @@ import {
   type Sex,
   type StressReading,
 } from "./advanced";
-import { isPro, PRO_METRICS, type ProMetric } from "./plan";
+import { FREE_HISTORY_DAYS, isPro, PRO_METRICS, type ProMetric } from "./plan";
 
 /** How far back the trend charts and baselines reach. */
 const HISTORY_DAYS = 180;
@@ -148,7 +148,11 @@ export async function loadDashboard(
   // Each historical day is scored against the days before it, never after —
   // otherwise a chart would show a recovery score that could not have existed
   // on the morning it claims to describe.
-  const history = days.slice(0, 90).map((day, index) => ({
+  // A free account sees a month; Pro sees the lot. The cap is applied here
+  // rather than in the client so the payload itself is short — a paywall the
+  // browser has to honour is not a paywall.
+  const window = pro ? 90 : FREE_HISTORY_DAYS;
+  const history = days.slice(0, window).map((day, index) => ({
     date: day.date.toISOString(),
     recovery: recoveryScore(day, days.slice(index + 1)).value,
     tScore: tScore(day, days.slice(index + 1), activityLevel).value,

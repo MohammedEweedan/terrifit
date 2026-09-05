@@ -1,4 +1,5 @@
 import { prisma } from "../db";
+import { MANUFACTURING_TRIGGER } from "./offer-constants";
 
 /**
  * The V1 pre-order: how many are reserved, and what that obliges us to.
@@ -22,8 +23,9 @@ import { prisma } from "../db";
  * hard-coded "24,891 members" and the fix is not a better hard-coded number.
  */
 
-/** Units that have to be reserved before the manufacturing order is placed. */
-export const MANUFACTURING_TRIGGER = 500;
+// Re-exported so every existing import keeps working; the value lives in a
+// dependency-free module so scripts can read it without booting Prisma.
+export { MANUFACTURING_TRIGGER } from "./offer-constants";
 
 /** Slugs that count toward the run. The bundle contains a band. */
 const V1_SLUGS = ["terrifit-v1", "v1-starter-bundle"] as const;

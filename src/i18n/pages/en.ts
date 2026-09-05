@@ -302,6 +302,132 @@ export const en = {
     note: "Dates are targets, not promises. If one moves, we will say so here before you hear it anywhere else.",
   },
 
+  /**
+   * What the V1 measures, on the landing page.
+   *
+   * Every row is a capability the JCVital Pro V8 datasheet supports. Two of its
+   * headline features are deliberately absent: the ECG's rhythm classification
+   * and the BGEM glucose-risk score. Both are regulated claims we have no
+   * clearance for — see docs/v1-band-blueprint.md §5. The electrode is
+   * described as a recording, which is what it is.
+   */
+  /** The languages section. Ten locales, shown rather than claimed. */
+  /**
+   * The app page. A product showcase, not a feature list.
+   *
+   * There is no web app to sell here: reading a proprietary sensor over
+   * Bluetooth is something only a native app can do, so the page's job is to
+   * make somebody want the thing on their phone.
+   */
+  appPage: {
+    meta: {
+      title: "The Terrifit app — every score shows its working",
+      description: "Recovery, strain, sleep and your T Score, each one opening into the readings behind it. Ten languages, ten accents, and it reads Apple Health with nothing to type in.",
+    },
+    hero: {
+      eyebrow: "The Terrifit app",
+      title: "The only fitness app that shows you its working.",
+      sub: "Every other app hands you a score and asks you to trust it. Tap ours and you get the readings behind it, the baseline each was measured against, how much of the score it carried, and what the day was missing.",
+      cta: "Pre-order the V1",
+      secondary: "See what it reads",
+    },
+    chapters: [
+      {
+        kicker: "Today",
+        screen: "home",
+        title: "The answer is on screen before the phone is unlocked.",
+        body: "Recovery, strain and sleep, with your fitness age above them. No dashboard to configure and no tabs to hunt through — if the answer is “go easy today”, you have it in the first second.",
+      },
+      {
+        kicker: "Maps",
+        screen: "maps",
+        title: "Programmes that adjust to what you actually lifted.",
+        body: "Loads come off a training max that updates from completed work, not planned work. Two poor mornings in a row and the volume comes down on its own. Every movement carries its cues, its common faults and a substitution for missing kit.",
+      },
+      {
+        kicker: "Shop",
+        screen: "shop",
+        title: "Terrifuel, straps and the band, in your own currency.",
+        body: "One account, one bag, one checkout. Prices convert to wherever you are rather than showing dollars and surprising you at the end, and anything on its way to you is one tap from every screen.",
+      },
+      {
+        kicker: "Fitness age",
+        screen: "fitness-age",
+        title: "The number people actually send to a friend.",
+        body: "Built from two heart rates, with the equation on screen and the reading plotted against the distribution it was judged on. Free forever, and it works before you own a band.",
+      },
+    ],
+    tint: {
+      eyebrow: "Make it yours",
+      title: "Ten colours. Pick one and watch the phone change.",
+      body: "Every colour here was captured from the real app rather than filtered in a browser, so what you are looking at is the actual build. The recovery, strain and sleep rings keep their own colours on purpose — those carry meaning, and a colour that means something should not follow a preference.",
+      note: "The site follows your choice too. It is remembered on this device.",
+    },
+    features: {
+      eyebrow: "What is in it",
+      title: "Built for the six in the morning version of you.",
+      items: [
+        { name: "Reads Apple Health", detail: "HRV, resting heart rate, sleep, steps and weight, with nothing to type in" },
+        { name: "Works without the band", detail: "Import from Garmin, Oura, Whoop, Fitbit, Strava or an InBody sheet" },
+        { name: "Fitness age", detail: "From two heart rates, free forever, and the equation is on screen" },
+        { name: "Body composition", detail: "Every InBody scan you have ever had, charted against your weight" },
+        { name: "Session runtime", detail: "Sets, reps and weights logged as you go, carried into next week" },
+        { name: "Offline first", detail: "The morning read is cached, so a bad signal never costs you the answer" },
+      ],
+    },
+    close: {
+      title: "It is free, and the morning read always will be.",
+      body: "Recovery, strain, sleep and your fitness age cost nothing, forever. Terrifit Pro is $7.99 a month for the work that needs weeks of history behind it.",
+      note: "Coming to iOS and Android. Pre-order a V1 and you are in the first group in.",
+    },
+  },
+
+  languages: {
+    eyebrow: "Ten languages",
+    title: "Native from the first day, not translated later.",
+    body: "Terrifit was built in ten languages at once rather than shipped in English and localised afterwards. Every screen, every score and every error message — including the ones you only see when something goes wrong.",
+    note: "Arabic runs right to left with its own typeface, because a language is not a font swap. Country names and dates come from your device rather than a table we maintain, so they are correct in places we have never been.",
+  },
+
+  capabilities: {
+    eyebrow: "What it measures",
+    title: "It reads you the whole time, and shows you its working.",
+    body: "Continuous sensing from the moment you fasten it. No session to start, no screen to check, and nothing to charge overnight for a fortnight.",
+    groups: [
+      {
+        name: "Around the clock",
+        items: [
+          { name: "Heart rate", detail: "Continuously, awake and asleep, not only during a workout" },
+          { name: "Heart-rate variability", detail: "Taken in your deepest sleep, which is when the number means something" },
+          { name: "Blood oxygen", detail: "Overnight SpO₂, and how you are adjusting at altitude" },
+          { name: "Skin temperature", detail: "Against your own baseline, never a population average" },
+          { name: "Breathing rate", detail: "Usually the first thing that moves when you are coming down with something" },
+        ],
+      },
+      {
+        name: "Worked out from those",
+        items: [
+          { name: "Recovery", detail: "One morning score from HRV, resting heart rate, sleep and breathing rate" },
+          { name: "Strain", detail: "Cardiovascular load through the day, on a 0 to 21 scale" },
+          { name: "Sleep", detail: "Light, deep and REM, against how much sleep you actually needed" },
+          { name: "T Score", detail: "How much of the day you genuinely moved, out of 100" },
+          { name: "Fitness age", detail: "From your maximum and resting heart rates. Free, and shareable" },
+        ],
+      },
+      {
+        name: "While you train",
+        items: [
+          { name: "Automatic sessions", detail: "It works out you have started and logs it. Over forty activities" },
+          { name: "Metabolic load", detail: "What the session cost, carried into tomorrow's recovery target" },
+          { name: "Stress and mood", detail: "Autonomic load across the day, not a single morning reading" },
+          { name: "VO₂max", detail: "Cardio-respiratory fitness, tracked as it moves" },
+          { name: "Heart rhythm recording", detail: "A single-lead trace on demand. A recording for your own records, not a diagnosis" },
+        ],
+      },
+    ],
+    footnote: "Terrifit provides wellness guidance, not medical diagnosis. Scores and estimates are not clinical measurements. If something looks wrong, see a clinician.",
+  },
+
   band: {
     meta: {
       title: "Terrifit V1 — the fitness band that tells you when to push",
@@ -1072,6 +1198,11 @@ export const en = {
       title: "Supplements now. Hardware from November.",
       sub: "The supplements, recovery products and training kit ship today — ours, and a short list from partners we've checked. The V1 band and its accessories are open for pre-order and ship in November 2027.",
     },
+    searchLabel: "Search the shop",
+    searchPlaceholder: "Protein, straps, the band…",
+    departmentsLabel: "Departments",
+    itemOne: "item",
+    itemMany: "items",
     trust: [
       { title: "Free delivery over $75", body: "Tracked, to 40+ countries" },
       { title: "30-day returns", body: "We pay the return shipping" },

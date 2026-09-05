@@ -14,6 +14,8 @@ import { clearHash, getHash, getServerHash, subscribeHash } from "@/lib/hash";
 import { TerrificWord, splitHeadline } from "@/components/brand/TerrificWord";
 import { BandCallouts } from "@/components/band/BandCallouts";
 import { LaunchRoadmap } from "@/components/marketing/LaunchRoadmap";
+import { Capabilities } from "@/components/landing/Capabilities";
+import { Languages } from "@/components/landing/Languages";
 import { AnnouncementBar, type Announcement } from "@/components/marketing/AnnouncementBar";
 import { getPagesCopy } from "@/i18n/pages";
 
@@ -24,7 +26,7 @@ import boxer from "../../../public/rebrand/combos-boxer-clean.png";
 import kettlebell from "../../../public/rebrand/faq-kettlebell-clean.png";
 import cyclist from "../../../public/rebrand/whyus-cyclist-clean.png";
 import shotHomeDark from "../../../public/media/app/home-dark.png";
-import shotBandLight from "../../../public/media/app/band-light.png";
+import shotShopDark from "../../../public/media/app/shop-dark.png";
 import shotMapsDark from "../../../public/media/app/maps-dark.png";
 import { AppShowcase } from "@/components/platform/AppShowcase";
 import trainWorkLive from "../../../public/media/train-work-live.jpg";
@@ -121,9 +123,14 @@ export function TerrifitLanding({
         <MetricRail />
         <LaunchRoadmap locale={locale} copy={getPagesCopy(locale).roadmap} />
         <BandSection locale={locale} />
+        {/* The specification, in plain columns, straight after the band story.
+            By this point the reader has had the argument and wants the list. */}
+        <Capabilities copy={getPagesCopy(locale).capabilities} />
         <PlatformSection locale={locale} waitlistCount={waitlistCount} />
         <MapsSection locale={locale} />
         <LifestyleSection locale={locale} />
+        {/* Ten languages, printed in ten scripts. The section is its own proof. */}
+        <Languages copy={getPagesCopy(locale).languages} current={locale} />
         <ShopSection locale={locale} />
         <FinalWaitlist locale={locale} markets={markets} />
       </main>
@@ -309,7 +316,7 @@ function PlatformSection({ locale, waitlistCount }: { locale: Locale; waitlistCo
               </div>
             ))}
           </div>
-          <Link className="tf-outline-button" href={`/${locale}/platform`}>{detail.common[9]} {ui.nav[0]} <span>→</span></Link>
+          <Link className="tf-outline-button" href={`/${locale}/app`}>{detail.common[9]} {ui.nav[0]} <span>→</span></Link>
         </Reveal>
 
         <Reveal className="tf-app-stage">
@@ -323,16 +330,16 @@ function PlatformSection({ locale, waitlistCount }: { locale: Locale; waitlistCo
                 alt: "The Terrifit app in dark mode showing recovery, strain and sleep dials with heart-rate variability, resting heart rate and weight compared against personal baselines",
               },
               {
-                src: shotBandLight,
-                label: "Your V1",
-                note: "The band you own, in the colourway you bought.",
-                alt: "The Terrifit app in light mode showing a paired V1 band in the Midnight colourway inside a battery ring, with firmware, wearing arm and last sync",
+                src: shotShopDark,
+                label: "Shop",
+                note: "Terrifuel, straps and the band, priced in your currency.",
+                alt: "The Terrifit app shop showing search, category filters and product cards for the V1 band and strap sets with prices in pounds",
               },
               {
                 src: shotMapsDark,
                 label: "Maps",
                 note: "Programmes that adjust to what you actually lifted.",
-                alt: "The Terrifit app in dark mode listing training Maps with their coach, length and weekly session count",
+                alt: "The Terrifit app listing the Maps library — Strength Five and Engine Builder with their coach, length and weekly session count",
               },
             ]}
           />

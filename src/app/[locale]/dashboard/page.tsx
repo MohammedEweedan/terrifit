@@ -10,7 +10,7 @@ import { STRAIN_MAX } from "@/lib/health/scores";
 
 export const dynamic = "force-dynamic";
 
-export default async function TodayPage({ params }: PageProps<"/[locale]/app">) {
+export default async function TodayPage({ params }: PageProps<"/[locale]/dashboard">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 

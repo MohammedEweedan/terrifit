@@ -105,7 +105,7 @@ export function buildIndex(locale: Locale, products: Product[]): SearchDoc[] {
       title: ui.nav[0],
       subtitle: dict.prototypes.body,
       body: dict.prototypes.headline,
-      href: at("/platform"),
+      href: at("/app"),
     },
     {
       id: "page:contact",

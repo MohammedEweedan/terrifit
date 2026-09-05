@@ -291,7 +291,7 @@ export function fitnessAge(
   // The floor moves the whole answer, so `delta` is always exactly
   // `years − age` — it used to leak and report one year fewer than the limit
   // actually applied.
-  const years = Math.round(Math.max(18, Math.min(85, profile.age + bounded)));
+  const years = Math.round(Math.max(18, Math.min(85, profile.age + bounded)) * 10) / 10;
 
   // Flat enough that more fitness would barely move it: the number is a bound.
   const capped = Math.abs(bounded) >= MAX_SWING * 0.9;
@@ -312,7 +312,10 @@ export function fitnessAge(
     years,
     factors,
     chronological: profile.age,
-    delta: years - profile.age,
+    // Rounded, not raw. `years` carries one decimal, so the subtraction lands
+    // on floating-point noise — 19.3 − 27 is −7.699999999999999, and that is
+    // what reaches the screen unless it is cut here at the source.
+    delta: Math.round((years - profile.age) * 10) / 10,
     capped,
     vo2max: Math.round(vo2 * 10) / 10,
     basis,

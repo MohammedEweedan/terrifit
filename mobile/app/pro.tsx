@@ -22,6 +22,7 @@ const featuresFor = (copy: ProCopy) => [
   [copy.load, copy.loadBody],
   [copy.bodyBattery, copy.bodyBatteryBody],
   [copy.insights, copy.insightsBody],
+  [copy.tScore, copy.tScoreBody],
   [copy.fullHistory, copy.fullHistoryBody],
 ] as const;
 

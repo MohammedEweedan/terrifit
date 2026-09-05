@@ -161,10 +161,10 @@ export function HeadlineMetric({
 }
 
 const s = StyleSheet.create({
-  wrap: { alignItems: "center", justifyContent: "center", paddingTop: 8, paddingBottom: 18, overflow: "visible" },
+  wrap: { alignItems: "center", justifyContent: "center", marginTop: -22, paddingBottom: 14, overflow: "visible" },
   // Sits above everything and clipped by nothing: the light is the first thing
   // you see and it should reach past the header, not stop in a rectangle.
-  bloom: { position: "absolute", top: -120, alignItems: "center", justifyContent: "center", zIndex: 100000 },
+  bloom: { position: "absolute", top: -52, alignItems: "center", justifyContent: "center", zIndex: 100000 },
   stage: { alignItems: "center", zIndex: 100001 },
   tap: { alignItems: "center" },
 

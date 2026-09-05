@@ -23,6 +23,8 @@ export type ProCopy = {
   insightsBody: string;
   fullHistory: string;
   fullHistoryBody: string;
+  tScore: string;
+  tScoreBody: string;
   monthlyPlan: string;
   yearlyPlan: string;
   twoMonthsFree: string;
@@ -53,6 +55,8 @@ export const proCopy: Record<AppLocale, ProCopy> = {
     insightsBody: "What your own history says: which nights lift your HRV, what the hard days cost you.",
     fullHistory: "Full history",
     fullHistoryBody: "Every metric back as far as your data goes, not the last thirty days.",
+    tScore: "T Score",
+    tScoreBody: "How much of the whole day you actually moved, scored against your own history rather than somebody else's target.",
     monthlyPlan: "Monthly plan",
     yearlyPlan: "Yearly plan",
     twoMonthsFree: "Two months free",
@@ -81,6 +85,8 @@ export const proCopy: Record<AppLocale, ProCopy> = {
     insightsBody: "Lo que dice tu propio historial: qué noches suben tu VFC y qué te cuestan los días duros.",
     fullHistory: "Historial completo",
     fullHistoryBody: "Cada métrica desde el principio de tus datos, no solo los últimos treinta días.",
+    tScore: "T Score",
+    tScoreBody: "Cuánto te has movido durante todo el día, medido contra tu propio historial y no contra el objetivo de otra persona.",
     monthlyPlan: "Plan mensual",
     yearlyPlan: "Plan anual",
     twoMonthsFree: "Dos meses gratis",
@@ -109,6 +115,8 @@ export const proCopy: Record<AppLocale, ProCopy> = {
     insightsBody: "ما يقوله سجلك أنت: أي الليالي ترفع تغيّر نبضك، وكم تكلّفك الأيام الصعبة.",
     fullHistory: "السجل الكامل",
     fullHistoryBody: "كل مقياس منذ بداية بياناتك، لا آخر ثلاثين يومًا فقط.",
+    tScore: "مؤشر T",
+    tScoreBody: "كم تحرّكت فعليًا خلال اليوم كله، مقيسًا على سجلك أنت لا على هدف وضعه شخص آخر.",
     monthlyPlan: "خطة شهرية",
     yearlyPlan: "خطة سنوية",
     twoMonthsFree: "شهران مجانًا",
@@ -137,6 +145,8 @@ export const proCopy: Record<AppLocale, ProCopy> = {
     insightsBody: "Ce que dit votre propre historique : quelles nuits font monter votre VFC, ce que coûtent les jours durs.",
     fullHistory: "Historique complet",
     fullHistoryBody: "Chaque mesure depuis le début de vos données, pas seulement les trente derniers jours.",
+    tScore: "T Score",
+    tScoreBody: "Combien vous avez réellement bougé sur la journée entière, mesuré face à votre propre historique et non à l'objectif d'un autre.",
     monthlyPlan: "Forfait mensuel",
     yearlyPlan: "Forfait annuel",
     twoMonthsFree: "Deux mois offerts",
@@ -165,6 +175,8 @@ export const proCopy: Record<AppLocale, ProCopy> = {
     insightsBody: "Was dein eigener Verlauf sagt: welche Nächte deine HRV heben, was harte Tage kosten.",
     fullHistory: "Vollständiger Verlauf",
     fullHistoryBody: "Jede Metrik so weit zurück, wie deine Daten reichen, nicht nur dreißig Tage.",
+    tScore: "T Score",
+    tScoreBody: "Wie viel du dich den ganzen Tag über wirklich bewegt hast, gemessen an deinem eigenen Verlauf statt an fremden Zielen.",
     monthlyPlan: "Monatlich",
     yearlyPlan: "Jährlich",
     twoMonthsFree: "Zwei Monate gratis",
@@ -193,6 +205,8 @@ export const proCopy: Record<AppLocale, ProCopy> = {
     insightsBody: "Wat je eigen geschiedenis zegt: welke nachten je HRV optillen, wat zware dagen kosten.",
     fullHistory: "Volledige geschiedenis",
     fullHistoryBody: "Elke meting zo ver terug als je data gaat, niet alleen de laatste dertig dagen.",
+    tScore: "T Score",
+    tScoreBody: "Hoeveel je de hele dag echt bewogen hebt, afgezet tegen je eigen historie in plaats van andermans doel.",
     monthlyPlan: "Maandelijks",
     yearlyPlan: "Jaarlijks",
     twoMonthsFree: "Twee maanden gratis",
@@ -221,6 +235,8 @@ export const proCopy: Record<AppLocale, ProCopy> = {
     insightsBody: "O que diz o teu próprio histórico: que noites sobem a tua VFC, o que custam os dias duros.",
     fullHistory: "Histórico completo",
     fullHistoryBody: "Cada métrica desde o início dos teus dados, não apenas os últimos trinta dias.",
+    tScore: "T Score",
+    tScoreBody: "Quanto te moveste ao longo do dia inteiro, medido contra o teu próprio histórico e não contra a meta de outra pessoa.",
     monthlyPlan: "Plano mensal",
     yearlyPlan: "Plano anual",
     twoMonthsFree: "Dois meses grátis",
@@ -249,6 +265,8 @@ export const proCopy: Record<AppLocale, ProCopy> = {
     insightsBody: "Cosa dice il tuo storico: quali notti alzano la tua HRV, quanto costano i giorni duri.",
     fullHistory: "Storico completo",
     fullHistoryBody: "Ogni metrica fin dove arrivano i tuoi dati, non solo gli ultimi trenta giorni.",
+    tScore: "T Score",
+    tScoreBody: "Quanto ti sei mosso davvero nell'arco della giornata, misurato sul tuo storico e non sull'obiettivo di qualcun altro.",
     monthlyPlan: "Piano mensile",
     yearlyPlan: "Piano annuale",
     twoMonthsFree: "Due mesi gratis",
@@ -277,6 +295,8 @@ export const proCopy: Record<AppLocale, ProCopy> = {
     insightsBody: "Kendi geçmişinin söyledikleri: hangi geceler HRV’ni yükseltiyor, zor günler neye mal oluyor.",
     fullHistory: "Tüm geçmiş",
     fullHistoryBody: "Her ölçüm, verinin başladığı güne kadar — son otuz günle sınırlı değil.",
+    tScore: "T Skoru",
+    tScoreBody: "Gün boyunca gerçekten ne kadar hareket ettiğin; başkasının hedefine değil, kendi geçmişine göre ölçülür.",
     monthlyPlan: "Aylık plan",
     yearlyPlan: "Yıllık plan",
     twoMonthsFree: "İki ay ücretsiz",
@@ -305,6 +325,8 @@ export const proCopy: Record<AppLocale, ProCopy> = {
     insightsBody: "Что говорит ваша история: какие ночи поднимают ВСР и во что обходятся тяжёлые дни.",
     fullHistory: "Полная история",
     fullHistoryBody: "Каждый показатель с самого начала ваших данных, а не за последние тридцать дней.",
+    tScore: "T Score",
+    tScoreBody: "Сколько вы на самом деле двигались за весь день, измеренное по вашей собственной истории, а не по чужой цели.",
     monthlyPlan: "Месячный план",
     yearlyPlan: "Годовой план",
     twoMonthsFree: "Два месяца бесплатно",

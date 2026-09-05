@@ -7,9 +7,16 @@
  * only make `generateStaticParams` pre-render pages that never get served.
  */
 export const destinations = [
-  "platform",
   "about", "careers", "press", "support",
 ] as const;
+
+/**
+ * Moved rather than removed. "Platform" was renamed "App" in the navigation,
+ * and a URL that disagrees with the link that reached it is a small dishonesty
+ * worth one redirect to avoid. The signed-in web app moved to /dashboard to
+ * free the path.
+ */
+export const movedDestinations: Record<string, string> = { platform: "app" };
 
 /**
  * The legal slugs used to be served here as marketing pages — /privacy said

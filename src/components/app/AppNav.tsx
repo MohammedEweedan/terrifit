@@ -18,7 +18,7 @@ export function AppNav({
   labels: Record<"today" | "trends" | "body" | "account", string>;
 }) {
   const pathname = usePathname();
-  const href = (tab: string) => (tab === "today" ? `/${locale}/app` : `/${locale}/app/${tab}`);
+  const href = (tab: string) => (tab === "today" ? `/${locale}/dashboard` : `/${locale}/dashboard/${tab}`);
 
   return (
     <nav className="ap-nav" aria-label={labels.today}>

@@ -1,5 +1,6 @@
 import type { PricedLine } from "./orders";
 import { prisma } from "../db";
+import { FOUNDING_ORDERS, FUEL_GIFT_THRESHOLD_CENTS } from "./offer-constants";
 
 /**
  * The founding-hundred launch offer.
@@ -17,11 +18,9 @@ import { prisma } from "../db";
  * the same rule that already governs prices.
  */
 
-/** How many orders qualify, counted across the whole store for all time. */
-export const FOUNDING_ORDERS = 100;
-
-/** Terrifuel spend, in cents, that earns the tee. */
-export const FUEL_GIFT_THRESHOLD_CENTS = 15_000;
+// Re-exported so every existing import keeps working; the values live in a
+// dependency-free module so scripts can read them without booting Prisma.
+export { FOUNDING_ORDERS, FUEL_GIFT_THRESHOLD_CENTS } from "./offer-constants";
 
 export const GIFT_TEE_SLUG = "terrifits-field-tee";
 export const GIFT_HOODIE_SLUG = "terrifits-hoodie";

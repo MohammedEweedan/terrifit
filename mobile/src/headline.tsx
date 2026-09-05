@@ -99,15 +99,14 @@ export function buildHeadlines(data: Dashboard | null, locale: AppLocale = "en")
       id: "fitnessAge",
       // "You are 24 years old" reads as a sentence, so this one is a phrase
       // rather than the metric's name.
-      eyebrow: YOU_ARE[locale] ?? YOU_ARE.en,
+      eyebrow: AGE_LABEL[locale] ?? AGE_LABEL.en,
       value: age?.years != null ? String(age.years) : null,
-      suffix: "years old",
       caption:
         age?.delta == null
           ? "Estimated from your resting heart rate"
           : age.delta === 0
             ? "Right on your birthday"
-            : `${age.capped ? "At least " : ""}${Math.abs(age.delta)} years ${age.delta < 0 ? "younger" : "older"} than your birthday`,
+            : `${age.capped ? "At least " : ""}${Math.round(Math.abs(age.delta) * 10) / 10} years ${age.delta < 0 ? "younger" : "older"} than your birthday`,
       tone: theme.accent,
     },
     tScore: {
@@ -169,9 +168,19 @@ export function buildHeadlines(data: Dashboard | null, locale: AppLocale = "en")
 /* -------------------------------------------------------------------------- */
 
 /** The lead-in to the fitness age, which is a sentence rather than a label. */
-const YOU_ARE: Record<string, string> = {
-  en: "You are", es: "Tienes", ar: "عمرك", fr: "Vous avez", de: "Du bist",
-  nl: "Je bent", pt: "Tens", it: "Hai", tr: "Yaşınız", ru: "Вам",
+/**
+ * The label over the headline figure.
+ *
+ * "You are 19" reads as a claim about the person; "Terrifit age 19" reads as a
+ * reading this app took, which is what it is. It also names the number, so the
+ * figure means something on a screenshot with no other context.
+ *
+ * Terrifit stays in Latin script everywhere — it is the wordmark, not a word.
+ */
+const AGE_LABEL: Record<string, string> = {
+  en: "Terrifit age", es: "Edad Terrifit", ar: "عمر Terrifit", fr: "Âge Terrifit",
+  de: "Terrifit Alter", nl: "Terrifit-leeftijd", pt: "Idade Terrifit",
+  it: "Età Terrifit", tr: "Terrifit yaşı", ru: "Возраст Terrifit",
 };
 
 const CHOSEN_KEY = "terrifit.headlines";

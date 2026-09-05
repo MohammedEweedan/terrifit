@@ -6,6 +6,8 @@
  * order — and because a URL typed into an admin field is a URL somebody can
  * typo into a phishing page.
  */
+import { universalTrackingUrl } from "./seventeentrack";
+
 export type Carrier = {
   key: string;
   name: string;
@@ -41,12 +43,27 @@ export function findCarrier(key: string | null | undefined): Carrier | undefined
 /**
  * The tracking page for an order, or null when there is nothing to link to.
  *
- * Null rather than a half-built URL: a link that goes to a carrier's search
- * page with no number in it is worse than no link, because somebody taps it and
- * then has to find the number themselves.
+ * A known carrier goes to its own site: a Royal Mail number belongs on Royal
+ * Mail, not inside an aggregator that adds a hop and an advert.
+ *
+ * Anything else falls back to 17TRACK, which identifies the carrier from the
+ * number itself. That fallback exists for one specific reason: V1 units ship
+ * from Shenzhen, and a China-origin parcel routinely moves through carriers
+ * this list does not contain — China Post, Yanwen, 4PX, a local last-mile
+ * handler nobody has heard of. Without it those orders show a tracking number
+ * and nowhere to put it, which is the most common "where is my order" ticket
+ * a store like this gets.
+ *
+ * Null only when there is no number at all. A link to a carrier's search page
+ * with no number in it is worse than no link, because somebody taps it and then
+ * has to find the number themselves.
  */
 export function trackingUrl(carrierKey: string | null | undefined, number: string | null | undefined): string | null {
+  const trimmed = number?.trim();
+  if (!trimmed) return null;
+
   const carrier = findCarrier(carrierKey);
-  if (!carrier || !number?.trim()) return null;
-  return carrier.url.replace("{n}", encodeURIComponent(number.trim()));
+  if (carrier) return carrier.url.replace("{n}", encodeURIComponent(trimmed));
+
+  return universalTrackingUrl(trimmed);
 }

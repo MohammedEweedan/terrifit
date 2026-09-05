@@ -29,8 +29,7 @@ export function TerrifitProductPage({ locale, destination, copy }: { locale: Loc
     <div className="tf-site tp-site">
       <TerrifitHeader locale={locale} copy={copy} />
       <main>
-        {destination === "platform" ? <PlatformPage locale={locale} copy={copy} /> : null}
-        {destination !== "platform" ? <InformationPage locale={locale} destination={destination} copy={copy} /> : null}
+        <InformationPage locale={locale} destination={destination} copy={copy} />
       </main>
       <TerrifitFooter locale={locale} copy={copy} />
     </div>

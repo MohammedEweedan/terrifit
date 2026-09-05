@@ -41,14 +41,19 @@ export async function POST(request: Request) {
   const median = medianRestingHr(sex as Sex);
   const z = (restingHr - median) / 9.5;
   const offset = MAX_SWING * Math.tanh(z * SENSITIVITY);
-  const years = Math.round(Math.max(18, Math.min(85, age + offset)));
+  const years = Math.round(Math.max(18, Math.min(85, age + offset)) * 10) / 10;
 
   return NextResponse.json({
     years,
     chronological: age,
-    delta: years - age,
+    delta: Math.round((years - age) * 10) / 10,
     vo2max: Math.round(vo2 * 10) / 10,
     maxHr: Math.round(maxHeartRate(age)),
+    // The reference the estimate is measured against. Returned so the page can
+    // show where the reading actually sits rather than just asserting a verdict
+    // — the whole argument for this product is showing the working.
+    median,
+    restingHr,
     capped: Math.abs(offset) >= MAX_SWING * 0.9,
   });
 }

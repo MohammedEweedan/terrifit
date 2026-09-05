@@ -79,14 +79,11 @@ export default function FitnessAgeScreen() {
               <AgeDial
                 value={String(result.years)}
                 label={copy.fitnessAge}
-                // Where this estimate sits across the span it can return: the
-                // method resolves about a decade either way, so the dial is
-                // that window rather than a lifetime.
-                fraction={
-                  result.delta == null
-                    ? 0.5
-                    : Math.max(0, Math.min(1, 0.5 - result.delta / 20))
-                }
+                pill={result.vo2max != null ? `VO₂MAX ${result.vo2max}` : undefined}
+                // The ring takes the accent the member picked, not the
+                // verdict colour: it is their app. Good or fair is carried by
+                // the verdict line underneath instead.
+                tone={theme.accent}
               />
             </View>
 
@@ -108,21 +105,21 @@ export default function FitnessAgeScreen() {
                 away too — a struck-out verdict above "32 years · actual age"
                 would be a curtain with a hole in it. VO₂max stays: it is a
                 measure of you, not a count of your birthdays. */}
-            <View style={s.figures}>
-              <Figure value={result.vo2max == null ? "—" : String(result.vo2max)} unit="ml/kg/min" label="VO₂max" />
-              {showAgeDelta ? (
-                <>
-                  <Figure value={String(result.chronological ?? "—")} unit="years" label={copy.actualAge} />
-                  <Figure
-                    value={result.delta == null ? "—" : `${result.delta > 0 ? "+" : ""}${result.delta}`}
-                    unit="years"
-                    label={copy.difference}
-                  />
-                </>
-              ) : (
-                <Figure value={String(result.years ?? "—")} unit="years" label={copy.yourEstimate} />
-              )}
-            </View>
+            {/* Only the comparison lives here now. The estimate and the VO₂max
+                are both inside the corona already, and printing them twice made
+                the screen look like it was padding. With the comparison hidden
+                there is nothing left to say, so the row goes entirely rather
+                than standing empty. */}
+            {showAgeDelta ? (
+              <View style={s.figures}>
+                <Figure value={String(result.chronological ?? "—")} unit="years" label={copy.actualAge} />
+                <Figure
+                  value={result.delta == null ? "—" : `${result.delta > 0 ? "+" : ""}${result.delta}`}
+                  unit="years"
+                  label={copy.difference}
+                />
+              </View>
+            ) : null}
 
             {trend.length >= 4 ? (
               <>

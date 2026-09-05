@@ -60,3 +60,7 @@ dev.db-journal
 # `postinstall` script on every clone and deploy. Committing generated output
 # means every schema change is a large binary diff nobody can review.
 /src/generated/
+
+# Local watermark for the project log. Tracks what was last recorded so the
+# same change is not logged twice; committing it would conflict on every pull.
+/.claude/.project-log-state.json

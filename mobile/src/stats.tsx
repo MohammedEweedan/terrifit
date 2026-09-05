@@ -32,16 +32,19 @@ export type StatId = (typeof STAT_IDS)[number];
  *
  * This list must agree with `PRO_METRICS` in `src/lib/health/plan.ts`, which is
  * the server's own statement of what Pro buys: sleep quality, load, body
- * battery and insights. Everything needed to answer "should I train today" —
- * recovery, strain, sleep and **movement** — is free by policy.
+ * battery, insights and the T Score. What stays free is the morning read —
+ * recovery, strain and sleep — plus the fitness age.
  *
- * The T Score used to be listed here, which broke that policy three ways at
- * once: the site markets it as one of the four core numbers, the web app hands
- * it to every account for nothing, and the server sends it in the free payload
- * regardless — so the paywall was a client-side curtain over a value already on
- * the device. Average heart rate went the same way for the same reason.
+ * The T Score is here because the *server* now gates it — it is in
+ * `PRO_METRICS`, so a free account never receives it. That is the difference
+ * between a paywall and a curtain: this list hides a value the payload does not
+ * contain, rather than one already sitting on the device.
+ *
+ * Average heart rate stays free. It is a reading, not a derived score, and
+ * withholding a number the band measured directly is the kind of thing that
+ * makes people resent a subscription rather than buy one.
  */
-export const PRO_STATS: StatId[] = [];
+export const PRO_STATS: StatId[] = ["tScore"];
 
 export type Stat = {
   id: StatId;

@@ -12,16 +12,16 @@ export type MarketingUi = {
 };
 
 export const marketingUi: Record<Locale, MarketingUi> = {
-  en:{nav:["Platform","Band","Maps","Creators","Shop"],signIn:"Sign in",chooseLanguage:"Choose language",countryQuestion:"Where are you from?",countryPlaceholder:"Your country",partner:"Partner",organization:"Organisation",comingSoon:"Coming soon"},
-  es:{nav:["Plataforma","Pulsera","Planes","Creadores","Tienda"],signIn:"Iniciar sesión",chooseLanguage:"Elegir idioma",countryQuestion:"¿De dónde eres?",countryPlaceholder:"Tu país",partner:"Socio",organization:"Organización",comingSoon:"Próximamente"},
-  ar:{nav:["المنصة","السوار","الخطط","المبدعون","المتجر"],signIn:"تسجيل الدخول",chooseLanguage:"اختر اللغة",countryQuestion:"من أين أنت؟",countryPlaceholder:"بلدك",partner:"شريك",organization:"المؤسسة",comingSoon:"قريبًا"},
-  fr:{nav:["Plateforme","Bracelet","Programmes","Créateurs","Boutique"],signIn:"Se connecter",chooseLanguage:"Choisir la langue",countryQuestion:"D’où venez-vous ?",countryPlaceholder:"Votre pays",partner:"Partenaire",organization:"Organisation",comingSoon:"Bientôt"},
-  de:{nav:["Plattform","Band","Pläne","Creator","Shop"],signIn:"Anmelden",chooseLanguage:"Sprache wählen",countryQuestion:"Woher kommst du?",countryPlaceholder:"Dein Land",partner:"Partner",organization:"Organisation",comingSoon:"Demnächst"},
-  nl:{nav:["Platform","Band","Programma’s","Makers","Winkel"],signIn:"Inloggen",chooseLanguage:"Taal kiezen",countryQuestion:"Waar kom je vandaan?",countryPlaceholder:"Jouw land",partner:"Partner",organization:"Organisatie",comingSoon:"Binnenkort"},
-  pt:{nav:["Plataforma","Pulseira","Planos","Criadores","Loja"],signIn:"Entrar",chooseLanguage:"Escolher idioma",countryQuestion:"De onde és?",countryPlaceholder:"O teu país",partner:"Parceiro",organization:"Organização",comingSoon:"Em breve"},
-  it:{nav:["Piattaforma","Bracciale","Programmi","Creator","Negozio"],signIn:"Accedi",chooseLanguage:"Scegli la lingua",countryQuestion:"Di dove sei?",countryPlaceholder:"Il tuo paese",partner:"Partner",organization:"Organizzazione",comingSoon:"Prossimamente"},
-  tr:{nav:["Platform","Bileklik","Programlar","Üreticiler","Mağaza"],signIn:"Giriş yap",chooseLanguage:"Dil seç",countryQuestion:"Nerelisin?",countryPlaceholder:"Ülken",partner:"İş ortağı",organization:"Kuruluş",comingSoon:"Yakında"},
-  ru:{nav:["Платформа","Браслет","Планы","Авторы","Магазин"],signIn:"Войти",chooseLanguage:"Выбрать язык",countryQuestion:"Откуда вы?",countryPlaceholder:"Ваша страна",partner:"Партнёр",organization:"Организация",comingSoon:"Скоро"},
+  en:{nav:["App","Band","Maps","Creators","Shop"],signIn:"Sign in",chooseLanguage:"Choose language",countryQuestion:"Where are you from?",countryPlaceholder:"Your country",partner:"Partner",organization:"Organisation",comingSoon:"Coming soon"},
+  es:{nav:["App","Pulsera","Planes","Creadores","Tienda"],signIn:"Iniciar sesión",chooseLanguage:"Elegir idioma",countryQuestion:"¿De dónde eres?",countryPlaceholder:"Tu país",partner:"Socio",organization:"Organización",comingSoon:"Próximamente"},
+  ar:{nav:["التطبيق","السوار","الخطط","المبدعون","المتجر"],signIn:"تسجيل الدخول",chooseLanguage:"اختر اللغة",countryQuestion:"من أين أنت؟",countryPlaceholder:"بلدك",partner:"شريك",organization:"المؤسسة",comingSoon:"قريبًا"},
+  fr:{nav:["App","Bracelet","Programmes","Créateurs","Boutique"],signIn:"Se connecter",chooseLanguage:"Choisir la langue",countryQuestion:"D’où venez-vous ?",countryPlaceholder:"Votre pays",partner:"Partenaire",organization:"Organisation",comingSoon:"Bientôt"},
+  de:{nav:["App","Band","Pläne","Creator","Shop"],signIn:"Anmelden",chooseLanguage:"Sprache wählen",countryQuestion:"Woher kommst du?",countryPlaceholder:"Dein Land",partner:"Partner",organization:"Organisation",comingSoon:"Demnächst"},
+  nl:{nav:["App","Band","Programma’s","Makers","Winkel"],signIn:"Inloggen",chooseLanguage:"Taal kiezen",countryQuestion:"Waar kom je vandaan?",countryPlaceholder:"Jouw land",partner:"Partner",organization:"Organisatie",comingSoon:"Binnenkort"},
+  pt:{nav:["App","Pulseira","Planos","Criadores","Loja"],signIn:"Entrar",chooseLanguage:"Escolher idioma",countryQuestion:"De onde és?",countryPlaceholder:"O teu país",partner:"Parceiro",organization:"Organização",comingSoon:"Em breve"},
+  it:{nav:["App","Bracciale","Programmi","Creator","Negozio"],signIn:"Accedi",chooseLanguage:"Scegli la lingua",countryQuestion:"Di dove sei?",countryPlaceholder:"Il tuo paese",partner:"Partner",organization:"Organizzazione",comingSoon:"Prossimamente"},
+  tr:{nav:["Uygulama","Bileklik","Programlar","Üreticiler","Mağaza"],signIn:"Giriş yap",chooseLanguage:"Dil seç",countryQuestion:"Nerelisin?",countryPlaceholder:"Ülken",partner:"İş ortağı",organization:"Kuruluş",comingSoon:"Yakında"},
+  ru:{nav:["Приложение","Браслет","Планы","Авторы","Магазин"],signIn:"Войти",chooseLanguage:"Выбрать язык",countryQuestion:"Откуда вы?",countryPlaceholder:"Ваша страна",partner:"Партнёр",organization:"Организация",comingSoon:"Скоро"},
 };
 
 export type MarketingDetails = {

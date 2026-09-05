@@ -7,7 +7,7 @@ import { loadDashboard } from "@/lib/health/dashboard";
 
 export const dynamic = "force-dynamic";
 
-export default async function TrendsPage({ params }: PageProps<"/[locale]/app/trends">) {
+export default async function TrendsPage({ params }: PageProps<"/[locale]/dashboard/trends">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 

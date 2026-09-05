@@ -332,32 +332,32 @@ export const en = {
     headline: "Before you ask.",
     items: [
       {
-        q: "What exactly is a Map?",
-        a: "A structured transformation plan: training schedule, exercise instruction with video, nutrition targets, supplement guidance, weekly objectives, milestones and required check-ins. It has a version history, and the coach who sold it can adjust it as you progress. Maps can be ready-made or built for one person, bought once or by subscription.",
+        q: "When does the V1 ship?",
+        a: "We place the manufacturing order once 500 units are reserved, rather than promising a date we might miss. The counter on the band page is the real number, read straight from the order table. Your card is charged when you order and refunded in full, on request, any time before your band ships.",
       },
       {
-        q: "Is Terrifit just another fitness feed?",
-        a: "The feed is the front door, not the product. The product is the loop behind it: buy a Map, train it, check in weekly, get coached, and end up with a record of what actually changed.",
+        q: "What does it actually measure?",
+        a: "Heart rate continuously, day and night. Heart-rate variability, blood oxygen, breathing rate, skin temperature and sleep staging. From those it builds your recovery, strain, sleep and T Score. Fifteen days on a charge, and no screen to check.",
       },
       {
-        q: "Who can sell on Terrifit?",
-        a: "Coaches and nutritionists must pass credential verification before they can list anything. Brands pass identity and compliance checks. Verification status and issuing bodies are shown on the profile.",
+        q: "How is this different from a Whoop or an Oura?",
+        a: "They give you a number. Tap ours and you get the readings behind it, the baseline each was measured against, how much of the score it carried, and what the day was missing. Nobody else shows you their working, which means nobody else can be checked.",
       },
       {
-        q: "What does it cost me as a creator?",
-        a: "Terrifit takes 20% of Map sales, and 25% of paid subscriptions, livestream revenue and tips. Payment processing, taxes and app-store fees are itemised separately on your payout statement rather than hidden inside the commission.",
+        q: "Who manufactures the band?",
+        a: "It is built on a medical-grade platform from a manufacturer that holds ISO 13485 and has shipped to more than a hundred countries, in Terrifit packaging with Terrifit strap colourways. The scoring is entirely ours. We would rather tell you that than have you work it out.",
       },
       {
-        q: "How private are my progress photos?",
-        a: "Private by default. Visibility is chosen per check-in — private, coach only, named friends, one community, or public. Face blurring is available, face detection requires your explicit consent, and no platform can fully prevent screenshots. We say so in the product, not just here.",
+        q: "Do I need a subscription?",
+        a: "No. The morning read is free forever — recovery, strain, sleep and your fitness age — because an app that charges you to find out whether to train today is a bad app. Terrifit Pro is $7.99 a month, or $70 a year, for everything that needs weeks of history behind it: sleep quality, load, body battery, your T Score and the insights drawn across them.",
       },
       {
         q: "Does Terrifit sell supplements?",
-        a: "No. Terrifit is an affiliate. Brands handle inventory, shipping, support, returns and product claims, and checkout happens on their site. Every affiliate link and creator commission is disclosed where it appears.",
+        a: "Yes. Terrifuel is our own line, not an affiliate arrangement — we choose the formulas, we are liable for them, and every tub carries a batch number and third-party test. Where we do list a partner product, the commission is disclosed on the product itself.",
       },
       {
-        q: "When does it launch?",
-        a: "The core loop — profiles, feed, Maps, check-ins, creator dashboards, messaging and payouts — comes first, market by market. The waitlist decides the order. Livestreams follow immediately after, and health integrations after that.",
+        q: "What is a Map?",
+        a: "A training programme with a coach's name on it: blocks, weeks, sessions and exercises, with the loads adjusting to what you actually completed rather than what was planned. Two poor mornings in a row and the volume comes down on its own. Membership opens the whole library.",
       },
     ],
   },
