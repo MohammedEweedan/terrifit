@@ -102,3 +102,11 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 **Reverted or committed** — 2 files no longer differ from HEAD
 
 <sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-05 · 14:00
+
+**Committed** `99ac242` on `main` — feat(i18n): update navigation labels and add app page content
+
+**Reverted or committed** — 50 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
