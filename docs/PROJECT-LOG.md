@@ -187,3 +187,11 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **website** — `src/components/marketing/AvailableNow.tsx`
 
 <sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-06 · 17:12
+
+**Committed** `7ba2131` on `main` — feat(coaching): implement session proposal engine and state management
+
+**Reverted or committed** — 134 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
