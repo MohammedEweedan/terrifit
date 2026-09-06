@@ -17,6 +17,9 @@ const base = (process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://terrifit.com"
 
 const PUBLIC_PATHS = [
   "",
+  "app",
+  "coaching",
+  "membership",
   "band",
   "maps",
   "creators",
@@ -30,7 +33,7 @@ const PUBLIC_PATHS = [
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
   const products = await listProducts();
-  const paths = [...PUBLIC_PATHS, ...products.map((product) => `shop/${product.slug}`)];
+  const paths = [...new Set([...PUBLIC_PATHS, ...products.map((product) => `shop/${product.slug}`)])];
 
   return paths.flatMap((path) =>
     locales.map((locale) => ({

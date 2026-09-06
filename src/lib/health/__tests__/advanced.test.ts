@@ -75,10 +75,25 @@ describe("fitnessAge", () => {
   it("keeps delta consistent with the age it reports", () => {
     // The bug this guards: a 29-year-old capped at 17 was floored to 18 and
     // then reported as "11 years younger" while the cap said 12.
+    //
+    // Compared at one decimal place, which is the precision both figures are
+    // reported at. An earlier version of this test asserted raw equality with
+    // `years - 29`, which made it demand the very floating-point noise the
+    // rounding exists to remove: 19.2 - 29 is -7.800000000000001, and the app
+    // must never put that on a screen.
     const athletic = series(30, () => ({ restingHr: 50, activeKcal: 550, weightKg: 70 }));
     const result = fitnessAge(athletic[0], athletic, { age: 29, sex: "male", heightCm: 181 });
     assert.ok(result.years !== null && result.delta !== null);
-    assert.equal(result.delta, (result.years as number) - 29);
+    assert.equal(result.delta, Math.round(((result.years as number) - 29) * 10) / 10);
+  });
+
+  it("reports both figures at one decimal, with no floating-point tail", () => {
+    const athletic = series(30, () => ({ restingHr: 50, activeKcal: 550, weightKg: 70 }));
+    const result = fitnessAge(athletic[0], athletic, { age: 29, sex: "male", heightCm: 181 });
+    for (const figure of [result.years, result.delta]) {
+      assert.ok(figure !== null);
+      assert.equal(figure, Math.round((figure as number) * 10) / 10, `${figure} carries more than one decimal`);
+    }
   });
 
   it("stays believable for a fit but ordinary person", () => {

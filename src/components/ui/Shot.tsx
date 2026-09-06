@@ -42,7 +42,8 @@ export function Shot({
    */
   fallback?: { label: string; sub?: string };
 }) {
-  const [failed, setFailed] = useState(false);
+  const [failedSrc, setFailedSrc] = useState<string>();
+  const failed = failedSrc === src;
   const file = src.split("/").pop() ?? src;
 
   return (
@@ -80,7 +81,7 @@ export function Shot({
           loading={priority ? "eager" : "lazy"}
           fetchPriority={priority ? "high" : undefined}
           decoding="async"
-          onError={() => setFailed(true)}
+          onError={() => setFailedSrc(src)}
           style={{ objectFit: fit, objectPosition: position }}
         />
       )}

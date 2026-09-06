@@ -1,9 +1,11 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import { createContext, useCallback, useContext, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { signupAttribution } from "@/lib/referral-client";
+import { track } from "@/lib/analytics";
 import type { Dictionary } from "@/i18n";
 import { localeMeta, type Locale } from "@/i18n/config";
 import type { MarketOption } from "@/lib/markets";
@@ -11,9 +13,11 @@ import { TerrifitHeader } from "@/components/navigation/TerrifitHeader";
 import { TerrifitFooter } from "@/components/navigation/TerrifitFooter";
 import { marketingDetails, marketingUi } from "@/i18n/marketing";
 import { clearHash, getHash, getServerHash, subscribeHash } from "@/lib/hash";
-import { TerrificWord, splitHeadline } from "@/components/brand/TerrificWord";
+import { storefrontCopy } from "@/i18n/storefront";
+import { ProductCard } from "@/components/shop/ProductCard";
+import type { Product } from "@/lib/shop/catalog";
 import { BandCallouts } from "@/components/band/BandCallouts";
-import { LaunchRoadmap } from "@/components/marketing/LaunchRoadmap";
+import { AvailableNow } from "@/components/marketing/AvailableNow";
 import { Capabilities } from "@/components/landing/Capabilities";
 import { Languages } from "@/components/landing/Languages";
 import { AnnouncementBar, type Announcement } from "@/components/marketing/AnnouncementBar";
@@ -21,7 +25,6 @@ import { getPagesCopy } from "@/i18n/pages";
 
 import bandProduct from "../../../public/media/terrifit-band-new.png";
 import heroDesktop from "../../../public/rebrand/desktop-bg-clean.png";
-import heroMobile from "../../../public/rebrand/mobile-bg.png";
 import boxer from "../../../public/rebrand/combos-boxer-clean.png";
 import kettlebell from "../../../public/rebrand/faq-kettlebell-clean.png";
 import cyclist from "../../../public/rebrand/whyus-cyclist-clean.png";
@@ -30,6 +33,7 @@ import shotShopDark from "../../../public/media/app/shop-dark.png";
 import shotMapsDark from "../../../public/media/app/maps-dark.png";
 import { AppShowcase } from "@/components/platform/AppShowcase";
 import trainWorkLive from "../../../public/media/train-work-live.jpg";
+import { websiteCopy } from "@/i18n/website";
 
 
 /**
@@ -76,14 +80,6 @@ const mapCards: Array<{
   },
 ];
 
-const products = [
-  { name: "Recovery protein", brand: "TERRIFIT", creator: "Coach Alex", price: "$41.00", shape: "tub", partner: false },
-  { name: "Pure creatine", brand: "TERRIFIT", creator: "Jordan Lee", price: "$34.00", shape: "jar", partner: false },
-  { name: "Daily hydration", brand: "TERRIFIT", creator: "Maya Reyes", price: "$31.00", shape: "tin", partner: false },
-  { name: "Triple omega-3", brand: "PIONEER LABS", creator: "Dr. Sam", price: "$29.00", shape: "amber", partner: true },
-  { name: "Night magnesium", brand: "NORTHSTAR", creator: "Eli Hart", price: "$38.00", shape: "wide", partner: true },
-];
-
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const CopyContext = createContext<Dictionary | null>(null);
@@ -105,6 +101,7 @@ export function TerrifitLanding({
   copy,
   waitlistCount,
   announcement,
+  shopProducts,
 }: {
   locale: Locale;
   markets: MarketOption[];
@@ -113,25 +110,26 @@ export function TerrifitLanding({
   waitlistCount: number;
   /** One line of news under the header. Null once the offer closes. */
   announcement: Announcement | null;
+  shopProducts: Product[];
 }) {
   return (
     <CopyContext.Provider value={copy}><div className="tf-site">
       <TerrifitHeader locale={locale} copy={copy} />
       <AnnouncementBar announcement={announcement} />
-      <main>
+      <main id="main-content">
         <Hero locale={locale} />
-        <MetricRail />
-        <LaunchRoadmap locale={locale} copy={getPagesCopy(locale).roadmap} />
+        <MetricRail locale={locale} />
+        <PlatformSection locale={locale} waitlistCount={waitlistCount} />
+        <MapsSection locale={locale} />
         <BandSection locale={locale} />
         {/* The specification, in plain columns, straight after the band story.
             By this point the reader has had the argument and wants the list. */}
         <Capabilities copy={getPagesCopy(locale).capabilities} />
-        <PlatformSection locale={locale} waitlistCount={waitlistCount} />
-        <MapsSection locale={locale} />
         <LifestyleSection locale={locale} />
         {/* Ten languages, printed in ten scripts. The section is its own proof. */}
         <Languages copy={getPagesCopy(locale).languages} current={locale} />
-        <ShopSection locale={locale} />
+        <ShopSection locale={locale} products={shopProducts} />
+        <AvailableNow locale={locale} copy={getPagesCopy(locale).availableNow} />
         <FinalWaitlist locale={locale} markets={markets} />
       </main>
       <TerrifitFooter locale={locale} copy={copy} />
@@ -140,105 +138,40 @@ export function TerrifitLanding({
 }
 
 function Hero({ locale }: { locale: Locale }) {
-  const copy = useCopy();
-  const detail = marketingDetails[locale];
-  const section = useRef<HTMLElement>(null);
+  const text = storefrontCopy(locale);
   const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: section, offset: ["start start", "end start"] });
-  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", reduce ? "0%" : "12%"]);
-
   return (
-    <section ref={section} className="tf-hero" id="top">
-      {/* No still behind the hero: the slogan sits on the brand's own black,
-          and a looping clip of someone training in the band drops in here when
-          the footage exists. */}
-      <motion.div className="tf-hero-media" style={{ y: imageY }}>
-        {/* Two crops, switched by CSS rather than by JavaScript, so the right
-            one is in the markup for the preloader from the first byte. */}
-        <Image className="tf-hero-still is-desktop" src={heroDesktop} alt="" fill preload placeholder="blur" sizes="100vw" />
-        <Image className="tf-hero-still is-mobile" src={heroMobile} alt="" fill placeholder="blur" sizes="100vw" />
-        {reduce ? null : (
-          <video
-            className="tf-hero-video"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            aria-hidden="true"
-            onError={(event) => {
-              event.currentTarget.hidden = true;
-            }}
-          >
-            <source src="/media/hero-loop.mp4" type="video/mp4" />
-            <source src="/media/hero-loop.webm" type="video/webm" />
-          </video>
-        )}
-      </motion.div>
-      <div className="tf-hero-shade" />
-
-      <div className="tf-shell tf-hero-content">
-        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.75, ease }}>
-          <p className="tf-kicker"><span /> {copy.hero.eyebrow}</p>
-          <h1>
-            {/* The slogan carries the brand's own pun, so the word is animated
-                rather than just set: see TerrificWord. Screen readers get the
-                sentence as written. */}
-            <HeroHeadline text={copy.hero.headline} />
-          </h1>
-          <p className="tf-hero-copy">
-            {copy.hero.sub}
-          </p>
-          <div className="tf-hero-actions">
-            <a className="tf-button" href="#waitlist" onClick={openWaitlist}>{copy.hero.primaryCta}</a>
-            <a className="tf-ghost-button" href="#platform">{copy.hero.secondaryCta} <span>↘</span></a>
+    <section className="th-hero" id="top">
+      <div className="tf-shell th-hero-grid">
+        <motion.div className="th-hero-copy" initial={reduce ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease }}>
+          <p className="th-eyebrow"><i aria-hidden />{text.eyebrow}</p>
+          <h1><span>{text.slogan[0]}</span><span>{text.slogan[1]}</span></h1>
+          <p className="th-lede">{text.heroBody}</p>
+          <div className="th-actions">
+            <a className="th-button" href="#waitlist" onClick={openWaitlist}>{text.early}<span aria-hidden>↗</span></a>
+            <Link className="th-text-link" href={`/${locale}/app`}>{text.explore}<span aria-hidden>→</span></Link>
           </div>
+          <span className="th-hero-foot">{text.heroFoot}</span>
+        </motion.div>
+        <motion.div className="th-hero-art" initial={reduce ? false : { opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.9, ease }}>
+          <Image src={heroDesktop} alt="Athlete in motion against Terrifit's signature orange" fill preload placeholder="blur" sizes="(max-width: 760px) 100vw, 55vw" />
+          <span className="th-art-index" aria-hidden>TF / 01</span>
+          <div className="th-art-caption"><span>{text.heroCaption}</span><a href="#metrics" aria-label={text.browse}>↓</a></div>
         </motion.div>
       </div>
-
-      <a className="tf-scroll-cue" href="#metrics" aria-label="Scroll to performance metrics">
-        <span>{detail.common[9]}</span><i />
-      </a>
     </section>
   );
 }
 
-function HeroHeadline({ text }: { text: string }) {
-  const parts = splitHeadline(text, "terrific");
-  if (!parts) return <>{text}</>;
-  return (
-    <>
-      <span className="sr-only">{text}</span>
-      <span aria-hidden>
-        {parts.lead}
-        <TerrificWord word={parts.match.toUpperCase()} />
-        {parts.tail}
-      </span>
-    </>
-  );
-}
-
-
-/**
- * The rail under the hero.
- *
- * It used to repeat the hero dashboard's four numbers verbatim — the same
- * recovery, strain, sleep and Map progress, twice on one screen. It now carries
- * what the hero cannot: what Terrifit actually is, in four claims.
- */
-function MetricRail() {
-  const copy = useCopy();
-  return (
-    <section id="metrics" className="tf-metric-rail" aria-label={copy.trustBar.items.map((item) => item.label).join(", ")}>
-      <div className="tf-shell">
-        {copy.trustBar.items.map((item, index) => (
-          <motion.div key={item.label} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.08, ease }}>
-            <strong>{item.value}</strong><small>{item.label}</small>
-          </motion.div>
-        ))}
-      </div>
-    </section>
-  );
+function MetricRail({ locale }: { locale: Locale }) {
+  const text = storefrontCopy(locale);
+  return <nav id="metrics" className="th-paths tf-shell" aria-label={text.browse}>
+    {text.paths.map((path, i) => <Link key={path.href} href={`/${locale}/${path.href}`}>
+      <span className="th-path-number" aria-hidden>0{i + 1}</span>
+      <div><h2>{path.title}</h2><p>{path.body}</p><span>{path.label}</span></div>
+      <b aria-hidden>↗</b>
+    </Link>)}
+  </nav>;
 }
 
 function BandSection({ locale }: { locale: Locale }) {
@@ -412,32 +345,20 @@ function LifestyleSection({locale}:{locale:Locale}) {
   );
 }
 
-function ShopSection({ locale }: { locale: Locale }) {
-  const detail=marketingDetails[locale];
-  return (
-    <section id="shop" className="tf-shop tf-paper">
-      <div className="tf-shell">
-        <div className="tf-shop-heading">
-          <SectionIntro kicker={detail.shop[0]} title={detail.shop[1]} body={detail.shop[2]} />
-          <div className="tf-affiliate"><strong>{detail.shop[3]}</strong><span>{detail.shop[4]}</span></div>
-          <Link className="tf-underlined" href={`/${locale}/shop`}>{detail.shop[5]} →</Link>
-        </div>
-        <div className="tf-product-scroller">
-          {products.map((product, index) => (
-            <Reveal key={product.name} className="tf-product-card" delay={index * 0.05}>
-              <Link href={`/${locale}/shop?product=${encodeURIComponent(product.name)}`}>
-                <div className={`tf-product-object ${product.shape} ${product.partner ? "partner" : ""}`}><i /><span>{product.brand}<br />{product.partner ? "PARTNER" : "PERFORMANCE"}</span></div>
-                <small>{product.partner ? detail.shop[6] : detail.shop[7]} · {product.creator}</small><h3>{product.name}</h3><strong>{product.price}</strong>
-              </Link>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+function ShopSection({ locale, products }: { locale: Locale; products: Product[] }) {
+  const text = storefrontCopy(locale);
+  const picks = ["recovery-protein", "daily-hydration", "terrifits-field-tee", "training-shaker"]
+    .flatMap(slug => products.find(product => product.slug === slug) ?? []);
+  return <section id="shop" className="th-shop">
+    <div className="tf-shell">
+      <div className="th-section-heading"><div><p className="th-eyebrow">{text.shopEyebrow}</p><h2>{text.essentials}</h2></div><Link className="th-text-link" href={`/${locale}/shop`}>{text.shopAll}<span aria-hidden>↗</span></Link></div>
+      <div className="sc-grid">{picks.map(product => <ProductCard key={product.slug} locale={locale} product={product} copy={getPagesCopy(locale).shop} />)}</div>
+    </div>
+  </section>;
 }
 
 function FinalWaitlist({ locale, markets }: { locale: Locale; markets: MarketOption[] }) {
+  const text = storefrontCopy(locale);
   const copy = useCopy();
   const ui = marketingUi[locale];
   const detail = marketingDetails[locale];
@@ -461,6 +382,9 @@ function FinalWaitlist({ locale, markets }: { locale: Locale; markets: MarketOpt
   const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
+  const [invite, setInvite] = useState("");
+  const [copied, setCopied] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const show = () => setManuallyOpen(true);
@@ -476,8 +400,12 @@ function FinalWaitlist({ locale, markets }: { locale: Locale; markets: MarketOpt
   useEffect(() => {
     if (!open) return;
     const previous = document.body.style.overflow;
+    const previousFocus=document.activeElement as HTMLElement|null;
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = previous; };
+    modalRef.current?.querySelector<HTMLButtonElement>("button")?.focus();
+    const trap=(event:KeyboardEvent)=>{if(event.key!=="Tab")return;const nodes=Array.from(modalRef.current?.querySelectorAll<HTMLElement>('button:not([disabled]),a[href],input,select,textarea,[tabindex="0"]')??[]);const first=nodes[0],last=nodes[nodes.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}};
+    window.addEventListener("keydown",trap);
+    return () => { document.body.style.overflow = previous;window.removeEventListener("keydown",trap);previousFocus?.focus(); };
   }, [open]);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
@@ -497,66 +425,75 @@ function FinalWaitlist({ locale, markets }: { locale: Locale; markets: MarketOpt
           name: name.trim(), email, country, locale, role,
           features: role === "creator" ? ["maps", "coaching", "communities", "livestreams"] : role === "partner" ? ["marketplace", "communities"] : ["maps", "coaching", "health", "communities"],
           consent: true, brandName: role === "partner" ? organization || name.trim() : "",
-          source: "terrifit_launch_landing", referredByCode: "",
+          ...signupAttribution(),
         }),
       });
       const result = await response.json();
       if (!response.ok) throw new Error("request_failed");
       setStatus("success");
       setMessage(`${copy.waitlist.success.title} #${result.position}`);
+      const inviteUrl=new URL(`/${locale}`,window.location.origin);inviteUrl.searchParams.set("ref",result.referralCode);setInvite(inviteUrl.toString());
+      track("waitlist_joined",{source:signupAttribution().source,role});
     } catch {
       setStatus("error");
       setMessage(copy.waitlist.errors.generic);
     }
   }
 
+  const site = websiteCopy(locale);
+
   return (
-    <section id="waitlist" className="tf-final-cta">
-      <div className="tf-final-panel">
-        <p className="tf-kicker"><span /> {copy.finalCta.eyebrow}</p>
-        <h2>{copy.finalCta.headline}</h2>
-        <p>{copy.finalCta.sub} {detail.waitlist[0]}</p>
-        <button className="tf-button tf-open-waitlist" type="button" onClick={() => setManuallyOpen(true)}>{copy.finalCta.primary}</button>
+    <section id="waitlist" className="tw-final">
+      <div className="tf-shell tw-final-inner">
+        <div><p className="th-eyebrow">TERRIFIT / {copy.waitlist.eyebrow}</p><h2>{text.waitTitle}</h2></div>
+        <div><p>{text.waitBody}</p><button className="th-button" type="button" onClick={() => setManuallyOpen(true)}>{text.early}<span aria-hidden>↗</span></button><small>{text.waitFoot}</small></div>
       </div>
 
       <AnimatePresence>
         {open ? (
-          <motion.div className="tf-waitlist-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={closeWaitlist}>
-            <motion.div className="tf-waitlist-modal" role="dialog" aria-modal="true" aria-labelledby="waitlist-title" initial={{ opacity: 0, y: 24, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 16, scale: 0.98 }} transition={{ ease }} onClick={(event) => event.stopPropagation()}>
-              <div className="tf-waitlist-modal-head">
-                <div><span>{copy.waitlist.eyebrow}</span><h2 id="waitlist-title">{copy.waitlist.headline}</h2></div>
-                <button type="button" onClick={closeWaitlist} aria-label="Close waitlist form">×</button>
-              </div>
+          <motion.div className="tw-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={closeWaitlist}>
+            <motion.div ref={modalRef} className="tw-modal" role="dialog" aria-modal="true" aria-labelledby="waitlist-title" initial={{ opacity: 0, y: 24, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 16, scale: 0.98 }} transition={{ ease }} onClick={(event) => event.stopPropagation()}>
+              <button className="tw-close" type="button" onClick={closeWaitlist} aria-label={text.close}>×</button>
+              <aside className="tw-aside">
+                <Image src={heroDesktop} alt="" fill sizes="380px" />
+                <span className="tw-aside-brand">TERRIFIT</span>
+                <div><h3>{text.waitAside}</h3><p>{text.waitAsideBody}</p><span>{text.heroFoot}</span></div>
+              </aside>
+              <div className="tw-content">
+              <div className="tw-heading"><span className="th-eyebrow">{copy.waitlist.eyebrow}</span><h2 id="waitlist-title">{status === "success" ? text.ready : text.waitTitle}</h2><p>{status === "success" ? copy.waitlist.success.referralBody : text.waitBody}</p></div>
 
               {status === "success" ? (
-                <motion.div className="tf-waitlist-success tf-modal-success" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
-                  <strong>{detail.waitlist[3]}</strong><span>{message}</span><p>{copy.waitlist.success.referralBody} {detail.waitlist[0]}</p>
-                  <button className="tf-dark-button" type="button" onClick={closeWaitlist}>{detail.waitlist[4]}</button>
+                <motion.div className="tw-success" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
+                  <span className="tw-success-check" aria-hidden>✓</span><strong>{message}</strong>
+                  {invite?<div className="tw-referral"><label htmlFor="invite-link">{site.inviteLabel}</label><input id="invite-link" readOnly value={invite} onFocus={event=>event.target.select()}/><button className="th-button" type="button" onClick={async()=>{try{await navigator.clipboard.writeText(invite);setCopied(true);track("waitlist_invite_copied");}catch{setCopied(false);}}}>{copied ? site.copied : site.copyLink}</button><span role="status">{copied ? site.linkReady : ""}</span></div>:null}
+                  <button className="th-text-link" type="button" onClick={closeWaitlist}>{detail.waitlist[4]}</button>
                 </motion.div>
               ) : (
                 <form onSubmit={submit} noValidate>
-                  <fieldset className="tf-role-picker">
+                  <fieldset className="tw-role-picker">
                     <legend>{copy.waitlist.roleLabel}</legend>
                     {[
                       ["athlete", copy.waitlist.roles.athlete.label, copy.waitlist.roles.athlete.note],
                       ["creator", copy.waitlist.roles.creator.label, copy.waitlist.roles.creator.note],
                       ["partner", ui.partner, copy.waitlist.roles.brand.note],
-                    ].map(([value, label, note]) => (
-                      <button key={value} type="button" role="radio" aria-checked={role === value} className={role === value ? "active" : ""} onClick={() => setRole(value as typeof role)}><strong>{label}</strong><span>{note}</span></button>
+                    ].map(([value, label]) => (
+                      <label key={value} className={role === value ? "active" : ""}><input type="radio" name="waitlist-role" checked={role === value} onChange={() => setRole(value as typeof role)} /><span>{label}</span></label>
                     ))}
                   </fieldset>
-                  <div className="tf-form-grid">
-                    <label><span>{copy.waitlist.fields.name}</span><input value={name} onChange={(event) => setName(event.target.value)} placeholder={copy.waitlist.fields.namePlaceholder} autoComplete="name" /></label>
-                    <label><span>{copy.waitlist.fields.email}</span><input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder={copy.waitlist.fields.emailPlaceholder} autoComplete="email" /></label>
-                    <label><span>{ui.countryQuestion}</span><select value={country} onChange={(event) => setCountry(event.target.value)}><option value="">{ui.countryPlaceholder}</option>{markets.map((market) => <option key={market.code} value={market.code}>{market.name}</option>)}</select></label>
+                  <div className="tw-fields">
+                    <label><span>{copy.waitlist.fields.name}</span><input required value={name} onChange={(event) => setName(event.target.value)} placeholder={copy.waitlist.fields.namePlaceholder} autoComplete="name" /></label>
+                    <label><span>{copy.waitlist.fields.email}</span><input required type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder={copy.waitlist.fields.emailPlaceholder} autoComplete="email" /></label>
+                    <label><span>{ui.countryQuestion}</span><select required value={country} onChange={(event) => setCountry(event.target.value)}><option value="">{ui.countryPlaceholder}</option>{markets.map((market) => <option key={market.code} value={market.code}>{market.name}</option>)}</select></label>
                     {role === "partner" ? <label><span>{ui.organization}</span><input value={organization} onChange={(event) => setOrganization(event.target.value)} placeholder={copy.waitlist.fields.brandNamePlaceholder} /></label> : null}
                   </div>
-                  <label className="tf-consent"><input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} /><span>{copy.waitlist.consent}</span></label>
-                  <p className="tf-pioneer-gift"><i>✦</i> {detail.waitlist[0]}</p>
-                  {message ? <p className="tf-form-message" role="alert">{message}</p> : null}
-                  <button className="tf-button tf-submit-waitlist" type="submit" disabled={status === "loading"}>{status === "loading" ? copy.waitlist.submitting : copy.waitlist.submit}</button>
+                  <label className="tw-consent"><input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} /><span>{copy.waitlist.consent}</span></label>
+
+                  {message ? <p className="tw-message" role="alert">{message}</p> : null}
+                  <button className="th-button tw-submit" type="submit" disabled={status === "loading"}>{status === "loading" ? copy.waitlist.submitting : copy.waitlist.submit}</button>
+                  <p className="tw-foot">{text.waitFoot}</p>
                 </form>
               )}
+              </div>
             </motion.div>
           </motion.div>
         ) : null}

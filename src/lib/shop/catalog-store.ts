@@ -1,3 +1,5 @@
+import { catalogMedia } from "./product-media";
+import { launchStatus, HARDWARE_NOTICE } from "./launch";
 import { prisma } from "@/lib/db";
 import {
   products as seedProducts,
@@ -149,6 +151,7 @@ function toProduct(row: Row): Product {
   const stock: Product["stock"] = quantity <= 0 ? (allowBackorder ? "preorder" : "out") : quantity <= threshold ? "low" : "in";
 
   return {
+    launchStatus: launchStatus(row.slug, row.category, process.env.HARDWARE_PREORDERS_OPEN === "true"),
     slug: row.slug,
     name: row.name,
     tagline: row.tagline,
@@ -165,9 +168,9 @@ function toProduct(row: Row): Product {
     description: row.description,
     highlights: json<string[]>(row.highlights, []),
     specs: json<Array<[string, string]>>(row.specs, []),
-    media: row.media.map((item) => ({ src: item.src, alt: item.alt, ratio: item.ratio ?? undefined })),
+    media: catalogMedia(row.slug, row.media.map((item) => ({ src: item.src, alt: item.alt, ratio: item.ratio ?? undefined }))),
     stock,
-    shipsIn: row.shipsIn,
+    shipsIn: launchStatus(row.slug, row.category, process.env.HARDWARE_PREORDERS_OPEN === "true") === "upcoming" ? HARDWARE_NOTICE : row.shipsIn,
     fulfilment: row.fulfilment as Product["fulfilment"],
     subscription: row.subscriptionLabel
       ? { label: row.subscriptionLabel, discountPercent: row.subscriptionDiscountPercent ?? 0 }
@@ -217,7 +220,11 @@ export async function inventoryProblems(items: Array<{ slug: string; variantId?:
   const problems: string[] = [];
   for (const item of items) {
     const product = products.find((candidate) => candidate.slug === item.slug);
-    if (!product || product.fulfilment !== "ship" || product.trackInventory === false) continue;
+    if (!product || (product.launchStatus && product.launchStatus !== "available")) {
+      problems.push(item.slug);
+      continue;
+    }
+    if (product.fulfilment !== "ship" || product.trackInventory === false) continue;
     const variant = product.variants.find((candidate) => candidate.id === item.variantId) ?? product.variants[0];
     const available = variant ? variant.stockQuantity ?? 0 : product.stockQuantity ?? 0;
     const backorder = variant ? variant.allowBackorder === true : product.allowBackorder === true;

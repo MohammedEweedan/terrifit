@@ -1,0 +1,249 @@
+import type { Locale } from "./config";
+
+const en = {
+  eyebrow: "A little more you. Every day.",
+  slogan: ["Every day.", "More terrific."],
+  heroBody: "Your training, recovery, and daily rituals. Connected in one place, built around the life you want to live.",
+  early: "Get early access", explore: "Explore the app", heroCaption: "Made for your kind of movement.",
+  heroFoot: "TRAINING / RECOVERY / LIFE",
+  paths: [
+    { title: "Find your rhythm.", body: "Training with a plan that fits.", label: "Explore Maps", href: "maps" },
+    { title: "Get to know you.", body: "Your health, with more context.", label: "Meet the app", href: "app" },
+    { title: "Make it a ritual.", body: "The kit for showing up, daily.", label: "Shop essentials", href: "shop" },
+  ],
+  waitTitle: "Your next chapter starts here.", waitBody: "Join the list for launch news and early access. We’ll let you know when Terrifit is ready for you.",
+  waitAside: "Good things start with showing up.", waitAsideBody: "For your first session. Your next milestone. And everything in between.",
+  waitFoot: "Free to join. No payment details.", close: "Close waitlist form", ready: "You’re on the list.",
+  shopTitle: "Good habits. Great kit.", shopBody: "Daily fuel. Training essentials. Your next favourite fit. Find the pieces that belong in your routine.",
+  shopEyebrow: "THE TERRIFIT STORE", collection: "The daily rotation", shopAll: "Shop everything", category: "Shop by category",
+  featured: "In your corner, every day.", featuredBody: "Your daily essentials, together in one stack.", discover: "Discover the stack",
+  deliveryBody: "Delivery options, shipping prices, and taxes are shown at checkout. Read our returns policy for eligibility and how to send an item back.",
+  services: [{ title: "Delivery, made clear", body: "See shipping options and costs at checkout.", href: "shop/cart" }, { title: "Returns & refunds", body: "Check eligibility before you choose.", href: "legal/refunds" }, { title: "Here to help", body: "Talk to our team about your order.", href: "contact" }],
+  reset: "Clear filters", options: "Choose options", add: "Add to bag", available: "In stock", low: "Low stock", preorder: "Pre-order", out: "Out of stock",
+  selected: "Selected", concept: "Concept product imagery. Final appearance may vary.", zoom: "View larger image", closeImage: "Close image", gallery: "Product images", bundle: "The complete set", 
+  decrease: "Decrease quantity", increase: "Increase quantity", details: "A closer look", delivery: "Delivery & returns", taxes: "Shipping and taxes calculated at checkout.",
+  browse: "Explore the collection", essentials: "Everyday essentials.", bag: "Shopping bag", results: "products", selectOptions: "Select options", 
+};
+const ar: typeof en = {
+  eyebrow: "مساحة أكبر لنفسك. كل يوم.", slogan: ["كل يوم.", "أكثر تميّزاً."],
+  heroBody: "تمرينك، تعافيك، وعاداتك اليومية. كلّها في مكان واحد، مصمّمة حول الحياة التي تريد أن تعيشها.",
+  early: "احصل على وصول مبكر", explore: "اكتشف التطبيق", heroCaption: "مصمّم لطريقتك في الحركة.", heroFoot: "تمرين / تعافٍ / حياة",
+  paths: [
+    { title: "اكتشف إيقاعك.", body: "تمرين بخطة تناسبك.", label: "اكتشف الخطط", href: "maps" },
+    { title: "افهم نفسك أكثر.", body: "صحتك، بصورة أوضح.", label: "تعرّف على التطبيق", href: "app" },
+    { title: "اجعلها عادة.", body: "أساسيات تدعم يومك.", label: "تسوّق الأساسيات", href: "shop" },
+  ],
+  waitTitle: "فصلك القادم يبدأ هنا.", waitBody: "انضم للقائمة لتصلك أخبار الإطلاق والوصول المبكر. سنخبرك عندما يصبح تيريفت جاهزاً لك.",
+  waitAside: "كل بداية تصنع فرقاً.", waitAsideBody: "لتمرينك الأول. لإنجازك القادم. ولكل خطوة بينهما.",
+  waitFoot: "الانضمام مجاني. دون بيانات دفع.", close: "إغلاق نموذج الانتظار", ready: "أنت الآن في القائمة.",
+  shopTitle: "عادات رائعة. أساسيات أروع.", shopBody: "تغذية يومية، أساسيات التمرين، وإطلالتك القادمة. اكتشف ما يناسب روتينك.",
+  shopEyebrow: "متجر تيريفت", collection: "أساسيات كل يوم", shopAll: "تسوّق الجميع", category: "تسوّق حسب الفئة",
+  featured: "معك في كل يوم.", featuredBody: "أساسياتك اليومية، معاً في مجموعة واحدة.", discover: "اكتشف المجموعة",
+  deliveryBody: "تظهر خيارات التوصيل وأسعار الشحن والضرائب عند الدفع. اقرأ سياسة الإرجاع لمعرفة الشروط وطريقة إعادة المنتج.",
+  services: [{ title: "توصيل واضح", body: "اطّلع على خيارات الشحن وتكلفته عند الدفع.", href: "shop/cart" }, { title: "الإرجاع والاسترداد", body: "راجع الشروط قبل اختيارك.", href: "legal/refunds" }, { title: "نحن هنا لمساعدتك", body: "تواصل مع فريقنا بشأن طلبك.", href: "contact" }],
+  reset: "مسح الفلاتر", options: "اختر الخيارات", add: "أضف للحقيبة", available: "متوفر", low: "مخزون محدود", preorder: "طلب مسبق", out: "غير متوفر",
+  selected: "المحدد", concept: "صور تصوّرية للمنتج. قد يختلف الشكل النهائي.", zoom: "عرض صورة أكبر", closeImage: "إغلاق الصورة", gallery: "صور المنتج", bundle: "المجموعة الكاملة",
+  decrease: "تقليل الكمية", increase: "زيادة الكمية", details: "نظرة أقرب", delivery: "الشحن والإرجاع", taxes: "يُحسب الشحن والضرائب عند الدفع.",
+  browse: "اكتشف المجموعة", essentials: "أساسيات يومية.", bag: "حقيبة التسوق", results: "منتجات", selectOptions: "اختر الخيارات",
+};
+const es: typeof en = {
+  eyebrow: "Un poco más tú. Cada día.", slogan: ["Cada día.", "Más terrífico."],
+  heroBody: "Tu entrenamiento, tu recuperación y tus rituales diarios. Conectados en un solo lugar, en torno a la vida que quieres vivir.",
+  early: "Consigue acceso anticipado", explore: "Explora la app", heroCaption: "Hecho para tu forma de moverte.",
+  heroFoot: "ENTRENAMIENTO / RECUPERACIÓN / VIDA",
+  paths: [
+    { title: "Encuentra tu ritmo.", body: "Entrena con un plan que encaja.", label: "Explorar Maps", href: "maps" },
+    { title: "Conócete mejor.", body: "Tu salud, con más contexto.", label: "Descubre la app", href: "app" },
+    { title: "Hazlo un ritual.", body: "El equipo para aparecer cada día.", label: "Comprar esenciales", href: "shop" },
+  ],
+  waitTitle: "Tu próximo capítulo empieza aquí.", waitBody: "Únete a la lista para recibir novedades del lanzamiento y acceso anticipado. Te avisaremos cuando Terrifit esté listo para ti.",
+  waitAside: "Lo bueno empieza por aparecer.", waitAsideBody: "Para tu primera sesión. Para tu próxima meta. Y para todo lo que hay en medio.",
+  waitFoot: "Unirse es gratis. Sin datos de pago.", close: "Cerrar el formulario de la lista", ready: "Ya estás en la lista.",
+  shopTitle: "Buenos hábitos. Gran equipo.", shopBody: "Nutrición diaria. Esenciales de entrenamiento. Tu próxima prenda favorita. Encuentra las piezas que pertenecen a tu rutina.",
+  shopEyebrow: "LA TIENDA TERRIFIT", collection: "La rotación diaria", shopAll: "Comprar todo", category: "Comprar por categoría",
+  featured: "De tu lado, cada día.", featuredBody: "Tus esenciales diarios, juntos en un solo pack.", discover: "Descubre el pack",
+  deliveryBody: "Las opciones de envío, los precios y los impuestos se muestran al pagar. Consulta nuestra política de devoluciones para conocer las condiciones y cómo devolver un artículo.",
+  services: [{ title: "Envíos, sin sorpresas", body: "Consulta opciones y costes al pagar.", href: "shop/cart" }, { title: "Devoluciones y reembolsos", body: "Revisa las condiciones antes de elegir.", href: "legal/refunds" }, { title: "Estamos para ayudarte", body: "Habla con nuestro equipo sobre tu pedido.", href: "contact" }],
+  reset: "Borrar filtros", options: "Elegir opciones", add: "Añadir a la bolsa", available: "En stock", low: "Pocas unidades", preorder: "Reserva", out: "Agotado",
+  selected: "Seleccionado", concept: "Imágenes conceptuales del producto. El aspecto final puede variar.", zoom: "Ver imagen más grande", closeImage: "Cerrar imagen", gallery: "Imágenes del producto", bundle: "El set completo",
+  decrease: "Reducir cantidad", increase: "Aumentar cantidad", details: "Más de cerca", delivery: "Envíos y devoluciones", taxes: "Envío e impuestos calculados al pagar.",
+  browse: "Explorar la colección", essentials: "Esenciales de cada día.", bag: "Bolsa de la compra", results: "productos", selectOptions: "Selecciona opciones",
+};
+
+const fr: typeof en = {
+  eyebrow: "Un peu plus vous. Chaque jour.", slogan: ["Chaque jour.", "Plus terrifique."],
+  heroBody: "Votre entraînement, votre récupération et vos rituels quotidiens. Réunis au même endroit, autour de la vie que vous voulez mener.",
+  early: "Obtenir un accès anticipé", explore: "Découvrir l’app", heroCaption: "Pensé pour votre façon de bouger.",
+  heroFoot: "ENTRAÎNEMENT / RÉCUPÉRATION / VIE",
+  paths: [
+    { title: "Trouvez votre rythme.", body: "Un entraînement avec un plan qui vous va.", label: "Explorer les Maps", href: "maps" },
+    { title: "Apprenez à vous connaître.", body: "Votre santé, avec plus de contexte.", label: "Découvrir l’app", href: "app" },
+    { title: "Faites-en un rituel.", body: "L’équipement pour être là, chaque jour.", label: "Voir les essentiels", href: "shop" },
+  ],
+  waitTitle: "Votre prochain chapitre commence ici.", waitBody: "Rejoignez la liste pour les actualités du lancement et l’accès anticipé. Nous vous préviendrons dès que Terrifit sera prêt pour vous.",
+  waitAside: "Tout commence par être présent.", waitAsideBody: "Pour votre première séance. Pour votre prochain cap. Et pour tout ce qu’il y a entre les deux.",
+  waitFoot: "Inscription gratuite. Aucune coordonnée bancaire.", close: "Fermer le formulaire d’inscription", ready: "Vous êtes sur la liste.",
+  shopTitle: "De bonnes habitudes. Du bon matériel.", shopBody: "Nutrition quotidienne. Essentiels d’entraînement. Votre prochaine pièce préférée. Trouvez ce qui a sa place dans votre routine.",
+  shopEyebrow: "LA BOUTIQUE TERRIFIT", collection: "La rotation quotidienne", shopAll: "Tout acheter", category: "Acheter par catégorie",
+  featured: "À vos côtés, chaque jour.", featuredBody: "Vos essentiels du quotidien, réunis en un seul pack.", discover: "Découvrir le pack",
+  deliveryBody: "Les options de livraison, les frais de port et les taxes s’affichent au moment du paiement. Consultez notre politique de retour pour les conditions et la marche à suivre.",
+  services: [{ title: "Une livraison claire", body: "Options et frais visibles au paiement.", href: "shop/cart" }, { title: "Retours et remboursements", body: "Vérifiez les conditions avant de choisir.", href: "legal/refunds" }, { title: "Là pour vous aider", body: "Parlez de votre commande à notre équipe.", href: "contact" }],
+  reset: "Effacer les filtres", options: "Choisir les options", add: "Ajouter au panier", available: "En stock", low: "Stock limité", preorder: "Précommande", out: "Épuisé",
+  selected: "Sélectionné", concept: "Images conceptuelles du produit. L’aspect final peut varier.", zoom: "Voir l’image en grand", closeImage: "Fermer l’image", gallery: "Images du produit", bundle: "L’ensemble complet",
+  decrease: "Réduire la quantité", increase: "Augmenter la quantité", details: "De plus près", delivery: "Livraison et retours", taxes: "Frais de port et taxes calculés au paiement.",
+  browse: "Explorer la collection", essentials: "Les essentiels du quotidien.", bag: "Panier", results: "produits", selectOptions: "Sélectionner les options",
+};
+
+const de: typeof en = {
+  eyebrow: "Ein bisschen mehr du. Jeden Tag.", slogan: ["Jeden Tag.", "Mehr Terrific."],
+  heroBody: "Dein Training, deine Erholung und deine täglichen Rituale. An einem Ort verbunden, rund um das Leben, das du führen willst.",
+  early: "Früher Zugang sichern", explore: "App entdecken", heroCaption: "Gemacht für deine Art, dich zu bewegen.",
+  heroFoot: "TRAINING / ERHOLUNG / LEBEN",
+  paths: [
+    { title: "Finde deinen Rhythmus.", body: "Training mit einem Plan, der passt.", label: "Maps entdecken", href: "maps" },
+    { title: "Lerne dich kennen.", body: "Deine Gesundheit, mit mehr Kontext.", label: "App ansehen", href: "app" },
+    { title: "Mach ein Ritual daraus.", body: "Die Ausrüstung, um jeden Tag da zu sein.", label: "Essentials kaufen", href: "shop" },
+  ],
+  waitTitle: "Dein nächstes Kapitel beginnt hier.", waitBody: "Trag dich ein für Neuigkeiten zum Launch und frühen Zugang. Wir melden uns, sobald Terrifit für dich bereit ist.",
+  waitAside: "Gutes beginnt damit, aufzutauchen.", waitAsideBody: "Für deine erste Einheit. Für deinen nächsten Meilenstein. Und für alles dazwischen.",
+  waitFoot: "Kostenlos. Ohne Zahlungsdaten.", close: "Anmeldeformular schließen", ready: "Du stehst auf der Liste.",
+  shopTitle: "Gute Gewohnheiten. Großartige Ausrüstung.", shopBody: "Tägliche Nährstoffe. Trainings-Essentials. Dein neues Lieblingsteil. Finde, was in deine Routine gehört.",
+  shopEyebrow: "DER TERRIFIT STORE", collection: "Die tägliche Rotation", shopAll: "Alles ansehen", category: "Nach Kategorie kaufen",
+  featured: "An deiner Seite, jeden Tag.", featuredBody: "Deine täglichen Essentials, zusammen in einem Set.", discover: "Set entdecken",
+  deliveryBody: "Versandoptionen, Versandkosten und Steuern werden an der Kasse angezeigt. In unseren Rückgaberichtlinien findest du die Bedingungen und den Ablauf einer Rücksendung.",
+  services: [{ title: "Versand, klar erklärt", body: "Optionen und Kosten siehst du an der Kasse.", href: "shop/cart" }, { title: "Rückgabe und Erstattung", body: "Prüfe die Bedingungen vor deiner Wahl.", href: "legal/refunds" }, { title: "Wir sind für dich da", body: "Sprich mit unserem Team über deine Bestellung.", href: "contact" }],
+  reset: "Filter zurücksetzen", options: "Optionen wählen", add: "In den Warenkorb", available: "Auf Lager", low: "Wenig auf Lager", preorder: "Vorbestellung", out: "Ausverkauft",
+  selected: "Ausgewählt", concept: "Konzeptbilder des Produkts. Das endgültige Aussehen kann abweichen.", zoom: "Größeres Bild ansehen", closeImage: "Bild schließen", gallery: "Produktbilder", bundle: "Das komplette Set",
+  decrease: "Menge verringern", increase: "Menge erhöhen", details: "Genauer hinsehen", delivery: "Versand und Rückgabe", taxes: "Versand und Steuern werden an der Kasse berechnet.",
+  browse: "Kollektion entdecken", essentials: "Essentials für jeden Tag.", bag: "Warenkorb", results: "Produkte", selectOptions: "Optionen auswählen",
+};
+
+const nl: typeof en = {
+  eyebrow: "Een beetje meer jij. Elke dag.", slogan: ["Elke dag.", "Meer terrific."],
+  heroBody: "Je training, je herstel en je dagelijkse rituelen. Op één plek samengebracht, rond het leven dat je wilt leiden.",
+  early: "Krijg vroege toegang", explore: "Ontdek de app", heroCaption: "Gemaakt voor jouw manier van bewegen.",
+  heroFoot: "TRAINING / HERSTEL / LEVEN",
+  paths: [
+    { title: "Vind je ritme.", body: "Trainen met een plan dat past.", label: "Ontdek Maps", href: "maps" },
+    { title: "Leer jezelf kennen.", body: "Je gezondheid, met meer context.", label: "Bekijk de app", href: "app" },
+    { title: "Maak er een ritueel van.", body: "De spullen om er elke dag te staan.", label: "Shop essentials", href: "shop" },
+  ],
+  waitTitle: "Je volgende hoofdstuk begint hier.", waitBody: "Meld je aan voor lanceringsnieuws en vroege toegang. We laten het weten zodra Terrifit klaar is voor jou.",
+  waitAside: "Goede dingen beginnen met opdagen.", waitAsideBody: "Voor je eerste sessie. Voor je volgende mijlpaal. En voor alles daartussen.",
+  waitFoot: "Gratis aanmelden. Geen betaalgegevens.", close: "Aanmeldformulier sluiten", ready: "Je staat op de lijst.",
+  shopTitle: "Goede gewoontes. Geweldige spullen.", shopBody: "Dagelijkse voeding. Trainingsessentials. Je volgende favoriete item. Vind wat in jouw routine thuishoort.",
+  shopEyebrow: "DE TERRIFIT STORE", collection: "De dagelijkse rotatie", shopAll: "Alles shoppen", category: "Shop per categorie",
+  featured: "Aan jouw kant, elke dag.", featuredBody: "Je dagelijkse essentials, samen in één set.", discover: "Ontdek de set",
+  deliveryBody: "Verzendopties, verzendkosten en belastingen zie je bij het afrekenen. Lees ons retourbeleid voor de voorwaarden en hoe je iets terugstuurt.",
+  services: [{ title: "Duidelijke bezorging", body: "Bekijk opties en kosten bij het afrekenen.", href: "shop/cart" }, { title: "Retour en terugbetaling", body: "Check de voorwaarden voor je kiest.", href: "legal/refunds" }, { title: "We helpen je graag", body: "Praat met ons team over je bestelling.", href: "contact" }],
+  reset: "Filters wissen", options: "Kies opties", add: "In de tas", available: "Op voorraad", low: "Beperkte voorraad", preorder: "Pre-order", out: "Uitverkocht",
+  selected: "Geselecteerd", concept: "Conceptbeelden van het product. De uiteindelijke uitvoering kan afwijken.", zoom: "Grotere afbeelding bekijken", closeImage: "Afbeelding sluiten", gallery: "Productafbeeldingen", bundle: "De complete set",
+  decrease: "Aantal verlagen", increase: "Aantal verhogen", details: "Van dichterbij", delivery: "Verzending en retour", taxes: "Verzendkosten en belastingen worden bij het afrekenen berekend.",
+  browse: "Ontdek de collectie", essentials: "Essentials voor elke dag.", bag: "Winkeltas", results: "producten", selectOptions: "Opties selecteren",
+};
+
+const pt: typeof en = {
+  eyebrow: "Um pouco mais você. Todos os dias.", slogan: ["Todos os dias.", "Mais terrífico."],
+  heroBody: "O seu treino, a sua recuperação e os seus rituais diários. Ligados num só lugar, à volta da vida que quer viver.",
+  early: "Obter acesso antecipado", explore: "Explorar a app", heroCaption: "Feito para o seu jeito de se mover.",
+  heroFoot: "TREINO / RECUPERAÇÃO / VIDA",
+  paths: [
+    { title: "Encontre o seu ritmo.", body: "Treinar com um plano que encaixa.", label: "Explorar Maps", href: "maps" },
+    { title: "Conheça-se melhor.", body: "A sua saúde, com mais contexto.", label: "Conhecer a app", href: "app" },
+    { title: "Faça disso um ritual.", body: "O material para aparecer todos os dias.", label: "Comprar essenciais", href: "shop" },
+  ],
+  waitTitle: "O seu próximo capítulo começa aqui.", waitBody: "Junte-se à lista para novidades do lançamento e acesso antecipado. Avisamos assim que a Terrifit estiver pronta para si.",
+  waitAside: "As coisas boas começam por aparecer.", waitAsideBody: "Para a sua primeira sessão. Para a sua próxima meta. E para tudo o que vem pelo meio.",
+  waitFoot: "Adesão gratuita. Sem dados de pagamento.", close: "Fechar formulário de inscrição", ready: "Está na lista.",
+  shopTitle: "Bons hábitos. Ótimo material.", shopBody: "Nutrição diária. Essenciais de treino. A sua próxima peça favorita. Encontre o que pertence à sua rotina.",
+  shopEyebrow: "A LOJA TERRIFIT", collection: "A rotação diária", shopAll: "Comprar tudo", category: "Comprar por categoria",
+  featured: "Do seu lado, todos os dias.", featuredBody: "Os seus essenciais diários, juntos num só conjunto.", discover: "Descobrir o conjunto",
+  deliveryBody: "As opções de envio, os portes e os impostos aparecem no checkout. Consulte a nossa política de devoluções para as condições e como devolver um artigo.",
+  services: [{ title: "Entrega sem surpresas", body: "Veja opções e custos no checkout.", href: "shop/cart" }, { title: "Devoluções e reembolsos", body: "Confirme as condições antes de escolher.", href: "legal/refunds" }, { title: "Estamos aqui para ajudar", body: "Fale com a nossa equipa sobre a sua encomenda.", href: "contact" }],
+  reset: "Limpar filtros", options: "Escolher opções", add: "Adicionar ao saco", available: "Em stock", low: "Stock reduzido", preorder: "Pré-encomenda", out: "Esgotado",
+  selected: "Selecionado", concept: "Imagens conceptuais do produto. O aspeto final pode variar.", zoom: "Ver imagem maior", closeImage: "Fechar imagem", gallery: "Imagens do produto", bundle: "O conjunto completo",
+  decrease: "Diminuir quantidade", increase: "Aumentar quantidade", details: "Ver de perto", delivery: "Envios e devoluções", taxes: "Portes e impostos calculados no checkout.",
+  browse: "Explorar a coleção", essentials: "Essenciais de todos os dias.", bag: "Saco de compras", results: "produtos", selectOptions: "Selecionar opções",
+};
+
+const it: typeof en = {
+  eyebrow: "Un po’ più te. Ogni giorno.", slogan: ["Ogni giorno.", "Più terrifico."],
+  heroBody: "Il tuo allenamento, il tuo recupero e i tuoi rituali quotidiani. Collegati in un unico posto, attorno alla vita che vuoi vivere.",
+  early: "Ottieni l’accesso anticipato", explore: "Esplora l’app", heroCaption: "Fatto per il tuo modo di muoverti.",
+  heroFoot: "ALLENAMENTO / RECUPERO / VITA",
+  paths: [
+    { title: "Trova il tuo ritmo.", body: "Allenarsi con un piano che ti calza.", label: "Esplora le Maps", href: "maps" },
+    { title: "Impara a conoscerti.", body: "La tua salute, con più contesto.", label: "Scopri l’app", href: "app" },
+    { title: "Fanne un rituale.", body: "L’attrezzatura per esserci, ogni giorno.", label: "Acquista gli essenziali", href: "shop" },
+  ],
+  waitTitle: "Il tuo prossimo capitolo inizia qui.", waitBody: "Iscriviti alla lista per le novità sul lancio e l’accesso anticipato. Ti avvisiamo appena Terrifit è pronta per te.",
+  waitAside: "Le cose belle iniziano presentandosi.", waitAsideBody: "Per la tua prima sessione. Per il tuo prossimo traguardo. E per tutto quello che c’è in mezzo.",
+  waitFoot: "Iscrizione gratuita. Nessun dato di pagamento.", close: "Chiudi il modulo di iscrizione", ready: "Sei nella lista.",
+  shopTitle: "Buone abitudini. Ottima attrezzatura.", shopBody: "Nutrizione quotidiana. Essenziali per l’allenamento. Il tuo prossimo capo preferito. Trova i pezzi che appartengono alla tua routine.",
+  shopEyebrow: "LO STORE TERRIFIT", collection: "La rotazione quotidiana", shopAll: "Acquista tutto", category: "Acquista per categoria",
+  featured: "Dalla tua parte, ogni giorno.", featuredBody: "I tuoi essenziali quotidiani, insieme in un unico set.", discover: "Scopri il set",
+  deliveryBody: "Opzioni di spedizione, costi e imposte vengono mostrati al momento del pagamento. Consulta la nostra politica di reso per le condizioni e la procedura.",
+  services: [{ title: "Consegna, spiegata bene", body: "Vedi opzioni e costi al pagamento.", href: "shop/cart" }, { title: "Resi e rimborsi", body: "Controlla le condizioni prima di scegliere.", href: "legal/refunds" }, { title: "Siamo qui per aiutarti", body: "Parla con il nostro team del tuo ordine.", href: "contact" }],
+  reset: "Cancella i filtri", options: "Scegli le opzioni", add: "Aggiungi alla borsa", available: "Disponibile", low: "Scorte limitate", preorder: "Preordine", out: "Esaurito",
+  selected: "Selezionato", concept: "Immagini concettuali del prodotto. L’aspetto finale può variare.", zoom: "Vedi immagine più grande", closeImage: "Chiudi immagine", gallery: "Immagini del prodotto", bundle: "Il set completo",
+  decrease: "Riduci quantità", increase: "Aumenta quantità", details: "Uno sguardo più da vicino", delivery: "Spedizioni e resi", taxes: "Spedizione e imposte calcolate al pagamento.",
+  browse: "Esplora la collezione", essentials: "Essenziali di ogni giorno.", bag: "Borsa della spesa", results: "prodotti", selectOptions: "Seleziona le opzioni",
+};
+
+const tr: typeof en = {
+  eyebrow: "Biraz daha sen. Her gün.", slogan: ["Her gün.", "Daha terrific."],
+  heroBody: "Antrenmanın, toparlanman ve günlük ritüellerin. Yaşamak istediğin hayatın etrafında, tek bir yerde birleşiyor.",
+  early: "Erken erişim al", explore: "Uygulamayı keşfet", heroCaption: "Senin hareket etme şekline göre yapıldı.",
+  heroFoot: "ANTRENMAN / TOPARLANMA / YAŞAM",
+  paths: [
+    { title: "Kendi ritmini bul.", body: "Sana uyan bir planla antrenman.", label: "Maps’i keşfet", href: "maps" },
+    { title: "Kendini daha iyi tanı.", body: "Sağlığın, daha fazla bağlamla.", label: "Uygulamayı gör", href: "app" },
+    { title: "Bunu bir ritüele dönüştür.", body: "Her gün sahada olmak için gereken ekipman.", label: "Temel ürünleri al", href: "shop" },
+  ],
+  waitTitle: "Yeni bölümün burada başlıyor.", waitBody: "Lansman haberleri ve erken erişim için listeye katıl. Terrifit senin için hazır olduğunda haber vereceğiz.",
+  waitAside: "Güzel şeyler ortaya çıkmakla başlar.", waitAsideBody: "İlk seansın için. Bir sonraki dönüm noktan için. Ve arada kalan her şey için.",
+  waitFoot: "Katılım ücretsiz. Ödeme bilgisi yok.", close: "Kayıt formunu kapat", ready: "Listedesin.",
+  shopTitle: "İyi alışkanlıklar. Harika ekipman.", shopBody: "Günlük besin. Antrenman temelleri. Bir sonraki favori parçan. Rutinine ait olan parçaları bul.",
+  shopEyebrow: "TERRIFIT MAĞAZASI", collection: "Günlük rotasyon", shopAll: "Hepsini incele", category: "Kategoriye göre alışveriş",
+  featured: "Her gün yanında.", featuredBody: "Günlük temellerin, tek bir sette bir arada.", discover: "Seti keşfet",
+  deliveryBody: "Teslimat seçenekleri, kargo ücretleri ve vergiler ödeme adımında gösterilir. Koşullar ve iade süreci için iade politikamızı okuyun.",
+  services: [{ title: "Net teslimat", body: "Seçenekleri ve ücretleri ödemede gör.", href: "shop/cart" }, { title: "İade ve geri ödeme", body: "Seçmeden önce koşulları kontrol et.", href: "legal/refunds" }, { title: "Yardıma hazırız", body: "Siparişin için ekibimizle konuş.", href: "contact" }],
+  reset: "Filtreleri temizle", options: "Seçenekleri belirle", add: "Çantaya ekle", available: "Stokta", low: "Az stok", preorder: "Ön sipariş", out: "Tükendi",
+  selected: "Seçildi", concept: "Konsept ürün görselleri. Son görünüm farklılık gösterebilir.", zoom: "Daha büyük görseli aç", closeImage: "Görseli kapat", gallery: "Ürün görselleri", bundle: "Tam set",
+  decrease: "Adedi azalt", increase: "Adedi artır", details: "Daha yakından", delivery: "Teslimat ve iade", taxes: "Kargo ve vergiler ödeme adımında hesaplanır.",
+  browse: "Koleksiyonu keşfet", essentials: "Her günün temelleri.", bag: "Alışveriş çantası", results: "ürün", selectOptions: "Seçenekleri belirle",
+};
+
+const ru: typeof en = {
+  eyebrow: "Немного больше себя. Каждый день.", slogan: ["Каждый день.", "Ещё ярче."],
+  heroBody: "Ваши тренировки, восстановление и ежедневные ритуалы. Собраны в одном месте — вокруг той жизни, которой вы хотите жить.",
+  early: "Получить ранний доступ", explore: "Открыть приложение", heroCaption: "Создано под вашу манеру двигаться.",
+  heroFoot: "ТРЕНИРОВКИ / ВОССТАНОВЛЕНИЕ / ЖИЗНЬ",
+  paths: [
+    { title: "Найдите свой ритм.", body: "Тренировки по плану, который вам подходит.", label: "Открыть Maps", href: "maps" },
+    { title: "Узнайте себя лучше.", body: "Ваше здоровье — с большим контекстом.", label: "Посмотреть приложение", href: "app" },
+    { title: "Сделайте это ритуалом.", body: "Всё, чтобы приходить каждый день.", label: "Купить основное", href: "shop" },
+  ],
+  waitTitle: "Ваша новая глава начинается здесь.", waitBody: "Присоединяйтесь к списку, чтобы узнать о запуске и получить ранний доступ. Мы напишем, как только Terrifit будет готов для вас.",
+  waitAside: "Всё хорошее начинается с того, что вы пришли.", waitAsideBody: "Для первой тренировки. Для следующей вехи. И для всего, что между ними.",
+  waitFoot: "Участие бесплатно. Без платёжных данных.", close: "Закрыть форму записи", ready: "Вы в списке.",
+  shopTitle: "Хорошие привычки. Отличная экипировка.", shopBody: "Ежедневное питание. Основное для тренировок. Ваша следующая любимая вещь. Найдите то, что впишется в ваш распорядок.",
+  shopEyebrow: "МАГАЗИН TERRIFIT", collection: "Ежедневная ротация", shopAll: "Смотреть всё", category: "Покупки по категориям",
+  featured: "Рядом с вами каждый день.", featuredBody: "Ваше ежедневное основное — вместе, одним набором.", discover: "Открыть набор",
+  deliveryBody: "Способы доставки, стоимость и налоги показываются при оформлении заказа. Условия возврата и порядок отправки описаны в нашей политике возврата.",
+  services: [{ title: "Понятная доставка", body: "Способы и стоимость видны при оформлении.", href: "shop/cart" }, { title: "Возврат и компенсация", body: "Проверьте условия до выбора.", href: "legal/refunds" }, { title: "Мы поможем", body: "Обсудите заказ с нашей командой.", href: "contact" }],
+  reset: "Сбросить фильтры", options: "Выбрать параметры", add: "В корзину", available: "В наличии", low: "Мало на складе", preorder: "Предзаказ", out: "Нет в наличии",
+  selected: "Выбрано", concept: "Концептуальные изображения товара. Итоговый вид может отличаться.", zoom: "Показать изображение крупнее", closeImage: "Закрыть изображение", gallery: "Изображения товара", bundle: "Полный набор",
+  decrease: "Уменьшить количество", increase: "Увеличить количество", details: "Ближе к делу", delivery: "Доставка и возврат", taxes: "Доставка и налоги рассчитываются при оформлении.",
+  browse: "Открыть коллекцию", essentials: "Основное на каждый день.", bag: "Корзина", results: "товаров", selectOptions: "Выбрать параметры",
+};
+
+/**
+ * Every locale is written out in full. There is no merge and no fallback: an
+ * English string appearing under an Arabic or Turkish heading is the single
+ * most visible way a launch looks unfinished, and the type annotation on each
+ * block means a key added to `en` fails the build until all ten have it.
+ */
+const copy: Record<Locale, typeof en> = { en, ar, es, fr, de, nl, pt, it, tr, ru };
+
+export function storefrontCopy(locale: Locale) { return copy[locale] ?? en; }

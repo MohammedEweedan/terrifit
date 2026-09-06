@@ -39,6 +39,7 @@ export type Variant = {
 };
 
 export type Product = {
+  launchStatus?: "available" | "upcoming" | "membership";
   slug: string;
   name: string;
   tagline: string;

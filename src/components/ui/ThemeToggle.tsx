@@ -1,35 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useSyncExternalStore } from "react";
 import { cn } from "@/lib/cn";
-import { THEME_KEY } from "@/lib/theme";
-import { useClientValue, useHydrated } from "@/lib/client-value";
+import { getTheme, getServerTheme, setTheme, subscribeTheme } from "@/lib/theme";
 
-type Theme = "light" | "dark";
 
-/**
- * The theme already applied to the document. The inline head script sets
- * `data-theme` before first paint, so this reads what is on screen rather than
- * guessing; it falls back to the stored value and then the OS preference.
- */
-function readInitialTheme(): Theme {
-  const applied = document.documentElement.getAttribute("data-theme");
-  if (applied === "light" || applied === "dark") return applied;
-  try {
-    const stored = localStorage.getItem(THEME_KEY);
-    if (stored === "light" || stored === "dark") return stored;
-    if (window.matchMedia("(prefers-color-scheme: light)").matches) return "light";
-  } catch {
-    // Storage blocked — dark-first is the correct fallback.
-  }
-  return "dark";
-}
-
-/**
- * Two-state switch. There is no "system" option by design — the reader gets an
- * unambiguous choice. The initial state still respects the OS preference on a
- * first visit, it just isn't a selectable third state.
- */
 export function ThemeToggle({
   labels,
   className,
@@ -37,24 +12,8 @@ export function ThemeToggle({
   labels: { theme: string; light: string; dark: string };
   className?: string;
 }) {
-  // The stored preference and the OS setting are external state, read during
-  // render rather than copied into state by an effect. `chosen` is null until
-  // the visitor actually presses the switch, so their own choice always wins.
-  const initial = useClientValue(readInitialTheme, "dark");
-  const [chosen, setChosen] = useState<Theme | null>(null);
-  const mounted = useHydrated();
-  const theme = chosen ?? initial;
-
-  function toggle() {
-    const next: Theme = theme === "dark" ? "light" : "dark";
-    setChosen(next);
-    document.documentElement.setAttribute("data-theme", next);
-    try {
-      localStorage.setItem(THEME_KEY, next);
-    } catch {
-      // Non-fatal: the choice still holds for this page view.
-    }
-  }
+  const theme = useSyncExternalStore(subscribeTheme, getTheme, getServerTheme);
+  function toggle() { setTheme(theme === "dark" ? "light" : "dark"); }
 
   const isDark = theme === "dark";
 
@@ -62,7 +21,7 @@ export function ThemeToggle({
     <button
       type="button"
       role="switch"
-      aria-checked={mounted ? isDark : undefined}
+      aria-checked={isDark}
       aria-label={`${labels.theme}: ${isDark ? labels.dark : labels.light}`}
       title={labels.theme}
       onClick={toggle}

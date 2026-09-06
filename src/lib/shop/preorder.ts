@@ -60,10 +60,8 @@ const EMPTY: PreorderState = {
  * has reserved three units of the run, and the manufacturing trigger is about
  * units.
  *
- * Refunded and failed orders are excluded: a reservation that has been given
- * back is not a reservation. Unpaid orders *are* counted while the payment is
- * still in flight, because excluding them would make the counter jump backwards
- * every time somebody opened checkout.
+ * Only settled, non-sandbox payments count. An abandoned checkout, cancelled
+ * order or refunded payment cannot validate demand or trigger manufacturing.
  */
 export async function preorderState(): Promise<PreorderState> {
   let reserved = 0;
@@ -71,7 +69,7 @@ export async function preorderState(): Promise<PreorderState> {
     const rows = await prisma.orderItem.findMany({
       where: {
         slug: { in: [...V1_SLUGS] },
-        order: { paymentStatus: { notIn: ["refunded", "failed"] } },
+        order: { paymentStatus: "paid", sandbox: false, fulfillmentStatus: { not: "cancelled" } },
       },
       select: { quantity: true },
     });

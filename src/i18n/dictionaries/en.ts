@@ -46,7 +46,7 @@ export const en = {
       { value: "Live", label: "A feed of people training the way you want to" },
       { value: "24/7", label: "Heart rate, sleep and recovery from the V1 band" },
       { value: "Tested", label: "Every supplement in the shop, batch by batch" },
-      { value: "80%", label: "Of every sale goes to the creator who earned it" },
+      { value: "60%", label: "Of every sale goes to the creator who earned it" },
     ],
   },
 
@@ -144,7 +144,7 @@ export const en = {
       "Followers are not a business. Terrifit gives you verified credentials, structured products to sell, and the tooling to actually monitor the people who bought them.",
     economicsTitle: "What you keep",
     economics: [
-      { item: "Map sales", you: "80%", platform: "20% platform" },
+      { item: "Map sales", you: "60%", platform: "40% platform" },
       { item: "Paid subscriptions", you: "75%", platform: "25% platform" },
       { item: "Livestreams and tips", you: "75%", platform: "25% platform" },
       { item: "Paid communities", you: "Commission applies", platform: "Rate published before launch" },
@@ -510,15 +510,15 @@ export const en = {
     creator: {
       eyebrow: "Terrifit for creators",
       headline: "Turn an audience into a business you own.",
-      sub: "Sell structured Maps, run paid communities and livestreams, and keep 80% of what you earn — with the tooling to actually support the people who bought.",
+      sub: "Sell structured Maps, run paid communities and livestreams, and keep 60% of what you earn — with the tooling to actually support the people who bought.",
       points: [
         {
           title: "Sell structure, not shoutouts",
           body: "A Map is a real product: training, nutrition, check-ins, milestones and a version history your customers can see.",
         },
         {
-          title: "Keep 80%",
-          body: "20% platform commission on Map sales. Processing, taxes and app-store fees are itemised separately, never hidden inside it.",
+          title: "Keep 60%",
+          body: "40% platform commission on Map sales. Processing, taxes and app-store fees are itemised separately, never hidden inside it.",
         },
         {
           title: "Know who is slipping",

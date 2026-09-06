@@ -46,7 +46,7 @@
         "label": "Cada suplemento da loja, lote a lote"
       },
       {
-        "value": "80%",
+        "value": "60%",
         "label": "De cada venda vai para o criador que a mereceu"
       }
     ]
@@ -163,8 +163,8 @@
     "economics": [
       {
         "item": "Vendas de Mapas",
-        "you": "80%",
-        "platform": "20% plataforma"
+        "you": "60%",
+        "platform": "40% plataforma"
       },
       {
         "item": "Subscrições pagas",
@@ -411,7 +411,7 @@
       },
       {
         "q": "Quanto me custa como criador?",
-        "a": "A Terrifit fica com 20% das vendas de Mapas, e 25% das subscrições pagas, receitas de diretos e gorjetas. Encargos de pagamento, impostos e comissões das lojas de aplicações são discriminados em separado no extrato, em vez de escondidos dentro da comissão."
+        "a": "A Terrifit fica com 40% das vendas de Mapas, e 25% das subscrições pagas, receitas de diretos e gorjetas. Encargos de pagamento, impostos e comissões das lojas de aplicações são discriminados em separado no extrato, em vez de escondidos dentro da comissão."
       },
       {
         "q": "Quão privadas são as minhas fotos de progresso?",
@@ -633,15 +633,15 @@
     "creator": {
       "eyebrow": "Terrifit para criadores",
       "headline": "Transforma uma audiência num negócio que é teu.",
-      "sub": "Vende Mapas estruturados, dinamiza comunidades pagas e diretos, e fica com 80% do que ganhas — com as ferramentas para apoiar mesmo quem te comprou.",
+      "sub": "Vende Mapas estruturados, dinamiza comunidades pagas e diretos, e fica com 60% do que ganhas — com as ferramentas para apoiar mesmo quem te comprou.",
       "points": [
         {
           "title": "Vende estrutura, não menções",
           "body": "Um Mapa é um produto a sério: treino, nutrição, registos, marcos e um histórico de versões que os teus clientes podem ver."
         },
         {
-          "title": "Fica com 80%",
-          "body": "20% de comissão nas vendas de Mapas. Encargos de pagamento, impostos e comissões das lojas são discriminados à parte, nunca escondidos lá dentro."
+          "title": "Fica com 60%",
+          "body": "40% de comissão nas vendas de Mapas. Encargos de pagamento, impostos e comissões das lojas são discriminados à parte, nunca escondidos lá dentro."
         },
         {
           "title": "Vê quem está a ceder",

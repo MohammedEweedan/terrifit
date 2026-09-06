@@ -1,3 +1,8 @@
+import { useCallback } from "react";
+import { useFocusEffect } from "expo-router";
+import { getCoaching } from "@/api";
+import { CoachingCard } from "@/components/CoachingCard";
+import { coachingCopy } from "@/i18n/coaching";
 import { Pressable, StyleSheet, View } from "react-native";
 import { Text } from "@/components/AppText";
 import { useRouter } from "expo-router";
@@ -6,7 +11,7 @@ import { DailySignal } from "@/components/DailySignal";
 import { HealthSync } from "@/components/HealthSync";
 import { Screen } from "@/components/Screen";
 import { useAppState } from "@/app-state";
-import { useDashboard, useMaps, useNotifications } from "@/data";
+import { useEndpoint, useDashboard, useMaps, useNotifications } from "@/data";
 import { duration, sourceName } from "@/format";
 import { fonts, display, theme } from "@/theme";
 import { usePreferences } from "@/preferences";
@@ -22,7 +27,11 @@ import { TerrifitSpinner } from "@/components/TerrifitSpinner";
  * filler.
  */
 export default function TodayScreen() {
-  const copy = screenCopy[usePreferences().locale];
+  const locale = usePreferences().locale;
+  const copy = screenCopy[locale];
+  const c = coachingCopy(locale);
+  const coaching = useEndpoint(getCoaching);
+  useFocusEffect(useCallback(() => { coaching.reload(); }, [coaching.reload]));
   const router = useRouter();
   const { band, refresh } = useAppState();
   const dashboard = useDashboard();
@@ -38,6 +47,7 @@ export default function TodayScreen() {
       title=""
       refreshing={dashboard.refreshing}
       onRefresh={() => {
+        coaching.reload();
         dashboard.reload();
         maps.reload();
         notices.reload();
@@ -48,6 +58,7 @@ export default function TodayScreen() {
         <TerrifitSpinner style={{ marginTop: 40 }} />
       ) : null}
 
+      {dashboard.data?.latest && dashboard.data.staleDays > 1 ? <View style={s.stale}><Text style={s.staleTitle}>{c.stale} · {dashboard.data.latest.date.slice(0,10)}</Text><Text style={s.staleBody}>{c.staleBody}</Text></View> : null}
       <DailySignal data={dashboard.data} open />
 
       {latest ? null : (
@@ -58,27 +69,18 @@ export default function TodayScreen() {
         </View>
       )}
 
-      {active ? (
-        <Pressable onPress={() => router.push(`/map/${active.mapId}` as never)} style={s.next}>
-          <View style={s.flex}>
-            <Text style={s.nextLabel}>
-              {active.name} · {copy.weekLabel} {active.week} {copy.ofLabel} {active.weeks}
-            </Text>
-            <Text style={s.nextTitle}>
-              {active.done} {copy.ofLabel} {active.sessionsPerWeek} {copy.sessionsThisWeek}
-            </Text>
-          </View>
-          <Text style={s.chevron}>›</Text>
-        </Pressable>
-      ) : (
-        <Pressable onPress={() => router.push("/maps" as never)} style={s.next}>
-          <View style={s.flex}>
-            <Text style={s.nextLabel}>{copy.noMapRunning}</Text>
-            <Text style={s.nextTitle}>{copy.pickAProgramme}</Text>
-          </View>
-          <Text style={s.chevron}>›</Text>
-        </Pressable>
-      )}
+      {coaching.data ? <CoachingCard data={coaching.data}/> : null}
+      {coaching.error ? <Pressable accessibilityRole="button" onPress={coaching.reload} style={s.next}><Text style={s.nextTitle}>{coaching.error}</Text></Pressable> : null}
+      {active ? <Pressable accessibilityRole="button" onPress={() => router.push(`/map/${active.mapId}` as never)} style={s.next}><View style={s.flex}><Text style={s.nextLabel}>{active.name} · {copy.weekLabel} {active.week}</Text><Text style={s.nextTitle}>{active.done} {copy.ofLabel} {active.sessionsPerWeek} {copy.sessionsThisWeek}</Text></View><Text style={s.chevron}>›</Text></Pressable> : null}
+      <Pressable accessibilityRole="button" onPress={() => router.push("/progress" as never)} style={s.next}><View style={s.flex}><Text style={s.nextLabel}>{c.week}</Text><Text style={s.nextTitle}>{coaching.data ? `${coaching.data.progress.sessions} ${c.sessions.toLowerCase()} · ` : ""}{c.weekLink}</Text></View><Text style={s.chevron}>›</Text></Pressable>
+
+      <Pressable accessibilityRole="button" onPress={() => router.push("/activity" as never)} style={s.next}>
+        <View style={s.flex}>
+          <Text style={s.nextLabel}>{copy.recordOutdoors}</Text>
+          <Text style={s.nextTitle}>{copy.recordOutdoorsBody}</Text>
+        </View>
+        <Text style={s.chevron}>›</Text>
+      </Pressable>
 
       {!band?.band ? (
         <Pressable onPress={() => router.push("/pair-band" as never)} style={s.next}>
@@ -112,6 +114,22 @@ export default function TodayScreen() {
 }
 
 const s = StyleSheet.create({
+  coachFab: {
+    position: "absolute", right: 16, bottom: 104,
+    flexDirection: "row", alignItems: "center", gap: 8,
+    paddingHorizontal: 16, paddingVertical: 13, borderRadius: 26,
+    backgroundColor: theme.accent,
+    // Lifted off the list so it reads as floating rather than as the last row.
+    shadowColor: "#000", shadowOpacity: 0.35, shadowRadius: 14, shadowOffset: { width: 0, height: 6 },
+    elevation: 6,
+  },
+  coachFabMark: { color: "#0b0b0c", fontSize: 14 },
+  coachFabText: {
+    color: "#0b0b0c", fontSize: 13, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 0.3,
+  },
+  stale:{backgroundColor:theme.surface,borderLeftWidth:2,borderLeftColor:theme.fair,padding:12,marginBottom:12,borderRadius:10},
+  staleTitle:{color:theme.fair,fontSize:11,fontFamily:fonts.bold},
+  staleBody:{color:theme.ink2,fontSize:11,lineHeight:17,marginTop:4},
   flex: { flex: 1 },
   onboard: { borderRadius: 22, borderWidth: 1, borderColor: theme.line, backgroundColor: theme.surface, padding: 18, marginBottom: 16 },
   onboardTitle: { color: theme.ink, fontFamily: display, fontSize: 22, textTransform: "uppercase" },

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Anton, Inter, Noto_Kufi_Arabic } from "next/font/google";
 import { notFound } from "next/navigation";
 import "../globals.css";
+import "../refinements.css";
+import "../storefront.css";
 import { getDictionary } from "@/i18n";
 import { isLocale, localeMeta, locales } from "@/i18n/config";
 import { themeScript } from "@/lib/theme";

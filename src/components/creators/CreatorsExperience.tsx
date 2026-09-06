@@ -22,6 +22,7 @@ export function CreatorsExperience({ locale, copy }: { locale: Locale; copy: Pag
       <Calculator locale={locale} copy={copy} />
       <Tools copy={copy} />
       <Payouts copy={copy} />
+      <Verification copy={copy} />
       <Steps locale={locale} copy={copy} />
       <Voices copy={copy} />
       <Faq copy={copy} />
@@ -299,6 +300,39 @@ function Payouts({ copy }: { copy: PagesCopy["creators"] }) {
         </dl>
         <Reveal className="cr-payout-note">
           <p>{copy.payouts.note}</p>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/**
+ * The verification gate.
+ *
+ * Placed immediately before "Getting started" rather than in the FAQ, because
+ * it is a condition of applying and not a detail: somebody who reads the
+ * earnings calculator and then finds out on step three that a person has to
+ * approve them has been sold something that was not on offer.
+ */
+function Verification({ copy }: { copy: PagesCopy["creators"] }) {
+  return (
+    <section className="cr-verify">
+      <div className="tf-shell">
+        <Reveal className="cr-section-head">
+          <p className="cr-eyebrow">{copy.verification.eyebrow}</p>
+          <h2>{copy.verification.title}</h2>
+          <p className="cr-lede">{copy.verification.body}</p>
+        </Reveal>
+        <dl className="cr-verify-list">
+          {copy.verification.items.map((item, index) => (
+            <Reveal key={item.name} delay={index * 0.05}>
+              <dt>{item.name}</dt>
+              <dd>{item.detail}</dd>
+            </Reveal>
+          ))}
+        </dl>
+        <Reveal className="cr-payout-note">
+          <p>{copy.verification.note}</p>
         </Reveal>
       </div>
     </section>

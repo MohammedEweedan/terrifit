@@ -9,6 +9,14 @@ import { usePreferences } from "@/preferences";
 import { fonts, arabicBlack, bodyBlack, display, theme } from "@/theme";
 
 type Props = {
+  /**
+   * Floating controls, drawn over the list rather than inside it.
+   *
+   * Anything absolutely positioned inside the ScrollView anchors to the scroll
+   * content and travels with it; a floating action button placed there sinks
+   * below the fold and hides behind the tab bar.
+   */
+  overlay?: ReactNode;
   title: string;
   eyebrow?: string;
   /** Sits on the title row, right-aligned. A cart, a filter, a history link. */
@@ -27,7 +35,7 @@ type Props = {
  * because content passing behind a transparent bar reads as a rendering fault,
  * and it grows a hairline once you have scrolled past it.
  */
-export function Screen({ title, eyebrow, titleAction, refreshing = false, onRefresh, children, header }: Props) {
+export function Screen({ title, eyebrow, titleAction, refreshing = false, onRefresh, children, header, overlay }: Props) {
   const insets = useSafeAreaInsets();
   const { locale } = usePreferences();
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -81,6 +89,8 @@ export function Screen({ title, eyebrow, titleAction, refreshing = false, onRefr
           ) : null}
           {children}
         </Animated.ScrollView>
+
+        {overlay}
 
         {/* Sits where the system spinner would have been, and is driven by the
             pull itself: `contentOffset.y` goes negative as the list is dragged

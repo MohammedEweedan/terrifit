@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getRequestUser } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { loadCoaching } from "@/lib/coaching/service";
 import { blockForWeek, findMap } from "@/lib/maps/catalog";
+import { suggestSession, type SessionHistory } from "@/lib/maps/progression";
 
 export const runtime = "nodejs";
 
@@ -36,18 +38,38 @@ export async function GET(request: Request, context: { params: Promise<{ id: str
   const session = map?.sample.find((item) => item.id === sessionId);
   if (!map || !session) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
-  const [enrollment, last] = await Promise.all([
+  // Three, not one: a deload is only earned by a run of sessions stuck at the
+  // same weight, and one row cannot tell a stall from a bad Tuesday.
+  const [enrollment, recent] = await Promise.all([
     prisma.mapEnrollment.findUnique({ where: { userId_mapId: { userId: user.id, mapId: id } } }),
-    prisma.sessionLog.findFirst({
+    prisma.sessionLog.findMany({
       where: { userId: user.id, sessionId },
       orderBy: { completedAt: "desc" },
+      take: 3,
     }),
   ]);
+  const last = recent[0] ?? null;
+
+  // Parsed once: the progression engine reads every recent performance.
+  const history: SessionHistory[] = recent.flatMap((log) => {
+    try {
+      const entries = JSON.parse(log.entries) as SessionHistory["entries"];
+      return Array.isArray(entries) ? [{ entries, completedAt: log.completedAt.toISOString() }] : [];
+    } catch {
+      // A corrupt row is history we simply do not have.
+      return [];
+    }
+  });
+
+  const coaching = await loadCoaching(user.id);
+  const accepted = coaching.next?.mapId === id && coaching.next?.session.id === sessionId ? coaching.applied : null;
+  if (accepted?.kind === "rest") return NextResponse.json({ error: "session_paused", message: accepted.reason }, { status: 409 });
 
   return NextResponse.json(
     {
       map: { id: map.id, name: map.name, accent: map.accent, sessionsPerWeek: map.sessionsPerWeek },
-      session,
+      session: accepted?.session ?? session,
+      coaching: accepted ? { id: accepted.id, reason: accepted.reason } : null,
       week: enrollment?.week ?? 1,
       blockLabel: enrollment ? (blockForWeek(map, enrollment.week)?.label ?? null) : null,
       lastTime: last
@@ -57,6 +79,14 @@ export async function GET(request: Request, context: { params: Promise<{ id: str
             entries: JSON.parse(last.entries) as unknown,
           }
         : null,
+      /**
+       * What to load this time, rather than what was loaded last time.
+       *
+       * Carrying weights forward unchanged is a record; this is a programme.
+       * The app pre-fills from here, so the common case stays "tap the tick"
+       * while the bar still moves week to week.
+       */
+      progression: suggestSession((accepted?.session ?? session).exercises, history),
     },
     { headers: { "Cache-Control": "private, no-store" } },
   );

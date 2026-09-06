@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
+import { dismiss, getDismissed, getServerDismissed, subscribeDismissed } from "@/lib/announcement-store";
 
 /**
  * One line of news across the top of the landing page, below the header.
@@ -20,8 +21,6 @@ import Link from "next/link";
  * that has to move is being read rather than glanced at.
  */
 
-const STORAGE_KEY = "terrifit.announcement.dismissed";
-
 /** Below this the bar always tickers — a phone cannot hold a sentence. */
 const ALWAYS_TICKER_PX = 760;
 
@@ -37,28 +36,21 @@ export type Announcement = {
 };
 
 export function AnnouncementBar({ announcement }: { announcement: Announcement | null }) {
-  // Starts *visible*, and hides itself on mount if this message was already
-  // dismissed. The other way round — hidden until an effect says otherwise —
-  // drops the bar in after hydration and shoves the page down, which is a
-  // layout shift on every first visit to save a flash on a returning one.
-  const [visible, setVisible] = useState(true);
+  // Starts *visible*: the store's server snapshot is "nothing dismissed", so
+  // the bar renders on the server and through hydration and only disappears
+  // once the real value is read. The other way round — hidden until proven
+  // otherwise — drops the bar in after hydration and shoves the page down,
+  // which is a layout shift on every first visit to save a flash on a
+  // returning one. Reading storage in an effect would do the same thing one
+  // cascading render later, which is what the lint rule is there to stop.
+  const dismissed = useSyncExternalStore(subscribeDismissed, getDismissed, getServerDismissed);
+  const visible = announcement != null && dismissed !== announcement.id;
+
   const [ticker, setTicker] = useState(false);
   const [duration, setDuration] = useState(24);
 
   const viewport = useRef<HTMLDivElement>(null);
   const run = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    if (!announcement) return;
-    let dismissed: string | null = null;
-    try {
-      dismissed = window.localStorage.getItem(STORAGE_KEY);
-    } catch {
-      // Private window, or site data blocked. Showing the bar is the right
-      // failure: a missed dismissal costs less than a missed launch.
-    }
-    if (dismissed === announcement.id) setVisible(false);
-  }, [announcement]);
 
   /**
    * Decide whether to move, and how fast.
@@ -130,14 +122,7 @@ export function AnnouncementBar({ announcement }: { announcement: Announcement |
       <button
         type="button"
         aria-label="Dismiss announcement"
-        onClick={() => {
-          setVisible(false);
-          try {
-            window.localStorage.setItem(STORAGE_KEY, announcement.id);
-          } catch {
-            // Dismissal is a convenience; never fail over it.
-          }
-        }}
+        onClick={() => dismiss(announcement.id)}
       >
         <svg width="11" height="11" viewBox="0 0 24 24" aria-hidden>
           <path d="M5 5 19 19M19 5 5 19" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" fill="none" />

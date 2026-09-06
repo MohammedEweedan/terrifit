@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 import { CARRIERS, findCarrier, trackingUrl } from "../carriers";
+import { universalTrackingUrl } from "../seventeentrack";
 
 describe("trackingUrl", () => {
   it("builds a carrier's tracking link", () => {
@@ -8,9 +9,21 @@ describe("trackingUrl", () => {
     assert.equal(url, "https://www.royalmail.com/track-your-item#/tracking-results/AB123456789GB");
   });
 
-  it("is null with no carrier, so no half-built link is offered", () => {
-    assert.equal(trackingUrl(null, "AB123456789GB"), null);
-    assert.equal(trackingUrl("not-a-carrier", "AB123456789GB"), null);
+  it("falls back to 17TRACK when the carrier is unknown", () => {
+    // This used to assert null on the grounds that no half-built link is
+    // better than a broken one. That reasoning held while the only options
+    // were a named carrier or nothing. 17TRACK detects the carrier from the
+    // number itself, so an unrecognised carrier now has a complete link rather
+    // than none — which matters because V1 ships from Shenzhen through
+    // handlers the carrier table does not list.
+    assert.equal(trackingUrl(null, "AB123456789GB"), universalTrackingUrl("AB123456789GB"));
+    assert.equal(trackingUrl("not-a-carrier", "AB123456789GB"), universalTrackingUrl("AB123456789GB"));
+    assert.ok(trackingUrl(null, "AB123456789GB")?.includes("AB123456789GB"));
+  });
+
+  it("still prefers the carrier's own page over the aggregator", () => {
+    const url = trackingUrl("royal-mail", "AB123456789GB");
+    assert.ok(url?.includes("royalmail.com"), `expected Royal Mail's own page, got ${url}`);
   });
 
   it("is null with no number, rather than linking to an empty search", () => {

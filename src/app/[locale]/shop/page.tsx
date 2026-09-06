@@ -26,13 +26,14 @@ export async function generateMetadata({
   };
 }
 
-export default async function ShopPage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function ShopPage({ params, searchParams }: { params: Promise<{ locale: string }>; searchParams: Promise<{ category?: string }> }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const products = await listProducts();
+  const { category } = await searchParams;
   return (
     <SiteShell locale={locale} className="sh-site">
-      <ShopCatalog locale={locale} copy={getPagesCopy(locale).shop} products={products} />
+      <ShopCatalog key={category ?? "all"} initialCategory={category} locale={locale} copy={getPagesCopy(locale).shop} products={products} />
     </SiteShell>
   );
 }

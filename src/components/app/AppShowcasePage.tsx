@@ -1,16 +1,27 @@
 "use client";
 
-import Link from "next/link";
 import {
   motion, useReducedMotion, useScroll, useSpring, useTransform, type MotionValue,
 } from "framer-motion";
-import { useSyncExternalStore } from "react";
+import { AppConversion, DownloadLinks } from "./AppConversion";
+import type { AppDownloads } from "@/lib/app-downloads";
+import { useRef, useSyncExternalStore } from "react";
 import type { Locale } from "@/i18n/config";
 import type { PagesCopy } from "@/i18n/pages";
 import { ACCENTS, findAccent, type AccentKey } from "@/lib/accents";
 import { getAccent, getServerAccent, setAccent, subscribeAccent } from "@/lib/accent-store";
+import { websiteCopy } from "@/i18n/website";
 
-/**
+const compactQuery = "(max-width: 900px) and (max-height: 740px)";
+const getCompactViewport = () => window.matchMedia(compactQuery).matches;
+const getServerCompactViewport = () => false;
+function subscribeCompactViewport(listener: () => void) {
+  const media = window.matchMedia(compactQuery);
+  media.addEventListener("change", listener);
+  return () => media.removeEventListener("change", listener);
+}
+
+/*
  * The app page. The main converter, so it is built to be watched rather than read.
  *
  * There is deliberately no web app being sold here — reading a proprietary
@@ -31,13 +42,15 @@ import { getAccent, getServerAccent, setAccent, subscribeAccent } from "@/lib/ac
 
 export function AppShowcasePage({
   locale,
-  copy,
+  copy, downloads, monthly,
 }: {
   locale: Locale;
+  downloads: AppDownloads;
+  monthly: string;
   copy: PagesCopy["appPage"];
 }) {
   const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll();
+  const compact = useSyncExternalStore(subscribeCompactViewport, getCompactViewport, getServerCompactViewport);
   // From the store rather than an effect: the value lives in localStorage, and
   // reading it in an effect would render once with the default and flash the
   // wrong screenshot before correcting itself.
@@ -57,10 +70,20 @@ export function AppShowcasePage({
 
   return (
     <div className="ax">
-      <Hero copy={copy} locale={locale} shot={shot(copy.chapters[0].screen)} reduce={Boolean(reduce)} />
+      <nav className="ax-local-nav" aria-label={copy.hero.eyebrow}>
+        <div className="ax-shell">
+          <strong>{copy.hero.eyebrow}</strong>
+          <div>
+            <a href="#inside">{websiteCopy(locale).insideApp}</a>
+            {locale !== "ar" && <a href="#personalise">Make it yours</a>}
+            <a href="#get-app">{websiteCopy(locale).getApp} ↗</a>
+          </div>
+        </div>
+      </nav>
+      <Hero copy={copy} locale={locale} shot={shot(copy.chapters[0].screen)} reduce={Boolean(reduce)} downloads={downloads} />
 
-      {reduce ? (
-        <section className="ax-static ax-shell">
+      {reduce || compact ? (
+        <section className="ax-static ax-shell" id="inside">
           {copy.chapters.map((chapter) => (
             <article key={chapter.title}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -74,10 +97,10 @@ export function AppShowcasePage({
           ))}
         </section>
       ) : (
-        <Story copy={copy} shot={shot} scroll={scrollYProgress} />
+        <Story copy={copy} shot={shot} />
       )}
 
-      <Tint copy={copy} accent={accent} onChoose={setAccent} disabled={locale === "ar"} />
+      <Tint copy={copy} accent={accent} onChoose={setAccent} disabled={locale === "ar"} shot={shot("home")} />
 
       <section className="ax-features" id="reads">
         <div className="ax-shell">
@@ -91,17 +114,7 @@ export function AppShowcasePage({
         </div>
       </section>
 
-      <section className="ax-close">
-        <div className="ax-shell">
-          <h2>{copy.close.title}</h2>
-          <p>{copy.close.body}</p>
-          <div className="ax-badges">
-            <span>App Store</span>
-            <span>Google Play</span>
-          </div>
-          <p className="ax-note">{copy.close.note}</p>
-        </div>
-      </section>
+      <AppConversion locale={locale} downloads={downloads} monthly={monthly}/>
     </div>
   );
 }
@@ -109,9 +122,9 @@ export function AppShowcasePage({
 /* -------------------------------------------------------------------------- */
 
 function Hero({
-  copy, locale, shot, reduce,
+  copy, locale, shot, reduce, downloads,
 }: {
-  copy: PagesCopy["appPage"]; locale: Locale; shot: string; reduce: boolean;
+  copy: PagesCopy["appPage"]; locale: Locale; shot: string; reduce: boolean; downloads: AppDownloads;
 }) {
   const ease = [0.22, 1, 0.36, 1] as const;
   const rise = (delay: number) =>
@@ -119,15 +132,17 @@ function Hero({
 
   return (
     <header className="ax-hero">
-      <div className="ax-shell">
+      <div className="ax-shell ax-hero-grid"><div className="ax-hero-copy-block">
         <motion.p className="ax-eyebrow" {...rise(0)}>{copy.hero.eyebrow}</motion.p>
         <motion.h1 {...rise(0.06)}>{copy.hero.title}</motion.h1>
         <motion.p className="ax-lede" {...rise(0.13)}>{copy.hero.sub}</motion.p>
         <motion.div className="ax-hero-actions" {...rise(0.2)}>
-          <Link className="ax-button" href={`/${locale}/band`}>{copy.hero.cta}</Link>
+          <DownloadLinks locale={locale} downloads={downloads} placement="app-hero"/>
           <a className="ax-text-link" href="#reads">{copy.hero.secondary} <span aria-hidden>↓</span></a>
         </motion.div>
 
+        <p className="ax-availability">{websiteCopy(locale).appAvailability}</p>
+        </div>
         {/* The screen comes up from below and stays cropped by the fold, so it
             reads as the top of something and pulls the eye down. */}
         <motion.div
@@ -152,21 +167,22 @@ function Hero({
  * swapped, so no chapter ever opens on an empty frame.
  */
 function Story({
-  copy, shot, scroll,
+  copy, shot,
 }: {
   copy: PagesCopy["appPage"];
   shot: (screen: string) => string;
-  scroll: MotionValue<number>;
 }) {
   const count = copy.chapters.length;
+  const storyRef = useRef<HTMLDivElement>(null);
+  const {scrollYProgress:scroll}=useScroll({target:storyRef,offset:["start start","end end"]});
   // Springing the raw scroll is most of what separates "scroll-linked" from
   // "designed": the cross-fade glides between chapters instead of tracking the
   // wheel one-to-one.
   const progress = useSpring(scroll, { stiffness: 90, damping: 26, mass: 0.4 });
 
   return (
-    <section className="ax-story" aria-label={copy.hero.eyebrow}>
-      <div className="ax-track" style={{ height: `${(count + 1) * 100}vh` }}>
+    <section className="ax-story" id="inside" aria-label={copy.hero.eyebrow}>
+      <div ref={storyRef} className="ax-track" style={{ height: `${(count + 1) * 100}vh` }}>
         <div className="ax-stage ax-shell">
           <div className="ax-screens">
             {copy.chapters.map((chapter, index) => (
@@ -268,21 +284,26 @@ function Pip({ index, count, progress }: { index: number; count: number; progres
 
 /** The colour picker. It swaps the captures; it does not touch the site. */
 function Tint({
-  copy, accent, onChoose, disabled,
+  copy, accent, onChoose, disabled, shot,
 }: {
   copy: PagesCopy["appPage"]; accent: AccentKey;
   onChoose: (key: AccentKey) => void;
   /** Arabic has one captured set, so the picker has nothing to change there. */
   disabled: boolean;
+  shot: string;
 }) {
   if (disabled) return null;
   return (
-    <section className="ax-tint">
+    <section className="ax-tint" id="personalise">
       <div className="ax-shell">
         <p className="ax-eyebrow">{copy.tint.eyebrow}</p>
         <h2>{copy.tint.title}</h2>
         <p className="ax-tint-body">{copy.tint.body}</p>
 
+        <div className="ax-tint-preview">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="ax-shot" src={shot} alt={copy.tint.title} loading="lazy"/>
+        </div>
         <div className="ax-swatches" role="radiogroup" aria-label={copy.tint.title}>
           {ACCENTS.map((item) => (
             <button
@@ -309,9 +330,10 @@ function Tint({
 }
 
 function Feature({ item, index }: { item: { name: string; detail: string }; index: number }) {
+  const reduce = useReducedMotion();
   return (
     <motion.div
-      initial={{ opacity: 0, y: 22 }}
+      initial={reduce ? false : { opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: (index % 3) * 0.07 }}

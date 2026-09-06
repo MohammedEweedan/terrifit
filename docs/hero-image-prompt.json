@@ -1,0 +1,22 @@
+{
+  "asset": "Landing hero, right panel (.th-hero-art)",
+  "purpose": "The single image on /[locale]. Replaces public/rebrand/desktop-bg-clean.png.",
+  "hard_constraints": {
+    "output": "2400 x 1350 px, 16:9, JPEG q92 (no transparency needed; the slot has a solid fallback)",
+    "crop_behaviour": "object-fit:cover with object-position 73% center on desktop, 72% 48% on mobile",
+    "must_survive": "560-660px tall on desktop, 510px at <=1050px, a 360px-tall full-width band on phones, 285px at <=360px",
+    "subject_placement": "Subject's face and torso in the RIGHT THIRD of the frame. The left third is cropped away on narrow layouts.",
+    "bottom_45_percent": "A dark scrim is laid over it and white caption text plus a 46px circular button sit there. Keep it free of faces, hands and fine detail.",
+    "top_left": "A small white index label sits here. Keep it uncluttered.",
+    "loading_colour": "The slot paints #d7421b while the image loads, so the image should resolve near that warmth rather than to blue or grey."
+  },
+  "prompt": "Editorial fitness photograph, 16:9 landscape, 2400x1350. A single athlete mid-movement, caught between two reps rather than posed — weight shifting, breath out, eyes down and inward, not to camera. Framed from mid-thigh up, positioned in the right third of the frame with the left third open and uncluttered. Shot on an 85mm lens at f/2, shallow depth so the background falls away into clean tonal blocks. Lighting is one hard key from high camera-left plus a warm bounce, carving real shadow across the torso; skin is textured and lived-in, not retouched. The environment reads as a working gym at the end of a session — chalk dust in the light, a concrete or scrim wall, nothing branded, no equipment logos. Palette is warm and narrow: deep near-black shadows, terracotta and burnt orange midtones sitting close to #d7421b, one bright #ff4d16 accent somewhere in the frame (a strap, a stripe, a rim of light). No blue, no teal, no cyan. The lower 45 percent of the frame is quiet — floor, shadow, or falloff — with no face, hands or fine detail, because a dark gradient and white caption text sit over it. The top-left corner is kept clean. Grain is fine and filmic. Absolutely no text, no logos, no watermarks, no visible brand names. Documentary, unglamorous, human.",
+  "negative_prompt": "text, letters, logos, watermarks, brand names, stock-photo smile, direct eye contact, gym selfie, posed flex, mirror, plastic skin, HDR, blue or teal colour grade, busy background, equipment clutter in the lower third, centred subject, extra limbs, distorted hands",
+  "variants_worth_generating": [
+    "Two subjects, different builds and skin tones, shot the same way — the site's audience is not one body type.",
+    "One frame where the accent orange is the athlete's strap and one where it is a rim light, to see which survives the scrim.",
+    "A version with the subject a further 10 percent right, as insurance against the mobile 72% crop."
+  ],
+  "acceptance_check": "Before installing: crop the render to 1672x360 taking the region around 73% horizontally. If the subject's head is cut or the composition collapses, the framing is wrong regardless of how good the full frame looks — that band is what phones actually show.",
+  "destination": "public/rebrand/desktop-bg-clean.png (keep the filename, or update the import in src/components/landing/TerrifitLanding.tsx:27)"
+}

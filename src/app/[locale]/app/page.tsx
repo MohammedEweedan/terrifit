@@ -1,3 +1,5 @@
+import { getAppDownloads } from "@/lib/app-downloads";
+import { PRICING } from "@/lib/health/plan";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AppShowcasePage } from "@/components/app/AppShowcasePage";
@@ -38,7 +40,7 @@ export default async function AppPage({ params }: { params: Promise<{ locale: st
 
   return (
     <SiteShell locale={locale}>
-      <AppShowcasePage locale={locale} copy={getPagesCopy(locale).appPage} />
+      <AppShowcasePage locale={locale} copy={getPagesCopy(locale).appPage} downloads={getAppDownloads()} monthly={new Intl.NumberFormat(locale,{style:"currency",currency:"USD"}).format(PRICING.monthly.cents/100)} />
     </SiteShell>
   );
 }

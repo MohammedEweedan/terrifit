@@ -274,32 +274,16 @@ export const en = {
     footer: "Scores are fitness signals, not medical measurements. They describe trends in your own data and cannot diagnose anything.",
   },
 
-  roadmap: {
-    eyebrow: "What ships when",
-    title: "Supplements ship today. The rest is dated.",
-    body: "We would rather tell you the date than say “soon”. Everything below is what we are building toward, in the order it arrives.",
-    nowLabel: "Available now",
-    nowTitle: "Supplements and gear",
-    nowBody: "Third-party tested fuel, recovery and training kit, shipping to 40+ countries. This is the part of Terrifit you can buy today.",
-    nowCta: "Shop supplements",
+  availableNow: {
+    eyebrow: "Available now",
+    title: "Two of these ship today. The third is open for pre-order.",
+    body: "No countdown and no waiting list. Fuel and gymwear leave the warehouse now, and the V1 is taking reservations at the founding price.",
     items: [
-      {
-        date: "November 2026",
-        title: "The social platform",
-        body: "Feeds, channels and the creator network. The first place the community actually exists rather than being described.",
-      },
-      {
-        date: "January 2027",
-        title: "The Terrifit app",
-        body: "iOS and Android, with the Map library, check-ins and the full analytics layer.",
-      },
-      {
-        date: "November 2027",
-        title: "The V1 band",
-        body: "Pre-orders ship in the order they were placed, at the founding price.",
-      },
+      { status: "Shipping now", title: "Terrifuel supplements", body: "Third-party tested protein, hydration and recovery, shipping to 40+ countries.", cta: "Shop Terrifuel", href: "shop" },
+      { status: "Shipping now", title: "Terrifits gymwear", body: "Heavyweight tees, hoodies and shorts, sweat-tested before they went on sale.", cta: "Shop Terrifits", href: "shop" },
+      { status: "Pre-order open", title: "The V1 band", body: "Reserve yours at the founding price. Pre-orders ship in the order they were placed, and are refundable until yours does.", cta: "Reserve the V1", href: "band" },
     ],
-    note: "Dates are targets, not promises. If one moves, we will say so here before you hear it anywhere else.",
+    note: "Pre-orders are refundable in full until your band ships.",
   },
 
   /**
@@ -326,8 +310,8 @@ export const en = {
     },
     hero: {
       eyebrow: "The Terrifit app",
-      title: "The only fitness app that shows you its working.",
-      sub: "Every other app hands you a score and asks you to trust it. Tap ours and you get the readings behind it, the baseline each was measured against, how much of the score it carried, and what the day was missing.",
+      title: "Read your body. Own your progress.",
+      sub: "Your daily readings, structured training and completed workouts, together in Terrifit. Understand your numbers, make time for the next session, and see the work adding up.",
       cta: "Pre-order the V1",
       secondary: "See what it reads",
     },
@@ -335,14 +319,14 @@ export const en = {
       {
         kicker: "Today",
         screen: "home",
-        title: "The answer is on screen before the phone is unlocked.",
-        body: "Recovery, strain and sleep, with your fitness age above them. No dashboard to configure and no tabs to hunt through — if the answer is “go easy today”, you have it in the first second.",
+        title: "Your daily signal, in one place.",
+        body: "Recovery, strain and sleep share one clear view with your chosen headline metric. Tap through for the readings and context behind a score. Older readings are marked so they do not pass for today’s data.",
       },
       {
         kicker: "Maps",
         screen: "maps",
-        title: "Programmes that adjust to what you actually lifted.",
-        body: "Loads come off a training max that updates from completed work, not planned work. Two poor mornings in a row and the volume comes down on its own. Every movement carries its cues, its common faults and a substitution for missing kit.",
+        title: "A programme you can put into practice.",
+        body: "Follow the exercises, log your sets, reps and weights, and see what you completed last time. Coach can propose a shorter next session for you to review and accept; your programme never changes silently.",
       },
       {
         kicker: "Shop",
@@ -353,26 +337,26 @@ export const en = {
       {
         kicker: "Fitness age",
         screen: "fitness-age",
-        title: "The number people actually send to a friend.",
-        body: "Built from two heart rates, with the equation on screen and the reading plotted against the distribution it was judged on. Free forever, and it works before you own a band.",
+        title: "An estimate you can look inside.",
+        body: "See the inputs and limitations behind your fitness-age estimate. It is a fitness signal, not a clinical assessment. Explore it alongside your trends rather than treating one number as the whole story.",
       },
     ],
     tint: {
       eyebrow: "Make it yours",
       title: "Ten colours. Pick one and watch the phone change.",
       body: "Every colour here was captured from the real app rather than filtered in a browser, so what you are looking at is the actual build. The recovery, strain and sleep rings keep their own colours on purpose — those carry meaning, and a colour that means something should not follow a preference.",
-      note: "The site follows your choice too. It is remembered on this device.",
+      note: "Your app colour is remembered on this device. The website keeps Terrifit orange.",
     },
     features: {
       eyebrow: "What is in it",
       title: "Built for the six in the morning version of you.",
       items: [
         { name: "Reads Apple Health", detail: "HRV, resting heart rate, sleep, steps and weight, with nothing to type in" },
-        { name: "Works without the band", detail: "Import from Garmin, Oura, Whoop, Fitbit, Strava or an InBody sheet" },
-        { name: "Fitness age", detail: "From two heart rates, free forever, and the equation is on screen" },
+        { name: "Works without the band", detail: "Follow programmes and log workouts without buying a wearable" },
+        { name: "Fitness age", detail: "An estimate with its inputs and limitations available to inspect" },
         { name: "Body composition", detail: "Every InBody scan you have ever had, charted against your weight" },
         { name: "Session runtime", detail: "Sets, reps and weights logged as you go, carried into next week" },
-        { name: "Offline first", detail: "The morning read is cached, so a bad signal never costs you the answer" },
+        { name: "Weekly progress", detail: "Completed sessions and active days, with a summary you choose to share" },
       ],
     },
     close: {
@@ -552,8 +536,8 @@ export const en = {
         { name: "Sleep", detail: "Light, deep and REM, plus how long you were actually awake, against how much sleep you needed" },
         { name: "Strain", detail: "How much work your heart did today, on a 0 to 21 scale" },
         { name: "Recovery", detail: "One score each morning, worked out from your HRV, resting heart rate, sleep and breathing rate" },
-        { name: "Movement", detail: "An accelerometer and gyroscope count your reps, time your tempo and measure your range of motion" },
-        { name: "Automatic sessions", detail: "It works out you've started training and logs it. Over 80 activities recognised" },
+        { name: "Movement", detail: "A six-axis accelerometer and gyroscope, for activity detection, sleep staging and how much of the day you actually moved" },
+        { name: "Automatic sessions", detail: "It works out you have started training and logs it. Over forty activities recognised" },
       ],
       image: {
         src: "/rebrand/v1-sensors.png",
@@ -567,7 +551,7 @@ export const en = {
       steps: [
         { time: "06:40", title: "Recovery score", body: "It's waiting for you when you wake up, and it already knows what last night did to you." },
         { time: "12:00", title: "Today's target", body: "How much training your body can take today, based on the recovery you actually have rather than the plan you wrote on Sunday." },
-        { time: "17:30", title: "During the session", body: "Live heart rate and strain on your phone or watch, with rep counts and rest timers coming off the band." },
+        { time: "17:30", title: "During the session", body: "Live heart rate and strain on your phone, and rest timers that start when the band sees you stop." },
         { time: "22:50", title: "When to go to bed", body: "The bedtime that gets you to tomorrow's target, adjusted for how hard you just trained." },
       ],
     },
@@ -608,6 +592,8 @@ export const en = {
       title: "Your data goes wherever you already keep it",
       body:
         "V1 writes into Apple Health and Google Health Connect on its own, so anything on your phone that reads those can read your band. The rest connect directly, and you can switch any of them off in one tap.",
+      note:
+        "Apple Health is live in the app today. Health Connect and the direct connections below are being built and will arrive before the first bands ship — we will say here if any of them slips.",
       apps: [
         { name: "Apple Health", detail: "Both directions. Workouts, sleep, heart rate, HRV and breathing rate." },
         { name: "Google Health Connect", detail: "Syncs both ways with any Android app that supports it." },
@@ -782,12 +768,12 @@ export const en = {
       },
       bandTitle: "What the band saw",
       bandRows: [
-        ["Reps", "3 of 3 counted"],
-        ["Tempo", "3.1s down, 0.9s hold"],
-        ["Range of motion", "Consistent, 2% shorter on rep 3"],
-        ["Bar speed", "0.41 m/s on average"],
-        ["Rest", "2:41 before the next set"],
         ["Heart rate", "Peaked at 168, back to 122 by the next set"],
+        ["Effort", "Highest of the four working sets so far"],
+        ["Set detected", "Logged from the rise and fall in heart rate"],
+        ["Rest", "2:41 before the next set"],
+        ["Session strain", "11.4 of 21 so far"],
+        ["Recovery cost", "Carried into tomorrow's target"],
       ],
     },
     progression: {
@@ -807,16 +793,16 @@ export const en = {
     },
     form: {
       eyebrow: "Form and technique",
-      title: "It watches the set, not just the total",
+      title: "It watches the effort, not just the total",
       body:
-        "The accelerometer and gyroscope in V1 read your wrist through every rep. That's enough to count them, time how slowly you lowered the bar, measure how far it actually moved, and spot when rep four stopped looking like rep one.",
+        "V1 reads your heart through the set and the rest that follows. That is enough to know when a set started and stopped, how long you actually rested, how hard the session is running, and what it will cost you tomorrow — without you tapping anything.",
       points: [
-        { title: "Counting reps", body: "You don't tap anything between sets. Reps land in the log as you do them." },
-        { title: "Tempo", body: "If the Map asked for three seconds down and you gave it 1.4, it says so." },
-        { title: "Range of motion", body: "How consistent you were across the set, and the rep where it started getting shorter." },
-        { title: "Rest", body: "The timer starts itself when a set ends and nudges you when you've been sitting there too long." },
-        { title: "Knowing when to stop", body: "Bar speed dropping while your heart rate climbs is the sign to end the set, and you get it during the set rather than afterwards." },
+        { title: "Sets, without tapping", body: "The rise and fall in your heart rate marks where a set began and ended, so the tick is already there when you look down." },
+        { title: "Rest that times itself", body: "The timer starts when the set ends and nudges you when you have been sitting there too long." },
+        { title: "Effort across the session", body: "How this set compares with the ones before it, so a bad fourth set is visible while you are still standing over the bar." },
         { title: "Session strain", body: "The total cardiovascular cost of the session, which feeds into tomorrow's recovery target." },
+        { title: "You are still the judge", body: "The band reads your heart, not your bar. It will not count your reps or grade your depth, and it does not pretend to." },
+        { title: "Everything is editable", body: "Auto-logging is off by default and every set it ticks can be corrected with a tap." },
       ],
       image: {
         src: "/rebrand/whyus-cyclist-clean.png",
@@ -913,7 +899,7 @@ export const en = {
     meta: {
       title: "Coach on Terrifit — get paid for the work you already do",
       description:
-        "Publish training programmes, run a free public feed and a paid private one, open channels, message your members, and see the training data they choose to share. You keep 80%, paid monthly.",
+        "Publish training programmes, run a free public feed and a paid private one, open channels, message your members, and see the training data they choose to share. You keep 60%, paid monthly.",
     },
     hero: {
       eyebrow: "For coaches and creators",
@@ -939,7 +925,7 @@ export const en = {
         "You already do the hard part, which is getting people to trust you enough to change how they train. What you've never had is proof it worked, in numbers, coming off the wrist of the person who bought your programme.",
       cards: [
         {
-          title: "You keep 80%",
+          title: "You keep 60%",
           body: "On programmes, on subscriptions, on channel access. Paid out every month on a fixed date with a statement that shows you every line.",
         },
         {
@@ -1032,7 +1018,7 @@ export const en = {
     calculator: {
       eyebrow: "Do the maths",
       title: "What this looks like at your size",
-      body: "Move the sliders. It's using the real split, which is 80% to you on everything.",
+      body: "Move the sliders. It's using the real split, which is 60% to you on everything.",
       followersLabel: "Followers you can reach",
       conversionLabel: "How many subscribe",
       priceLabel: "Monthly price",
@@ -1041,7 +1027,7 @@ export const en = {
       resultLabel: "What you'd take home each month",
       breakdownSubs: "Subscriptions",
       breakdownMaps: "Programme sales",
-      shareNote: "After our 20%, before whatever tax you owe locally.",
+      shareNote: "After our 40%, before whatever tax you owe locally.",
       annual: "a year",
       disclaimer:
         "This is an illustration, not a promise. What you actually make comes down to your audience, your pricing and how good the programme is.",
@@ -1062,14 +1048,34 @@ export const en = {
       eyebrow: "Getting paid",
       title: "Monthly, on a fixed date, no surprises",
       rows: [
-        ["Your share", "80% of every programme, subscription and channel"],
+        ["Your share", "60% of every programme, subscription and channel"],
         ["When you're paid", "Monthly, on the 5th, for the month before"],
-        ["Minimum payout", "$50, and it rolls over if you don't hit it"],
+        ["Minimum payout", "$1,000. Anything below it rolls over to the next month rather than being lost"],
         ["How you're paid", "Bank transfer, Wise or Stripe Connect in over 40 countries"],
         ["Refunds", "Taken off at cost, never with a penalty on top"],
         ["Partner products", "Extra commission on anything you recommend"],
       ],
-      note: "There's no listing fee, no monthly platform fee and no minimum follower count.",
+      note: "There's no listing fee, no monthly platform fee and no minimum follower count. You do need to be verified by our team before you can publish a Map or take followers — see below.",
+    },
+    verification: {
+      eyebrow: "Before you publish",
+      title: "Every coach is verified by a person before their first Map goes live.",
+      body: "Nobody publishes a programme or gathers a following on Terrifit until we have checked who they are and what qualifies them to write training for other people. It takes a few days and it is the reason a Terrifit Map is worth more than a PDF from a stranger.",
+      items: [
+        {
+          name: "Who you are",
+          detail: "Government ID, matched to the account and the name that will appear on your Maps.",
+        },
+        {
+          name: "What qualifies you",
+          detail: "Your coaching certification, degree, competitive record or documented client work. We accept several routes; we do not accept none.",
+        },
+        {
+          name: "What you intend to publish",
+          detail: "An outline of your first Map, reviewed by a coach on our team against the same standard we hold our own programmes to.",
+        },
+      ],
+      note: "Until you are verified you can build your profile and draft a Map, but it stays private and you cannot take followers or payments.",
     },
     steps: {
       eyebrow: "Getting started",
@@ -1100,7 +1106,7 @@ export const en = {
         { q: "Who owns the programmes I write?", a: "You do. You can unpublish them, change them or take them somewhere else. Anyone who already bought one keeps the version they bought." },
         { q: "What if someone asks for a refund?", a: "We deal with it. It comes off at cost inside the refund window, and we never add a penalty on top." },
         { q: "Can I see someone's health data?", a: "Only what they've specifically chosen to share, and only while they leave it switched on. You'll never see anything they haven't agreed to." },
-        { q: "Do I need a V1 band to publish?", a: "No. But the form tracking and automatic weight progression in your programmes only work for members who are wearing one." },
+        { q: "Do I need a V1 band to publish?", a: "No. Members without one log their sets by hand and still get automatic weight progression. A V1 adds live heart rate, automatic set detection and the recovery data that decides how hard their next session should be." },
       ],
     },
     cta: {

@@ -92,6 +92,7 @@ const patchSchema = z.object({
   heightCm: z.coerce.number().min(80).max(260).optional().nullable(),
   weightKg: z.coerce.number().min(25).max(400).optional().nullable(),
   units: z.enum(["metric", "imperial"]).optional(),
+  timezone: z.string().max(80).refine(value => { try { new Intl.DateTimeFormat("en", { timeZone: value }); return true; } catch { return false; } }, "invalid_timezone").optional(),
   goal: z.enum(GOALS).optional().nullable(),
   activityLevel: z.enum(ACTIVITY_LEVELS).optional().nullable(),
   trainingDays: z.coerce.number().int().min(0).max(7).optional().nullable(),

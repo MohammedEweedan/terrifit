@@ -2,23 +2,151 @@ import type { PagesTranslation } from "./merge";
 
 /** French. Deep partial merged over English. */
 export const fr: PagesTranslation = {
-  roadmap: {
-    eyebrow: "Ce qui sort, et quand",
-    title: "Les compléments partent aujourd’hui. Le reste a une date.",
-    body: "Nous préférons donner la date plutôt que dire « bientôt ». Voici ce que nous construisons, dans l’ordre où cela arrive.",
-    nowLabel: "Disponible",
-    nowTitle: "Compléments et équipement",
-    nowBody: "Nutrition, récupération et matériel d’entraînement testés en laboratoire indépendant, expédiés vers plus de 40 pays. C’est la partie de Terrifit que vous pouvez acheter aujourd’hui.",
-    nowCta: "Voir la boutique",
+  availableNow: {
+    eyebrow: "Disponible maintenant",
+    title: "Deux d’entre eux partent aujourd’hui. Le troisième est en précommande.",
+    body: "Pas de compte à rebours, pas de liste d’attente. La nutrition et les vêtements quittent l’entrepôt dès maintenant, et le V1 accepte les réservations au prix de lancement.",
     items: [
-      { date: "Novembre 2026", title: "La plateforme sociale", body: "Fils, canaux et réseau de créateurs. Le premier endroit où la communauté existe vraiment au lieu d’être décrite." },
-      { date: "Janvier 2027", title: "L’application Terrifit", body: "iOS et Android, avec la bibliothèque de Maps, les suivis et toute la couche d’analyse." },
-      { date: "Novembre 2027", title: "Le bracelet V1", body: "Les précommandes partent dans l’ordre d’arrivée, au prix de lancement." },
+      { status: "Expédié maintenant", title: "Compléments Terrifuel", body: "Protéines, hydratation et récupération testées en laboratoire indépendant, expédiées dans plus de 40 pays.", cta: "Voir Terrifuel", href: "shop" },
+      { status: "Expédié maintenant", title: "Vêtements Terrifits", body: "T-shirts, hoodies et shorts épais, testés à l’entraînement avant d’être mis en vente.", cta: "Voir Terrifits", href: "shop" },
+      { status: "Précommande ouverte", title: "Le bracelet V1", body: "Réservez le vôtre au prix de lancement. Les précommandes partent dans l’ordre d’arrivée et restent remboursables jusqu’à l’expédition.", cta: "Réserver le V1", href: "band" },
     ],
-    note: "Ce sont des objectifs, pas des promesses. Si une date bouge, nous le dirons ici avant que vous l’appreniez ailleurs.",
+    note: "Les précommandes sont intégralement remboursables jusqu’à l’expédition de votre bracelet.",
+  },
+
+  languages: {
+    eyebrow: "Dix langues",
+    title: "Natif dès le premier jour, pas traduit après coup.",
+    body: "Terrifit a été conçu en dix langues à la fois plutôt que lancé en anglais puis localisé. Chaque écran, chaque score et chaque message d’erreur — y compris ceux que l’on ne voit que quand ça tourne mal.",
+    note: "L’arabe se lit de droite à gauche avec sa propre typographie, car une langue n’est pas un changement de police. Les noms de pays et les dates viennent de votre appareil et non d’une table que nous maintenons : ils sont donc justes dans des endroits où nous ne sommes jamais allés.",
+  },
+
+  capabilities: {
+    eyebrow: "Ce qu’il mesure",
+    title: "Il vous lit en permanence, et vous montre ses calculs.",
+    body: "Mesure continue dès que vous le fermez. Aucune séance à lancer, aucun écran à consulter, et rien à recharger la nuit pendant quinze jours.",
+    groups: [
+      {
+        name: "En continu",
+        items: [
+          { name: "Fréquence cardiaque", detail: "En continu, éveillé et endormi, pas seulement à l’entraînement" },
+          { name: "Variabilité cardiaque", detail: "Relevée dans votre sommeil le plus profond, quand le chiffre a du sens" },
+          { name: "Oxygène sanguin", detail: "SpO₂ nocturne, et votre adaptation en altitude" },
+          { name: "Température cutanée", detail: "Face à votre propre référence, jamais à une moyenne de population" },
+          { name: "Fréquence respiratoire", detail: "Souvent la première chose qui bouge quand vous couvez quelque chose" },
+        ],
+      },
+      {
+        name: "Calculé à partir de cela",
+        items: [
+          { name: "Récupération", detail: "Un score matinal issu de la VFC, du pouls au repos, du sommeil et de la respiration" },
+          { name: "Charge", detail: "Charge cardiovasculaire sur la journée, sur une échelle de 0 à 21" },
+          { name: "Sommeil", detail: "Léger, profond et paradoxal, face au sommeil dont vous aviez besoin" },
+          { name: "T Score", detail: "Combien vous avez réellement bougé dans la journée, sur 100" },
+          { name: "Âge physique", detail: "À partir de vos fréquences maximale et de repos. Gratuit et partageable" },
+        ],
+      },
+      {
+        name: "Pendant l’effort",
+        items: [
+          { name: "Séances automatiques", detail: "Il comprend que vous avez commencé et l’enregistre. Plus de quarante activités" },
+          { name: "Charge métabolique", detail: "Ce que la séance a coûté, reporté sur l’objectif de récupération du lendemain" },
+          { name: "Stress et humeur", detail: "Charge autonome sur la journée, pas une seule mesure du matin" },
+          { name: "VO₂max", detail: "Capacité cardio-respiratoire, suivie au fil de son évolution" },
+          { name: "Enregistrement du rythme cardiaque", detail: "Un tracé à une dérivation à la demande. Un enregistrement pour vous, pas un diagnostic" },
+        ],
+      },
+    ],
+    footnote: "Terrifit fournit des conseils de bien-être, pas un diagnostic médical. Les scores et estimations ne sont pas des mesures cliniques. Si quelque chose semble anormal, consultez un clinicien.",
+  },
+
+  app: {
+    meta: { title: "Votre journée — Terrifit", description: "Récupération, charge, sommeil et votre T Score, avec les données derrière chaque chiffre." },
+    nav: { today: "Aujourd’hui", trends: "Tendances", body: "Corps", account: "Compte" },
+    brand: "Terrifit",
+    dataFrom: "Données de",
+    staleTitle: "Ces données sont anciennes",
+    staleBody: "Votre relevé le plus récent date de",
+    staleDays: "jours. Réimportez, ou connectez une app pour qu’elle reste à jour.",
+    staleCta: "Mettre vos données à jour",
+    empty: { title: "Rien à lire pour l’instant", body: "L’app fonctionne avec vos données. Importez un export d’Apple Health, Google Health Connect, Garmin, Oura, Strava ou un bilan InBody et tous les chiffres se remplissent — sans bracelet pour commencer.", cta: "Importer vos données", secondary: "Voir ce que le V1 apporte" },
+    scores: {
+      recovery: { label: "Récupération", unit: "%", blurb: "À quel point votre corps est prêt aujourd’hui, face à votre propre normale récente." },
+      strain: { label: "Charge", unit: "", blurb: "Ce que la journée a coûté à votre système cardiovasculaire, sur une échelle de 0 à 21." },
+      sleep: { label: "Sommeil", unit: "%", blurb: "Temps dormi face à ce qu’il vous fallait, et l’écart avec votre habitude." },
+      movement: { label: "T Score", unit: "", blurb: "La part de la journée où vous avez réellement bougé, sur 100." },
+    },
+    bands: { good: "Prêt", fair: "Modéré", poor: "Allez-y doucement", unknown: "Aucun relevé" },
+    why: "Pourquoi ce chiffre",
+    whyClose: "Masquer les données",
+    inputsHead: ["Donnée", "Aujourd’hui", "Comparé à", "Poids", "Score"],
+    missingTitle: "Absent de ce score",
+    missingBody: "Ceux-ci l’affineraient si vos données les contenaient.",
+    noScore: "Pas encore assez de données pour un chiffre honnête.",
+    higher: "Plus haut est mieux",
+    lower: "Plus bas est mieux",
+    target: "Au plus près de votre normale",
+    trends: {
+      title: "Tendances", body: "Quatre-vingt-dix jours, notés comme chaque matin les aurait notés — jamais avec des données postérieures.",
+      recovery: "Récupération", hrv: "Variabilité cardiaque", restingHr: "Fréquence au repos",
+      sleep: "Sommeil", steps: "Pas", weight: "Poids",
+      noData: "Aucun relevé pour cette mesure.", average: "moyenne", days: "jours enregistrés",
+    },
+    body: {
+      title: "Corps", body: "Chaque bilan importé, du plus ancien au plus récent. Le poids vient de vos relevés quotidiens ; le reste demande un bilan de composition corporelle.", empty: "Aucun bilan pour l’instant. Téléversez une feuille InBody depuis votre compte et ils apparaîtront ici.",
+      columns: ["Date", "Poids", "Masse grasse", "Muscle squelettique", "Eau corporelle", "Score"],
+      change: "Évolution depuis le premier bilan", latest: "Le plus récent",
+    },
+    footer: "Les scores sont des signaux de forme, pas des mesures médicales. Ils décrivent des tendances dans vos propres données et ne diagnostiquent rien.",
+  },
+
+  appPage: {
+    meta: { title: "L’app Terrifit — chaque score montre ses calculs", description: "Récupération, charge, sommeil et votre T Score, chacun s’ouvrant sur les mesures qui le composent. Dix langues, dix teintes, et elle lit Apple Health sans rien à saisir." },
+    hero: {
+      eyebrow: "L’app Terrifit", title: "Lisez votre corps. Prenez la main sur vos progrès.", sub: "Vos relevés quotidiens, un entraînement structuré et les séances terminées, réunis dans Terrifit. Comprenez vos chiffres, faites de la place pour la prochaine séance, et voyez le travail s’accumuler.",
+      cta: "Précommander le V1", secondary: "Voir ce qu’elle lit",
+    },
+    chapters: [
+      { kicker: "Aujourd’hui", screen: "home", title: "Votre signal du jour, au même endroit.", body: "Récupération, charge et sommeil partagent une vue claire avec la mesure que vous avez mise en avant. Touchez pour obtenir les relevés et le contexte derrière un score. Les relevés anciens sont signalés pour ne pas passer pour ceux du jour." },
+      { kicker: "Cartes", screen: "maps", title: "Un programme que vous pouvez vraiment appliquer.", body: "Suivez les exercices, notez vos séries, répétitions et charges, et voyez ce que vous aviez terminé la fois d’avant. Le coach peut proposer une séance plus courte à valider ; votre programme ne change jamais en silence." },
+      { kicker: "Boutique", screen: "shop", title: "Terrifuel, bracelets et le V1, dans votre monnaie.", body: "Un compte, un panier, un paiement. Les prix se convertissent là où vous êtes plutôt que d’afficher des dollars et de vous surprendre à la fin, et tout ce qui est en route est à un geste depuis n’importe quel écran." },
+      { kicker: "Âge physique", screen: "fitness-age", title: "Une estimation dans laquelle on peut regarder.", body: "Voyez les données et les limites derrière votre estimation d’âge physique. C’est un signal de forme, pas une évaluation clinique. Explorez-la avec vos tendances plutôt que de prendre un chiffre pour toute l’histoire." },
+    ],
+    tint: {
+      eyebrow: "Faites-la vôtre", title: "Dix couleurs. Choisissez-en une et regardez le téléphone changer.",
+      body: "Chaque couleur ici a été capturée depuis l’app réelle et non filtrée dans un navigateur : ce que vous regardez est la vraie version. Les anneaux de récupération, de charge et de sommeil gardent leurs couleurs exprès — elles portent du sens, et une couleur qui signifie quelque chose ne doit pas suivre une préférence.", note: "La couleur de votre app est retenue sur cet appareil. Le site reste en orange Terrifit.",
+    },
+    features: {
+      eyebrow: "Ce qu’il y a dedans", title: "Conçue pour la version de vous de six heures du matin.",
+      items: [
+      { name: "Lit Apple Health", detail: "VFC, pouls au repos, sommeil, pas et poids, sans rien saisir" },
+      { name: "Fonctionne sans le bracelet", detail: "Suivez des programmes et notez vos séances sans acheter d’objet connecté" },
+      { name: "Âge physique", detail: "Une estimation dont les données et les limites restent consultables" },
+      { name: "Composition corporelle", detail: "Chaque bilan InBody que vous avez fait, tracé face à votre poids" },
+      { name: "Séance en cours", detail: "Séries, répétitions et charges notées au fil de l’effort, reportées à la semaine suivante" },
+      { name: "Progression hebdomadaire", detail: "Séances terminées et jours actifs, avec un récapitulatif que vous choisissez de partager" },
+      ],
+    },
+    close: { title: "C’est gratuit, et la lecture du matin le restera.", body: "Récupération, charge, sommeil et votre âge physique ne coûtent rien, pour toujours. Terrifit Pro coûte 7,99 $ par mois pour ce qui demande des semaines d’historique derrière.", note: "Bientôt sur iOS et Android. Précommandez un V1 et vous êtes dans le premier groupe." },
   },
 
   band: {
+    story: {
+      chapters: [
+      { kicker: "Toujours actif", title: "Il ne vous demande jamais de le lancer.", body: "Pas de bouton de séance, pas de rappel pour le mettre, pas de charge nocturne. Il mesure en continu dès que vous le fermez, seule façon de construire une base de référence qui veuille dire quelque chose." },
+      { kicker: "Quinze jours", title: "Chargez-le deux fois par mois.", body: "Deux semaines de fréquence cardiaque continue sur une charge. Assez pour cesser de penser à la batterie, et c’est bien le but : un bracelet sur son chargeur ne mesure rien." },
+      { kicker: "ECG et PPG", title: "Deux façons de lire le même cœur.", body: "La mesure optique tourne toute la journée. Une seconde électrode enregistre un tracé ECG à une dérivation quand vous posez le bout du doigt dessus. Enregistrer, pas diagnostiquer : si quelque chose paraît inhabituel, l’app vous dit d’aller voir quelqu’un qui peut réellement se prononcer." },
+      { kicker: "Sans écran", title: "Rien à regarder.", body: "Pas d’écran, pas de notification, pas de vibration au poignet au milieu d’une série. Le bracelet est un capteur. La mesure, et le raisonnement derrière, ont leur place sur un écran que vous alliez consulter de toute façon." },
+      { kicker: "Tissé", title: "Fait pour être porté, pas rangé.", body: "Deux couleurs de fil tissées ensemble plutôt qu’une teinture unie. Il encaisse la sueur et le chlore sans passer, sèche à plat en une vingtaine de minutes, et ne ressemble pas à du matériel de salle à un dîner." },
+      { kicker: "Vos chiffres", title: "Chaque score s’ouvre.", body: "Touchez un chiffre et vous obtenez les mesures derrière, la référence à laquelle chacune a été comparée, son poids dans le score, et ce qui manquait à la journée. Aucun autre bracelet ne vous montre ses calculs." },
+      ],
+      statement: { lead: "Il mesure.", emphasis: "L’app explique." },
+    },
+    preorder: {
+      label: "Avancement des précommandes", of: "sur", reserved: "réservés",
+      refund: "Nous lançons la fabrication à 500. Votre carte est débitée maintenant et remboursée intégralement, sur demande, à tout moment avant l’expédition de votre bracelet.",
+      triggered: "La série est financée et commandée. Réservez maintenant pour figurer dans le premier envoi.",
+    },
     meta: {
       title: "Terrifit V1 — le bracelet qui vous dit quand pousser",
       description:
@@ -27,6 +155,7 @@ export const fr: PagesTranslation = {
     nav: ["Aperçu", "Design", "Mesures", "Batterie", "Applis", "Fiche technique"],
     buy: "Précommander",
     hero: {
+      image: { alt: "Bracelet Terrifit V1 en lévitation sur un fond charbon profond, en trois quarts, la sangle tissée s’incurvant vers l’objectif avec un léger liseré orange le long du module de capteurs" },
       eyebrow: "Terrifit V1",
       title: "Arrêtez de deviner jusqu’où pousser",
       sub: "V1 lit votre fréquence cardiaque, votre sommeil et votre récupération 24 heures sur 24. Chaque matin il vous dit ce que votre corps peut encaisser, et pendant la séance il vous dit quand vous en avez assez fait. Aucun écran à consulter, rien à lancer.",
@@ -51,6 +180,19 @@ export const fr: PagesTranslation = {
       cta: "Ajouter au panier",
     },
     sensing: {
+      metrics: [
+      { name: "Fréquence cardiaque", detail: "Jour et nuit, pas seulement à l’entraînement" },
+      { name: "Variabilité cardiaque", detail: "Mesurée dans votre sommeil le plus profond, quand le chiffre a vraiment du sens" },
+      { name: "Fréquence respiratoire", detail: "Respirations par minute la nuit. C’est souvent la première chose qui bouge quand vous couvez quelque chose" },
+      { name: "Oxygène sanguin", detail: "SpO₂ nocturne, et votre adaptation si vous vous entraînez en altitude" },
+      { name: "Température cutanée", detail: "Comparée à votre propre référence plutôt qu’à une moyenne des autres" },
+      { name: "Sommeil", detail: "Léger, profond et paradoxal, plus le temps réellement éveillé, face au sommeil qu’il vous fallait" },
+      { name: "Charge", detail: "Le travail fourni par votre cœur aujourd’hui, sur une échelle de 0 à 21" },
+      { name: "Récupération", detail: "Un score chaque matin, calculé à partir de votre VFC, votre pouls au repos, votre sommeil et votre respiration" },
+      { name: "Mouvement", detail: "Accéléromètre et gyroscope six axes, pour détecter l’activité, découper le sommeil et mesurer combien vous avez bougé" },
+      { name: "Séances automatiques", detail: "Il comprend que vous avez commencé et l’enregistre. Plus de quarante activités" },
+      ],
+      image: { alt: "Très gros plan du dessous du Terrifit V1, montrant cinq LED vertes et quatre fenêtres de capteur qui brillent sur du verre noir" },
       eyebrow: "Ce qu’il mesure",
       title: "Il vous lit en permanence",
       body:
@@ -64,23 +206,58 @@ export const fr: PagesTranslation = {
       { title: "Heure", body: "L’heure, lisible en tournant le poignet de quelques degrés. Rien d’autre à l’écran, et rien ne vibre." },
     ],
     daily: {
+      steps: [
+      { time: "06:40", title: "Score de récupération", body: "Il vous attend au réveil, et il sait déjà ce que la nuit vous a fait." },
+      { time: "12:00", title: "L’objectif du jour", body: "Ce que votre corps peut encaisser aujourd’hui, d’après la récupération que vous avez vraiment et non le plan écrit dimanche." },
+      { time: "17:30", title: "Pendant la séance", body: "Fréquence cardiaque et charge en direct sur votre téléphone, et des minuteurs de repos qui démarrent quand le bracelet vous voit vous arrêter." },
+      { time: "22:50", title: "L’heure du coucher", body: "L’heure qui vous amène à l’objectif de demain, ajustée à la dureté de la séance que vous venez de faire." },
+      ],
       eyebrow: "Une journée normale",
       title: "Quatre moments par jour où ça vaut le coup de regarder",
       body: "Inutile d’ouvrir l’appli en boucle. Voici les moments où le bracelet change vraiment ce que vous feriez.",
     },
     battery: {
+      cards: [
+      { value: "15 jours", label: "Par charge", detail: "Avec la mesure continue de la fréquence cardiaque active en permanence." },
+      { value: "30+ jours", label: "Avec le PowerPack", detail: "Une batterie sans fil qui se clipse et recharge le V1 pendant que vous le portez." },
+      { value: "~2 heures", label: "De vide à plein", detail: "Branchez-le en USB-C : une charge couvre quinze jours." },
+      { value: "Aucun trou", label: "Dans vos données", detail: "Comme vous ne l’enlevez jamais, vos références de sommeil et de récupération restent intactes." },
+      ],
+      image: { alt: "Le PowerPack Terrifit se glissant sur le bracelet au poignet de quelqu’un, un petit module noir mat avec un unique témoin de charge ambre" },
       eyebrow: "Batterie",
       title: "Plus de deux semaines entre deux charges",
       body:
         "Deux semaines, c’est le moment où l’on arrête de penser à recharger un wearable et où on le porte, simplement. Et quand il faut, le PowerPack se clipse et le recharge sans quitter votre poignet : vous ne perdez pas une nuit de données de sommeil.",
     },
     water: {
+      points: [
+      { title: "Étanche IP68", body: "La pluie, la sueur et la douche ne posent aucun problème. Retirez-le avant de nager des longueurs ou d’aller dans la mer." },
+      { title: "Sueur et sel", body: "Le tissage laisse passer la sueur au lieu de la retenir, et sèche à plat en une vingtaine de minutes." },
+      { title: "Sauna et bain froid", body: "Certifié de −20 °C à 60 °C : les séances de récupération sont enregistrées comme les autres." },
+      { title: "Le chlore ne l’abîme pas", body: "Pas de décoloration, pas de raidissement et pas d’odeur après une saison complète de piscine." },
+      ],
+      image: { alt: "Terrifit V1 au poignet d’un nageur perçant la surface d’un bassin, gouttes suspendues dans une lumière latérale dure" },
       eyebrow: "Eau et transpiration",
       title: "Nagez avec, douchez-vous avec, transpirez dedans",
       body:
         "La V1 est certifiée IP68 : la pluie, la sueur et la douche ne posent aucun problème. Ce n'est pas une montre de plongée — retirez-la avant de nager ou d'aller dans la mer.",
     },
     integrations: {
+      note: "Apple Health fonctionne dès aujourd’hui dans l’app. Health Connect et les connexions directes ci-dessous sont en cours de développement et arriveront avant l’expédition des premiers bracelets — si l’une glisse, nous le dirons ici.",
+      apps: [
+      { name: "Apple Health", detail: "Dans les deux sens. Séances, sommeil, fréquence cardiaque, VFC et respiration." },
+      { name: "Google Health Connect", detail: "Synchronise dans les deux sens avec toute app Android compatible." },
+      { name: "Samsung Health", detail: "Séances, sommeil et activité quotidienne." },
+      { name: "Strava", detail: "Publie vos séances automatiquement, avec fréquence cardiaque et charge." },
+      { name: "Garmin Connect", detail: "Place la récupération V1 à côté de votre historique Garmin." },
+      { name: "Apple Watch", detail: "Charge en direct au poignet pendant l’effort." },
+      { name: "TrainingPeaks", detail: "Envoie les séances terminées dans le plan de votre coach." },
+      { name: "Peloton", detail: "La fréquence cardiaque des cours et la charge finissent sur la même chronologie." },
+      { name: "Zwift", detail: "Diffuse votre fréquence cardiaque directement dans la sortie." },
+      { name: "Oura", detail: "Récupère le sommeil d’une bague que vous avez déjà." },
+      { name: "Fitbit", detail: "Importe votre historique si vous changez." },
+      { name: "MyFitnessPal", detail: "Met ce que vous avez mangé à côté du travail réellement fourni." },
+      ],
       eyebrow: "Compatible avec vos autres applis",
       title: "Vos données vont là où vous les gardez déjà",
       body:
@@ -88,8 +265,22 @@ export const fr: PagesTranslation = {
       footnote:
         "Vous pouvez tout exporter en CSV quand vous voulez. Nous ne vendons pas de données de santé, et aucun coach ni créateur n’en voit quoi que ce soit sans que vous le partagiez.",
     },
-    box: { eyebrow: "Dans la boîte", title: "Ce que vous recevez vraiment" },
-    specsSection: { eyebrow: "Caractéristiques", title: "La fiche complète" },
+    box: {
+      items: [
+      { name: "Le capteur V1", detail: "Matrice optique à cinq LED, accéléromètre, gyroscope et capteur de température cutanée" },
+      { name: "Une sangle tissée", detail: "Dans la couleur de votre choix, à la taille de votre poignet" },
+      { name: "V1 PowerPack", detail: "Le chargeur sans fil qui fonctionne pendant que vous portez le bracelet" },
+      { name: "Câble USB-C", detail: "Un mètre, tressé" },
+      { name: "Premier mois d’abonnement", detail: "Cartes, historique complet et canaux créateurs inclus" },
+      ],
+      image: { alt: "Mise à plat de tout le contenu de la boîte Terrifit V1 sur papier chaud : module capteur, sangle tissée, PowerPack et câble USB-C tressé, disposés en grille" }, eyebrow: "Dans la boîte", title: "Ce que vous recevez vraiment" },
+    specsSection: {
+      groups: [
+      { title: "Capteurs", rows: [["Optique", "Capteur de fréquence cardiaque PPG"], ["Mouvement", "Accéléromètre 3 axes"], ["Température", "Température cutanée"], ["Oxygène sanguin", "SpO₂ nocturne"]] },
+      { title: "Alimentation", rows: [["Autonomie", "180 mAh, plus de 15 jours"], ["Charge", "Chargeur magnétique"], ["Câble", "USB-C"]] },
+      { title: "Fabrication", rows: [["Étanchéité", "IP68"], ["Sangle", "Nylon et élasthanne tissés"]] },
+      { title: "Connectivité", rows: [["Sans fil", "Bluetooth LE 5.4"], ["Stockage hors ligne", "Jusqu’à 30 jours"], ["Téléphones", "iOS et Android"], ["Export", "CSV, Apple Health, Health Connect"], ["Mises à jour", "Par voie hertzienne"]] },
+      ], eyebrow: "Caractéristiques", title: "La fiche complète" },
     privacy: {
       title: "Vos données de santé vous appartiennent",
       body:
@@ -106,12 +297,36 @@ export const fr: PagesTranslation = {
   },
 
   maps: {
+    exercise: {
+      eyebrow: "Dans un exercice",
+      title: "Squat arrière, 5 séries de 3 à 82 %",
+      body: "Voilà ce que vous voyez en ouvrant un mouvement au milieu d’une séance.",
+      cuesTitle: "À quoi penser",
+      cues: ["Gainez avant de sortir la barre du rack, pas après l’avoir marchée.", "Les genoux suivent l’axe du deuxième orteil pendant toute la descente.", "Écartez le sol avec les pieds en sortant du bas."],
+      faultsTitle: "Où les gens se trompent",
+      faults: ["Les hanches montent en premier, la barre part en avant et cela devient un good morning.", "Perdre le gainage en bas, ce qui est l’origine de la plupart des dos ronds."],
+      tempoTitle: "Tempo",
+      tempo: "3-1-X-0. Trois secondes en descente, une de maintien, remontée explosive, pas de pause en haut.",
+      subsTitle: "Si votre salle n’a pas de rack",
+      subs: ["Squat goblet, 5 séries de 6", "Fente bulgare, 4 séries de 6 par jambe"],
+      video: { alt: "Image de démonstration à deux angles d’un squat arrière en position basse, de face et de profil, fond de studio neutre avec lignes de repère" },
+      bandTitle: "Ce que le bracelet a vu",
+      bandRows: [
+        ["Fréquence cardiaque", "Pic à 168, retour à 122 avant la série suivante"],
+        ["Effort", "Le plus élevé des quatre séries effectives jusqu’ici"],
+        ["Série détectée", "Enregistrée d’après la montée et la descente du pouls"],
+        ["Repos", "2:41 avant la série suivante"],
+        ["Charge de séance", "11,4 sur 21 jusqu’ici"],
+        ["Coût en récupération", "Reporté sur l’objectif de demain"],
+      ],
+    },
     meta: {
       title: "Terrifit Maps — des programmes qui s’adaptent à vous",
       description:
         "Un Map est un programme complet : blocs, semaines, séances et exercices, avec la technique expliquée sur chaque mouvement, des charges qui s’ajustent à ce que vous avez soulevé, et un suivi répétition par répétition si vous portez une V1.",
     },
     hero: {
+      image: { alt: "Sprinteur s’arrachant des starting-blocks dans une salle d’entraînement sombre, une seule lumière dure rasant la piste" },
       eyebrow: "Terrifit Maps",
       title: "Un programme qui sait ce que vous avez soulevé la semaine dernière",
       sub: "Un Map, c’est tout le plan — les blocs, les semaines, les séances et chaque exercice — écrit par quelqu’un dont c’est le métier. Il vous apprend le mouvement, calcule ce qu’il faut mettre sur la barre, et si vous portez une V1, il surveille la série presque comme quelqu’un debout derrière vous.",
@@ -125,6 +340,12 @@ export const fr: PagesTranslation = {
       { label: "Des séances sont terminées" },
     ],
     anatomy: {
+      layers: [
+      { key: "block", label: "Bloc", title: "Les blocs décident de ce que vous visez", body: "Quatre à six semaines orientées vers une seule chose : construire du volume, monter en intensité, atteindre le pic ou décharger. La Carte vous dit dans lequel vous êtes et à peu près ce que cela doit donner.", detail: ["Construction · semaines 1 à 4", "Intensité · semaines 5 à 9", "Pic · semaines 10 et 11", "Décharge · semaine 12"] },
+      { key: "week", label: "Semaine", title: "Les semaines équilibrent la charge", body: "Volume, intensité et ce que votre bracelet a rapporté de la semaine passée entrent dans le même calcul. Une mauvaise semaine de sommeil change toute la semaine, pas une seule séance.", detail: ["Charge prévue 62", "Jours lourds : lundi, jeudi", "Un créneau de préparation physique optionnel", "Décharge automatique après 3 jours de mauvaise récupération"] },
+      { key: "session", label: "Séance", title: "Les séances vous disent ce qui vous attend", body: "Échauffement, mouvement principal, accessoires, finisher. Vous avez une estimation de durée et de charge avant de commencer, pour savoir à quoi vous vous engagez.", detail: ["Échauffement · 8 min", "Squat arrière · 5×3 à 82 %", "Soulevé de terre roumain · 3×8", "Fente bulgare · 3×10 par jambe", "Finisher · 6 min"] },
+      { key: "exercise", label: "Exercice", title: "Les exercices sont enseignés, pas seulement listés", body: "Chaque mouvement vient avec une démonstration, les trois consignes qui comptent vraiment, les deux erreurs que les gens font réellement, un tempo, et un remplacement si votre salle n’a pas le matériel.", detail: ["Démonstration sous deux angles", "3 consignes techniques", "2 erreurs fréquentes", "Tempo 3-1-X-0", "2 substitutions"] },
+      ],
       eyebrow: "Comment un Map est construit",
       title: "Quatre niveaux, identiques dans tous les Maps",
       body: "Quel que soit l’auteur, un Map s’ouvre de la même façon : vous n’avez jamais à apprendre le tableur d’un nouveau coach. Choisissez un niveau pour voir ce qu’il contient.",
@@ -138,12 +359,52 @@ export const fr: PagesTranslation = {
       chartCaption: "Douze semaines d’un Map de force. Les deux semaines plates sont une décharge que le Map a ajoutée seul.",
     },
     form: {
+      image: { alt: "Cycliste en plein effort vu de face, mains en bas du cintre, le V1 visible au poignet" },
+      points: [
+      { title: "Des séries sans rien toucher", body: "La montée puis la descente du pouls marquent le début et la fin d’une série : la coche est déjà là quand vous regardez." },
+      { title: "Un repos qui se chronomètre seul", body: "Le minuteur démarre à la fin de la série et vous relance si vous êtes assis depuis trop longtemps." },
+      { title: "L’effort sur la séance", body: "Comment cette série se compare aux précédentes, pour qu’une quatrième série faible se voie pendant que vous êtes encore au-dessus de la barre." },
+      { title: "Charge de la séance", body: "Le coût cardiovasculaire total de la séance, qui alimente l’objectif de récupération du lendemain." },
+      { title: "C’est vous qui jugez", body: "Le bracelet lit votre cœur, pas votre barre. Il ne compte pas vos répétitions et ne note pas votre profondeur, et il ne prétend pas le faire." },
+      { title: "Tout est modifiable", body: "L’enregistrement automatique est désactivé par défaut et chaque série cochée se corrige d’une pression." },
+      ],
       eyebrow: "Technique et exécution",
       title: "Il regarde la série, pas seulement le total",
       body:
         "L’accéléromètre et le gyroscope de la V1 lisent votre poignet à chaque répétition. C’est assez pour les compter, chronométrer la descente, mesurer la distance réellement parcourue et repérer le moment où la quatrième répétition ne ressemble plus à la première.",
     },
     library: {
+      included: "Inclus",
+      items: [
+      {
+        slug: "hypertrophy-base", name: "Base d’Hypertrophie", type: "Physique", level: "Reprise", weeks: 12, days: 4,
+        creator: "Dara Okafor", credential: "Préparatrice physique, 11 ans, deux programmes nationaux",
+        summary: "Quatre jours par semaine autour de six mouvements que vous finirez par très bien maîtriser. Le volume monte quatre semaines, puis l’intensité prend le relais, puis pic et décharge.",
+        equipment: "Barre, rack, haltères, poulies",
+        image: { alt: "Boxeur enchaînant des combinaisons sous une unique lumière zénithale, bandes aux mains, en pleine expiration" },
+      },
+      {
+        slug: "strength-five", name: "Force Cinq", type: "Force", level: "Régulier", weeks: 10, days: 3,
+        creator: "Ivan Petrov", credential: "Entraîneur de force athlétique, trois athlètes sur podium IPF",
+        summary: "Dix semaines à chercher un total plus élevé. Trois séances par semaine : squat, développé couché et soulevé de terre, avec les accessoires qui les font progresser.",
+        equipment: "Barre, rack, banc",
+        image: { alt: "Kettlebell au sommet d’un swing, athlète gainé, lumière latérale dure" },
+      },
+      {
+        slug: "engine-builder", name: "Constructeur de Moteur", type: "Endurance", level: "Débutant", weeks: 8, days: 5,
+        creator: "Nadia Haddad", credential: "Entraîneuse d’endurance, marathon et triathlon",
+        summary: "Huit semaines pour élargir la base aérobie. Cinq séances faciles à modérées par semaine, parce que la base se construit à une allure qui paraît trop lente.",
+        equipment: "Route, tapis ou vélo",
+        image: { alt: "Coureurs sur une route dégagée aux premières lueurs, avançant ensemble" },
+      },
+      {
+        slug: "return-to-training", name: "Retour à l’Entraînement", type: "Santé", level: "Débutant", weeks: 6, days: 3,
+        creator: "Sofia Marchetti", credential: "Réathlétisation et retour au jeu, douze ans",
+        summary: "Six semaines pour revenir après une longue coupure, en commençant à des charges qui paraîtront vexantes de légèreté. C’est le but : vous reconstruisez de la tolérance, vous ne la testez pas.",
+        equipment: "Haltères, élastiques",
+        image: { alt: "Coureur sur l’herbe à allure facile, lumière du matin, aucun effort sur le visage" },
+      },
+      ],
       eyebrow: "La bibliothèque",
       title: "Trouvez celui qui tient dans votre semaine",
       body: "Filtrez par objectif, niveau, matériel disponible et nombre de jours où vous pouvez vraiment vous entraîner.",
@@ -172,12 +433,24 @@ export const fr: PagesTranslation = {
   },
 
   creators: {
+    verification: {
+      eyebrow: "Avant de publier",
+      title: "Chaque coach est vérifié par une personne avant la mise en ligne de sa première Carte.",
+      body: "Personne ne publie de programme ni ne rassemble d’abonnés sur Terrifit tant que nous n’avons pas vérifié qui il est et ce qui le qualifie pour écrire de l’entraînement pour d’autres. Cela prend quelques jours, et c’est la raison pour laquelle une Carte Terrifit vaut mieux qu’un PDF d’un inconnu.",
+      items: [
+      { name: "Qui vous êtes", detail: "Pièce d’identité officielle, rapprochée du compte et du nom qui figurera sur vos Cartes." },
+      { name: "Ce qui vous qualifie", detail: "Votre certification de coach, votre diplôme, votre palmarès ou un travail documenté avec des clients. Nous acceptons plusieurs voies ; nous n’en acceptons pas aucune." },
+      { name: "Ce que vous comptez publier", detail: "Un plan de votre première Carte, relu par un coach de notre équipe selon les mêmes exigences que nos propres programmes." },
+      ],
+      note: "Tant que vous n’êtes pas vérifié, vous pouvez construire votre profil et rédiger une Carte, mais elle reste privée et vous ne pouvez ni prendre d’abonnés ni encaisser.",
+    },
     meta: {
       title: "Coacher sur Terrifit — être payé pour ce que vous faites déjà",
       description:
-        "Publiez des programmes, tenez un fil public gratuit et un fil privé payant, ouvrez des canaux, écrivez à vos membres et consultez les données qu’ils choisissent de partager. Vous gardez 80 %, payés chaque mois.",
+        "Publiez des programmes, tenez un fil public gratuit et un fil privé payant, ouvrez des canaux, écrivez à vos membres et consultez les données qu’ils choisissent de partager. Vous gardez 60 %, payés chaque mois.",
     },
     hero: {
+      image: { alt: "Passage de relais entre deux athlètes sur la piste, au moment précis où le témoin change de main" },
       eyebrow: "Pour les coachs et les créateurs",
       title: "Ceux qui vous suivent s’entraînent déjà. Vous pouvez enfin voir comment ça se passe.",
       sub: "Ailleurs, vous publiez et vous espérez. Ici, ceux qui vous suivent et ceux qui s’entraînent avec vous sont la même liste, et vous pouvez vraiment vérifier si votre programme a marché. Publiez des Maps, postez gratuitement, vendez du premium, ouvrez des canaux et écrivez directement.",
@@ -191,6 +464,12 @@ export const fr: PagesTranslation = {
       { label: "De frais pour commencer" },
     ],
     why: {
+      cards: [
+      { title: "Vous gardez 60 %", body: "Sur les programmes, les abonnements et l’accès aux canaux. Versé chaque mois à date fixe, avec un relevé détaillant chaque ligne." },
+      { title: "Vous voyez les résultats", body: "Quand quelqu’un l’autorise, vous voyez s’il vient, comment il dort et ce qu’il soulève. Vos témoignages cessent d’être des captures d’écran." },
+      { title: "On peut réellement vous trouver", body: "Les membres cherchent par objectif, niveau et matériel, pas par qui a le plus posté cette semaine. Un bon programme continue de se vendre longtemps après que vous avez cessé d’en parler." },
+      { title: "Tout au même endroit", body: "Livraison du programme, paiements, communauté, messages, points hebdomadaires et statistiques. Pas de tableur, pas de PDF, pas d’app de messagerie à côté et pas de page de liens." },
+      ],
       eyebrow: "Pourquoi une plateforme de plus",
       title: "Parce que celle-ci peut vous montrer si ça a marché",
       body:
@@ -201,26 +480,43 @@ export const fr: PagesTranslation = {
       title: "Publiez gratuitement, vendez le meilleur, même profil",
       body:
         "Votre fil public, c’est comment on vous trouve. Le fil privé, c’est comment vous êtes payé. Les deux sont côte à côte sur un seul profil : un abonné est à un geste de devenir client.",
-      public: { label: "Fil public", price: "Gratuit", title: "D’où vient votre audience", body: "Tout ce que vous publiez en public est trouvable sur Terrifit — par les membres, et par d’autres coachs qui cherchent avec qui collaborer." },
-      private: { label: "Fil privé", price: "Vous fixez le prix", title: "Là où est l’argent", body: "Un fil réservé aux abonnés, pour ce qui vous a pris des années à apprendre. Au mois, à l’année, ou couplé à l’un de vos Maps." },
+      public: { items: ["Publications, clips et séries photo sans limite de longueur", "Montrés aux membres qui s’entraînent vers l’objectif que vous coachez", "Repartagés par d’autres créateurs, d’où vient l’essentiel des nouveaux abonnés", "Une séance d’essai gratuite tirée de n’importe laquelle de vos Cartes, en un geste", "Commentaires et réactions de toute la plateforme"], label: "Fil public", price: "Gratuit", title: "D’où vient votre audience", body: "Tout ce que vous publiez en public est trouvable sur Terrifit — par les membres, et par d’autres coachs qui cherchent avec qui collaborer." },
+      private: { items: ["Décryptages de programmation et analyses techniques sérieuses", "Les consignes et corrections que vous ne mettriez jamais en public", "Directs et questions-réponses réservés aux abonnés", "Accès anticipé à chaque Carte que vous publiez", "Abonnements résiliables à tout moment, encaissés par nous et versés chaque mois"], label: "Fil privé", price: "Vous fixez le prix", title: "Là où est l’argent", body: "Un fil réservé aux abonnés, pour ce qui vous a pris des années à apprendre. Au mois, à l’année, ou couplé à l’un de vos Maps." },
     },
     channels: {
+      items: [
+      { title: "Canaux de groupe", body: "Tous ceux qui suivent la même Carte la même semaine, dans une seule salle. Ils commencent à se répondre entre eux avant que vous n’arriviez." },
+      { title: "Messages privés", body: "En tête-à-tête avec n’importe quel membre, sa Carte et sa semaine affichées à côté de la conversation." },
+      { title: "Points programmés", body: "Posez les cinq mêmes questions chaque dimanche. Les réponses arrivent dans une file, pas dans un fil de discussion." },
+      { title: "Notes vocales et corrections", body: "Quelqu’un vous envoie une série, vous renvoyez trente secondes d’audio par-dessus sa vidéo." },
+      { title: "Annonces", body: "Envoyez à tous les abonnés, à un canal, ou seulement à ceux qui décrochent." },
+      { title: "Réponses enregistrées", body: "La réponse que vous tapez quarante fois par semaine, prête en deux gestes." },
+      ],
+      image: { alt: "Écran de téléphone affichant un canal de coach Terrifit avec les messages des membres et une annonce épinglée de la semaine trois, interface sombre, tenu d’une main" },
       eyebrow: "Canaux et messages",
       title: "Parlez à mille personnes d’un coup, ou à une seule",
       body:
         "Les canaux sont vos salles. Une pour tous ceux qui suivent le même programme, une pour les débutants, une pour ceux que vous coachez en individuel. Les messages directs sont juste en dessous : un suivi ne se perd plus dans un fil de commentaires.",
     },
     figures: {
+      shared: [
+      { label: "Présence", value: "94 %", note: "Séances faites sur séances prévues" },
+      { label: "Récupération", value: "+9", note: "Moyenne glissante sur 14 jours" },
+      { label: "Sommeil", value: "7 h 12", note: "Médiane sur le bloc" },
+      { label: "Volume", value: "12 450 kg", note: "Cette semaine, tout cumulé" },
+      { label: "1RM estimée", value: "+11 %", note: "Squat arrière, depuis la semaine un" },
+      { label: "Série de points", value: "9 semaines", note: "Dimanches d’affilée" },
+      ],
       eyebrow: "Leurs chiffres",
       title: "Vous voyez leurs progrès, mais seulement s’ils disent oui",
       body:
         "Un membre peut partager ses données d’entraînement avec vous, coach par coach, aussi longtemps qu’il le souhaite. Tant que c’est activé, vous ne devinez plus. Dès qu’il coupe, tout disparaît de votre côté, et nous le lui confirmons.",
-      consent: { title: "Comment fonctionne le partage" },
+      consent: { points: ["C’est désactivé au départ, et cela se règle coach par coach.", "Le membre voit exactement quels chiffres vous pouvez voir, écrit en clair.", "Un geste le désactive, et votre vue se vide en quelques secondes.", "Nous n’utilisons jamais ce qu’il a partagé pour tenter de lui vendre une option."], title: "Comment fonctionne le partage" },
     },
     calculator: {
       eyebrow: "Faites le calcul",
       title: "Ce que ça donne à votre échelle",
-      body: "Bougez les curseurs. C’est la vraie répartition : 80 % pour vous, sur tout.",
+      body: "Bougez les curseurs. C’est la vraie répartition : 60 % pour vous, sur tout.",
       followersLabel: "Abonnés que vous touchez",
       conversionLabel: "Combien s’abonnent",
       priceLabel: "Prix mensuel",
@@ -229,19 +525,54 @@ export const fr: PagesTranslation = {
       resultLabel: "Ce que vous toucheriez chaque mois",
       breakdownSubs: "Abonnements",
       breakdownMaps: "Ventes de programmes",
-      shareNote: "Après nos 20 %, avant les impôts qui vous incombent.",
+      shareNote: "Après nos 40 %, avant les impôts qui vous incombent.",
       annual: "par an",
       disclaimer: "C’est une illustration, pas une promesse. Ce que vous gagnerez dépend de votre audience, de vos prix et de la qualité du programme.",
     },
-    tools: { eyebrow: "Vos outils", title: "De quoi faire ça sérieusement" },
+    tools: {
+      items: [
+      { title: "Créateur de programmes", body: "Blocs, semaines, séances et exercices, avec une bibliothèque de 36 mouvements déjà accompagnés de coaching, qui s’étoffe à chaque Carte publiée. Copiez une semaine, déplacez un bloc, poussez une mise à jour à tout le monde d’un coup." },
+      { title: "Votre vidéothèque", body: "Filmez une démonstration une fois et réutilisez-la. Vos clips se rattachent à ce mouvement dans chaque programme que vous écrivez." },
+      { title: "Séances en direct", body: "Diffusez à vos abonnés avec la fréquence cardiaque et la charge à l’écran pour quiconque regarde avec un V1." },
+      { title: "File des points hebdo", body: "Réponses, photos et chiffres de la semaine dans une seule liste à dérouler, votre réponse enregistrée dans le dossier de la personne." },
+      { title: "Votre propre page", body: "Vos programmes, vos formules d’abonnement et les produits partenaires que vous recommandez, sur une page où envoyer les gens." },
+      { title: "Statistiques", body: "D’où viennent vos abonnés, ce qui convertit, quels programmes les gens terminent, et la semaine où ils ont tendance à lâcher." },
+      ], eyebrow: "Vos outils", title: "De quoi faire ça sérieusement" },
     payouts: {
+      rows: [
+      ["Votre part", "60 % de chaque programme, abonnement et canal"],
+      ["Quand vous êtes payé", "Chaque mois, le 5, pour le mois précédent"],
+      ["Versement minimum", "1 000 $. En dessous, le solde est reporté au mois suivant plutôt que perdu"],
+      ["Comment vous êtes payé", "Virement, Wise ou Stripe Connect dans plus de 40 pays"],
+      ["Remboursements", "Déduits au coût, jamais avec une pénalité en plus"],
+      ["Produits partenaires", "Commission supplémentaire sur tout ce que vous recommandez"],
+      ],
       eyebrow: "Être payé",
       title: "Chaque mois, à date fixe, sans surprise",
       note: "Pas de frais de mise en ligne, pas d’abonnement plateforme, pas de minimum d’abonnés.",
     },
-    steps: { eyebrow: "Pour commencer", title: "Quatre étapes, environ une semaine", cta: "Postuler" },
-    voices: { eyebrow: "Du premier groupe de coachs", title: "Ce qui a changé pour eux" },
-    faq: { eyebrow: "Questions", title: "Celles qu’on nous pose vraiment" },
+    steps: {
+      items: [
+      { title: "Candidatez", body: "Dites-nous qui vous coachez et montrez-nous un peu de votre travail. Nous lisons chaque candidature nous-mêmes." },
+      { title: "Faites-vous vérifier", body: "Diplômes, assurance le cas échéant, et pièce d’identité. Cela prend deux ou trois jours, et c’est pour cela que les membres font confiance au badge." },
+      { title: "Construisez quelque chose", body: "Écrivez votre premier programme ou apportez-en un que vous menez déjà. Notre équipe le passe en revue avec vous avant la mise en ligne." },
+      { title: "Lancez-vous", body: "Votre page ouvre, vos fils démarrent, et nous vous plaçons devant des membres qui s’entraînent vers ce que vous coachez." },
+      ], eyebrow: "Pour commencer", title: "Quatre étapes, environ une semaine", cta: "Postuler" },
+    voices: {
+      items: [
+      { quote: "J’ai arrêté d’envoyer des PDF et de courir après les gens en message privé. Mon taux d’achèvement est passé d’un tiers à plus de quatre-vingt-dix pour cent sans changer un seul exercice.", name: "Jordan Cole", role: "Préparateur physique, 12,6 k abonnés" },
+      { quote: "Le fil privé paie mon loyer. Le fil public nourrit le fil privé. Je n’ai jamais eu à choisir entre donner et faire tourner une activité.", name: "Maya Reyes", role: "Coach hybride, 41 k abonnés" },
+      { quote: "Voir la récupération de quelqu’un avant sa séance a changé ma façon d’écrire les programmes. J’ai arrêté de deviner dès la troisième semaine.", name: "Dr. Sam Whitfield", role: "Scientifique du sport, 8,2 k abonnés" },
+      ], eyebrow: "Du premier groupe de coachs", title: "Ce qui a changé pour eux" },
+    faq: {
+      items: [
+      { q: "Faut-il une grosse audience ?", a: "Non. Nous regardons la qualité du coaching, pas le nombre d’abonnés. Environ un tiers de notre premier groupe est arrivé avec moins de deux mille." },
+      { q: "Puis-je continuer à publier ailleurs ?", a: "Oui, et vous devriez. Terrifit est l’endroit où vivent le programme, le paiement et la relation. Nous ne demandons pas d’exclusivité." },
+      { q: "À qui appartiennent les programmes que j’écris ?", a: "À vous. Vous pouvez les dépublier, les modifier ou les emmener ailleurs. Ceux qui en ont déjà acheté un gardent la version achetée." },
+      { q: "Et si quelqu’un demande un remboursement ?", a: "Nous nous en occupons. C’est déduit au coût dans la fenêtre de remboursement, et nous n’ajoutons jamais de pénalité." },
+      { q: "Puis-je voir les données de santé de quelqu’un ?", a: "Uniquement ce qu’il a spécifiquement choisi de partager, et uniquement tant qu’il le laisse activé. Vous ne verrez jamais quoi que ce soit sans son accord." },
+      { q: "Faut-il un bracelet V1 pour publier ?", a: "Non. Les membres sans bracelet consignent leurs séries à la main et bénéficient quand même de la progression automatique des charges. Un V1 ajoute la fréquence cardiaque en direct, la détection automatique des séries et les données de récupération qui décident de la difficulté de leur prochaine séance." },
+      ], eyebrow: "Questions", title: "Celles qu’on nous pose vraiment" },
     cta: {
       eyebrow: "Coachs fondateurs",
       title: "Les mille premiers donnent le ton",
@@ -255,6 +586,8 @@ export const fr: PagesTranslation = {
     meta: { title: "Contact — Terrifit", description: "Écrivez-nous au sujet de votre abonnement, du bracelet V1, d’une candidature de coach, d’un partenariat ou de la presse." },
     hero: { eyebrow: "Contact", title: "Parlez à quelqu’un", sub: "Une petite équipe lit tout ce qui arrive ici. Choisissez la bonne case et vous aurez généralement une réponse sous un jour ouvré." },
     form: {
+      namePlaceholder: "Alex Duarte",
+      emailPlaceholder: "vous@exemple.com",
       title: "Écrivez-nous",
       topicLabel: "C’est à quel sujet ?",
       topics: [
@@ -311,6 +644,11 @@ export const fr: PagesTranslation = {
   },
 
   shop: {
+    searchLabel: "Rechercher dans la boutique",
+    searchPlaceholder: "Protéines, bracelets, le V1…",
+    departmentsLabel: "Rayons",
+    itemOne: "article",
+    itemMany: "articles",
     meta: { title: "Boutique Terrifit — le bracelet V1, les bracelets, les compléments et l’équipement", description: "Précommandez le bracelet Terrifit V1, ajoutez des bracelets et un PowerPack, et faites le plein des compléments que nous et nos partenaires utilisons vraiment." },
     hero: { eyebrow: "Boutique Terrifit", title: "Compléments maintenant. Matériel en novembre.", sub: "Les compléments, les produits de récupération et l’équipement partent aujourd’hui — les nôtres, et une courte liste de partenaires que nous avons vérifiés. Le bracelet V1 et ses accessoires sont en précommande et partent en novembre 2027." },
     trust: [
@@ -319,7 +657,7 @@ export const fr: PagesTranslation = {
       { title: "2 ans de garantie", body: "Sur tout ce que nous fabriquons" },
       { title: "Paiement sécurisé", body: "Carte, wallets et crypto" },
     ],
-    categories: { all: "Tout", band: "Bracelet et abonnement", accessories: "Accessoires", apparel: "Vêtements", fuel: "Compléments", recovery: "Récupération" },
+    categories: { bundles: "Coffrets", all: "Tout", band: "Bracelet et abonnement", accessories: "Accessoires", apparel: "Vêtements", fuel: "Compléments", recovery: "Récupération" },
     sortLabel: "Trier",
     sort: { featured: "Sélection", priceLow: "Prix croissant", priceHigh: "Prix décroissant", rating: "Mieux notés" },
     resultCount: "produits",
@@ -446,7 +784,7 @@ export const fr: PagesTranslation = {
     },
   },
 
-  search: {
+  search: { hint: "⌘K",
     placeholder: "Rechercher sur Terrifit",
     open: "Rechercher",
     close: "Fermer la recherche",

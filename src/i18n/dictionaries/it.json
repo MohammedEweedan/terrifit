@@ -46,7 +46,7 @@
         "label": "Ogni integratore del negozio, lotto per lotto"
       },
       {
-        "value": "80%",
+        "value": "60%",
         "label": "Di ogni vendita va al creator che se l’è guadagnata"
       }
     ]
@@ -163,8 +163,8 @@
     "economics": [
       {
         "item": "Vendite di Mappe",
-        "you": "80%",
-        "platform": "20% piattaforma"
+        "you": "60%",
+        "platform": "40% piattaforma"
       },
       {
         "item": "Abbonamenti a pagamento",
@@ -411,7 +411,7 @@
       },
       {
         "q": "Quanto mi costa come creator?",
-        "a": "Terrifit trattiene il 20% delle vendite di Mappe e il 25% degli abbonamenti a pagamento, dei ricavi delle dirette e delle mance. Commissioni di pagamento, imposte e commissioni degli app store sono voci separate nel rendiconto, invece di essere nascoste dentro la commissione."
+        "a": "Terrifit trattiene il 40% delle vendite di Mappe e il 25% degli abbonamenti a pagamento, dei ricavi delle dirette e delle mance. Commissioni di pagamento, imposte e commissioni degli app store sono voci separate nel rendiconto, invece di essere nascoste dentro la commissione."
       },
       {
         "q": "Quanto sono private le mie foto dei progressi?",
@@ -633,15 +633,15 @@
     "creator": {
       "eyebrow": "Terrifit per i creator",
       "headline": "Trasforma un pubblico in un'attività che è tua.",
-      "sub": "Vendi Mappe strutturate, gestisci community a pagamento e dirette, e tieni l'80% di quello che guadagni — con gli strumenti per seguire davvero chi ha comprato.",
+      "sub": "Vendi Mappe strutturate, gestisci community a pagamento e dirette, e tieni l'60% di quello che guadagni — con gli strumenti per seguire davvero chi ha comprato.",
       "points": [
         {
           "title": "Vendi struttura, non menzioni",
           "body": "Una Mappa è un prodotto vero: allenamento, nutrizione, check-in, traguardi e una cronologia delle versioni che i tuoi clienti possono vedere."
         },
         {
-          "title": "Tieni l'80%",
-          "body": "20% di commissione sulle vendite di Mappe. Commissioni di pagamento, imposte e commissioni degli store sono voci separate, mai nascoste dentro."
+          "title": "Tieni l'60%",
+          "body": "40% di commissione sulle vendite di Mappe. Commissioni di pagamento, imposte e commissioni degli store sono voci separate, mai nascoste dentro."
         },
         {
           "title": "Sappi chi sta mollando",

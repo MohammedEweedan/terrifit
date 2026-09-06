@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Locale } from "@/i18n/config";
+import { websiteCopy } from "@/i18n/website";
 
-const TABS = ["today", "trends", "body"] as const;
+const TABS = ["today", "coach", "trends", "body"] as const;
 
 /**
  * Three tabs. On a phone they sit at the bottom, where a thumb is — this is
@@ -27,7 +28,7 @@ export function AppNav({
         const active = pathname === target;
         return (
           <Link key={tab} href={target} aria-current={active ? "page" : undefined} className={active ? "is-active" : undefined}>
-            {labels[tab]}
+            {tab === "coach" ? websiteCopy(locale).coach : labels[tab]}
           </Link>
         );
       })}

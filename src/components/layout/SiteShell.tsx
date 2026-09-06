@@ -23,7 +23,7 @@ export function SiteShell({
   return (
     <div className={`tf-site ${className ?? ""}`}>
       <TerrifitHeader locale={locale} copy={copy} />
-      <main>{children}</main>
+      <main id="main-content">{children}</main>
       <TerrifitFooter locale={locale} copy={copy} />
     </div>
   );

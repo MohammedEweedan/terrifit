@@ -2,23 +2,151 @@ import type { PagesTranslation } from "./merge";
 
 /** Portuguese (European). Deep partial merged over English. */
 export const pt: PagesTranslation = {
-  roadmap: {
-    eyebrow: "O que sai e quando",
-    title: "Os suplementos saem hoje. O resto tem data.",
-    body: "Preferimos dar-te a data a dizer «em breve». É isto que estamos a construir, pela ordem em que chega.",
-    nowLabel: "Já disponível",
-    nowTitle: "Suplementos e equipamento",
-    nowBody: "Nutrição, recuperação e material de treino testados por terceiros, com envio para mais de 40 países. É esta a parte da Terrifit que podes comprar hoje.",
-    nowCta: "Ver a loja",
+  availableNow: {
+    eyebrow: "Disponível agora",
+    title: "Dois destes saem hoje. O terceiro está aberto para reserva.",
+    body: "Sem contagem decrescente e sem lista de espera. A nutrição e o vestuário saem já do armazém, e a V1 aceita reservas ao preço de lançamento.",
     items: [
-      { date: "Novembro de 2026", title: "A plataforma social", body: "Feeds, canais e a rede de criadores. O primeiro sítio onde a comunidade existe mesmo em vez de ser descrita." },
-      { date: "Janeiro de 2027", title: "A app Terrifit", body: "iOS e Android, com a biblioteca de Maps, os acompanhamentos e toda a camada de análise." },
-      { date: "Novembro de 2027", title: "A pulseira V1", body: "As reservas seguem por ordem de chegada, ao preço de lançamento." },
+      { status: "Envio imediato", title: "Suplementos Terrifuel", body: "Proteína, hidratação e recuperação com testes independentes, com envio para mais de 40 países.", cta: "Ver Terrifuel", href: "shop" },
+      { status: "Envio imediato", title: "Vestuário Terrifits", body: "T-shirts, hoodies e calções de gramagem alta, testados a treinar antes de irem para venda.", cta: "Ver Terrifits", href: "shop" },
+      { status: "Reserva aberta", title: "A pulseira V1", body: "Reserve a sua ao preço de lançamento. As reservas seguem por ordem de chegada e são reembolsáveis até ser enviada.", cta: "Reservar a V1", href: "band" },
     ],
-    note: "São objetivos, não promessas. Se alguma data mudar, dizemos aqui antes de saberes por outro lado.",
+    note: "As reservas são totalmente reembolsáveis até a sua pulseira ser enviada.",
+  },
+
+  languages: {
+    eyebrow: "Dez idiomas",
+    title: "Nativo desde o primeiro dia, não traduzido depois.",
+    body: "A Terrifit foi construída em dez idiomas ao mesmo tempo, em vez de lançada em inglês e localizada mais tarde. Cada ecrã, cada métrica e cada mensagem de erro — incluindo as que só vê quando algo corre mal.",
+    note: "O árabe lê-se da direita para a esquerda com tipografia própria, porque um idioma não é uma troca de letra. Os nomes de países e as datas vêm do seu dispositivo e não de uma tabela que mantemos, por isso estão certos em sítios onde nunca estivemos.",
+  },
+
+  capabilities: {
+    eyebrow: "O que mede",
+    title: "Lê-o o tempo todo, e mostra-lhe as contas.",
+    body: "Medição contínua a partir do momento em que a aperta. Nenhuma sessão para iniciar, nenhum ecrã para consultar, e nada para carregar de noite durante quinze dias.",
+    groups: [
+      {
+        name: "24 horas por dia",
+        items: [
+          { name: "Frequência cardíaca", detail: "Continuamente, acordado e a dormir, não só no treino" },
+          { name: "Variabilidade cardíaca", detail: "Medida no seu sono mais profundo, que é quando o número significa algo" },
+          { name: "Oxigénio no sangue", detail: "SpO₂ durante a noite, e como se adapta em altitude" },
+          { name: "Temperatura da pele", detail: "Face à sua própria base, nunca a uma média populacional" },
+          { name: "Frequência respiratória", detail: "Costuma ser a primeira coisa a mexer quando está a adoecer" },
+        ],
+      },
+      {
+        name: "Calculado a partir disso",
+        items: [
+          { name: "Recuperação", detail: "Uma pontuação matinal a partir da VFC, pulso em repouso, sono e respiração" },
+          { name: "Esforço", detail: "Carga cardiovascular ao longo do dia, numa escala de 0 a 21" },
+          { name: "Sono", detail: "Leve, profundo e REM, face ao sono de que precisava mesmo" },
+          { name: "T Score", detail: "Quanto se mexeu realmente no dia, em 100" },
+          { name: "Idade física", detail: "A partir do pulso máximo e em repouso. Grátis e partilhável" },
+        ],
+      },
+      {
+        name: "Enquanto treina",
+        items: [
+          { name: "Sessões automáticas", detail: "Percebe que começou e regista. Mais de quarenta atividades" },
+          { name: "Carga metabólica", detail: "O que a sessão custou, transportado para o objetivo de recuperação de amanhã" },
+          { name: "Stress e humor", detail: "Carga autonómica ao longo do dia, não uma única leitura de manhã" },
+          { name: "VO₂máx", detail: "Aptidão cardiorrespiratória, acompanhada à medida que muda" },
+          { name: "Registo do ritmo cardíaco", detail: "Um traçado de uma derivação a pedido. Um registo para si, não um diagnóstico" },
+        ],
+      },
+    ],
+    footnote: "A Terrifit dá orientação de bem-estar, não diagnóstico médico. As pontuações e estimativas não são medições clínicas. Se algo parecer errado, consulte um clínico.",
+  },
+
+  app: {
+    meta: { title: "O seu dia — Terrifit", description: "Recuperação, esforço, sono e o seu T Score, com os dados por trás de cada número." },
+    nav: { today: "Hoje", trends: "Tendências", body: "Corpo", account: "Conta" },
+    brand: "Terrifit",
+    dataFrom: "Dados de",
+    staleTitle: "Estes dados são antigos",
+    staleBody: "A sua leitura mais recente tem",
+    staleDays: "dias. Importe de novo, ou ligue uma app para se manter atualizado.",
+    staleCta: "Atualizar os seus dados",
+    empty: { title: "Ainda não há nada para ler", body: "A app funciona com os seus dados. Importe uma exportação da Apple Health, Google Health Connect, Garmin, Oura, Strava ou uma análise InBody e todos os números aqui se preenchem — não é preciso pulseira para começar.", cta: "Importar os seus dados", secondary: "Ver o que a V1 acrescenta" },
+    scores: {
+      recovery: { label: "Recuperação", unit: "%", blurb: "Quão preparado está o seu corpo hoje, face ao seu próprio normal recente." },
+      strain: { label: "Esforço", unit: "", blurb: "Quão duro foi o dia para o seu sistema cardiovascular, numa escala de 0 a 21." },
+      sleep: { label: "Sono", unit: "%", blurb: "Tempo a dormir face ao que precisava, e quão perto ficou do habitual." },
+      movement: { label: "T Score", unit: "", blurb: "Quanto do dia passou mesmo em movimento, em 100." },
+    },
+    bands: { good: "Pronto", fair: "Moderado", poor: "Vá com calma", unknown: "Sem leitura" },
+    why: "Porquê este número",
+    whyClose: "Esconder os dados",
+    inputsHead: ["Dado", "Hoje", "Comparado com", "Peso", "Pontuação"],
+    missingTitle: "Fora desta pontuação",
+    missingBody: "Estes afinavam-na se os seus dados os tivessem.",
+    noScore: "Ainda não há dados suficientes para um número honesto.",
+    higher: "Mais alto é melhor",
+    lower: "Mais baixo é melhor",
+    target: "Mais perto do seu normal é melhor",
+    trends: {
+      title: "Tendências", body: "Noventa dias, pontuados como cada manhã os teria pontuado — nunca com dados posteriores.",
+      recovery: "Recuperação", hrv: "Variabilidade cardíaca", restingHr: "Pulso em repouso",
+      sleep: "Sono", steps: "Passos", weight: "Peso",
+      noData: "Ainda não há leituras desta métrica.", average: "média", days: "dias registados",
+    },
+    body: {
+      title: "Corpo", body: "Cada análise que importou, da mudança mais antiga à mais recente. O peso vem das suas leituras diárias; o resto precisa de uma análise de composição corporal.", empty: "Ainda sem análises. Carregue uma folha InBody a partir da sua conta e aparecem aqui.",
+      columns: ["Data", "Peso", "Gordura corporal", "Músculo esquelético", "Água corporal", "Pontuação"],
+      change: "Alteração desde a primeira análise", latest: "Mais recente",
+    },
+    footer: "As pontuações são sinais de forma física, não medições médicas. Descrevem tendências nos seus próprios dados e não diagnosticam nada.",
+  },
+
+  appPage: {
+    meta: { title: "A app Terrifit — cada pontuação mostra as suas contas", description: "Recuperação, esforço, sono e o seu T Score, cada um a abrir para as leituras que estão por trás. Dez idiomas, dez cores, e lê a Apple Health sem escrever nada." },
+    hero: {
+      eyebrow: "A app Terrifit", title: "Leia o seu corpo. Assuma o seu progresso.", sub: "As suas leituras diárias, treino estruturado e sessões concluídas, juntos na Terrifit. Perceba os seus números, arranje espaço para a próxima sessão e veja o trabalho a somar.",
+      cta: "Reservar a V1", secondary: "Ver o que lê",
+    },
+    chapters: [
+      { kicker: "Hoje", screen: "home", title: "O seu sinal diário, num só sítio.", body: "Recuperação, esforço e sono partilham uma vista clara com a métrica que escolheu destacar. Toque para ver as leituras e o contexto por trás de uma pontuação. As leituras antigas ficam assinaladas para não passarem por dados de hoje." },
+      { kicker: "Mapas", screen: "maps", title: "Um programa que consegue mesmo pôr em prática.", body: "Siga os exercícios, registe séries, repetições e cargas, e veja o que concluiu da última vez. O treinador pode propor uma sessão seguinte mais curta para rever e aceitar; o seu programa nunca muda em silêncio." },
+      { kicker: "Loja", screen: "shop", title: "Terrifuel, braceletes e a pulseira, na sua moeda.", body: "Uma conta, um saco, um pagamento. Os preços convertem para onde está em vez de mostrarem dólares e o surpreenderem no fim, e tudo o que vem a caminho está a um toque de qualquer ecrã." },
+      { kicker: "Idade física", screen: "fitness-age", title: "Uma estimativa onde consegue espreitar por dentro.", body: "Veja os dados e as limitações por trás da sua estimativa de idade física. É um sinal de forma, não uma avaliação clínica. Explore-a ao lado das suas tendências em vez de tratar um número como a história toda." },
+    ],
+    tint: {
+      eyebrow: "Faça dela sua", title: "Dez cores. Escolha uma e veja o telemóvel mudar.",
+      body: "Cada cor aqui foi captada da app real e não filtrada num navegador, por isso o que está a ver é a versão verdadeira. Os anéis de recuperação, esforço e sono mantêm as suas próprias cores de propósito — essas têm significado, e uma cor com significado não deve seguir uma preferência.", note: "A cor da sua app fica guardada neste dispositivo. O site mantém o laranja Terrifit.",
+    },
+    features: {
+      eyebrow: "O que traz", title: "Feita para a versão de si das seis da manhã.",
+      items: [
+      { name: "Lê a Apple Health", detail: "VFC, pulso em repouso, sono, passos e peso, sem escrever nada" },
+      { name: "Funciona sem a pulseira", detail: "Siga programas e registe treinos sem comprar um wearable" },
+      { name: "Idade física", detail: "Uma estimativa com os dados e limitações à vista" },
+      { name: "Composição corporal", detail: "Cada análise InBody que já fez, traçada contra o seu peso" },
+      { name: "Sessão a decorrer", detail: "Séries, repetições e cargas registadas à medida, levadas para a semana seguinte" },
+      { name: "Progresso semanal", detail: "Sessões concluídas e dias ativos, com um resumo que escolhe partilhar" },
+      ],
+    },
+    close: { title: "É grátis, e a leitura da manhã será sempre.", body: "Recuperação, esforço, sono e a sua idade física não custam nada, para sempre. O Terrifit Pro custa 7,99 $ por mês para o trabalho que precisa de semanas de histórico por trás.", note: "A chegar ao iOS e ao Android. Reserve uma V1 e entra no primeiro grupo." },
   },
 
   band: {
+    story: {
+      chapters: [
+      { kicker: "Sempre ligada", title: "Nunca lhe pede para a iniciar.", body: "Sem botão de sessão, sem lembrete para a pôr, sem carga durante a noite. Mede continuamente a partir do momento em que a aperta, que é a única forma de construir uma linha de base com significado." },
+      { kicker: "Quinze dias", title: "Carregue-a duas vezes por mês.", body: "Duas semanas de frequência cardíaca contínua com uma carga. Tempo suficiente para deixar de pensar na bateria, que é o objetivo: uma pulseira no carregador não mede nada." },
+      { kicker: "ECG e PPG", title: "Duas formas de ler o mesmo coração.", body: "A leitura ótica funciona o dia todo. Um segundo elétrodo regista um traçado de ECG de uma derivação quando encosta a ponta do dedo. Regista, não diagnostica: se algo parecer invulgar, a app diz-lhe para procurar quem possa mesmo pronunciar-se." },
+      { kicker: "Sem ecrã", title: "Nada para olhar.", body: "Não há ecrã, nem notificação, nem vibração no pulso a meio de uma série. A pulseira é um sensor. A leitura, e o raciocínio por trás, pertencem a um ecrã para o qual já ia olhar." },
+      { kicker: "Tecida", title: "Feita para usar, não para guardar.", body: "Dois fios de cores diferentes tecidos em conjunto em vez de um tingimento liso. Aguenta suor e cloro sem desbotar, seca plana em cerca de vinte minutos e não parece equipamento de ginásio num jantar." },
+      { kicker: "Os seus números", title: "Cada pontuação abre-se.", body: "Toque num número e obtém as leituras por trás, a linha de base com que cada uma foi comparada, quanto pesou na pontuação e o que faltou ao dia. Nenhuma outra pulseira lhe mostra as contas." },
+      ],
+      statement: { lead: "Ela mede.", emphasis: "A app explica." },
+    },
+    preorder: {
+      label: "Progresso das reservas", of: "de", reserved: "reservadas",
+      refund: "Colocamos a ordem de fabrico às 500. O seu cartão é cobrado agora e reembolsado na totalidade, a pedido, a qualquer momento antes de a sua pulseira seguir.",
+      triggered: "A série está financiada e encomendada. Reserve agora para entrar no primeiro envio.",
+    },
     meta: {
       title: "Terrifit V1 — a pulseira que te diz quando carregar",
       description:
@@ -27,6 +155,7 @@ export const pt: PagesTranslation = {
     nav: ["Visão geral", "Design", "Medição", "Bateria", "Apps", "Ficha técnica"],
     buy: "Reservar",
     hero: {
+      image: { alt: "Pulseira Terrifit V1 a flutuar sobre um fundo carvão profundo, em três quartos, com a correia tecida a curvar para a câmara e uma ténue luz laranja ao longo do módulo de sensores" },
       eyebrow: "Terrifit V1",
       title: "Deixa de adivinhar até onde podes ir",
       sub: "A V1 lê o teu ritmo cardíaco, o teu sono e a tua recuperação 24 horas por dia. Todas as manhãs diz-te o que o teu corpo aguenta, e durante o treino diz-te quando já chega. Não há ecrã para consultar nem nada para ligar.",
@@ -51,6 +180,19 @@ export const pt: PagesTranslation = {
       cta: "Adicionar ao cesto",
     },
     sensing: {
+      metrics: [
+      { name: "Frequência cardíaca", detail: "Todo o dia e toda a noite, não só durante os treinos" },
+      { name: "Variabilidade cardíaca", detail: "Medida no seu sono mais profundo, que é quando o número significa mesmo algo" },
+      { name: "Frequência respiratória", detail: "Respirações por minuto durante a noite. Costuma ser a primeira coisa a mexer quando está a adoecer" },
+      { name: "Oxigénio no sangue", detail: "SpO₂ noturna, e como se adapta se treina em altitude" },
+      { name: "Temperatura da pele", detail: "Comparada com a sua própria linha de base e não com a média dos outros" },
+      { name: "Sono", detail: "Leve, profundo e REM, mais quanto tempo esteve mesmo acordado, face ao sono de que precisava" },
+      { name: "Esforço", detail: "Quanto trabalho o seu coração fez hoje, numa escala de 0 a 21" },
+      { name: "Recuperação", detail: "Uma pontuação todas as manhãs, calculada a partir da VFC, pulso em repouso, sono e respiração" },
+      { name: "Movimento", detail: "Acelerómetro e giroscópio de seis eixos, para deteção de atividade, fases do sono e quanto se mexeu mesmo no dia" },
+      { name: "Sessões automáticas", detail: "Percebe que começou a treinar e regista. Mais de quarenta atividades" },
+      ],
+      image: { alt: "Grande plano da parte de baixo da Terrifit V1, com cinco LED verdes e quatro janelas de sensor a brilhar sobre vidro preto" },
       eyebrow: "O que mede",
       title: "Está a ler-te o tempo todo",
       body:
@@ -64,23 +206,58 @@ export const pt: PagesTranslation = {
       { title: "Hora", body: "A hora, legível rodando o pulso uns graus. Não há mais nada no ecrã e nada vibra." },
     ],
     daily: {
+      steps: [
+      { time: "06:40", title: "Pontuação de recuperação", body: "Está à sua espera quando acorda, e já sabe o que a noite lhe fez." },
+      { time: "12:00", title: "O objetivo de hoje", body: "Quanto treino o seu corpo aguenta hoje, com base na recuperação que tem mesmo e não no plano que escreveu no domingo." },
+      { time: "17:30", title: "Durante a sessão", body: "Frequência cardíaca e esforço em direto no telemóvel, e temporizadores de descanso que arrancam quando a pulseira vê que parou." },
+      { time: "22:50", title: "Quando se deitar", body: "A hora que o leva ao objetivo de amanhã, ajustada ao esforço que acabou de fazer." },
+      ],
       eyebrow: "Um dia normal",
       title: "Quatro momentos por dia em que vale a pena olhar",
       body: "Não precisas de abrir a app a toda a hora. Estes são os momentos em que a pulseira muda mesmo o que farias.",
     },
     battery: {
+      cards: [
+      { value: "15 dias", label: "Por carga", detail: "Com a medição contínua da frequência cardíaca sempre ativa." },
+      { value: "30+ dias", label: "Com o PowerPack", detail: "Uma bateria sem fios que encaixa e recarrega a V1 enquanto a usa." },
+      { value: "~2 horas", label: "De vazia a cheia", detail: "Ligue-a a USB-C: uma carga cobre duas semanas." },
+      { value: "Sem falhas", label: "Nos seus dados", detail: "Como nunca a tira, as suas linhas de base de sono e recuperação ficam intactas." },
+      ],
+      image: { alt: "O PowerPack da Terrifit a deslizar sobre a pulseira no pulso de alguém, um pequeno módulo preto mate com uma única luz âmbar de carga" },
       eyebrow: "Bateria",
       title: "Mais de duas semanas entre cargas",
       body:
         "Duas semanas é o ponto em que deixas de pensar em carregar um wearable e simplesmente o usas. E quando precisa, o PowerPack encaixa e carrega-a no pulso, por isso não perdes uma noite de dados de sono.",
     },
     water: {
+      points: [
+      { title: "Vedada IP68", body: "Chuva, suor e duche não são problema. Tire-a antes de nadar às voltas ou entrar no mar." },
+      { title: "Suor e sal", body: "O tecido deixa passar o suor em vez de o reter, e seca plano em cerca de vinte minutos." },
+      { title: "Sauna e banho gelado", body: "Certificada de −20 °C a 60 °C, para que as sessões de recuperação sejam registadas como as outras." },
+      { title: "O cloro não a estraga", body: "Sem desbotar, sem endurecer e sem cheiro depois de uma época inteira de piscina." },
+      ],
+      image: { alt: "Terrifit V1 no pulso de um nadador a romper a superfície da piscina, gotas suspensas no ar sob luz lateral dura" },
       eyebrow: "Água e suor",
       title: "Podes nadar, tomar banho e suar com ela",
       body:
         "A V1 tem certificação IP68, por isso chuva, suor e duche não são problema. Não é um relógio de mergulho — tira-a antes de nadares ou entrares no mar.",
     },
     integrations: {
+      note: "A Apple Health já funciona hoje na app. A Health Connect e as ligações diretas abaixo estão a ser construídas e chegarão antes de as primeiras pulseiras seguirem — se alguma escorregar, dizemo-lo aqui.",
+      apps: [
+      { name: "Apple Health", detail: "Nos dois sentidos. Treinos, sono, frequência cardíaca, VFC e respiração." },
+      { name: "Google Health Connect", detail: "Sincroniza nos dois sentidos com qualquer app Android compatível." },
+      { name: "Samsung Health", detail: "Sessões, sono e atividade diária." },
+      { name: "Strava", detail: "Publica as suas sessões automaticamente, com frequência cardíaca e esforço." },
+      { name: "Garmin Connect", detail: "Põe a recuperação da V1 ao lado do seu histórico Garmin." },
+      { name: "Apple Watch", detail: "Esforço em direto no pulso enquanto treina." },
+      { name: "TrainingPeaks", detail: "Envia as sessões terminadas para o plano do seu treinador." },
+      { name: "Peloton", detail: "A frequência cardíaca das aulas e o esforço acabam na mesma linha temporal." },
+      { name: "Zwift", detail: "Transmite a sua frequência cardíaca diretamente para o percurso." },
+      { name: "Oura", detail: "Traz o sono de um anel que já tem." },
+      { name: "Fitbit", detail: "Importa o seu histórico se estiver a mudar." },
+      { name: "MyFitnessPal", detail: "Põe o que comeu ao lado do trabalho que realmente fez." },
+      ],
       eyebrow: "Funciona com as tuas outras apps",
       title: "Os teus dados vão para onde já os guardas",
       body:
@@ -88,8 +265,22 @@ export const pt: PagesTranslation = {
       footnote:
         "Podes exportar tudo em CSV quando quiseres. Não vendemos dados de saúde, e nenhum treinador ou criador vê o que quer que seja sem que sejas tu a partilhar.",
     },
-    box: { eyebrow: "Na caixa", title: "O que recebes mesmo" },
-    specsSection: { eyebrow: "Especificações", title: "A ficha completa" },
+    box: {
+      items: [
+      { name: "O sensor V1", detail: "Matriz ótica de cinco LED, acelerómetro, giroscópio e sensor de temperatura da pele" },
+      { name: "Uma correia tecida", detail: "Na cor que escolher, à medida do seu pulso" },
+      { name: "V1 PowerPack", detail: "O carregador sem fios que funciona enquanto usa a pulseira" },
+      { name: "Cabo USB-C", detail: "Um metro, entrançado" },
+      { name: "Primeiro mês de subscrição", detail: "Mapas, o seu histórico completo e canais de criadores incluídos" },
+      ],
+      image: { alt: "Vista de cima de tudo o que vem na caixa da Terrifit V1 sobre papel quente: módulo sensor, correia tecida, PowerPack e cabo USB-C entrançado, dispostos numa grelha" }, eyebrow: "Na caixa", title: "O que recebes mesmo" },
+    specsSection: {
+      groups: [
+      { title: "Sensores", rows: [["Ótico", "Sensor de pulso PPG"], ["Movimento", "Acelerómetro de 3 eixos"], ["Temperatura", "Temperatura da pele"], ["Oxigénio no sangue", "SpO₂ noturna"]] },
+      { title: "Energia", rows: [["Autonomia", "180 mAh, mais de 15 dias"], ["Carregamento", "Carregador magnético"], ["Cabo", "USB-C"]] },
+      { title: "Construção", rows: [["Impermeabilidade", "IP68"], ["Correia", "Nylon e elastano tecidos"]] },
+      { title: "Conectividade", rows: [["Sem fios", "Bluetooth LE 5.4"], ["Armazenamento offline", "Até 30 dias"], ["Telemóveis", "iOS e Android"], ["Exportação", "CSV, Apple Health, Health Connect"], ["Atualizações", "Over the air"]] },
+      ], eyebrow: "Especificações", title: "A ficha completa" },
     privacy: {
       title: "Os teus dados de saúde são teus",
       body:
@@ -106,12 +297,36 @@ export const pt: PagesTranslation = {
   },
 
   maps: {
+    exercise: {
+      eyebrow: "Dentro de um exercício",
+      title: "Agachamento traseiro, 5 séries de 3 a 82%",
+      body: "É isto que vê ao abrir um movimento a meio de uma sessão.",
+      cuesTitle: "Em que pensar",
+      cues: ["Faça a contração antes de tirar a barra do suporte, não depois de a ter caminhado.", "Os joelhos acompanham a linha do segundo dedo durante toda a descida.", "Empurre o chão para os lados ao sair do fundo."],
+      faultsTitle: "Onde as pessoas falham",
+      faults: ["As ancas sobem primeiro, a barra vai à frente e aquilo transforma-se num bom dia.", "Perder a contração no fundo, que é onde começa quase todo o arredondamento das costas."],
+      tempoTitle: "Tempo",
+      tempo: "3-1-X-0. Três segundos a descer, um a segurar, subida rápida, sem pausa em cima.",
+      subsTitle: "Se o seu ginásio não tiver rack",
+      subs: ["Agachamento goblet, 5 séries de 6", "Agachamento búlgaro, 4 séries de 6 por lado"],
+      video: { alt: "Fotograma de demonstração de dois ângulos de um agachamento traseiro na posição baixa, de frente e de lado, fundo de estúdio simples com linhas de referência" },
+      bandTitle: "O que a pulseira viu",
+      bandRows: [
+        ["Frequência cardíaca", "Pico de 168, de volta a 122 antes da série seguinte"],
+        ["Esforço", "O mais alto das quatro séries efetivas até agora"],
+        ["Série detetada", "Registada pela subida e descida do pulso"],
+        ["Descanso", "2:41 até à série seguinte"],
+        ["Esforço da sessão", "11,4 de 21 até agora"],
+        ["Custo de recuperação", "Transportado para o objetivo de amanhã"],
+      ],
+    },
     meta: {
       title: "Terrifit Maps — planos de treino que se adaptam a ti",
       description:
         "Um Map é um plano completo: blocos, semanas, sessões e exercícios, com técnica explicada em cada movimento, cargas que se ajustam ao que levantaste mesmo, e seguimento repetição a repetição se usares uma V1.",
     },
     hero: {
+      image: { alt: "Velocista a sair dos blocos numa sala de treino escura, uma única luz dura a rasar a pista" },
       eyebrow: "Terrifit Maps",
       title: "Um plano que sabe o que levantaste na semana passada",
       sub: "Um Map é o plano todo — os blocos, as semanas, as sessões e cada exercício — escrito por quem faz isto para viver. Ensina-te o movimento, calcula o que pôr na barra e, se usares uma V1, olha para a série quase como alguém de pé atrás de ti.",
@@ -125,6 +340,12 @@ export const pt: PagesTranslation = {
       { label: "Das sessões são terminadas" },
     ],
     anatomy: {
+      layers: [
+      { key: "block", label: "Bloco", title: "Os blocos decidem o que anda a perseguir", body: "Quatro a seis semanas apontadas a uma coisa: construir volume, subir intensidade, atingir o pico ou descarregar. O Mapa diz-lhe em qual está e mais ou menos como deve sentir-se.", detail: ["Construção · semanas 1 a 4", "Intensidade · semanas 5 a 9", "Pico · semanas 10 e 11", "Descarga · semana 12"] },
+      { key: "week", label: "Semana", title: "As semanas equilibram quanto está a fazer", body: "Volume, intensidade e o que a sua pulseira reportou da semana passada entram no mesmo cálculo. Uma má semana de sono muda a semana toda, não apenas uma sessão.", detail: ["Esforço planeado 62", "Dias pesados: segunda e quinta", "Um espaço opcional de condição física", "Descarga automática após 3 dias de má recuperação"] },
+      { key: "session", label: "Sessão", title: "As sessões dizem-lhe o que o espera", body: "Aquecimento, exercício principal, acessórios, finalizador. Tem uma estimativa de tempo e de esforço antes de começar, para saber ao que vai.", detail: ["Aquecimento · 8 min", "Agachamento traseiro · 5×3 a 82%", "Peso morto romeno · 3×8", "Agachamento búlgaro · 3×10 por lado", "Finalizador · 6 min"] },
+      { key: "exercise", label: "Exercício", title: "Os exercícios são ensinados, não apenas listados", body: "Cada movimento vem com demonstração, as três indicações que realmente contam, os dois erros que as pessoas mesmo cometem, um tempo e uma alternativa caso o seu ginásio não tenha o material.", detail: ["Demonstração de dois ângulos", "3 indicações técnicas", "2 erros comuns", "Tempo 3-1-X-0", "2 substituições"] },
+      ],
       eyebrow: "Como se monta um Map",
       title: "Quatro camadas, iguais em todos os Maps",
       body: "Seja quem for que o escreveu, um Map abre sempre da mesma maneira: nunca tens de aprender a folha de cálculo de um treinador novo. Escolhe uma camada para ver o que tem lá dentro.",
@@ -138,12 +359,52 @@ export const pt: PagesTranslation = {
       chartCaption: "Doze semanas de um Map de força. As duas semanas planas são uma descarga que o Map acrescentou sozinho.",
     },
     form: {
+      image: { alt: "Ciclista em pleno esforço visto de frente, mãos na parte baixa do guiador, a V1 visível no pulso" },
+      points: [
+      { title: "Séries sem tocar em nada", body: "A subida e a descida do pulso marcam onde uma série começou e acabou, por isso a marca já lá está quando olha." },
+      { title: "Descanso que se cronometra sozinho", body: "O temporizador arranca quando a série acaba e avisa se está sentado há tempo demais." },
+      { title: "Esforço ao longo da sessão", body: "Como esta série se compara às anteriores, para que uma quarta série fraca se veja enquanto ainda está sobre a barra." },
+      { title: "Esforço da sessão", body: "O custo cardiovascular total da sessão, que alimenta o objetivo de recuperação de amanhã." },
+      { title: "O juiz continua a ser você", body: "A pulseira lê o seu coração, não a sua barra. Não conta repetições nem avalia a sua profundidade, e não finge fazê-lo." },
+      { title: "Tudo é editável", body: "O registo automático vem desligado e cada série que marcar corrige-se com um toque." },
+      ],
       eyebrow: "Técnica e execução",
       title: "Olha para a série, não só para o total",
       body:
         "O acelerómetro e o giroscópio da V1 leem o teu pulso em cada repetição. Chega para as contar, cronometrar a descida, medir o percurso real da barra e reparar quando a quarta repetição deixou de se parecer com a primeira.",
     },
     library: {
+      included: "Incluído",
+      items: [
+      {
+        slug: "hypertrophy-base", name: "Base de Hipertrofia", type: "Físico", level: "Regresso", weeks: 12, days: 4,
+        creator: "Dara Okafor", credential: "Treinadora de força e condição, 11 anos, dois programas nacionais",
+        summary: "Quatro dias por semana à volta de seis exercícios em que vai ficar mesmo bom. O volume sobe quatro semanas, depois manda a intensidade, depois pico e descarga.",
+        equipment: "Barra, rack, halteres, cabos",
+        image: { alt: "Pugilista a trabalhar combinações sob uma única luz superior, ligaduras postas, a meio da expiração" },
+      },
+      {
+        slug: "strength-five", name: "Força Cinco", type: "Força", level: "Constante", weeks: 10, days: 3,
+        creator: "Ivan Petrov", credential: "Treinador de powerlifting, três atletas em pódio IPF",
+        summary: "Dez semanas atrás de um total maior. Três sessões por semana: agachamento, supino e peso morto, com o trabalho acessório que os mantém a subir.",
+        equipment: "Barra, rack, banco",
+        image: { alt: "Kettlebell no topo de um swing, atleta em tensão, luz lateral dura" },
+      },
+      {
+        slug: "engine-builder", name: "Construtor de Motor", type: "Resistência", level: "Novo", weeks: 8, days: 5,
+        creator: "Nadia Haddad", credential: "Treinadora de resistência, maratona e triatlo",
+        summary: "Oito semanas para uma base aeróbia maior. Cinco sessões fáceis a moderadas por semana, porque a base constrói-se a um ritmo que parece lento demais.",
+        equipment: "Estrada, passadeira ou bicicleta",
+        image: { alt: "Corredores numa estrada aberta às primeiras luzes, a avançar juntos" },
+      },
+      {
+        slug: "return-to-training", name: "Voltar a Treinar", type: "Saúde", level: "Novo", weeks: 6, days: 3,
+        creator: "Sofia Marchetti", credential: "Reabilitação e regresso à competição, doze anos",
+        summary: "Seis semanas de regresso depois de uma paragem longa, a começar com pesos que vão parecer insultuosamente leves. É esse o objetivo — está a reconstruir tolerância, não a testá-la.",
+        equipment: "Halteres, elásticos",
+        image: { alt: "Corredor na relva a ritmo fácil, luz da manhã, sem tensão no rosto" },
+      },
+      ],
       eyebrow: "A biblioteca",
       title: "Encontra um que caiba na semana que tens",
       body: "Filtra por objetivo, nível, equipamento disponível e dias em que consegues mesmo treinar.",
@@ -172,12 +433,24 @@ export const pt: PagesTranslation = {
   },
 
   creators: {
+    verification: {
+      eyebrow: "Antes de publicar",
+      title: "Cada treinador é verificado por uma pessoa antes de o primeiro Mapa entrar em linha.",
+      body: "Ninguém publica um programa nem reúne seguidores na Terrifit até termos verificado quem é e o que o qualifica para escrever treino para outras pessoas. Demora uns dias, e é a razão pela qual um Mapa Terrifit vale mais do que um PDF de um desconhecido.",
+      items: [
+      { name: "Quem é", detail: "Documento de identificação oficial, confrontado com a conta e com o nome que aparecerá nos seus Mapas." },
+      { name: "O que o qualifica", detail: "A sua certificação de treinador, grau académico, historial competitivo ou trabalho documentado com clientes. Aceitamos várias vias; não aceitamos nenhuma." },
+      { name: "O que tenciona publicar", detail: "Um esboço do seu primeiro Mapa, revisto por um treinador da nossa equipa com o mesmo critério que aplicamos aos nossos programas." },
+      ],
+      note: "Até estar verificado pode construir o seu perfil e rascunhar um Mapa, mas fica privado e não pode receber seguidores nem pagamentos.",
+    },
     meta: {
       title: "Treina na Terrifit — recebe pelo trabalho que já fazes",
       description:
-        "Publica planos de treino, tem um feed público gratuito e outro privado pago, abre canais, fala com os teus membros e vê os dados que decidam partilhar contigo. Ficas com 80 %, pago todos os meses.",
+        "Publica planos de treino, tem um feed público gratuito e outro privado pago, abre canais, fala com os teus membros e vê os dados que decidam partilhar contigo. Ficas com 60 %, pago todos os meses.",
     },
     hero: {
+      image: { alt: "Passagem de testemunho entre dois atletas na pista, no momento em que muda de mão" },
       eyebrow: "Para treinadores e criadores",
       title: "Quem te segue já treina. Agora podes ver como está a correr.",
       sub: "Nos outros sítios publicas e esperas. Aqui, quem te segue e quem treina contigo são a mesma lista, e consegues mesmo ver se o teu plano funcionou. Publica Maps, publica de graça, vende conteúdo premium, abre canais e fala com as pessoas diretamente.",
@@ -191,6 +464,12 @@ export const pt: PagesTranslation = {
       { label: "De comissões para começar" },
     ],
     why: {
+      cards: [
+      { title: "Fica com 60%", body: "Em programas, subscrições e acesso a canais. Pago todos os meses numa data fixa, com um extrato que lhe mostra cada linha." },
+      { title: "Consegue ver os resultados", body: "Quando alguém autoriza, vê se aparece, como dorme e o que levanta. Os seus testemunhos deixam de ser capturas de ecrã." },
+      { title: "As pessoas conseguem mesmo encontrá-lo", body: "Os membros procuram por objetivo, nível e equipamento, não por quem publicou mais esta semana. Um bom programa continua a vender muito depois de deixar de o promover." },
+      { title: "Está tudo num só sítio", body: "Entrega do programa, pagamentos, comunidade, mensagens, check-ins e analítica. Sem folhas de cálculo, sem PDF, sem app de chat à parte e sem página de links." },
+      ],
       eyebrow: "Porquê mais uma plataforma",
       title: "Porque esta consegue mostrar-te se resultou",
       body:
@@ -201,26 +480,43 @@ export const pt: PagesTranslation = {
       title: "Publica de graça, vende o melhor, mesmo perfil",
       body:
         "O feed público é como te encontram. O privado é como recebes. Estão lado a lado num só perfil, por isso quem te segue está a um toque de subscrever.",
-      public: { label: "Feed público", price: "Grátis", title: "De onde vem o teu público", body: "Tudo o que publicas em aberto pode ser encontrado na Terrifit — por membros e por outros treinadores à procura de quem colaborar." },
-      private: { label: "Feed privado", price: "O preço é teu", title: "Onde está o dinheiro", body: "Um feed só para subscritores, com aquilo que te levou anos a aprender. Ao mês, ao ano, ou junto com um dos teus Maps." },
+      public: { items: ["Publicações, clipes e séries de fotos sem limite de duração", "Mostradas a membros que treinam para o mesmo objetivo que treina", "Repartilhadas por outros criadores, que é de onde vem a maioria dos novos seguidores", "Uma sessão de amostra gratuita de qualquer um dos seus Mapas, a um toque", "Comentários e reações de toda a plataforma"], label: "Feed público", price: "Grátis", title: "De onde vem o teu público", body: "Tudo o que publicas em aberto pode ser encontrado na Terrifit — por membros e por outros treinadores à procura de quem colaborar." },
+      private: { items: ["Desmontagens de programação e análise técnica a sério", "As indicações e correções que nunca poria numa publicação pública", "Diretos e sessões de perguntas só para subscritores", "Acesso antecipado a cada Mapa que publicar", "Subscrições canceláveis a qualquer momento, cobradas por nós e pagas a si todos os meses"], label: "Feed privado", price: "O preço é teu", title: "Onde está o dinheiro", body: "Um feed só para subscritores, com aquilo que te levou anos a aprender. Ao mês, ao ano, ou junto com um dos teus Maps." },
     },
     channels: {
+      items: [
+      { title: "Canais de grupo", body: "Todos no mesmo Mapa na mesma semana, numa sala. Começam a responder-se uns aos outros antes de você chegar." },
+      { title: "Mensagens diretas", body: "Um a um com qualquer membro, com o Mapa e a semana atual ao lado da conversa." },
+      { title: "Check-ins agendados", body: "Faça as mesmas cinco perguntas todos os domingos. As respostas entram numa fila em vez de um histórico de chat." },
+      { title: "Notas de voz e revisão de técnica", body: "Alguém envia-lhe uma série e devolve trinta segundos de áudio por cima do vídeo." },
+      { title: "Anúncios", body: "Envie a todos os subscritores, a um canal, ou só a quem está a ficar para trás." },
+      { title: "Respostas guardadas", body: "A resposta que escreve quarenta vezes por semana, pronta em dois toques." },
+      ],
+      image: { alt: "Ecrã de telemóvel com um canal de treinador Terrifit, mensagens de membros e um anúncio fixado da semana três, interface escura, segurado com uma mão" },
       eyebrow: "Canais e mensagens",
       title: "Fala com mil pessoas de uma vez, ou com uma só",
       body:
         "Os canais são salas tuas. Uma para toda a gente no mesmo programa, outra para quem começa, outra para quem acompanhas um a um. As mensagens diretas ficam por baixo, para que um acompanhamento não se perca num fio de comentários.",
     },
     figures: {
+      shared: [
+      { label: "Presença", value: "94%", note: "Sessões feitas em relação às planeadas" },
+      { label: "Recuperação", value: "+9", note: "Média móvel de 14 dias" },
+      { label: "Sono", value: "7h 12m", note: "Mediana ao longo do bloco" },
+      { label: "Volume", value: "12 450 kg", note: "Esta semana, tudo somado" },
+      { label: "1RM estimada", value: "+11%", note: "Agachamento traseiro, desde a semana um" },
+      { label: "Sequência de check-ins", value: "9 semanas", note: "Domingos seguidos" },
+      ],
       eyebrow: "Os números deles",
       title: "Vês o progresso, mas só se disserem que sim",
       body:
         "Um membro pode partilhar contigo os dados de treino, treinador a treinador, o tempo que quiser. Enquanto estiver ligado, não estás a adivinhar. Assim que desliga, desaparece do teu lado, e nós dizemos-lhe isso.",
-      consent: { title: "Como funciona a partilha" },
+      consent: { points: ["Começa desligado, e configura-se por treinador.", "O membro vê exatamente que números consegue ver, escrito em linguagem simples.", "Um toque desliga, e a sua vista esvazia-se em segundos.", "Nunca usamos o que foi partilhado para lhe tentar vender uma melhoria."], title: "Como funciona a partilha" },
     },
     calculator: {
       eyebrow: "Faz as contas",
       title: "Como isto fica à tua escala",
-      body: "Mexe nos cursores. Usa a divisão real, que é 80 % para ti em tudo.",
+      body: "Mexe nos cursores. Usa a divisão real, que é 60 % para ti em tudo.",
       followersLabel: "Seguidores que consegues alcançar",
       conversionLabel: "Quantos subscrevem",
       priceLabel: "Preço mensal",
@@ -229,19 +525,54 @@ export const pt: PagesTranslation = {
       resultLabel: "O que levarias para casa por mês",
       breakdownSubs: "Subscrições",
       breakdownMaps: "Vendas de programas",
-      shareNote: "Depois dos nossos 20 %, antes dos impostos que te calharem.",
+      shareNote: "Depois dos nossos 40 %, antes dos impostos que te calharem.",
       annual: "por ano",
       disclaimer: "Isto é uma ilustração, não uma promessa. O que ganhas depende do teu público, dos teus preços e da qualidade do programa.",
     },
-    tools: { eyebrow: "Com o que vais trabalhar", title: "O suficiente para levar isto a sério" },
+    tools: {
+      items: [
+      { title: "Construtor de programas", body: "Blocos, semanas, sessões e exercícios, com uma biblioteca de 36 movimentos que já trazem ensino associado e cresce a cada Mapa publicado. Copie uma semana, mova um bloco, envie uma atualização a todos de uma vez." },
+      { title: "A sua videoteca", body: "Grave uma demonstração uma vez e reutilize-a. Os seus clipes ficam ligados a esse movimento em todos os programas que escrever." },
+      { title: "Sessões em direto", body: "Transmita para os seus subscritores com frequência cardíaca e esforço no ecrã de quem estiver a ver com uma V1." },
+      { title: "Fila de check-ins", body: "Respostas semanais, fotografias e números numa só lista que pode ir despachando, com a sua resposta guardada no processo dessa pessoa." },
+      { title: "A sua própria página", body: "Os seus programas, os seus níveis de subscrição e os produtos de parceiros que recomenda, numa página para onde enviar as pessoas." },
+      { title: "Analítica", body: "De onde vieram os seus seguidores, o que converte, que programas as pessoas terminam, e a semana em que tendem a desistir." },
+      ], eyebrow: "Com o que vais trabalhar", title: "O suficiente para levar isto a sério" },
     payouts: {
+      rows: [
+      ["A sua parte", "60% de cada programa, subscrição e canal"],
+      ["Quando recebe", "Mensalmente, no dia 5, referente ao mês anterior"],
+      ["Pagamento mínimo", "1 000 $. O que ficar abaixo transita para o mês seguinte em vez de se perder"],
+      ["Como recebe", "Transferência bancária, Wise ou Stripe Connect em mais de 40 países"],
+      ["Reembolsos", "Descontados ao custo, nunca com penalização por cima"],
+      ["Produtos de parceiros", "Comissão extra em tudo o que recomendar"],
+      ],
       eyebrow: "Receber",
       title: "Todos os meses, em data fixa, sem surpresas",
       note: "Não há taxa de publicação, nem mensalidade de plataforma, nem mínimo de seguidores.",
     },
-    steps: { eyebrow: "Começar", title: "Quatro passos, cerca de uma semana", cta: "Candidatar-me" },
-    voices: { eyebrow: "Do primeiro grupo de treinadores", title: "O que mudou para eles" },
-    faq: { eyebrow: "Perguntas", title: "As que nos fazem mesmo" },
+    steps: {
+      items: [
+      { title: "Candidate-se", body: "Diga-nos quem treina e mostre-nos algum do seu trabalho. Lemos cada candidatura nós próprios." },
+      { title: "Seja verificado", body: "Credenciais, seguro quando aplicável, e identificação. Demora dois ou três dias, e é por isso que os membros confiam no selo." },
+      { title: "Construa algo", body: "Escreva o seu primeiro programa ou traga um que já use. A nossa equipa revê-o consigo antes de entrar em linha." },
+      { title: "Entre em linha", body: "A sua página abre, os seus feeds arrancam, e colocamo-lo à frente de membros que treinam para aquilo que treina." },
+      ], eyebrow: "Começar", title: "Quatro passos, cerca de uma semana", cta: "Candidatar-me" },
+    voices: {
+      items: [
+      { quote: "Deixei de enviar PDF e de andar atrás das pessoas em mensagens. A minha taxa de conclusão passou de cerca de um terço para mais de noventa por cento sem mudar um único exercício.", name: "Jordan Cole", role: "Treinador de força, 12,6 mil seguidores" },
+      { quote: "O feed privado paga-me a renda. O feed público alimenta o privado. Nunca tive de escolher entre dar coisas e ter um negócio.", name: "Maya Reyes", role: "Treinador híbrido, 41 mil seguidores" },
+      { quote: "Ver a recuperação de alguém antes da sessão mudou a forma como escrevo programas. Deixei de adivinhar por volta da semana três.", name: "Dr. Sam Whitfield", role: "Cientista do desporto, 8,2 mil seguidores" },
+      ], eyebrow: "Do primeiro grupo de treinadores", title: "O que mudou para eles" },
+    faq: {
+      items: [
+      { q: "Preciso de muitos seguidores?", a: "Não. Olhamos para a qualidade do treino, não para o número de seguidores. Cerca de um terço do nosso primeiro grupo entrou com menos de dois mil." },
+      { q: "Posso continuar a publicar noutros sítios?", a: "Sim, e deve. A Terrifit é onde vivem o programa, o pagamento e a relação. Não pedimos exclusividade." },
+      { q: "De quem são os programas que escrevo?", a: "Seus. Pode retirá-los, alterá-los ou levá-los para outro lado. Quem já comprou um fica com a versão que comprou." },
+      { q: "E se alguém pedir reembolso?", a: "Tratamos disso. É descontado ao custo dentro da janela de reembolso, e nunca acrescentamos penalização." },
+      { q: "Posso ver os dados de saúde de alguém?", a: "Só o que tiver escolhido partilhar especificamente, e só enquanto o deixar ligado. Nunca verá nada com que não tenha concordado." },
+      { q: "Preciso de uma V1 para publicar?", a: "Não. Os membros sem pulseira registam as séries à mão e continuam a ter progressão automática de cargas. Uma V1 acrescenta frequência cardíaca em direto, deteção automática de séries e os dados de recuperação que decidem quão dura deve ser a sessão seguinte." },
+      ], eyebrow: "Perguntas", title: "As que nos fazem mesmo" },
     cta: {
       eyebrow: "Treinadores fundadores",
       title: "Os primeiros mil definem o nível",
@@ -255,6 +586,8 @@ export const pt: PagesTranslation = {
     meta: { title: "Contactos — Terrifit", description: "Fala connosco sobre a tua subscrição, a pulseira V1, uma candidatura de treinador, parcerias ou imprensa." },
     hero: { eyebrow: "Contactos", title: "Fala com uma pessoa a sério", sub: "Uma equipa pequena lê tudo o que chega aqui. Escolhe a caixa certa e normalmente respondemos dentro de um dia útil." },
     form: {
+      namePlaceholder: "Alex Duarte",
+      emailPlaceholder: "voce@exemplo.com",
       title: "Manda-nos uma mensagem",
       topicLabel: "É sobre o quê?",
       topics: [
@@ -311,6 +644,11 @@ export const pt: PagesTranslation = {
   },
 
   shop: {
+    searchLabel: "Pesquisar na loja",
+    searchPlaceholder: "Proteína, braceletes, a pulseira…",
+    departmentsLabel: "Departamentos",
+    itemOne: "artigo",
+    itemMany: "artigos",
     meta: { title: "Loja Terrifit — a pulseira V1, braceletes, suplementos e equipamento", description: "Reserva a pulseira Terrifit V1, leva braceletes e um PowerPack, e abastece-te dos suplementos que nós e os nossos parceiros usamos mesmo." },
     hero: { eyebrow: "Loja Terrifit", title: "Suplementos já. Hardware a partir de novembro.", sub: "Os suplementos, os produtos de recuperação e o material de treino saem hoje — os nossos, e uma lista curta de parceiros que verificámos. A pulseira V1 e os acessórios estão em reserva e saem em novembro de 2027." },
     trust: [
@@ -319,7 +657,7 @@ export const pt: PagesTranslation = {
       { title: "2 anos de garantia", body: "Em tudo o que fazemos" },
       { title: "Pagamento seguro", body: "Cartão, carteiras e cripto" },
     ],
-    categories: { all: "Tudo", band: "Pulseira e subscrição", accessories: "Acessórios", apparel: "Roupa", fuel: "Suplementos", recovery: "Recuperação" },
+    categories: { bundles: "Conjuntos", all: "Tudo", band: "Pulseira e subscrição", accessories: "Acessórios", apparel: "Roupa", fuel: "Suplementos", recovery: "Recuperação" },
     sortLabel: "Ordenar",
     sort: { featured: "Em destaque", priceLow: "Preço: mais baixo primeiro", priceHigh: "Preço: mais alto primeiro", rating: "Melhor avaliados" },
     resultCount: "produtos",
@@ -446,7 +784,7 @@ export const pt: PagesTranslation = {
     },
   },
 
-  search: {
+  search: { hint: "⌘K",
     placeholder: "Procurar na Terrifit",
     open: "Procurar",
     close: "Fechar a pesquisa",

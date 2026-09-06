@@ -46,7 +46,7 @@
         "label": "Elk supplement in de winkel, batch voor batch"
       },
       {
-        "value": "80%",
+        "value": "60%",
         "label": "Van elke verkoop gaat naar de maker erachter"
       }
     ]
@@ -163,8 +163,8 @@
     "economics": [
       {
         "item": "Map-verkopen",
-        "you": "80%",
-        "platform": "20% platform"
+        "you": "60%",
+        "platform": "40% platform"
       },
       {
         "item": "Betaalde abonnementen",
@@ -411,7 +411,7 @@
       },
       {
         "q": "Wat kost het mij als creator?",
-        "a": "Terrifit neemt 20% van Map-verkopen, en 25% van betaalde abonnementen, livestreamopbrengsten en fooien. Betaalkosten, belastingen en app-storekosten staan apart op je afrekening in plaats van verstopt in de commissie."
+        "a": "Terrifit neemt 40% van Map-verkopen, en 25% van betaalde abonnementen, livestreamopbrengsten en fooien. Betaalkosten, belastingen en app-storekosten staan apart op je afrekening in plaats van verstopt in de commissie."
       },
       {
         "q": "Hoe privé zijn mijn voortgangsfoto's?",
@@ -633,15 +633,15 @@
     "creator": {
       "eyebrow": "Terrifit voor creators",
       "headline": "Maak van een publiek een bedrijf dat van jou is.",
-      "sub": "Verkoop gestructureerde Maps, draai betaalde communities en livestreams, en houd 80% van wat je verdient — met het gereedschap om je kopers echt te begeleiden.",
+      "sub": "Verkoop gestructureerde Maps, draai betaalde communities en livestreams, en houd 60% van wat je verdient — met het gereedschap om je kopers echt te begeleiden.",
       "points": [
         {
           "title": "Verkoop structuur, geen shout-outs",
           "body": "Een Map is een echt product: training, voeding, check-ins, mijlpalen en een versiegeschiedenis die je klanten kunnen zien."
         },
         {
-          "title": "Houd 80%",
-          "body": "20% platformcommissie op Map-verkopen. Betaalkosten, belastingen en storekosten staan er apart naast, nooit erin verstopt."
+          "title": "Houd 60%",
+          "body": "40% platformcommissie op Map-verkopen. Betaalkosten, belastingen en storekosten staan er apart naast, nooit erin verstopt."
         },
         {
           "title": "Zie wie afhaakt",

@@ -46,7 +46,7 @@
         "label": "Jedes Supplement im Shop, Charge für Charge"
       },
       {
-        "value": "80%",
+        "value": "60%",
         "label": "Jedes Verkaufs gehen an den Creator dahinter"
       }
     ]
@@ -163,8 +163,8 @@
     "economics": [
       {
         "item": "Map-Verkäufe",
-        "you": "80%",
-        "platform": "20% Plattform"
+        "you": "60%",
+        "platform": "40% Plattform"
       },
       {
         "item": "Bezahlte Abos",
@@ -411,7 +411,7 @@
       },
       {
         "q": "Was kostet es mich als Creator?",
-        "a": "Terrifit nimmt 20% der Map-Verkäufe sowie 25% der bezahlten Abos, Livestream-Erlöse und Trinkgelder. Zahlungsgebühren, Steuern und App-Store-Gebühren werden auf deiner Abrechnung separat ausgewiesen, statt in der Provision zu verschwinden."
+        "a": "Terrifit nimmt 40% der Map-Verkäufe sowie 25% der bezahlten Abos, Livestream-Erlöse und Trinkgelder. Zahlungsgebühren, Steuern und App-Store-Gebühren werden auf deiner Abrechnung separat ausgewiesen, statt in der Provision zu verschwinden."
       },
       {
         "q": "Wie privat sind meine Fortschrittsfotos?",
@@ -633,15 +633,15 @@
     "creator": {
       "eyebrow": "Terrifit für Creator",
       "headline": "Mach aus Reichweite ein Geschäft, das dir gehört.",
-      "sub": "Verkaufe strukturierte Maps, betreibe bezahlte Communities und Livestreams und behalte 80% deiner Einnahmen — mit den Werkzeugen, um deine Käufer wirklich zu betreuen.",
+      "sub": "Verkaufe strukturierte Maps, betreibe bezahlte Communities und Livestreams und behalte 60% deiner Einnahmen — mit den Werkzeugen, um deine Käufer wirklich zu betreuen.",
       "points": [
         {
           "title": "Verkaufe Struktur, keine Erwähnungen",
           "body": "Eine Map ist ein echtes Produkt: Training, Ernährung, Check-ins, Meilensteine und ein Versionsverlauf, den deine Kunden sehen können."
         },
         {
-          "title": "Behalte 80%",
-          "body": "20% Plattformprovision auf Map-Verkäufe. Zahlungsgebühren, Steuern und Store-Gebühren werden separat ausgewiesen, nie darin versteckt."
+          "title": "Behalte 60%",
+          "body": "40% Plattformprovision auf Map-Verkäufe. Zahlungsgebühren, Steuern und Store-Gebühren werden separat ausgewiesen, nie darin versteckt."
         },
         {
           "title": "Erkenne, wer abrutscht",

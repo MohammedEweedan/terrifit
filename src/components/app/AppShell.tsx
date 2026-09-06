@@ -2,6 +2,8 @@ import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import type { PagesCopy } from "@/i18n/pages";
 import { TerrifitMark } from "@/components/brand/TerrifitMark";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { getDictionary } from "@/i18n";
 import { AppNav } from "@/components/app/AppNav";
 
 /**
@@ -22,6 +24,7 @@ export function AppShell({
   name: string;
   children: React.ReactNode;
 }) {
+  const labels = getDictionary(locale).nav;
   return (
     <div className="ap">
       <header className="ap-top">
@@ -31,6 +34,7 @@ export function AppShell({
             <span>{copy.brand}</span>
           </Link>
           <AppNav locale={locale} labels={copy.nav} />
+          <ThemeToggle labels={{theme:labels.theme,light:labels.themeLight,dark:labels.themeDark}}/>
           <Link className="ap-account" href={`/${locale}/account`}>
             {name}
           </Link>

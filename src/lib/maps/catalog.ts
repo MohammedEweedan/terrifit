@@ -92,7 +92,7 @@ export const MAPS: TrainingMap[] = [
     level: "returning",
     equipment: ["Barbell", "Rack", "Dumbbells", "Cable stack"],
     summary:
-      "Four days a week, built around six lifts you will get properly good at. Volume climbs for four weeks, then intensity takes over, then you peak and back off. If you are wearing a V1 it counts the reps and tells you when the bar slowed down enough to stop.",
+      "Four days a week, built around six lifts you will get properly good at. Volume climbs for four weeks, then intensity takes over, then you peak and back off. If you are wearing a V1 it logs the session and the strain it cost you.",
     accent: "#ff5a1f",
     blocks: [
       { key: "build", label: "Building", weeks: [1, 4], intent: "Get the volume up and the movements clean." },

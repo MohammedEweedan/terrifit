@@ -116,3 +116,74 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 **Committed** `c953918` on `main` — chore: update project log with recent commit details
 
 <sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-05 · 14:01
+
+**Committed** `5512fa3` on `main` — chore: update project log with recent commit details
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-06 · 10:54
+
+**Working tree** — 64 files · +584 −888
+
+- **other** — `.gitignore`, `.env.example`
+- **app** — `mobile/app/(tabs)/index.tsx`, `mobile/app/(tabs)/profile.tsx`, `mobile/app/onboarding.tsx`, `mobile/src/api.ts`, `mobile/src/health.ts`, `mobile/app/coach.tsx` and 4 more
+- **database** — `prisma/schema.prisma`, `prisma/migrations/20260905120000_coaching_plans/`
+- **website** — `src/app/[locale]/app/page.tsx`, `src/app/[locale]/dashboard/page.tsx`, `src/app/[locale]/layout.tsx`, `src/app/[locale]/page.tsx`, `src/app/[locale]/shop/page.tsx`, `src/app/api/app/maps/[id]/sessions/[sessionId]/route.ts` and 24 more
+- **copy and locales** — `src/i18n/pages/ar.ts`, `src/i18n/pages/en.ts`, `src/i18n/storefront.ts`, `src/i18n/website.ts`
+- **health and scoring** — `src/lib/health/__tests__/advanced.test.ts`
+- **shop** — `src/lib/shop/__tests__/carriers.test.ts`, `src/lib/shop/__tests__/mrr.test.ts`, `src/lib/shop/catalog-store.ts`, `src/lib/shop/__tests__/shipping.test.ts`, `src/lib/shop/product-media.ts`
+- **server** — `src/lib/theme.ts`, `src/lib/announcement-store.ts`, `src/lib/app-downloads.ts`, `src/lib/coaching/`, `src/lib/referral-client.ts`
+- **docs** — `docs/hero-image-prompt.json`, `docs/product-image-prompts.json`, `docs/product-refinement.md`
+- **media** — `public/media/shop/placeholders/`
+- **tooling** — `scripts/verify-coaching.mjs`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-06 · 12:24
+
+**Working tree** — 39 files · +2135 −1230
+
+- **app** — `mobile/app.json`, `mobile/app/session/[map]/[id].tsx`, `mobile/package-lock.json`, `mobile/package.json`, `mobile/src/components/Screen.tsx`, `mobile/src/i18n/screens.ts` and 6 more
+- **other** — `package-lock.json`
+- **website** — `src/app/globals.css`, `src/components/creators/CreatorsExperience.tsx`, `src/components/creators/EarningsCalculator.tsx`, `src/components/marketing/AvailableNow.tsx`, `src/app/api/app/activities/`
+- **copy and locales** — `src/i18n/dictionaries/ar.json`, `src/i18n/dictionaries/de.json`, `src/i18n/dictionaries/en.ts`, `src/i18n/dictionaries/es.json`, `src/i18n/dictionaries/fr.json`, `src/i18n/dictionaries/it.json` and 12 more
+- **database** — `prisma/migrations/20260906094414_outdoor_activities/`
+- **server** — `src/lib/maps/__tests__/`, `src/lib/maps/progression.ts`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-06 · 13:12
+
+**Working tree** — 8 files · +4112 −1325
+
+- **app** — `mobile/app/orders.tsx`, `mobile/app/settings.tsx`, `mobile/src/components/AppHeader.tsx`, `mobile/src/market.ts`, `mobile/src/__tests__/`, `mobile/src/components/CoachButton.tsx`
+- **website** — `src/components/band/BandExperience.tsx`
+- **server** — `src/lib/maps/catalog.ts`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-06 · 15:57
+
+**Working tree** — 23 files · +4772 −1422
+
+- **app** — `mobile/app/product/[slug].tsx`, `mobile/src/components/HealthSync.tsx`
+- **other** — `package.json`
+- **website** — `src/app/api/app/shop/route.ts`, `src/app/[locale]/band/design/`, `src/components/band/BandViewer.module.css`, `src/components/band/BandViewer.tsx`, `src/components/band/band-model.ts`, `src/components/band/band-scene.ts` and 1 more
+- **shop** — `src/lib/shop/cart.tsx`, `src/lib/shop/catalog.ts`, `src/lib/shop/orders.ts`, `src/lib/shop/preorder.ts`, `src/lib/shop/launch.ts`
+- **docs** — `docs/band-colourway-prompts.json`, `docs/ecosystem-strategy.md`
+- **media** — `public/media/V8-1200-900-020.webp`, `public/media/band/`, `public/media/hero.mp4`, `public/media/logo.png`, `public/media/sensors.avif`
+- **copy and locales** — `src/i18n/launch.ts`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-06 · 17:12
+
+**Committed** `732d73e` on `main` — feat: add LaunchRoadmap component for displaying current and future product availability
+
+**Working tree** — 1 file · +4739 −1375
+
+- **website** — `src/components/marketing/AvailableNow.tsx`
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

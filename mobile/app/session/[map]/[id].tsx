@@ -17,6 +17,15 @@ import { useSessionRuntime } from "@/data";
 import { useSession } from "@/session";
 import { fonts, display, theme } from "@/theme";
 import { TerrifitSpinner } from "@/components/TerrifitSpinner";
+import { useAppState } from "@/app-state";
+import { useBandLink } from "@/live-band";
+
+const PROGRESSION_LABEL: Record<"first" | "hold" | "increase" | "deload", string> = {
+  first: "First time",
+  hold: "Hold",
+  increase: "Going up",
+  deload: "Back off",
+};
 
 /** "5×3" and "3×10 each side" both mean three or five sets. */
 function setCount(scheme: string): number {
@@ -51,25 +60,67 @@ export default function SessionScreen() {
   const [rest, setRest] = useState<number | null>(null);
   const startedAt = useRef(Date.now());
 
-  // The sheet is built once the prescription arrives, pre-filled with whatever
-  // was lifted last time.
+  // Off by default. A session that only works with a band on your wrist is a
+  // session most people cannot start, and the tick is two taps either way.
+  const [autoLog, setAutoLog] = useState(false);
+  const { band } = useAppState();
+  const link = useBandLink(band?.band?.serial ?? null, autoLog);
+  // How many bouts have already been converted into ticks, so a re-render
+  // never ticks the same set twice.
+  const claimedBouts = useRef(0);
+
+  // The sheet is built once the prescription arrives, pre-filled with what the
+  // programme says to lift *this* time rather than what was lifted last time.
+  // Carrying weights forward unchanged is a record; a member who squatted 100
+  // in January should not still be shown 100 in March.
   useEffect(() => {
     if (!data || entries.length > 0) return;
     setEntries(
       data.session.exercises.map((exercise) => {
         const previous = data.lastTime?.entries.find((item) => item.exercise === exercise.name);
+        const next = data.progression?.find((item) => item.exercise === exercise.name);
         const count = setCount(exercise.scheme);
         return {
           exercise: exercise.name,
           sets: Array.from({ length: count }, (_, index): LoggedSet => ({
-            reps: previous?.sets[index]?.reps ?? repTarget(exercise.scheme),
-            weightKg: previous?.sets[index]?.weightKg ?? null,
+            reps: next?.reps ?? previous?.sets[index]?.reps ?? repTarget(exercise.scheme),
+            // The suggestion wins where there is one; the last session is the
+            // fallback for a movement the engine had nothing to say about.
+            weightKg: next?.weightKg ?? previous?.sets[index]?.weightKg ?? null,
             done: false,
           })),
         };
       }),
     );
   }, [data, entries.length]);
+
+  /**
+   * Turns finished work bouts into ticked sets.
+   *
+   * The band reports that a set happened, not which one, so ticks land on the
+   * next unticked set in prescription order — the same order the member is
+   * working through. It never unticks: a bout the detector missed is corrected
+   * by tapping, and a member who has already ticked ahead is not overruled.
+   */
+  useEffect(() => {
+    if (!autoLog || link.completedSets <= claimedBouts.current) return;
+    const pending = link.completedSets - claimedBouts.current;
+    claimedBouts.current = link.completedSets;
+
+    setEntries((current) => {
+      const next = current.map((entry) => ({ ...entry, sets: entry.sets.map((set) => ({ ...set })) }));
+      let remaining = pending;
+      for (const entry of next) {
+        for (const set of entry.sets) {
+          if (remaining === 0) return next;
+          if (set.done) continue;
+          set.done = true;
+          remaining -= 1;
+        }
+      }
+      return next;
+    });
+  }, [autoLog, link.completedSets]);
 
   // Rest countdown between sets.
   useEffect(() => {
@@ -150,6 +201,27 @@ export default function SessionScreen() {
         <View style={[s.fill, { width: `${Math.round(progress * 100)}%` }]} />
       </View>
 
+      <Pressable style={s.band} onPress={() => setAutoLog((on) => !on)}>
+        <View style={[s.bandDot, autoLog && link.status === "connected" ? { backgroundColor: link.working ? theme.accent : theme.good } : null]} />
+        <View style={s.flex}>
+          <Text style={s.bandTitle}>
+            {!autoLog
+              ? "Log with your V1"
+              : link.status === "connected"
+                ? link.working ? "Set in progress" : "Watching for your next set"
+                : link.status === "searching"
+                  ? "Looking for your V1…"
+                  : "V1 unavailable"}
+          </Text>
+          <Text style={s.bandNote} numberOfLines={1}>
+            {!autoLog
+              ? "Ticks each set from your heart rate. You can still tap."
+              : link.message ?? (link.bpm != null ? `${link.bpm} bpm · ${link.completedSets} sets counted` : "Put the band on and start your first set.")}
+          </Text>
+        </View>
+        <Text style={[s.bandToggle, autoLog ? { color: theme.accent } : null]}>{autoLog ? "ON" : "OFF"}</Text>
+      </Pressable>
+
       {rest != null && rest > 0 ? (
         <Pressable onPress={() => setRest(null)} style={s.rest}>
           <Text style={s.restLabel}>Rest</Text>
@@ -193,6 +265,21 @@ export default function SessionScreen() {
                   </View>
 
                   <Text style={s.cue}>{exercise.cue}</Text>
+
+                  {(() => {
+                    // A weight that moved without explanation reads as a bug.
+                    // The engine always says why, so show it.
+                    const next = data.progression?.find((item) => item.exercise === exercise.name);
+                    if (!next) return null;
+                    return (
+                      <View style={[s.progression, next.kind === "increase" ? s.progressionUp : null]}>
+                        <Text style={[s.progressionKind, next.kind === "increase" ? { color: theme.good } : null]}>
+                          {PROGRESSION_LABEL[next.kind]}
+                        </Text>
+                        <Text style={s.progressionReason}>{next.reason}</Text>
+                      </View>
+                    );
+                  })()}
 
                   {entry?.sets.map((set, index) => (
                     <View key={index} style={s.setRow}>
@@ -246,6 +333,28 @@ export default function SessionScreen() {
 }
 
 const s = StyleSheet.create({
+  band: {
+    flexDirection: "row", alignItems: "center", gap: 11,
+    marginHorizontal: 16, marginTop: 12, padding: 12,
+    borderRadius: 12, backgroundColor: theme.surface, borderWidth: 1, borderColor: theme.line,
+  },
+  bandDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: theme.line },
+  bandTitle: { color: theme.ink, fontSize: 13, fontWeight: "600" },
+  bandNote: { color: theme.ink2, fontSize: 11, marginTop: 2 },
+  bandToggle: {
+    color: theme.ink2, fontSize: 10, fontFamily: fonts.black, fontWeight: "900", letterSpacing: 1,
+  },
+  progression: {
+    marginTop: 8, marginBottom: 4, paddingVertical: 8, paddingHorizontal: 10,
+    borderRadius: 9, backgroundColor: theme.raised,
+    borderLeftWidth: 2, borderLeftColor: theme.line,
+  },
+  progressionUp: { borderLeftColor: theme.good },
+  progressionKind: {
+    color: theme.ink2, fontSize: 9, fontFamily: fonts.black, fontWeight: "900",
+    letterSpacing: 1.2, textTransform: "uppercase", marginBottom: 3,
+  },
+  progressionReason: { color: theme.ink2, fontSize: 12, lineHeight: 17 },
   page: { flex: 1, backgroundColor: theme.bg },
   flex: { flex: 1 },
   top: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 18, paddingBottom: 12 },

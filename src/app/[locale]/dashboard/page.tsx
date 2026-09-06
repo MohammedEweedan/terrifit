@@ -6,7 +6,9 @@ import { getPagesCopy } from "@/i18n/pages";
 import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { loadDashboard } from "@/lib/health/dashboard";
+import { loadCoaching } from "@/lib/coaching/service";
 import { STRAIN_MAX } from "@/lib/health/scores";
+import { websiteCopy } from "@/i18n/website";
 
 export const dynamic = "force-dynamic";
 
@@ -22,11 +24,13 @@ export default async function TodayPage({ params }: PageProps<"/[locale]/dashboa
     where: { userId: user.id },
     select: { activityLevel: true },
   });
-  const data = await loadDashboard(user.id, profile?.activityLevel);
+  const [data, coaching] = await Promise.all([loadDashboard(user.id, profile?.activityLevel), loadCoaching(user.id)]);
+  const site = websiteCopy(locale);
+  const coachCard = <section className="rf-coach-panel"><p className="rf-kicker">{site.nextSession}</p><h2>{coaching.applied?.kind === "rest" ? site.sessionPaused : coaching.next?.session.name ?? site.startWithMap}</h2><p>{coaching.next ? `${coaching.next.mapName} · ${coaching.applied?.session?.minutes ?? coaching.next.session.minutes} min` : site.joinProgramme}</p><div className="rf-actions"><Link className="rf-link" href={`/${locale}/dashboard/coach`}>{site.reviewWithCoach} →</Link><Link className="rf-link" href={`/${locale}/maps`}>Maps →</Link></div></section>;
 
   if (!data.latest) {
     return (
-      <div className="ap-empty">
+      <>{coachCard}<div className="ap-empty">
         <h1>{copy.empty.title}</h1>
         <p>{copy.empty.body}</p>
         <div className="ap-empty-actions">
@@ -37,7 +41,7 @@ export default async function TodayPage({ params }: PageProps<"/[locale]/dashboa
             {copy.empty.secondary} <span aria-hidden>→</span>
           </Link>
         </div>
-      </div>
+      </div></>
     );
   }
 
@@ -66,6 +70,7 @@ export default async function TodayPage({ params }: PageProps<"/[locale]/dashboa
         ) : null}
       </header>
 
+      {coachCard}
       <div className="ap-grid">
         <ScoreCard
           copy={copy}

@@ -46,7 +46,7 @@
         "label": "Mağazadaki her takviye, parti parti"
       },
       {
-        "value": "80%",
+        "value": "60%",
         "label": "Her satışın, hak eden üreticiye gidiyor"
       }
     ]
@@ -163,8 +163,8 @@
     "economics": [
       {
         "item": "Harita satışları",
-        "you": "%80",
-        "platform": "%20 platform"
+        "you": "%60",
+        "platform": "%40 platform"
       },
       {
         "item": "Ücretli abonelikler",
@@ -411,7 +411,7 @@
       },
       {
         "q": "Üretici olarak bana maliyeti ne?",
-        "a": "Terrifit, Harita satışlarının %20'sini; ücretli aboneliklerin, canlı yayın gelirlerinin ve bahşişlerin %25'ini alır. Ödeme işlem ücretleri, vergiler ve uygulama mağazası kesintileri komisyonun içine gizlenmek yerine ödeme dökümünde ayrı gösterilir."
+        "a": "Terrifit, Harita satışlarının %40'sini; ücretli aboneliklerin, canlı yayın gelirlerinin ve bahşişlerin %25'ini alır. Ödeme işlem ücretleri, vergiler ve uygulama mağazası kesintileri komisyonun içine gizlenmek yerine ödeme dökümünde ayrı gösterilir."
       },
       {
         "q": "İlerleme fotoğraflarım ne kadar gizli?",
@@ -633,15 +633,15 @@
     "creator": {
       "eyebrow": "Üreticiler için Terrifit",
       "headline": "Bir kitleyi kendine ait bir işe dönüştür.",
-      "sub": "Yapılandırılmış Haritalar sat, ücretli topluluklar ve canlı yayınlar yönet, kazandığının %80'ini elinde tut — ve satın alanları gerçekten destekleyecek araçlara sahip ol.",
+      "sub": "Yapılandırılmış Haritalar sat, ücretli topluluklar ve canlı yayınlar yönet, kazandığının %60'ini elinde tut — ve satın alanları gerçekten destekleyecek araçlara sahip ol.",
       "points": [
         {
           "title": "Anma değil, yapı sat",
           "body": "Harita gerçek bir üründür: antrenman, beslenme, raporlar, kilometre taşları ve müşterilerinin görebildiği bir sürüm geçmişi."
         },
         {
-          "title": "%80'i sende kalsın",
-          "body": "Harita satışlarında %20 platform komisyonu. Ödeme ücretleri, vergiler ve mağaza kesintileri ayrı gösterilir, asla içine gizlenmez."
+          "title": "%60'i sende kalsın",
+          "body": "Harita satışlarında %40 platform komisyonu. Ödeme ücretleri, vergiler ve mağaza kesintileri ayrı gösterilir, asla içine gizlenmez."
         },
         {
           "title": "Kimin geri düştüğünü gör",

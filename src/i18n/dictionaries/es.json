@@ -46,7 +46,7 @@
         "label": "Cada suplemento de la tienda, lote a lote"
       },
       {
-        "value": "80%",
+        "value": "60%",
         "label": "De cada venta es para el creador que se la ganó"
       }
     ]
@@ -163,8 +163,8 @@
     "economics": [
       {
         "item": "Venta de Mapas",
-        "you": "80%",
-        "platform": "20% plataforma"
+        "you": "60%",
+        "platform": "40% plataforma"
       },
       {
         "item": "Suscripciones de pago",
@@ -411,7 +411,7 @@
       },
       {
         "q": "¿Qué me cuesta como creador?",
-        "a": "Terrifit se queda el 20% de las ventas de Mapas, y el 25% de las suscripciones de pago, los ingresos por directos y las propinas. Las comisiones de pago, los impuestos y las tarifas de las tiendas de aplicaciones se desglosan aparte en tu liquidación, en lugar de esconderse dentro de la comisión."
+        "a": "Terrifit se queda el 40% de las ventas de Mapas, y el 25% de las suscripciones de pago, los ingresos por directos y las propinas. Las comisiones de pago, los impuestos y las tarifas de las tiendas de aplicaciones se desglosan aparte en tu liquidación, en lugar de esconderse dentro de la comisión."
       },
       {
         "q": "¿Cómo de privadas son mis fotos de progreso?",
@@ -633,15 +633,15 @@
     "creator": {
       "eyebrow": "Terrifit para creadores",
       "headline": "Convierte una audiencia en un negocio que es tuyo.",
-      "sub": "Vende Mapas estructurados, lleva comunidades de pago y directos, y quédate con el 80% de lo que ganas, con herramientas para dar soporte real a quien te compró.",
+      "sub": "Vende Mapas estructurados, lleva comunidades de pago y directos, y quédate con el 60% de lo que ganas, con herramientas para dar soporte real a quien te compró.",
       "points": [
         {
           "title": "Vende estructura, no menciones",
           "body": "Un Mapa es un producto de verdad: entrenamiento, nutrición, registros, hitos y un historial de versiones que tus clientes pueden ver."
         },
         {
-          "title": "Quédate el 80%",
-          "body": "20% de comisión sobre las ventas de Mapas. Las comisiones de pago, impuestos y tarifas de tiendas se desglosan aparte, nunca escondidas dentro."
+          "title": "Quédate el 60%",
+          "body": "40% de comisión sobre las ventas de Mapas. Las comisiones de pago, impuestos y tarifas de tiendas se desglosan aparte, nunca escondidas dentro."
         },
         {
           "title": "Sabe quién está aflojando",

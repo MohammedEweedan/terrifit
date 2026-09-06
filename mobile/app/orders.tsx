@@ -19,6 +19,9 @@ const STEPS = [
 
 const INDEX: Record<string, number> = { pending: 0, packed: 1, shipped: 2, delivered: 3 };
 
+/** Nothing more will happen to an order in one of these states. */
+const FINISHED = new Set(["delivered", "cancelled"]);
+
 /**
  * Where your orders are.
  *
@@ -29,6 +32,11 @@ const INDEX: Record<string, number> = { pending: 0, packed: 1, shipped: 2, deliv
 export default function OrdersScreen() {
   const insets = useSafeAreaInsets();
   const orders = useOrders();
+
+  // Delivered and cancelled are finished; everything else is still moving.
+  const all = orders.data?.orders ?? [];
+  const inFlight = all.filter((order) => !FINISHED.has(order.fulfillmentStatus));
+  const past = all.filter((order) => FINISHED.has(order.fulfillmentStatus));
 
   return (
     <View style={s.page}>
@@ -42,12 +50,28 @@ export default function OrdersScreen() {
 
         {orders.data?.orders.length === 0 ? (
           <View style={s.empty}>
-            <Text style={s.emptyTitle}>Nothing on its way</Text>
-            <Text style={s.emptyBody}>Orders show up here the moment you place one, with tracking as it moves.</Text>
+            <Text style={s.emptyTitle}>No orders yet</Text>
+            <Text style={s.emptyBody}>Orders show up here the moment you place one, with tracking as it moves, and stay here afterwards.</Text>
           </View>
         ) : null}
 
-        {orders.data?.orders.map((order) => <OrderCard key={order.number} order={order} />)}
+        {/* Split rather than one long list. Somebody opening this screen is
+            almost always asking about a parcel that has not arrived; a
+            delivered order from March sitting above it buries the answer.
+            Everything is still on the page, which is what makes it history. */}
+        {inFlight.length > 0 ? (
+          <>
+            <Text style={s.groupHead}>On the way</Text>
+            {inFlight.map((order) => <OrderCard key={order.number} order={order} />)}
+          </>
+        ) : null}
+
+        {past.length > 0 ? (
+          <>
+            <Text style={s.groupHead}>Past orders</Text>
+            {past.map((order) => <OrderCard key={order.number} order={order} />)}
+          </>
+        ) : null}
       </ScrollView>
     </View>
   );
@@ -149,6 +173,10 @@ function OrderCard({ order }: { order: TrackedOrder }) {
 }
 
 const s = StyleSheet.create({
+  groupHead: {
+    color: theme.ink2, fontSize: 10, fontFamily: fonts.black, fontWeight: "900",
+    letterSpacing: 1.6, textTransform: "uppercase", marginTop: 18, marginBottom: 10,
+  },
   page: { flex: 1, backgroundColor: theme.bg },
   flex: { flex: 1 },
   content: { paddingHorizontal: 18, paddingTop: 16 },

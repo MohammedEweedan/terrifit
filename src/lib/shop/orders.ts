@@ -35,10 +35,10 @@ export function priceCart(items: CheckoutInput["items"], catalogue?: Product[]):
   const lines: PricedLine[] = [];
 
   for (const item of items) {
-    const product = catalogue?.find((candidate) => candidate.slug === item.slug) ?? findProduct(item.slug);
+    const product = catalogue ? catalogue.find((candidate) => candidate.slug === item.slug) : findProduct(item.slug);
     // A line naming a product that no longer exists is dropped rather than
     // failing the whole order — the customer keeps the rest of their bag.
-    if (!product) continue;
+    if (!product || (product.launchStatus && product.launchStatus !== "available")) continue;
 
     const variant = findVariant(product, item.variantId);
     const base = unitPriceCents(product, variant?.id);

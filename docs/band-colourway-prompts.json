@@ -1,0 +1,46 @@
+{
+  "mode": "built-in image_gen",
+  "reference": "public/media/band/colourways-v2/reference.png",
+  "sensorReference": "public/media/sensors.avif",
+  "assets": [
+    {
+      "key": "ember",
+      "prompt": "Use case: precise-object-edit. Create one premium photorealistic 3D product render of the supplied Terrifit band reference. Edit target: the attached rendered-V1.png. Change ONLY the woven textile strap colour to Ember: a finely interwoven mix of signal orange #ff5a1f yarn and charcoal black #1b1b1d yarn, orange prominent but visibly mixed with black; not solid orange. Preserve the exact reference geometry and industrial design: upright oval loop, unchanged woven braid pattern and strap width, slim black rounded sensor housing along the inner left, identical matte black curved front clasp with exact debossed TERRIFIT lettering. All hardware must remain matte black. Keep the exact same camera angle, framing, proportions, clean off-white background, soft studio lighting, contact shadow and realistic fine fabric texture as the reference. One band only, entire object visible. No screen, no new controls, no added labels, no extra branding, no watermark. This belongs to a consistent seven-colour product collection.",
+      "destination": "public/media/band/colourways-v2/ember.png"
+    },
+    {
+      "key": "midnight",
+      "prompt": "Use case: precise-object-edit. Create one premium photorealistic 3D product render of the supplied Terrifit band reference. Edit target: the attached rendered-V1.png. Change ONLY the woven textile strap colour to Midnight: a finely interwoven mix of deep navy blue #243456 yarn and near-black #0c0f16 yarn. Preserve the exact reference geometry and industrial design: upright oval loop, unchanged woven braid pattern and strap width, slim black rounded sensor housing along the inner left, identical matte black curved front clasp with exact debossed TERRIFIT lettering. All hardware must remain matte black. Keep the exact same camera angle, framing, proportions, clean off-white background, soft studio lighting, contact shadow and realistic fine fabric texture as the reference. One band only, entire object visible. No screen, no new controls, no added labels, no extra branding, no watermark. This belongs to a consistent seven-colour product collection.",
+      "destination": "public/media/band/colourways-v2/midnight.png"
+    },
+    {
+      "key": "graphite",
+      "prompt": "Use case: precise-object-edit. Create one premium photorealistic 3D product render of the supplied Terrifit band reference. Edit target: the attached rendered-V1.png. Change ONLY the woven textile strap colour to Graphite: a finely interwoven mix of medium graphite grey #8b9099 yarn and dark charcoal #3a3f45 yarn. Preserve the exact reference geometry and industrial design: upright oval loop, unchanged woven braid pattern and strap width, slim black rounded sensor housing along the inner left, identical matte black curved front clasp with exact debossed TERRIFIT lettering. All hardware must remain matte black. Keep the exact same camera angle, framing, proportions, clean off-white background, soft studio lighting, contact shadow and realistic fine fabric texture as the reference. One band only, entire object visible. No screen, no new controls, no added labels, no extra branding, no watermark. This belongs to a consistent seven-colour product collection.",
+      "destination": "public/media/band/colourways-v2/graphite.png"
+    },
+    {
+      "key": "black",
+      "prompt": "Use case: precise-object-edit. Create one premium photorealistic 3D product render of the supplied Terrifit band reference. Edit target: the attached rendered-V1.png. Change ONLY the woven textile strap colour to Black: a finely interwoven mix of deep black #050505 and subtle charcoal #242424 yarn, rich tactile black-on-black like the reference. Preserve the exact reference geometry and industrial design: upright oval loop, unchanged woven braid pattern and strap width, slim black rounded sensor housing along the inner left, identical matte black curved front clasp with exact debossed TERRIFIT lettering. All hardware must remain matte black. Keep the exact same camera angle, framing, proportions, clean off-white background, soft studio lighting, contact shadow and realistic fine fabric texture as the reference. One band only, entire object visible. No screen, no new controls, no added labels, no extra branding, no watermark. This belongs to a consistent seven-colour product collection.",
+      "destination": "public/media/band/colourways-v2/black.png"
+    },
+    {
+      "key": "bubblegum",
+      "prompt": "Use case: precise-object-edit. Create one premium photorealistic 3D product render of the supplied Terrifit band reference. Edit target: the attached rendered-V1.png. Change ONLY the woven textile strap colour to Bubblegum: a finely interwoven mix of hot bubblegum pink #ff5fa8 yarn and warm off-white #f4eee9 yarn. Preserve the exact reference geometry and industrial design: upright oval loop, unchanged woven braid pattern and strap width, slim black rounded sensor housing along the inner left, identical matte black curved front clasp with exact debossed TERRIFIT lettering. All hardware must remain matte black. Keep the exact same camera angle, framing, proportions, clean off-white background, soft studio lighting, contact shadow and realistic fine fabric texture as the reference. One band only, entire object visible. No screen, no new controls, no added labels, no extra branding, no watermark. This belongs to a consistent seven-colour product collection.",
+      "destination": "public/media/band/colourways-v2/bubblegum.png"
+    },
+    {
+      "key": "olive",
+      "prompt": "Use case: precise-object-edit. Create one premium photorealistic 3D product render of the supplied Terrifit band reference. Edit target: the attached rendered-V1.png. Change ONLY the woven textile strap colour to Olive: a finely interwoven mix of muted military olive green #697050 yarn and deep dark olive #303729 yarn. Preserve the exact reference geometry and industrial design: upright oval loop, unchanged woven braid pattern and strap width, slim black rounded sensor housing along the inner left, identical matte black curved front clasp with exact debossed TERRIFIT lettering. All hardware must remain matte black. Keep the exact same camera angle, framing, proportions, clean off-white background, soft studio lighting, contact shadow and realistic fine fabric texture as the reference. One band only, entire object visible. No screen, no new controls, no added labels, no extra branding, no watermark. This belongs to a consistent seven-colour product collection.",
+      "destination": "public/media/band/colourways-v2/olive.png"
+    },
+    {
+      "key": "sandstone",
+      "prompt": "Use case: precise-object-edit. Create one premium photorealistic 3D product render of the supplied Terrifit band reference. Edit target: the attached rendered-V1.png. Change ONLY the woven textile strap colour to Sandstone: a finely interwoven mix of warm sand beige #c7b69b yarn and pale stone cream #e6ddce yarn. Preserve the exact reference geometry and industrial design: upright oval loop, unchanged woven braid pattern and strap width, slim black rounded sensor housing along the inner left, identical matte black curved front clasp with exact debossed TERRIFIT lettering. All hardware must remain matte black. Keep the exact same camera angle, framing, proportions, clean off-white background, soft studio lighting, contact shadow and realistic fine fabric texture as the reference. One band only, entire object visible. No screen, no new controls, no added labels, no extra branding, no watermark. This belongs to a consistent seven-colour product collection.",
+      "destination": "public/media/band/colourways-v2/sandstone.png"
+    }
+  ],
+  "scale": {
+    "prompt": "Use case: product-mockup. Asset type: square ecommerce concept product photograph for Terrifit Scale. A premium minimal black smart body-composition scale, softly rounded square glass platform, four subtle brushed metal foot electrodes, thin signal-orange accent on the lower edge, small accurate TERRIFIT wordmark, discreet unlit display. Three-quarter overhead studio shot, entire scale centered with generous margins on warm off-white seamless background, realistic restrained shadow. Premium consumer technology industrial design, credible materials and proportions. No people, no cables, no medical claims, no measurement numbers, no extra text, no watermark. This is concept imagery for an upcoming product.",
+    "destination": "public/media/shop/placeholders/scale-v1.png"
+  }
+}

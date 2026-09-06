@@ -32,6 +32,7 @@ export default function SettingsScreen() {
     <View style={s.top}><Pressable onPress={()=>router.back()}><Text style={s.back}>‹ {preferences.t("back")}</Text></Pressable><Text style={s.brand}>TERRIFIT</Text><View style={{width:50}}/></View>
     <Text style={s.eyebrow}>{preferences.t("yourApp")}</Text><Text style={s.title}>{preferences.t("settings").toUpperCase()}.</Text>
     <Text style={s.section}>{preferences.t("appearance")}</Text><View style={s.segment}>{(["dark","light","system"] as AppearanceMode[]).map(mode=><Pressable key={mode} onPress={()=>swap(()=>setAppearance(mode), backgroundFor(mode))} style={[s.segmentItem,appearanceMode===mode&&s.segmentOn]}><Text style={s.modeIcon}>{mode==="dark"?"●":mode==="light"?"○":"◐"}</Text><Text style={[s.segmentText,appearanceMode===mode&&s.segmentTextOn]}>{preferences.t(mode)}</Text></Pressable>)}</View>
+    <Text style={s.hint}>{copy.systemHint}</Text>
 
     <Text style={s.section}>{preferences.t("units")}</Text>
     <View style={s.segment}>
@@ -70,18 +71,9 @@ export default function SettingsScreen() {
         );
       })}
     </View>
-    <Text style={s.hint}>{copy.systemHint}</Text>
-    <Text style={s.section}>{copy.measurement}</Text>
-    <View style={s.segment}>
-      {(["metric", "imperial"] as const).map((units) => {
-        const on = (profile?.profile?.units ?? "metric") === units;
-        return <Pressable key={units} onPress={() => void saveProfile({ units })} style={[s.segmentItem, on && s.segmentOn]}><Text style={s.modeIcon}>{units === "metric" ? "kg" : "lb"}</Text><Text style={[s.segmentText, on && s.segmentTextOn]}>{preferences.t(units)}</Text></Pressable>;
-      })}
-    </View>
-    <Text style={s.hint}>{copy.measurementHint}</Text>
     <Text style={s.section}>{preferences.t("language")}</Text><View style={s.languages}>{locales.map(item=><Language key={item} locale={item} active={preferences.locale===item} onPress={()=>void preferences.setLocale(item)}/>)}</View>
     <Text style={s.hint}>{copy.languageHint}</Text>
-    <Text style={s.section}>{preferences.t("market")}</Text><View style={s.card}><Pressable onPress={()=>setCountryOpen(true)} style={s.row}><View style={{flex:1}}><Text style={s.rowTitle}>{preferences.t("country")}</Text><Text style={s.rowDetail}>{preferences.countryName()} · {preferences.countryCode??"—"}</Text></View><Text style={s.arrow}>›</Text></Pressable><Pressable onPress={()=>setCurrencyOpen(true)} style={s.row}><View style={{flex:1}}><Text style={s.rowTitle}>{preferences.t("paymentCurrency")}</Text><Text style={s.rowDetail}>{preferences.currencyCode} · {preferences.money(4999)}</Text></View><Text style={s.arrow}>›</Text></Pressable></View><Text style={s.hint}>{preferences.t("appStoreCurrencyNote")}</Text>
+    <Text style={s.section}>{preferences.t("market")}</Text><View style={s.card}><Pressable onPress={()=>setCountryOpen(true)} style={s.row}><View style={{flex:1}}><Text style={s.rowTitle}>{preferences.t("country")}</Text><Text style={s.rowDetail}>{preferences.countryName()}</Text></View><Text style={s.arrow}>›</Text></Pressable><Pressable onPress={()=>setCurrencyOpen(true)} style={s.row}><View style={{flex:1}}><Text style={s.rowTitle}>{preferences.t("paymentCurrency")}</Text><Text style={s.rowDetail}>{preferences.currencyCode} · {preferences.money(4999)}</Text></View><Text style={s.arrow}>›</Text></Pressable></View><Text style={s.hint}>{preferences.t("appStoreCurrencyNote")}</Text>
     <Text style={s.section}>{preferences.t("privacy")}</Text><View style={s.card}><Setting title={copy.shareTitle} detail={copy.shareDetail} value={sharing} onValueChange={value=>void saveProfile({shareWithCreators:value})}/></View>
     <Text style={s.section}>{preferences.t("account")}</Text><View style={s.card}><Info title={copy.signedInAs} detail={profile?.user.email??copy.member}/><Pressable onPress={()=>router.push("/edit-profile" as never)} style={s.row}><View style={{flex:1}}><Text style={s.rowTitle}>{copy.profileDetails}</Text><Text style={s.rowDetail}>{copy.profileDetail}</Text></View><Text style={s.arrow}>›</Text></Pressable></View>
     <Pressable onPress={()=>void signOut()} style={s.signout}><Text style={s.signoutText}>{preferences.t("signOut")}</Text></Pressable>

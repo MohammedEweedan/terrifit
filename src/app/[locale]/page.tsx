@@ -3,6 +3,7 @@ import { TerrifitLanding } from "@/components/landing/TerrifitLanding";
 import { getDictionary } from "@/i18n";
 import { isLocale, locales } from "@/i18n/config";
 import { getMarkets } from "@/lib/markets";
+import { listProducts } from "@/lib/shop/catalog-store";
 import { prisma } from "@/lib/db";
 import { launchOfferState, FOUNDING_ORDERS } from "@/lib/shop/launch-offer";
 import type { Announcement } from "@/components/marketing/AnnouncementBar";
@@ -38,6 +39,7 @@ export default async function LandingPage({
   const marketGroups = getMarkets(locale);
   const copy = getDictionary(locale);
   const waitlistCount = await countWaitlist();
+  const shopProducts = await listProducts().then(products => products.filter(product => ["recovery-protein", "daily-hydration", "terrifits-field-tee", "training-shaker"].includes(product.slug))).catch(() => []);
   const offer = await launchOfferState();
   // The only changing number on the marketing site, and it is a real one. The
   // id carries the count so the bar reappears as places go, rather than staying
@@ -62,6 +64,7 @@ export default async function LandingPage({
         copy={copy}
         waitlistCount={waitlistCount}
         announcement={announcement}
+        shopProducts={shopProducts}
       />
     </>
   );

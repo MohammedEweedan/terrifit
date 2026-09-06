@@ -46,7 +46,7 @@
         "label": "Chaque complément de la boutique, lot par lot"
       },
       {
-        "value": "80%",
+        "value": "60%",
         "label": "De chaque vente revient au créateur qui l’a méritée"
       }
     ]
@@ -163,8 +163,8 @@
     "economics": [
       {
         "item": "Ventes de Cartes",
-        "you": "80%",
-        "platform": "20% plateforme"
+        "you": "60%",
+        "platform": "40% plateforme"
       },
       {
         "item": "Abonnements payants",
@@ -411,7 +411,7 @@
       },
       {
         "q": "Combien ça me coûte en tant que créateur ?",
-        "a": "Terrifit prend 20% des ventes de Cartes, et 25% des abonnements payants, des revenus de live et des pourboires. Les frais de paiement, taxes et commissions des magasins d'applications sont détaillés séparément sur votre relevé plutôt que dissimulés dans la commission."
+        "a": "Terrifit prend 40% des ventes de Cartes, et 25% des abonnements payants, des revenus de live et des pourboires. Les frais de paiement, taxes et commissions des magasins d'applications sont détaillés séparément sur votre relevé plutôt que dissimulés dans la commission."
       },
       {
         "q": "Mes photos de progression sont-elles privées ?",
@@ -633,15 +633,15 @@
     "creator": {
       "eyebrow": "Terrifit pour les créateurs",
       "headline": "Transformez une audience en une entreprise qui vous appartient.",
-      "sub": "Vendez des Cartes structurées, animez des communautés payantes et des lives, et gardez 80% de ce que vous gagnez, avec les outils pour vraiment accompagner ceux qui ont acheté.",
+      "sub": "Vendez des Cartes structurées, animez des communautés payantes et des lives, et gardez 60% de ce que vous gagnez, avec les outils pour vraiment accompagner ceux qui ont acheté.",
       "points": [
         {
           "title": "Vendez de la structure, pas des mentions",
           "body": "Une Carte est un vrai produit : entraînement, nutrition, points hebdomadaires, jalons et un historique de versions visible par vos clients."
         },
         {
-          "title": "Gardez 80%",
-          "body": "20% de commission sur les ventes de Cartes. Frais de paiement, taxes et commissions des stores sont détaillés à part, jamais dissimulés dedans."
+          "title": "Gardez 60%",
+          "body": "40% de commission sur les ventes de Cartes. Frais de paiement, taxes et commissions des stores sont détaillés à part, jamais dissimulés dedans."
         },
         {
           "title": "Repérez ceux qui décrochent",

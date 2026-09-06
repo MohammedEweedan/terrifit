@@ -66,6 +66,8 @@ export default function ProfileScreen() {
 
       <Text style={s.section}>{copy.yourPerformance}</Text>
       <View style={s.menu}>
+        <Row title={preferences.locale === "ar" ? "المدرب" : "Coach"} detail={preferences.locale === "ar" ? "راجع تعديل جلستك التالية" : "Review an adjustment to your next session"} onPress={() => router.push("/coach" as never)} />
+        <Row title={preferences.locale === "ar" ? "أسبوعك" : "Your week"} detail={preferences.locale === "ar" ? "تقدمك من الجلسات المكتملة" : "Progress from completed sessions"} onPress={() => router.push("/progress" as never)} />
         <Row title={copy.trends} detail={copy.trendsDetail} onPress={() => router.push("/(tabs)/trends" as never)} />
         <Row title={copy.body} detail={copy.bodyDetail} onPress={() => router.push("/(tabs)/body" as never)} />
         <Row title={band?.band ? copy.v1Detail : copy.connectV1} detail={band?.band?.serial ?? copy.pairV1} onPress={() => router.push(band?.band ? "/(tabs)/band" as never : "/pair-band" as never)} />

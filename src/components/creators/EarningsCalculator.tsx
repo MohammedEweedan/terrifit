@@ -6,7 +6,15 @@ import type { PagesCopy } from "@/i18n/pages";
 import { formatMoney } from "@/lib/shop/money";
 
 /** The share of every sale that reaches the creator. Mirrors `payouts` copy. */
-const CREATOR_SHARE = 0.8;
+/**
+ * What the creator keeps. The platform takes the rest.
+ *
+ * Changed from 0.8 deliberately. Whatever this number is, it has to match the
+ * percentage written on the creators page and in the launch deck — a
+ * calculator that disagrees with the offer beside it is the fastest way to
+ * lose somebody who was doing the maths.
+ */
+const CREATOR_SHARE = 0.6;
 
 /**
  * What a creator would take home at their own numbers.

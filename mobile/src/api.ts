@@ -217,12 +217,23 @@ export type MapSession = {
 export type LoggedSet = { reps: number | null; weightKg: number | null; done: boolean };
 export type LoggedEntry = { exercise: string; sets: LoggedSet[] };
 
+/** What to load this time, and why. Computed server-side from recent sessions. */
+export type Suggestion = {
+  exercise: string;
+  weightKg: number | null;
+  reps: number | null;
+  reason: string;
+  kind: "first" | "hold" | "increase" | "deload";
+};
+
 export type SessionRuntime = {
   map: { id: string; name: string; accent: string; sessionsPerWeek: number };
   session: MapSession;
   week: number;
   blockLabel: string | null;
   lastTime: { completedAt: string; week: number; entries: LoggedEntry[] } | null;
+  /** One per exercise, in prescription order. */
+  progression: Suggestion[];
 };
 
 export type MapDetail = {
@@ -266,6 +277,7 @@ export type ShopVariant = {
 };
 
 export type ShopProduct = {
+  launchStatus?: "available" | "upcoming" | "membership";
   slug: string;
   name: string;
   tagline: string;
@@ -351,6 +363,7 @@ export type ProfilePatch = Partial<{
   healthConditions: string[];
   shareWithCreators: boolean;
   finishOnboarding: boolean;
+  timezone: string;
 }>;
 
 export type Band = {
@@ -576,6 +589,47 @@ export const finishSession = (
     token,
     { method: "POST", body: JSON.stringify(payload) },
   );
+
+export type CoachTurn = { role: "user" | "assistant"; content: string };
+
+export const askCoach = (token: string, message: string, history: CoachTurn[]) =>
+  request<{ reply: string; source: "model" | "triage" | "unavailable" }>(
+    "/api/app/coach/chat",
+    token,
+    { method: "POST", body: JSON.stringify({ message, history }) },
+  );
+
+export type ActivityKind = "run" | "walk" | "hike" | "ride" | "swim" | "other";
+
+export type SavedActivity = {
+  id: string;
+  kind: ActivityKind;
+  distanceM: number;
+  durationS: number;
+  ascentM: number;
+  recordedAt: string;
+};
+
+/**
+ * Saves a finished outdoor activity.
+ *
+ * The route travels as `[lat, lng]` pairs rounded to five decimals — about a
+ * metre — rather than full floats. It is precise enough to redraw the line and
+ * imprecise enough not to be an exact record of somebody's front door.
+ */
+export const saveActivity = (
+  token: string,
+  payload: {
+    kind: ActivityKind;
+    distanceM: number;
+    durationS: number;
+    ascentM: number;
+    route: [number, number][];
+  },
+) => request<SavedActivity>("/api/app/activities", token, { method: "POST", body: JSON.stringify(payload) });
+
+export const getActivities = (token: string) =>
+  request<{ activities: SavedActivity[] }>("/api/app/activities", token);
 
 export type CheckoutLine = { slug: string; variantId?: string | null; quantity: number };
 
@@ -991,3 +1045,20 @@ export const getReportLink = (token: string | null, options: { days?: number; se
     method: "POST",
     body: JSON.stringify(options),
   });
+
+export type CoachingProposal = {
+  id: string; slot: string; engineVersion: string;
+  checkIn: { minutes: number; feeling: "ready" | "tired" | "pain" };
+  kind: "shorter" | "original" | "rest"; title: string; reason: string; changes: string[];
+  originalMinutes: number; session: MapSession | null;
+};
+export type CoachingDashboard = {
+  day: string; slot: string | null; mode: "guided"; revision: number; targetDays: number; hasConstraints: boolean;
+  next: { mapId: string; mapName: string; week: number; weeks: number; done: number; sessionsPerWeek: number; session: MapSession } | null;
+  draft: CoachingProposal | null; applied: CoachingProposal | null;
+  progress: { days: Array<{date: string; sessions: number; minutes: number}>; sessions: number; minutes: number; activeDays: number };
+};
+export const getCoaching = (token: string) => request<CoachingDashboard>("/api/app/coach", token);
+export function updateCoaching(token: string, data: CoachingDashboard, action: "propose" | "apply" | "undo", checkIn?: CoachingProposal["checkIn"]) {
+  return request<CoachingDashboard>("/api/app/coach", token, { method: "POST", body: JSON.stringify({ action, revision: data.revision, day: data.day, slot: data.slot, ...(action === "apply" ? { proposalId: data.draft?.id } : {}), ...(checkIn ? { checkIn } : {}) }) });
+}

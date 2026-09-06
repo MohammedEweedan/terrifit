@@ -11,7 +11,13 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.terrifit.app",
-      "icon": "./assets/icon.png"
+      "icon": "./assets/icon.png",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Terrifit uses your location while you are recording an activity, to measure distance and draw the route you took. It is not used at any other time.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Terrifit uses your location while you are recording an activity, to measure distance and draw the route you took. It is not used at any other time.",
+        "NSLocationAlwaysUsageDescription": "Terrifit uses your location while you are recording an activity, to measure distance and draw the route you took. It is not used at any other time.",
+        "NSHealthUpdateUsageDescription": "Terrifit does not write to Health. This permission is not used."
+      }
     },
     "android": {
       "package": "com.terrifit.app",
@@ -53,7 +59,6 @@
         }
       ],
       "expo-sqlite",
-      "@kingstinct/react-native-healthkit",
       [
         "@kingstinct/react-native-healthkit",
         {
@@ -66,6 +71,13 @@
         {
           "merchantIdentifier": "merchant.com.terrifit.app",
           "enableGooglePay": true
+        }
+      ],
+      "expo-maps",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Terrifit uses your location while you are recording an activity, to measure distance and draw the route you took. It is not used at any other time."
         }
       ]
     ],

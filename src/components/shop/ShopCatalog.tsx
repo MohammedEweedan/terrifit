@@ -4,245 +4,74 @@ import { useDeferredValue, useMemo, useState } from "react";
 import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import type { PagesCopy } from "@/i18n/pages";
+import { storefrontCopy } from "@/i18n/storefront";
 import type { Product } from "@/lib/shop/catalog";
-import { ProductCard } from "@/components/shop/ProductCard";
+import { ProductCard } from "./ProductCard";
+import { ProductMedia } from "./ProductMedia";
+import { CartLink } from "./CartButton";
 import { formatMoney } from "@/lib/shop/money";
 
-type Sort = "featured" | "priceLow" | "priceHigh" | "rating";
+type Sort = "featured" | "priceLow" | "priceHigh";
+const departments = [
+  { key: "fuel", slug: "daily-hydration" },
+  { key: "apparel", slug: "terrifits-hoodie" },
+  { key: "band", slug: "terrifit-v1" },
+  { key: "accessories", slug: "training-shaker" },
+];
 
-/**
- * The store.
- *
- * It was built like a landing page — a magazine hero, a badge row, and a launch
- * roadmap sitting between the reader and the products. That is marketing
- * furniture in the middle of a shopping flow, and it is the difference between
- * a shop and a page that happens to contain things for sale.
- *
- * This is arranged the way stores are actually arranged:
- *
- *   1. A **header that gets out of the way** — what this is, how many things
- *      are in it, and a search field.
- *   2. **Departments**, because "what am I here for" is the first question and
- *      a flat grid of everything answers it worst.
- *   3. The **flagship**, given the room a $229 pre-order earns.
- *   4. A **dense grid** under a toolbar that sticks, so filtering does not mean
- *      scrolling back up.
- *   5. **Reassurance last** — delivery, returns and warranty belong next to the
- *      decision to buy, not in front of the decision to look.
- */
-
-/** Departments, in the order somebody actually shops them. */
-const DEPARTMENTS = [
-  { key: "band", tint: "ember" },
-  { key: "fuel", tint: "sand" },
-  { key: "apparel", tint: "slate" },
-  { key: "bundles", tint: "ink" },
-] as const;
-
-export function ShopCatalog({
-  locale,
-  copy,
-  products,
-}: {
-  locale: Locale;
-  copy: PagesCopy["shop"];
-  products: Product[];
+export function ShopCatalog({ locale, copy, products, initialCategory = "all" }: {
+  locale: Locale; copy: PagesCopy["shop"]; products: Product[]; initialCategory?: string;
 }) {
-  const [category, setCategory] = useState("all");
+  const text = storefrontCopy(locale);
+  const categories = useMemo(() => [...new Set(products.map(product => product.category))], [products]);
+  const [category, setCategory] = useState(categories.includes(initialCategory as Product["category"]) ? initialCategory : "all");
   const [sort, setSort] = useState<Sort>("featured");
   const [query, setQuery] = useState("");
-  // Typing should never block the grid on a large catalogue.
   const search = useDeferredValue(query).trim().toLowerCase();
-
-  const categories = useMemo(
-    () => [...new Set(products.map((product) => product.category))],
-    [products],
-  );
-
-  /** The flagship gets its own row, so it is not one tile among twenty. */
-  const flagship = useMemo(
-    () => products.find((product) => product.slug === "terrifit-v1") ?? null,
-    [products],
-  );
-
+  const featured = products.find(product => product.slug === "terrifuel-daily-stack");
   const visible = useMemo(() => {
-    let list = products.filter(
-      (product) => category === "all" || product.category === category,
-    );
-
-    if (search) {
-      list = list.filter((product) =>
-        `${product.name} ${product.tagline} ${product.brand} ${product.badges.join(" ")}`
-          .toLowerCase()
-          .includes(search),
-      );
-    }
-
-    // The flagship keeps its own row above, so it is not repeated in the grid
-    // unless the shopper has actively filtered or searched for it.
-    if (category === "all" && !search && flagship) {
-      list = list.filter((product) => product.slug !== flagship.slug);
-    }
-
-    // `featured` is the hand-ordered catalogue order, so it sorts by nothing.
+    const list = products.filter(product => (category === "all" || product.category === category) &&
+      (!search || `${product.name} ${product.tagline} ${product.brand} ${product.badges.join(" ")}`.toLowerCase().includes(search)));
     if (sort === "featured") return list;
-    return [...list].sort((a, b) => {
-      if (sort === "priceLow") return a.priceCents - b.priceCents;
-      if (sort === "priceHigh") return b.priceCents - a.priceCents;
-      return b.rating - a.rating;
-    });
-  }, [category, sort, search, products, flagship]);
+    return list.sort((a, b) => sort === "priceLow" ? a.priceCents - b.priceCents : b.priceCents - a.priceCents);
+  }, [category, sort, search, products]);
+  const label = (key: string) => copy.categories[key as keyof typeof copy.categories] ?? key;
+  const reset = () => { setCategory("all"); setQuery(""); setSort("featured"); };
+  const chooseDepartment = (key: string) => {
+    setCategory(key);
+    document.getElementById("collection")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" });
+  };
 
-  const label = (key: string) =>
-    copy.categories[key as keyof typeof copy.categories] ?? key;
+  return <div className="sc-store">
+    <header className="tf-shell sc-header">
+      <Link className="sc-store-name" href={`/${locale}/shop`}>TERRIFIT <span>STORE</span></Link>
+      <div className="sc-header-end"><label className="sc-search"><span className="sr-only">{copy.searchLabel}</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+        <input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder={copy.searchPlaceholder} autoComplete="off" />
+      </label><CartLink locale={locale} label={text.bag} /></div>
+    </header>
 
-  const browsing = category === "all" && !search;
-
-  return (
-    <div className="sh">
-      <header className="sh-top">
-        <div className="tf-shell sh-top-inner">
-          <div>
-            <p className="sh-eyebrow">{copy.hero.eyebrow}</p>
-            <h1>{copy.hero.title}</h1>
-          </div>
-          <label className="sh-search">
-            <span className="sr-only">{copy.searchLabel}</span>
-            <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden>
-              <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" strokeWidth="2" />
-              <path d="m16.5 16.5 4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-            <input
-              type="search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder={copy.searchPlaceholder}
-              autoComplete="off"
-            />
-          </label>
-        </div>
-      </header>
-
-      {/* Departments. Hidden the moment somebody filters or searches, because
-          they have already told us what they are here for. */}
-      {browsing ? (
-        <nav className="sh-departments" aria-label={copy.departmentsLabel}>
-          <div className="tf-shell">
-            <ul>
-              {DEPARTMENTS.filter((department) => categories.includes(department.key)).map((department) => {
-                const count = products.filter((product) => product.category === department.key).length;
-                return (
-                  <li key={department.key}>
-                    <button type="button" data-tint={department.tint} onClick={() => setCategory(department.key)}>
-                      <strong>{label(department.key)}</strong>
-                      <span>{count} {count === 1 ? copy.itemOne : copy.itemMany}</span>
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </nav>
-      ) : null}
-
-      {/* The flagship, with the room a pre-order at this price earns. */}
-      {browsing && flagship ? (
-        <section className="sh-flagship" aria-label={flagship.name}>
-          <div className="tf-shell sh-flagship-inner">
-            <div className="sh-flagship-media">
-              {flagship.media[0] ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={flagship.media[0].src} alt={flagship.media[0].alt} loading="lazy" />
-              ) : null}
-            </div>
-            <div className="sh-flagship-copy">
-              <p className="sh-eyebrow">{flagship.brand}</p>
-              <h2>{flagship.name}</h2>
-              <p>{flagship.tagline}</p>
-              <ul className="sh-flagship-points">
-                {flagship.highlights.slice(0, 3).map((point) => (
-                  <li key={point}>{point}</li>
-                ))}
-              </ul>
-              <div className="sh-flagship-buy">
-                <span className="sh-price numeric">{formatMoney(flagship.priceCents, locale)}</span>
-                <Link className="sh-button" href={`/${locale}/shop/${flagship.slug}`}>
-                  {copy.viewProduct}
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-      ) : null}
-
-      <section className="sh-catalog">
-        <div className="tf-shell">
-          {/* Sticks, so changing your mind about a filter does not mean
-              scrolling back to the top of a long grid. */}
-          <div className="sh-tools">
-            <div className="sh-filters" role="group" aria-label={copy.hero.eyebrow}>
-              <button
-                type="button"
-                aria-pressed={category === "all"}
-                className={category === "all" ? "is-active" : undefined}
-                onClick={() => setCategory("all")}
-              >
-                {copy.categories.all}
-              </button>
-              {categories.map((key) => (
-                <button
-                  key={key}
-                  type="button"
-                  aria-pressed={category === key}
-                  className={category === key ? "is-active" : undefined}
-                  onClick={() => setCategory(key)}
-                >
-                  {label(key)}
-                </button>
-              ))}
-            </div>
-
-            <div className="sh-tools-end">
-              <p className="sh-count numeric">
-                {visible.length} {copy.resultCount}
-              </p>
-              <label className="sh-sort">
-                <span>{copy.sortLabel}</span>
-                <select value={sort} onChange={(event) => setSort(event.target.value as Sort)}>
-                  {(["featured", "priceLow", "priceHigh", "rating"] as const).map((key) => (
-                    <option key={key} value={key}>
-                      {copy.sort[key]}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-          </div>
-
-          {visible.length === 0 ? (
-            <p className="sh-empty">{copy.empty}</p>
-          ) : (
-            <div className="sh-grid">
-              {visible.map((product) => (
-                <ProductCard key={product.slug} locale={locale} product={product} copy={copy} />
-              ))}
-            </div>
-          )}
-        </div>
+    {category === "all" && !search ? <div className="tf-shell">
+      <section className="sc-hero">
+        <div className="sc-hero-copy"><p className="th-eyebrow">{text.shopEyebrow}</p><h1>{text.shopTitle}</h1><p>{text.shopBody}</p><a className="th-button" href="#collection">{text.shopAll}<span aria-hidden>↓</span></a></div>
+        {featured ? <Link className="sc-feature" href={`/${locale}/shop/${featured.slug}`}><ProductMedia product={featured} priority /><div><span><small>{featured.brand}</small><strong>{featured.name}</strong></span><span className="numeric">{formatMoney(featured.priceCents, locale)} <b aria-hidden>↗</b></span></div></Link> : null}
       </section>
+      <nav className="sc-departments" aria-label={text.category}>
+        {departments.map(department => {
+          const product = products.find(item => item.slug === department.slug);
+          return product ? <button key={department.key} type="button" onClick={() => chooseDepartment(department.key)}><ProductMedia product={product} /><span>{label(department.key)}<b aria-hidden>↗</b></span></button> : null;
+        })}
+      </nav>
+    </div> : null}
 
-      {/* Reassurance sits with the decision to buy, not in front of the
-          decision to look. */}
-      <section className="sh-trust">
-        <div className="tf-shell">
-          {copy.trust.map((item) => (
-            <div key={item.title}>
-              <strong>{item.title}</strong>
-              <span>{item.body}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-    </div>
-  );
+    <section id="collection" className="sc-collection tf-shell">
+      <div className="sc-collection-heading"><h2>{category === "all" ? text.collection : label(category)}</h2><p aria-live="polite">{visible.length} {text.results}</p></div>
+      <div className="sc-toolbar">
+        <div className="sc-filters" role="group" aria-label={text.category}>{["all", ...categories].map(key => <button key={key} type="button" aria-pressed={category === key} onClick={() => setCategory(key)}>{label(key)}</button>)}</div>
+        <label className="sc-sort"><span className="sr-only">{copy.sortLabel}</span><select value={sort} onChange={event => setSort(event.target.value as Sort)}>{(["featured", "priceLow", "priceHigh"] as const).map(key => <option key={key} value={key}>{copy.sort[key]}</option>)}</select></label>
+      </div>
+      {visible.length ? <div className="sc-grid">{visible.map(product => <ProductCard key={product.slug} locale={locale} product={product} copy={copy} />)}</div> : <div className="sc-empty"><h3>{copy.empty}</h3><button className="th-button" type="button" onClick={reset}>{text.reset}</button></div>}
+    </section>
+    <section className="sc-service tf-shell">{text.services.map((item, index) => <div key={item.title}><span aria-hidden>0{index + 1}</span><strong><Link href={`/${locale}/${item.href}`}>{item.title} &rarr;</Link></strong><p>{item.body}</p></div>)}</section>
+  </div>;
 }

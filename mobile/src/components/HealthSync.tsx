@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { Text } from "@/components/AppText";
 import { syncHealth } from "@/api";
-import { healthAvailable, readHealth, requestHealthAccess } from "@/health";
+import { hasAnyReading, healthAvailable, readHealth, requestHealthAccess } from "@/health";
 import { useSession } from "@/session";
 import { fonts, theme } from "@/theme";
 import { TerrifitSpinner } from "./TerrifitSpinner";
@@ -28,10 +28,19 @@ export function HealthSync({ onDone }: { onDone?: () => void }) {
     setMessage("");
     setPhase("asking");
 
-    const allowed = await requestHealthAccess().catch(() => false);
-    if (!allowed) {
+    const access = await requestHealthAccess();
+    if (!access.ok) {
       setPhase("error");
-      setMessage("Health access was not granted. You can turn it on in Settings › Privacy › Health › Terrifit.");
+      setMessage(
+        access.reason === "unsupported"
+          ? "Apple Health is only on iPhone. On Android, connect Health Connect instead."
+          : access.reason === "unavailable"
+            ? "Apple Health is not available on this device."
+            // The real error, not a guess. Every cause used to surface as
+            // "access was not granted", which sent people to Settings to fix
+            // a permission that was already switched on.
+            : `Health couldn't be reached: ${access.detail ?? "unknown error"}`,
+      );
       return;
     }
 
@@ -42,9 +51,17 @@ export function HealthSync({ onDone }: { onDone?: () => void }) {
       setMessage("We couldn't read from Health. Try again in a moment.");
       return;
     }
-    if (days.length === 0) {
+
+    // Apple never tells an app that a read type was denied — it returns an
+    // empty result, exactly as it would for somebody with no data. So an empty
+    // read has two causes and the message has to name both rather than pick.
+    if (!hasAnyReading(days)) {
       setPhase("error");
-      setMessage("Health has no data to share yet for the metrics Terrifit uses.");
+      setMessage(
+        "Health returned nothing. Either there are no readings yet for the metrics "
+        + "Terrifit uses, or their switches are off in Settings › Health › Data Access "
+        + "& Devices › Terrifit. iOS does not tell apps which of the two it is.",
+      );
       return;
     }
 

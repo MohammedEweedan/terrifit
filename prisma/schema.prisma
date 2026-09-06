@@ -264,6 +264,7 @@ model User {
   reportLinks    ReportLink[]
   addresses      SavedAddress[]
   sessionLogs   SessionLog[]
+  coachingPlans CoachingPlan[]
   following     Follow[]        @relation("follower")
   followers     Follow[]        @relation("followee")
 
@@ -273,6 +274,7 @@ model User {
   @@index([createdAt])
   @@index([stripeSubscriptionId])
   @@index([stripeCustomerId])
+  activities    Activity[]
 }
 
 /// A one-time link that lets somebody set a new password.
@@ -854,4 +856,52 @@ model RateLimit {
   resetAt DateTime
 
   @@index([resetAt])
+}
+
+/// Daily coaching state. Changes are optimistic and recorded with their inputs.
+model CoachingPlan {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  day String
+  revision Int @default(0)
+  state String @default("{}")
+  events CoachingEvent[]
+  updatedAt DateTime @updatedAt
+  @@unique([userId, day])
+}
+
+model CoachingEvent {
+  id String @id @default(cuid())
+  planId String
+  plan CoachingPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  revision Int
+  action String
+  snapshot String
+  createdAt DateTime @default(now())
+  @@unique([planId, revision])
+}
+
+/// One recorded outdoor activity: a run, a ride, a hike, a swim.
+model Activity {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// run | walk | hike | ride | swim | other
+  kind String
+
+  /// Metres actually covered, with GPS drift already filtered out on device.
+  distanceM Int
+  /// Seconds moving. Paused time is excluded, so a coffee stop is not a slow run.
+  durationS Int
+  ascentM   Int @default(0)
+
+  /// [[lat, lng], …] at about a metre of precision. Enough to redraw the line,
+  /// not enough to be an exact record of where somebody lives.
+  route String @default("[]")
+
+  recordedAt DateTime @default(now())
+
+  @@index([userId, recordedAt])
 }

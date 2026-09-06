@@ -1,3 +1,5 @@
+import { sleepTotals, type SleepSample } from "./health-utils/sleep";
+export { hasAnyReading } from "./health-utils/readings";
 import { Platform } from "react-native";
 import {
   isHealthDataAvailable,
@@ -22,6 +24,7 @@ import {
 const READ = [
   "HKQuantityTypeIdentifierHeartRateVariabilitySDNN",
   "HKQuantityTypeIdentifierRestingHeartRate",
+  "HKQuantityTypeIdentifierHeartRate",
   "HKQuantityTypeIdentifierStepCount",
   "HKQuantityTypeIdentifierActiveEnergyBurned",
   "HKQuantityTypeIdentifierBodyMass",
@@ -48,17 +51,57 @@ export function healthAvailable(): boolean {
   return Platform.OS === "ios";
 }
 
-/** Prompts once. iOS never reveals what was denied, only that the sheet closed. */
-export async function requestHealthAccess(): Promise<boolean> {
-  if (!healthAvailable()) return false;
-  if (!(await isHealthDataAvailable())) return false;
-  // The types are generated per-identifier; the array is checked at runtime by
-  // HealthKit itself, which is the only authority on what it will grant.
-  return requestAuthorization(READ as unknown as Parameters<typeof requestAuthorization>[0]);
+export type HealthAccess =
+  /** The sheet was shown and dismissed. Says nothing about what was granted. */
+  | { ok: true }
+  | { ok: false; reason: "unsupported" | "unavailable" | "failed"; detail?: string };
+
+/**
+ * Shows the Health permission sheet.
+ *
+ * Two things about Apple's API drive the shape of this.
+ *
+ * First, `requestAuthorization` takes `{ toShare, toRead }`, not a bare array.
+ * An earlier version passed the array straight in behind an `as unknown as`
+ * cast, so the native side read `toRead` off an Array, got `undefined`, and
+ * the Nitro bridge raised a native exception that no JS `catch` can see — the
+ * app hard-crashed the instant anybody tapped Connect Apple Health.
+ *
+ * Second — and this is the one that made "Apple couldn't connect to Health"
+ * so confusing — the boolean it resolves with is Apple's `success` flag,
+ * meaning *the request completed*. It is not a grant. Apple deliberately never
+ * reports read authorisation, because telling an app "denied" would leak that
+ * the person has data for that type. Treating `false` as "the user said no"
+ * therefore sent people to Settings to fix a permission that was already on.
+ *
+ * So this reports whether the *request* worked, and carries the real error
+ * when it did not. Whether we can actually read is answered by reading.
+ *
+ * `toShare` is deliberately absent rather than empty. Terrifit never writes to
+ * Health, and asking for write scope would put a second, dishonest column in
+ * the permission sheet.
+ */
+export async function requestHealthAccess(): Promise<HealthAccess> {
+  if (!healthAvailable()) return { ok: false, reason: "unsupported" };
+  if (!(await isHealthDataAvailable())) return { ok: false, reason: "unavailable" };
+  try {
+    await requestAuthorization({ toRead: READ });
+    return { ok: true };
+  } catch (caught) {
+    // Swallowing this is what turned every cause — a missing entitlement, an
+    // unknown type identifier, a locked device — into the same wrong sentence.
+    return {
+      ok: false,
+      reason: "failed",
+      detail: caught instanceof Error ? caught.message : String(caught),
+    };
+  }
 }
 
+
+
 function dayKey(date: Date): string {
-  return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())).toISOString();
+  return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())).toISOString();
 }
 
 type Collector = Map<string, DayMetrics>;
@@ -108,20 +151,10 @@ async function collectSleep(days: Collector, since: Date): Promise<void> {
     { filter: { startDate: since }, ascending: true } as unknown as Parameters<typeof queryCategorySamples>[1],
   ).catch(() => [] as never[]);
 
-  const totals = new Map<string, number>();
-  for (const sample of samples) {
-    const record = sample as unknown as { startDate: string | Date; endDate: string | Date; value: number };
-    // 0 is "in bed"; 1 and above are the asleep stages.
-    if (record.value === 0) continue;
-    const end = new Date(record.endDate);
-    const minutes = (end.getTime() - new Date(record.startDate).getTime()) / 60_000;
-    if (minutes <= 0) continue;
-    const key = dayKey(end);
-    totals.set(key, (totals.get(key) ?? 0) + minutes);
-  }
-
+  const totals = sleepTotals(samples as unknown as SleepSample[], Intl.DateTimeFormat().resolvedOptions().timeZone);
   for (const [key, minutes] of totals) {
-    put(days, new Date(key), { sleepMinutes: Math.round(minutes) });
+    const existing = days.get(key) ?? { date: key };
+    days.set(key, { ...existing, sleepMinutes: Math.round(minutes) });
   }
 }
 

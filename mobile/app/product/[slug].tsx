@@ -41,7 +41,8 @@ export default function ProductScreen() {
     : product.stockQuantity <= 0 && !product.allowBackorder));
 
   function add() {
-    if (!product) return;
+    if (!product || product.launchStatus === "upcoming") return;
+    if (product.launchStatus === "membership") { router.push("/pro" as never); return; }
     cart.add({
       slug: product.slug,
       variantId: variant?.id ?? null,
@@ -190,9 +191,9 @@ export default function ProductScreen() {
               <Text style={s.buyText}>{copy.inBag} · {copy.view}</Text>
             </Pressable>
           ) : (
-            <Pressable onPress={add} disabled={needsChoice || soldOut} style={[s.buy, (needsChoice || soldOut) && s.dim]}>
+            <Pressable onPress={add} disabled={product.launchStatus === "upcoming" || (product.launchStatus !== "membership" && (needsChoice || soldOut))} style={[s.buy, (needsChoice || soldOut) && s.dim]}>
               <Text style={s.buyText}>
-                {soldOut ? copy.outOfStock ?? copy.unavailable : needsChoice ? copy.chooseOption : `${copy.addToBag} · ${variant?.price ?? product.price}`}
+                {product.launchStatus === "upcoming" ? (preferences.locale === "ar" ? "قريباً" : "Coming later") : product.launchStatus === "membership" ? (preferences.locale === "ar" ? "استكشف العضوية" : "Explore membership") : soldOut ? copy.outOfStock ?? copy.unavailable : needsChoice ? copy.chooseOption : `${copy.addToBag} · ${variant?.price ?? product.price}`}
               </Text>
             </Pressable>
           )}

@@ -11,6 +11,8 @@ import type { Product, Variant } from "@/lib/shop/catalog";
 import type { PreorderState } from "@/lib/shop/preorder";
 import { useCart } from "@/lib/shop/cart";
 import { formatMoney } from "@/lib/shop/money";
+import { BandViewer } from "./BandViewer";
+import { launchCopy } from "@/i18n/launch";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const SECTIONS = ["overview", "design", "sensing", "battery", "integrations", "specs"] as const;
@@ -122,6 +124,8 @@ function BandHero({
   preorder: PreorderState;
 }) {
   const cart = useCart();
+  const upcoming = cart.catalog.find(item => item.slug === "terrifit-v1")?.launchStatus === "upcoming";
+  const launch = launchCopy(locale);
   const current = colourways.find((option) => option.id === colourway) ?? colourways[0];
   if (!current) return null;
 
@@ -142,52 +146,7 @@ function BandHero({
         <h1 className="bp-hero-headline">{copy.hero.title}</h1>
         <p className="bp-hero-lede">{copy.hero.sub}</p>
 
-        <div className="bp-hero-stage-centred">
-          {/* Every colourway stays mounted and cross-fades, so switching is
-              instant instead of showing an empty frame while the next
-              photograph decodes. They share one grid cell. */}
-          <div className="bp-colourway-stack">
-            {colourways.map((option) => (
-              <div
-                key={option.id}
-                className={`bp-colourway-shot ${option.id === colourway ? "is-active" : ""}`}
-                aria-hidden={option.id !== colourway}
-              >
-                <Shot
-                  src={option.image ?? ""}
-                  alt={`Terrifit V1 in ${option.label} — ${option.note}, three-quarter view against a deep charcoal backdrop with the strap curved to show the weave`}
-                  ratio={1.35}
-                  priority={option.id === colourways[0]?.id}
-                  fit="contain"
-                  sizes="(max-width: 1024px) 92vw, 62vw"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* The name is the caption for the photograph above it, so it takes the
-            colourway's own accent — picked to read on the dark ground. */}
-        <p className="bp-colourway-name" style={{ color: current.accent }} aria-live="polite">
-          {current.label}
-        </p>
-
-        <div className="bp-swatches bp-swatches-centred" role="radiogroup" aria-label={copy.colourways.pickerLabel}>
-          {colourways.map((option) => (
-            <button
-              key={option.id}
-              type="button"
-              role="radio"
-              aria-checked={option.id === colourway}
-              aria-label={`${option.label} — ${option.note}`}
-              title={option.label}
-              className={option.id === colourway ? "is-active" : undefined}
-              onClick={() => onColourway(option.id)}
-            >
-              <i style={{ background: option.swatch }} aria-hidden />
-            </button>
-          ))}
-        </div>
+        <BandViewer locale={locale} colourway={colourway} onColourway={onColourway} hero />
 
         <p className="bp-hero-price numeric">
           {copy.hero.priceNote} {price}
@@ -197,7 +156,7 @@ function BandHero({
             replaces the fabricated member count the site used to carry, and the
             refund line sits with it because a deposit without a stated refund
             is the thing people have learned not to trust. */}
-        <div className="bp-preorder" role="group" aria-label={copy.preorder.label}>
+        {upcoming ? <p className="bp-preorder">{launch.hardwareNote}</p> : <div className="bp-preorder" role="group" aria-label={copy.preorder.label}>
           <div className="bp-preorder-meter">
             <span style={{ width: `${Math.round(preorder.progress * 100)}%` }} />
           </div>
@@ -206,15 +165,16 @@ function BandHero({
             <span className="numeric">{preorder.trigger}</span> {copy.preorder.reserved}
           </p>
           <small>{preorder.triggered ? copy.preorder.triggered : copy.preorder.refund}</small>
-        </div>
+        </div>}
 
         <div className="bp-hero-actions">
           <button
             type="button"
             className="bp-button"
+            disabled={upcoming}
             onClick={() => cart.add({ slug: "terrifit-v1", variantId: current.id, quantity: 1 })}
           >
-            {copy.hero.cta}
+            {upcoming ? launch.upcoming : copy.hero.cta}
           </button>
           <Link className="bp-hero-detail-link" href={`/${locale}/shop/terrifit-v1`}>
             {copy.colourways.cta} <span aria-hidden>›</span>
@@ -313,6 +273,8 @@ function Colourways({
   colourways: Variant[];
 }) {
   const cart = useCart();
+  const upcoming = cart.catalog.find(item => item.slug === "terrifit-v1")?.launchStatus === "upcoming";
+  const launch = launchCopy(locale);
   const current = colourways.find((option) => option.id === colourway) ?? colourways[0];
   if (!current) return null;
 
@@ -324,6 +286,7 @@ function Colourways({
           <h2>{copy.colourways.title}</h2>
           <p className="bp-lede">{copy.colourways.body}</p>
         </Reveal>
+
 
         <div className="bp-weave-grid">
           {colourways.map((option, index) => (
@@ -348,9 +311,10 @@ function Colourways({
             <button
               type="button"
               className="bp-button"
-              onClick={() => cart.add({ slug: "terrifit-v1", variantId: current.id, quantity: 1 })}
+              disabled={upcoming}
+            onClick={() => cart.add({ slug: "terrifit-v1", variantId: current.id, quantity: 1 })}
             >
-              {copy.colourways.cta} · <span className="numeric">{price}</span>
+              {upcoming ? launch.upcoming : copy.colourways.cta} · <span className="numeric">{price}</span>
             </button>
             <Link className="bp-link" href={`/${locale}/shop/terrifit-v1`}>
               {copy.hero.cta} <span aria-hidden>→</span>
@@ -509,6 +473,10 @@ function Integrations({ copy }: { copy: PagesCopy["band"] }) {
           ))}
         </div>
         <Reveal className="bp-footnote">
+          {/* Which of these actually work today. The grid above is a roadmap
+              and reads like a feature list, which is the sort of thing people
+              pre-order on and then ask for a refund over. */}
+          <p>{copy.integrations.note}</p>
           <p>{copy.integrations.footnote}</p>
         </Reveal>
       </div>

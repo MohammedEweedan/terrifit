@@ -176,6 +176,8 @@ export function CartProvider({ children, catalog }: { children: ReactNode; catal
   // Mutations read the current bag from storage rather than closing over a
   // render's copy, so two rapid clicks cannot overwrite each other.
   const add = useCallback((item: CartItem) => {
+    const product = catalog.find(product => product.slug === item.slug);
+    if (!product || (product.launchStatus && product.launchStatus !== "available")) return;
     const key = lineKey(item);
     const current = getSnapshot();
     const existing = current.find((entry) => lineKey(entry) === key);
@@ -189,7 +191,7 @@ export function CartProvider({ children, catalog }: { children: ReactNode; catal
         : [...current, { ...item, quantity: Math.max(1, item.quantity) }],
     );
     setDrawerOpen(true);
-  }, []);
+  }, [catalog]);
 
   const setQty = useCallback((key: string, quantity: number) => {
     const current = getSnapshot();

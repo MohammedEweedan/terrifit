@@ -2,23 +2,151 @@ import type { PagesTranslation } from "./merge";
 
 /** Dutch. Deep partial merged over English. */
 export const nl: PagesTranslation = {
-  roadmap: {
-    eyebrow: "Wat wanneer komt",
-    title: "Supplementen gaan vandaag weg. De rest heeft een datum.",
-    body: "Liever een datum dan „binnenkort”. Dit is wat we bouwen, in de volgorde waarin het komt.",
-    nowLabel: "Nu te koop",
-    nowTitle: "Supplementen en spullen",
-    nowBody: "Extern geteste voeding, herstel en trainingsspullen, verzending naar 40+ landen. Dit is het deel van Terrifit dat je vandaag kunt kopen.",
-    nowCta: "Naar de shop",
+  availableNow: {
+    eyebrow: "Nu verkrijgbaar",
+    title: "Twee hiervan gaan vandaag de deur uit. De derde staat open voor pre-order.",
+    body: "Geen aftelklok en geen wachtlijst. Voeding en kleding verlaten nu het magazijn, en de V1 neemt reserveringen aan tegen de introductieprijs.",
     items: [
-      { date: "November 2026", title: "Het sociale platform", body: "Feeds, kanalen en het makersnetwerk. De eerste plek waar de community echt bestaat in plaats van beschreven te worden." },
-      { date: "Januari 2027", title: "De Terrifit-app", body: "iOS en Android, met de Map-bibliotheek, check-ins en de volledige analyselaag." },
-      { date: "November 2027", title: "De V1 band", body: "Pre-orders gaan de deur uit op volgorde van binnenkomst, tegen de introductieprijs." },
+      { status: "Wordt nu verzonden", title: "Terrifuel supplementen", body: "Eiwitten, hydratatie en herstel, onafhankelijk getest, verzending naar 40+ landen.", cta: "Terrifuel shoppen", href: "shop" },
+      { status: "Wordt nu verzonden", title: "Terrifits sportkleding", body: "Zware shirts, hoodies en shorts, in het zweet getest voordat ze in de verkoop gingen.", cta: "Terrifits shoppen", href: "shop" },
+      { status: "Pre-order open", title: "De V1 band", body: "Reserveer de jouwe tegen de introductieprijs. Pre-orders gaan op volgorde van binnenkomst en blijven terugbetaalbaar tot verzending.", cta: "V1 reserveren", href: "band" },
     ],
-    note: "Dit zijn doelen, geen beloftes. Verschuift er een, dan zeggen we dat hier voordat je het ergens anders hoort.",
+    note: "Pre-orders zijn volledig terugbetaalbaar tot jouw band verzonden is.",
+  },
+
+  languages: {
+    eyebrow: "Tien talen",
+    title: "Vanaf dag één native, niet later vertaald.",
+    body: "Terrifit is in tien talen tegelijk gebouwd in plaats van in het Engels gelanceerd en later gelokaliseerd. Elk scherm, elke score en elke foutmelding — ook die je alleen ziet als er iets misgaat.",
+    note: "Arabisch loopt van rechts naar links met een eigen letter, want een taal is geen font-wissel. Landnamen en datums komen van je apparaat en niet uit een tabel die wij bijhouden, dus ze kloppen ook op plekken waar we nooit zijn geweest.",
+  },
+
+  capabilities: {
+    eyebrow: "Wat het meet",
+    title: "Het leest je continu, en laat zien hoe het rekent.",
+    body: "Continu meten vanaf het moment dat je hem omdoet. Geen sessie om te starten, geen scherm om te checken, en veertien dagen niets om ’s nachts op te laden.",
+    groups: [
+      {
+        name: "De klok rond",
+        items: [
+          { name: "Hartslag", detail: "Continu, wakker en slapend, niet alleen tijdens een training" },
+          { name: "Hartslagvariabiliteit", detail: "Gemeten in je diepste slaap, wanneer het getal iets betekent" },
+          { name: "Zuurstof in het bloed", detail: "SpO₂ ’s nachts, en hoe je op hoogte went" },
+          { name: "Huidtemperatuur", detail: "Tegen je eigen basislijn, nooit tegen een populatiegemiddelde" },
+          { name: "Ademhalingsfrequentie", detail: "Meestal het eerste dat beweegt als je iets onder de leden hebt" },
+        ],
+      },
+      {
+        name: "Hieruit berekend",
+        items: [
+          { name: "Herstel", detail: "Één ochtendscore uit HRV, rusthartslag, slaap en ademhaling" },
+          { name: "Belasting", detail: "Cardiovasculaire belasting over de dag, op een schaal van 0 tot 21" },
+          { name: "Slaap", detail: "Licht, diep en REM, tegen de slaap die je echt nodig had" },
+          { name: "T Score", detail: "Hoeveel je je overdag echt bewogen hebt, van 100" },
+          { name: "Fitheidsleeftijd", detail: "Uit je maximale en rusthartslag. Gratis en deelbaar" },
+        ],
+      },
+      {
+        name: "Tijdens het trainen",
+        items: [
+          { name: "Automatische sessies", detail: "Het merkt dat je begonnen bent en legt het vast. Meer dan veertig activiteiten" },
+          { name: "Metabole belasting", detail: "Wat de sessie kostte, meegenomen in je hersteldoel van morgen" },
+          { name: "Stress en stemming", detail: "Autonome belasting over de dag, niet één ochtendmeting" },
+          { name: "VO₂max", detail: "Cardiorespiratoire fitheid, gevolgd terwijl die verandert" },
+          { name: "Hartritme-opname", detail: "Een enkelvoudige afleiding op verzoek. Een opname voor jezelf, geen diagnose" },
+        ],
+      },
+    ],
+    footnote: "Terrifit geeft welzijnsbegeleiding, geen medische diagnose. Scores en schattingen zijn geen klinische metingen. Als iets niet klopt, ga naar een arts.",
+  },
+
+  app: {
+    meta: { title: "Je dag — Terrifit", description: "Herstel, belasting, slaap en je T Score, met de gegevens achter elk getal." },
+    nav: { today: "Vandaag", trends: "Trends", body: "Lichaam", account: "Account" },
+    brand: "Terrifit",
+    dataFrom: "Gegevens van",
+    staleTitle: "Dit zijn oude gegevens",
+    staleBody: "Je meest recente meting is",
+    staleDays: "dagen oud. Importeer opnieuw, of koppel een app zodat het bijblijft.",
+    staleCta: "Je gegevens bijwerken",
+    empty: { title: "Nog niets te lezen", body: "De app draait op jouw gegevens. Importeer een export uit Apple Health, Google Health Connect, Garmin, Oura, Strava of een InBody-scan en elk getal hier vult zich — een band is niet nodig om te beginnen.", cta: "Je gegevens importeren", secondary: "Zie wat de V1 toevoegt" },
+    scores: {
+      recovery: { label: "Herstel", unit: "%", blurb: "Hoe klaar je lichaam vandaag is, afgezet tegen je eigen recente normaal." },
+      strain: { label: "Belasting", unit: "", blurb: "Hoe zwaar de dag was voor je hart en bloedvaten, op een schaal van 0 tot 21." },
+      sleep: { label: "Slaap", unit: "%", blurb: "Slaaptijd tegenover wat je nodig had, en hoe dicht dat bij je gebruikelijke lag." },
+      movement: { label: "T Score", unit: "", blurb: "Hoeveel van de dag je echt bewogen hebt, van 100." },
+    },
+    bands: { good: "Klaar", fair: "Gemiddeld", poor: "Rustig aan", unknown: "Geen meting" },
+    why: "Waarom dit getal",
+    whyClose: "Gegevens verbergen",
+    inputsHead: ["Gegeven", "Vandaag", "Vergeleken met", "Weging", "Score"],
+    missingTitle: "Niet in deze score",
+    missingBody: "Deze zouden hem scherper maken als je gegevens ze hadden.",
+    noScore: "Nog niet genoeg gegevens voor een eerlijk getal.",
+    higher: "Hoger is beter",
+    lower: "Lager is beter",
+    target: "Dichter bij je normaal is beter",
+    trends: {
+      title: "Trends", body: "Negentig dagen, gescoord zoals elke ochtend ze gescoord zou hebben — nooit met gegevens van later.",
+      recovery: "Herstel", hrv: "Hartslagvariabiliteit", restingHr: "Rusthartslag",
+      sleep: "Slaap", steps: "Stappen", weight: "Gewicht",
+      noData: "Nog geen metingen voor deze waarde.", average: "gemiddelde", days: "dagen vastgelegd",
+    },
+    body: {
+      title: "Lichaam", body: "Elke scan die je hebt geïmporteerd, oudste verandering eerst. Gewicht komt uit je dagelijkse metingen; de rest vraagt een lichaamssamenstellingsscan.", empty: "Nog geen scans. Upload een InBody-blad vanuit je account en ze verschijnen hier.",
+      columns: ["Datum", "Gewicht", "Lichaamsvet", "Skeletspier", "Lichaamsvocht", "Score"],
+      change: "Verandering sinds de eerste scan", latest: "Meest recent",
+    },
+    footer: "Scores zijn fitheidssignalen, geen medische metingen. Ze beschrijven trends in je eigen gegevens en kunnen niets diagnosticeren.",
+  },
+
+  appPage: {
+    meta: { title: "De Terrifit-app — elke score laat zijn rekenwerk zien", description: "Herstel, belasting, slaap en je T Score, elk uit te klappen naar de metingen erachter. Tien talen, tien accenten, en hij leest Apple Health zonder dat je iets hoeft in te typen." },
+    hero: {
+      eyebrow: "De Terrifit-app", title: "Lees je lichaam. Neem je voortgang in handen.", sub: "Je dagelijkse metingen, gestructureerde training en afgeronde workouts, samen in Terrifit. Begrijp je cijfers, maak ruimte voor de volgende sessie, en zie het werk zich opstapelen.",
+      cta: "Bestel de V1 vooruit", secondary: "Zie wat hij leest",
+    },
+    chapters: [
+      { kicker: "Vandaag", screen: "home", title: "Je dagelijkse signaal, op één plek.", body: "Herstel, belasting en slaap delen één helder overzicht met de waarde die jij bovenaan hebt gezet. Tik door voor de metingen en de context achter een score. Oudere metingen worden gemarkeerd zodat ze niet voor gegevens van vandaag doorgaan." },
+      { kicker: "Maps", screen: "maps", title: "Een programma dat je echt kunt uitvoeren.", body: "Volg de oefeningen, log je sets, herhalingen en gewichten, en zie wat je vorige keer afrondde. De coach kan een kortere volgende sessie voorstellen die jij beoordeelt en accepteert; je programma verandert nooit stilletjes." },
+      { kicker: "Shop", screen: "shop", title: "Terrifuel, bandjes en de band, in je eigen valuta.", body: "Eén account, één tas, één afrekening. Prijzen rekenen om naar waar je bent in plaats van dollars te tonen en je aan het eind te verrassen, en alles wat onderweg is, is één tik vanaf elk scherm." },
+      { kicker: "Fitheidsleeftijd", screen: "fitness-age", title: "Een schatting waar je in kunt kijken.", body: "Bekijk de gegevens en beperkingen achter je fitheidsleeftijd. Het is een fitheidssignaal, geen klinische beoordeling. Bekijk hem naast je trends in plaats van één getal voor het hele verhaal te houden." },
+    ],
+    tint: {
+      eyebrow: "Maak hem van jou", title: "Tien kleuren. Kies er een en zie de telefoon veranderen.",
+      body: "Elke kleur hier is vastgelegd uit de echte app en niet in een browser gefilterd, dus wat je ziet is de daadwerkelijke build. De ringen voor herstel, belasting en slaap houden hun eigen kleuren met opzet — die dragen betekenis, en een kleur die iets betekent hoort geen voorkeur te volgen.", note: "Je app-kleur wordt op dit apparaat onthouden. De website blijft Terrifit-oranje.",
+    },
+    features: {
+      eyebrow: "Wat erin zit", title: "Gemaakt voor de versie van jou van zes uur 's ochtends.",
+      items: [
+      { name: "Leest Apple Health", detail: "HRV, rusthartslag, slaap, stappen en gewicht, zonder in te typen" },
+      { name: "Werkt zonder de band", detail: "Volg programma's en log workouts zonder een wearable te kopen" },
+      { name: "Fitheidsleeftijd", detail: "Een schatting met de gegevens en beperkingen te bekijken" },
+      { name: "Lichaamssamenstelling", detail: "Elke InBody-scan die je ooit deed, uitgezet tegen je gewicht" },
+      { name: "Sessie in uitvoering", detail: "Sets, herhalingen en gewichten gelogd terwijl je bezig bent, meegenomen naar volgende week" },
+      { name: "Wekelijkse voortgang", detail: "Afgeronde sessies en actieve dagen, met een samenvatting die je zelf deelt" },
+      ],
+    },
+    close: { title: "Het is gratis, en de ochtendlezing blijft dat altijd.", body: "Herstel, belasting, slaap en je fitheidsleeftijd kosten niets, voor altijd. Terrifit Pro kost $7,99 per maand voor het werk dat weken aan geschiedenis nodig heeft.", note: "Komt naar iOS en Android. Bestel een V1 vooruit en je zit in de eerste groep." },
   },
 
   band: {
+    story: {
+      chapters: [
+      { kicker: "Altijd aan", title: "Hij vraagt nooit of je hem wilt starten.", body: "Geen sessieknop, geen herinnering om hem om te doen, geen nachtelijke lading. Hij meet continu vanaf het moment dat je hem sluit — de enige manier waarop een basislijn ontstaat die iets betekent." },
+      { kicker: "Vijftien dagen", title: "Twee keer per maand opladen.", body: "Twee weken continue hartslag op één lading. Lang genoeg om niet meer aan de batterij te denken, en dat is het punt: een band aan de lader meet niets." },
+      { kicker: "ECG en PPG", title: "Twee manieren om hetzelfde hart te lezen.", body: "De optische meting draait de hele dag. Een tweede elektrode legt een enkelvoudige ECG-afleiding vast als je er een vingertop op legt. Vastleggen, niet diagnosticeren: ziet iets er ongewoon uit, dan zegt de app dat je iemand moet raadplegen die er echt iets over kan zeggen." },
+      { kicker: "Geen scherm", title: "Niets om naar te kijken.", body: "Geen scherm, geen melding, geen trilling om je pols midden in een set. De band is een sensor. De meting, en de redenering erachter, horen op een scherm waar je toch al naar keek." },
+      { kicker: "Geweven", title: "Gemaakt om te dragen, niet om op te bergen.", body: "Twee kleuren garen samen geweven in plaats van één vlakke verf. Hij verdraagt zweet en chloor zonder te verbleken, droogt plat in een minuut of twintig, en ziet er aan tafel niet uit als sportmateriaal." },
+      { kicker: "Jouw cijfers", title: "Elke score gaat open.", body: "Tik op een getal en je krijgt de metingen erachter, de basislijn waartegen elk is gemeten, hoeveel het meewoog en wat de dag miste. Geen enkele andere band laat zijn rekenwerk zien." },
+      ],
+      statement: { lead: "Hij meet.", emphasis: "De app legt uit." },
+    },
+    preorder: {
+      label: "Voortgang van de pre-orders", of: "van", reserved: "gereserveerd",
+      refund: "Bij 500 plaatsen we de productieorder. Je kaart wordt nu belast en op verzoek volledig terugbetaald, tot het moment dat jouw band verzonden wordt.",
+      triggered: "De serie is gefinancierd en besteld. Reserveer nu om in de eerste zending te zitten.",
+    },
     meta: {
       title: "Terrifit V1 — de band die zegt wanneer je door kunt gaan",
       description:
@@ -27,6 +155,7 @@ export const nl: PagesTranslation = {
     nav: ["Overzicht", "Ontwerp", "Meten", "Batterij", "Apps", "Specs"],
     buy: "Pre-order",
     hero: {
+      image: { alt: "Terrifit V1 zwevend tegen een diep antracieten achtergrond, driekwartaanzicht, het geweven bandje buigend naar de camera met een vage oranje lichtrand langs de sensormodule" },
       eyebrow: "Terrifit V1",
       title: "Stop met gokken hoe hard je kunt trainen",
       sub: "V1 leest je hartslag, je slaap en je herstel, de klok rond. Elke ochtend vertelt hij wat je lichaam aankan, en tijdens een sessie wanneer het genoeg is geweest. Er is geen scherm om te checken en niets om aan te zetten.",
@@ -51,6 +180,19 @@ export const nl: PagesTranslation = {
       cta: "In de tas",
     },
     sensing: {
+      metrics: [
+      { name: "Hartslag", detail: "De hele dag en de hele nacht, niet alleen tijdens trainingen" },
+      { name: "Hartslagvariabiliteit", detail: "Gemeten in je diepste slaap, wanneer het getal echt iets betekent" },
+      { name: "Ademhalingsfrequentie", detail: "Ademhalingen per minuut 's nachts. Meestal het eerste dat beweegt als je iets onder de leden hebt" },
+      { name: "Zuurstof in het bloed", detail: "SpO₂ 's nachts, en hoe je went als je op hoogte traint" },
+      { name: "Huidtemperatuur", detail: "Vergeleken met je eigen basislijn, niet met een gemiddelde van alle anderen" },
+      { name: "Slaap", detail: "Licht, diep en REM, plus hoe lang je echt wakker was, tegen de slaap die je nodig had" },
+      { name: "Belasting", detail: "Hoeveel werk je hart vandaag verzette, op een schaal van 0 tot 21" },
+      { name: "Herstel", detail: "Eén score elke ochtend, berekend uit je HRV, rusthartslag, slaap en ademhaling" },
+      { name: "Beweging", detail: "Zesassige versnellingsmeter en gyroscoop, voor activiteitsherkenning, slaapfasering en hoeveel je je overdag echt bewoog" },
+      { name: "Automatische sessies", detail: "Hij merkt dat je bent gaan trainen en legt het vast. Meer dan veertig activiteiten" },
+      ],
+      image: { alt: "Extreme close-up van de onderkant van de Terrifit V1, met vijf groene leds en vier sensorvensters die oplichten tegen zwart glas" },
       eyebrow: "Wat hij meet",
       title: "Hij leest je de hele tijd",
       body:
@@ -64,23 +206,58 @@ export const nl: PagesTranslation = {
       { title: "Tijd", body: "De tijd, leesbaar door je pols een paar graden te draaien. Verder staat er niets op en trilt er niets." },
     ],
     daily: {
+      steps: [
+      { time: "06:40", title: "Herstelscore", body: "Hij staat klaar als je wakker wordt, en weet al wat de nacht met je gedaan heeft." },
+      { time: "12:00", title: "Het doel van vandaag", body: "Hoeveel training je lichaam vandaag aankan, op basis van het herstel dat je echt hebt en niet het plan dat je zondag schreef." },
+      { time: "17:30", title: "Tijdens de sessie", body: "Live hartslag en belasting op je telefoon, en rusttimers die starten zodra de band ziet dat je stopt." },
+      { time: "22:50", title: "Wanneer naar bed", body: "Het tijdstip dat je bij het doel van morgen brengt, aangepast aan hoe hard je net getraind hebt." },
+      ],
       eyebrow: "Een gewone dag",
       title: "Vier momenten per dag waarop kijken zin heeft",
       body: "Je hoeft de app niet constant open te hebben. Dit zijn de momenten waarop de band echt verandert wat je zou doen.",
     },
     battery: {
+      cards: [
+      { value: "15 dagen", label: "Per lading", detail: "Met continue hartslagmeting die de hele tijd doorloopt." },
+      { value: "30+ dagen", label: "Met de PowerPack", detail: "Een draadloze batterij die je vastklikt en die de V1 bijlaadt terwijl je hem draagt." },
+      { value: "~2 uur", label: "Van leeg naar vol", detail: "Steek hem in USB-C: één lading dekt twee weken." },
+      { value: "Geen gaten", label: "In je gegevens", detail: "Omdat je hem nooit afdoet, blijven je slaap- en herstelbasislijnen intact." },
+      ],
+      image: { alt: "De Terrifit PowerPack die op de band om iemands pols schuift, een klein matzwart moduletje met één amberkleurig laadlampje" },
       eyebrow: "Batterij",
       title: "Ruim twee weken tussen twee ladingen",
       body:
         "Twee weken is het punt waarop je stopt met nadenken over het opladen van een wearable en hem gewoon draagt. En als het toch moet, klikt de PowerPack erop en laadt hem terwijl hij om je pols zit — zo mis je geen nacht slaapdata.",
     },
     water: {
+      points: [
+      { title: "IP68 afgedicht", body: "Regen, zweet en de douche zijn prima. Doe hem af voordat je baantjes zwemt of de zee in gaat." },
+      { title: "Zweet en zout", body: "Het weefsel laat zweet door in plaats van het vast te houden, en droogt plat in een minuut of twintig." },
+      { title: "Sauna en koud bad", body: "Geschikt van −20 °C tot 60 °C, zodat herstelsessies net als al het andere worden vastgelegd." },
+      { title: "Chloor sloopt hem niet", body: "Geen verkleuring, geen verharding en geen geur na een heel seizoen banen trekken." },
+      ],
+      image: { alt: "Terrifit V1 om de pols van een zwemmer die door het wateroppervlak breekt, druppels bevroren in hard zijlicht" },
       eyebrow: "Water en zweet",
       title: "Je kunt ermee zwemmen, douchen en er flink in zweten",
       body:
         "V1 is IP68-gecertificeerd, dus regen, zweet en de douche zijn geen probleem. Het is geen duikhorloge — doe hem af voordat je baantjes gaat trekken of de zee in gaat.",
     },
     integrations: {
+      note: "Apple Health werkt vandaag al in de app. Health Connect en de directe koppelingen hieronder worden gebouwd en komen vóór de eerste banden verzonden worden — schuift er één op, dan zeggen we dat hier.",
+      apps: [
+      { name: "Apple Health", detail: "Beide richtingen. Trainingen, slaap, hartslag, HRV en ademhaling." },
+      { name: "Google Health Connect", detail: "Synchroniseert beide kanten op met elke Android-app die het ondersteunt." },
+      { name: "Samsung Health", detail: "Sessies, slaap en dagelijkse activiteit." },
+      { name: "Strava", detail: "Plaatst je sessies automatisch, met hartslag en belasting erbij." },
+      { name: "Garmin Connect", detail: "Zet V1-herstel naast je Garmin-activiteiten." },
+      { name: "Apple Watch", detail: "Live belasting om je pols tijdens het trainen." },
+      { name: "TrainingPeaks", detail: "Stuurt afgeronde sessies naar het plan van je coach." },
+      { name: "Peloton", detail: "Hartslag uit de les en belasting komen op dezelfde tijdlijn." },
+      { name: "Zwift", detail: "Zendt je hartslag rechtstreeks de rit in." },
+      { name: "Oura", detail: "Haalt slaap op uit een ring die je al hebt." },
+      { name: "Fitbit", detail: "Importeert je geschiedenis als je overstapt." },
+      { name: "MyFitnessPal", detail: "Zet wat je at naast het werk dat je echt deed." },
+      ],
       eyebrow: "Werkt met je andere apps",
       title: "Je data gaat waar je hem al bewaart",
       body:
@@ -88,8 +265,22 @@ export const nl: PagesTranslation = {
       footnote:
         "Je kunt alles wanneer je wilt als CSV exporteren. We verkopen geen gezondheidsdata, en geen coach of maker ziet er iets van tenzij jij het deelt.",
     },
-    box: { eyebrow: "In de doos", title: "Wat je echt krijgt" },
-    specsSection: { eyebrow: "Specificaties", title: "Het hele specblad" },
+    box: {
+      items: [
+      { name: "De V1-sensor", detail: "Optische array met vijf leds, versnellingsmeter, gyroscoop en huidtemperatuursensor" },
+      { name: "Een geweven bandje", detail: "In de kleur die je kiest, op maat van je pols" },
+      { name: "V1 PowerPack", detail: "De draadloze lader die werkt terwijl je de band draagt" },
+      { name: "USB-C-kabel", detail: "Eén meter, gevlochten" },
+      { name: "Eerste maand lidmaatschap", detail: "Maps, je volledige geschiedenis en creator-kanalen inbegrepen" },
+      ],
+      image: { alt: "Flatlay van alles uit de Terrifit V1-doos op warm papier: sensormodule, geweven bandje, PowerPack en gevlochten USB-C-kabel, in een raster gelegd" }, eyebrow: "In de doos", title: "Wat je echt krijgt" },
+    specsSection: {
+      groups: [
+      { title: "Sensoren", rows: [["Optisch", "PPG-hartslagsensor"], ["Beweging", "3-assige versnellingsmeter"], ["Temperatuur", "Huidtemperatuur"], ["Zuurstof in het bloed", "SpO₂ 's nachts"]] },
+      { title: "Energie", rows: [["Batterijduur", "180 mAh, ruim 15 dagen"], ["Opladen", "Magnetische lader"], ["Kabel", "USB-C"]] },
+      { title: "Bouw", rows: [["Waterdichtheid", "IP68"], ["Bandje", "Geweven nylon en elastaan"]] },
+      { title: "Connectiviteit", rows: [["Draadloos", "Bluetooth LE 5.4"], ["Offline opslag", "Tot 30 dagen"], ["Telefoons", "iOS en Android"], ["Export", "CSV, Apple Health, Health Connect"], ["Updates", "Over the air"]] },
+      ], eyebrow: "Specificaties", title: "Het hele specblad" },
     privacy: {
       title: "Je gezondheidsdata is van jou",
       body:
@@ -106,12 +297,36 @@ export const nl: PagesTranslation = {
   },
 
   maps: {
+    exercise: {
+      eyebrow: "In één oefening",
+      title: "Back squat, 5 sets van 3 op 82%",
+      body: "Dit zie je als je halverwege een sessie een beweging opent.",
+      cuesTitle: "Waar je aan denkt",
+      cues: ["Zet je romp vast voordat je de stang uit het rack tilt, niet nadat je hem hebt uitgelopen.", "Laat je knieën de hele weg naar beneden over je tweede teen sporen.", "Duw de vloer uit elkaar als je uit de diepte komt."],
+      faultsTitle: "Waar het misgaat",
+      faults: ["De heupen komen eerst omhoog, de stang drijft naar voren en het wordt een good morning.", "De spanning onderin verliezen — daar begint bijna alle rugronding."],
+      tempoTitle: "Tempo",
+      tempo: "3-1-X-0. Drie seconden zakken, één vasthouden, snel omhoog, boven niet pauzeren.",
+      subsTitle: "Als je sportschool geen rack heeft",
+      subs: ["Goblet squat, 5 sets van 6", "Bulgaarse split squat, 4 sets van 6 per kant"],
+      video: { alt: "Demobeeld vanuit twee hoeken van een back squat in de onderste positie, van voren en van opzij naast elkaar, effen studioachtergrond met hulplijnen" },
+      bandTitle: "Wat de band zag",
+      bandRows: [
+        ["Hartslag", "Piek op 168, terug op 122 voor de volgende set"],
+        ["Belasting", "De hoogste van de vier werksets tot nu toe"],
+        ["Set gedetecteerd", "Vastgelegd uit de stijging en daling van de hartslag"],
+        ["Rust", "2:41 tot de volgende set"],
+        ["Sessiebelasting", "11,4 van 21 tot nu toe"],
+        ["Herstelkosten", "Meegenomen naar het doel van morgen"],
+      ],
+    },
     meta: {
       title: "Terrifit Maps — trainingsprogramma’s die zich aan jou aanpassen",
       description:
         "Een Map is een compleet programma: blokken, weken, sessies en oefeningen, met techniek bij elke beweging, gewichten die zich aanpassen aan wat je echt hebt getild, en tracking per herhaling als je een V1 draagt.",
     },
     hero: {
+      image: { alt: "Sprinter die uit de startblokken komt in een donkere trainingshal, één hard licht scheert over de baan" },
       eyebrow: "Terrifit Maps",
       title: "Een programma dat weet wat je vorige week hebt getild",
       sub: "Een Map is het hele plan — de blokken, de weken, de sessies en elke oefening erin — geschreven door iemand die dit voor de kost doet. Hij leert je de beweging, rekent uit wat er op de stang moet, en met een V1 om kijkt hij ongeveer zo nauw naar je set als iemand die achter je staat.",
@@ -125,6 +340,12 @@ export const nl: PagesTranslation = {
       { label: "Van de sessies wordt afgemaakt" },
     ],
     anatomy: {
+      layers: [
+      { key: "block", label: "Blok", title: "Blokken bepalen waar je op jaagt", body: "Vier tot zes weken gericht op één ding: volume opbouwen, intensiteit opvoeren, pieken of afbouwen. De Map vertelt je in welk blok je zit en ongeveer hoe het zou moeten voelen.", detail: ["Opbouw · week 1 tot 4", "Intensiteit · week 5 tot 9", "Piek · week 10 en 11", "Deload · week 12"] },
+      { key: "week", label: "Week", title: "Weken balanceren hoeveel je doet", body: "Volume, intensiteit en wat je band over vorige week meldde gaan in dezelfde berekening. Een slechte slaapweek verandert de hele week, niet één sessie.", detail: ["Geplande belasting 62", "Zware dagen: maandag, donderdag", "Eén optioneel conditieblok", "Automatische deload na 3 dagen slecht herstel"] },
+      { key: "session", label: "Sessie", title: "Sessies vertellen je wat je te wachten staat", body: "Warming-up, hoofdoefening, accessoires, finisher. Je krijgt een tijd- en een belastingschatting voordat je begint, zodat je weet waar je ja tegen zegt.", detail: ["Warming-up · 8 min", "Back squat · 5×3 op 82%", "Roemeens deadlift · 3×8", "Bulgaarse split squat · 3×10 per kant", "Finisher · 6 min"] },
+      { key: "exercise", label: "Oefening", title: "Oefeningen worden uitgelegd, niet alleen opgesomd", body: "Elke beweging komt met een demo, de drie aanwijzingen die er echt toe doen, de twee fouten die mensen echt maken, een tempo, en iets om te vervangen als je sportschool het materiaal niet heeft.", detail: ["Demo vanuit twee hoeken", "3 technische aanwijzingen", "2 veelgemaakte fouten", "Tempo 3-1-X-0", "2 vervangingen"] },
+      ],
       eyebrow: "Hoe een Map in elkaar zit",
       title: "Vier lagen, in elke Map hetzelfde",
       body: "Wie hem ook geschreven heeft, elke Map opent hetzelfde — je hoeft nooit het spreadsheet van een nieuwe coach te leren. Kies een laag om te zien wat erin zit.",
@@ -138,12 +359,52 @@ export const nl: PagesTranslation = {
       chartCaption: "Twaalf weken uit een krachtprogramma. De vlakke twee weken zijn een deload die de Map zelf toevoegde.",
     },
     form: {
+      image: { alt: "Wielrenner in volle inspanning frontaal gezien, handen in de beugels, de V1 zichtbaar om de pols" },
+      points: [
+      { title: "Sets zonder te tikken", body: "De stijging en daling van je hartslag markeren waar een set begon en eindigde, dus het vinkje staat er al als je kijkt." },
+      { title: "Rust die zichzelf klokt", body: "De timer start als de set eindigt en port je als je te lang blijft zitten." },
+      { title: "Belasting over de sessie", body: "Hoe deze set zich verhoudt tot de vorige, zodat een zwakke vierde set zichtbaar is terwijl je nog boven de stang staat." },
+      { title: "Sessiebelasting", body: "De totale cardiovasculaire kosten van de sessie, die je hersteldoel van morgen voeden." },
+      { title: "Jij blijft de scheidsrechter", body: "De band leest je hart, niet je stang. Hij telt geen herhalingen en beoordeelt je diepte niet, en doet ook niet alsof." },
+      { title: "Alles is aanpasbaar", body: "Automatisch loggen staat standaard uit en elke set die hij aanvinkt corrigeer je met één tik." },
+      ],
       eyebrow: "Techniek en uitvoering",
       title: "Hij kijkt naar de set, niet alleen naar het totaal",
       body:
         "De versnellingsmeter en gyroscoop in de V1 lezen je pols bij elke herhaling. Dat is genoeg om ze te tellen, je excentrische fase te klokken, te meten hoe ver de stang echt ging en te zien wanneer herhaling vier niet meer op herhaling één leek.",
     },
     library: {
+      included: "Inbegrepen",
+      items: [
+      {
+        slug: "hypertrophy-base", name: "Hypertrofie-basis", type: "Fysiek", level: "Terugkerend", weeks: 12, days: 4,
+        creator: "Dara Okafor", credential: "Kracht- en conditietrainer, 11 jaar, twee nationale programma's",
+        summary: "Vier dagen per week rond zes oefeningen waar je echt goed in wordt. Het volume stijgt vier weken, dan neemt de intensiteit het over, dan piek en afbouw.",
+        equipment: "Halterstang, rack, dumbbells, kabelstation",
+        image: { alt: "Bokser die combinaties werkt onder één plafondlamp, bandages om, midden in de uitademing" },
+      },
+      {
+        slug: "strength-five", name: "Kracht Vijf", type: "Kracht", level: "Constant", weeks: 10, days: 3,
+        creator: "Ivan Petrov", credential: "Powerliftingcoach, drie IPF-podiumlifters",
+        summary: "Tien weken jagen op een groter totaal. Drie sessies per week: squat, bankdrukken en deadlift, met het accessoirewerk dat ze in beweging houdt.",
+        equipment: "Halterstang, rack, bank",
+        image: { alt: "Kettlebell op het hoogste punt van een swing, atleet gespannen, hard zijlicht" },
+      },
+      {
+        slug: "engine-builder", name: "Motorbouwer", type: "Uithouding", level: "Nieuw", weeks: 8, days: 5,
+        creator: "Nadia Haddad", credential: "Duurtrainer, marathon en triatlon",
+        summary: "Acht weken aan een bredere aerobe basis. Vijf makkelijke tot matige sessies per week, want de basis bouw je op een tempo dat te traag voelt.",
+        equipment: "Weg, loopband of fiets",
+        image: { alt: "Hardlopers op een open weg bij eerste licht, samen in beweging" },
+      },
+      {
+        slug: "return-to-training", name: "Terug naar Trainen", type: "Gezondheid", level: "Nieuw", weeks: 6, days: 3,
+        creator: "Sofia Marchetti", credential: "Revalidatie en return-to-play, twaalf jaar",
+        summary: "Zes weken terugkomen na een lange pauze, beginnend met gewichten die beledigend licht zullen voelen. Dat is het punt — je bouwt belastbaarheid op, je test hem niet.",
+        equipment: "Dumbbells, weerstandsbanden",
+        image: { alt: "Hardloper op gras in een rustig tempo, vroeg licht, geen spanning op het gezicht" },
+      },
+      ],
       eyebrow: "De bibliotheek",
       title: "Vind er een die past bij de week die je hebt",
       body: "Filter op doel, niveau, materiaal en het aantal dagen dat je realistisch kunt trainen.",
@@ -172,12 +433,24 @@ export const nl: PagesTranslation = {
   },
 
   creators: {
+    verification: {
+      eyebrow: "Voordat je publiceert",
+      title: "Elke coach wordt door een mens geverifieerd voordat zijn eerste Map live gaat.",
+      body: "Niemand publiceert een programma of verzamelt volgers op Terrifit voordat we hebben gecontroleerd wie hij is en wat hem kwalificeert om training voor anderen te schrijven. Het duurt een paar dagen, en het is de reden dat een Terrifit-Map meer waard is dan een PDF van een vreemde.",
+      items: [
+      { name: "Wie je bent", detail: "Officieel identiteitsbewijs, gekoppeld aan het account en de naam die op je Maps komt te staan." },
+      { name: "Wat je kwalificeert", detail: "Je trainerscertificering, diploma, wedstrijdverleden of gedocumenteerd werk met cliënten. We accepteren meerdere routes; geen enkele accepteren we niet." },
+      { name: "Wat je wilt publiceren", detail: "Een opzet van je eerste Map, beoordeeld door een coach uit ons team volgens dezelfde maatstaf als onze eigen programma's." },
+      ],
+      note: "Tot je geverifieerd bent kun je je profiel opbouwen en een Map opstellen, maar die blijft privé en je kunt geen volgers of betalingen aannemen.",
+    },
     meta: {
       title: "Coachen op Terrifit — betaald worden voor wat je al doet",
       description:
-        "Publiceer programma’s, houd een gratis publieke feed en een betaalde privéfeed, open kanalen, stuur je leden berichten en zie de data die ze met je willen delen. Jij houdt 80 %, maandelijks uitbetaald.",
+        "Publiceer programma’s, houd een gratis publieke feed en een betaalde privéfeed, open kanalen, stuur je leden berichten en zie de data die ze met je willen delen. Jij houdt 60 %, maandelijks uitbetaald.",
     },
     hero: {
+      image: { alt: "Estafettewissel tussen twee atleten op de baan, het moment waarop het stokje overgaat" },
       eyebrow: "Voor coaches en makers",
       title: "Je volgers trainen al. Nu kun je zien hoe het gaat.",
       sub: "Overal anders post je en hoop je. Hier zijn je volgers en de mensen die met je trainen dezelfde lijst, en kun je echt zien of je programma werkte. Publiceer Maps, post gratis, verkoop premium, open kanalen en stuur mensen direct een bericht.",
@@ -191,6 +464,12 @@ export const nl: PagesTranslation = {
       { label: "Kosten om te beginnen" },
     ],
     why: {
+      cards: [
+      { title: "Jij houdt 60%", body: "Op programma's, abonnementen en kanaaltoegang. Elke maand op een vaste datum uitbetaald, met een overzicht dat elke regel laat zien." },
+      { title: "Je ziet de resultaten", body: "Als iemand toestemming geeft, zie je of hij komt opdagen, hoe hij slaapt en wat hij tilt. Je testimonials zijn geen screenshots meer." },
+      { title: "Mensen kunnen je echt vinden", body: "Leden zoeken op doel, niveau en materiaal, niet op wie deze week het meest postte. Een goed programma blijft verkopen lang nadat je stopt met promoten." },
+      { title: "Alles op één plek", body: "Programma-aflevering, betalingen, community, DM's, check-ins en analytics. Geen spreadsheets, geen PDF's, geen aparte chat-app en geen linkpagina." },
+      ],
       eyebrow: "Waarom nog een platform",
       title: "Omdat dit er een is die kan laten zien of het werkte",
       body:
@@ -201,26 +480,43 @@ export const nl: PagesTranslation = {
       title: "Post gratis, verkoop het goede spul, één profiel",
       body:
         "Je publieke feed is hoe mensen je vinden. Je privéfeed is hoe je betaald wordt. Ze staan naast elkaar op één profiel, dus een volger is één tik verwijderd van een abonnement.",
-      public: { label: "Publieke feed", price: "Gratis", title: "Waar je publiek vandaan komt", body: "Alles wat je openbaar post is vindbaar op Terrifit — door leden, en door andere coaches die iemand zoeken om mee samen te werken." },
-      private: { label: "Privéfeed", price: "Jij bepaalt de prijs", title: "Waar het geld zit", body: "Een feed alleen voor leden, voor het spul waar je jaren over hebt gedaan. Per maand, per jaar, of gebundeld met een van je Maps." },
+      public: { items: ["Berichten, clips en fotoreeksen zonder lengtelimiet", "Getoond aan leden die naar hetzelfde doel trainen dat jij coacht", "Gedeeld door andere creators, en daar komen de meeste nieuwe volgers vandaan", "Een gratis proefsessie uit een van je Maps, met één tik te proberen", "Reacties van iedereen op het platform"], label: "Publieke feed", price: "Gratis", title: "Waar je publiek vandaan komt", body: "Alles wat je openbaar post is vindbaar op Terrifit — door leden, en door andere coaches die iemand zoeken om mee samen te werken." },
+      private: { items: ["Programmeringsuitleg en echte technische verdieping", "De aanwijzingen en correcties die je nooit publiek zou posten", "Livestreams en Q&A's alleen voor abonnees", "Vroege toegang tot elke Map die je publiceert", "Abonnementen die altijd opzegbaar zijn, door ons geïncasseerd en maandelijks aan jou betaald"], label: "Privéfeed", price: "Jij bepaalt de prijs", title: "Waar het geld zit", body: "Een feed alleen voor leden, voor het spul waar je jaren over hebt gedaan. Per maand, per jaar, of gebundeld met een van je Maps." },
     },
     channels: {
+      items: [
+      { title: "Groepskanalen", body: "Iedereen op dezelfde Map in dezelfde week, in één ruimte. Ze beantwoorden elkaars vragen al voordat jij erbij bent." },
+      { title: "Directe berichten", body: "Eén op één met elk lid, met zijn huidige Map en week naast het gesprek." },
+      { title: "Ingeplande check-ins", body: "Stel elke zondag dezelfde vijf vragen. De antwoorden komen in een wachtrij in plaats van een chatlog." },
+      { title: "Spraakberichten en vormcontrole", body: "Iemand stuurt je een set, jij stuurt dertig seconden audio over zijn video terug." },
+      { title: "Aankondigingen", body: "Stuur naar alle abonnees, één kanaal, of alleen naar wie achterop raakt." },
+      { title: "Opgeslagen antwoorden", body: "Het antwoord dat je veertig keer per week typt, klaar in twee tikken." },
+      ],
+      image: { alt: "Telefoonscherm met een Terrifit-coachkanaal, berichten van leden en een vastgezette aankondiging van week drie, donkere interface, in één hand vastgehouden" },
       eyebrow: "Kanalen en berichten",
       title: "Praat met duizend mensen tegelijk, of met één",
       body:
         "Kanalen zijn ruimtes van jou. Eén voor iedereen op hetzelfde programma, één voor beginners, één voor de mensen die je één op één begeleidt. Directe berichten zitten eronder, zodat een check-in niet verdwijnt in een reactiedraad.",
     },
     figures: {
+      shared: [
+      { label: "Opkomst", value: "94%", note: "Gedane sessies van geplande sessies" },
+      { label: "Herstel", value: "+9", note: "Voortschrijdend 14-daags gemiddelde" },
+      { label: "Slaap", value: "7 u 12 m", note: "Mediaan over het blok" },
+      { label: "Volume", value: "12.450 kg", note: "Deze week, alles bij elkaar" },
+      { label: "Geschat 1RM", value: "+11%", note: "Back squat, sinds week één" },
+      { label: "Check-in reeks", value: "9 weken", note: "Zondagen op rij" },
+      ],
       eyebrow: "Hun cijfers",
       title: "Je ziet hun voortgang, maar alleen als ze ja zeggen",
       body:
         "Een lid kan zijn trainingsdata met je delen, per coach, zolang hij wil. Zolang dat aanstaat, gok je niet. Op het moment dat hij het uitzet verdwijnt het van jouw kant, en we vertellen hem dat ook.",
-      consent: { title: "Hoe delen werkt" },
+      consent: { points: ["Staat om te beginnen uit, en wordt per coach ingesteld.", "Het lid ziet precies welke cijfers jij kunt zien, in gewone taal.", "Eén tik zet het uit, en jouw beeld loopt binnen seconden leeg.", "We gebruiken nooit wat gedeeld is om iemand een upgrade te verkopen."], title: "Hoe delen werkt" },
     },
     calculator: {
       eyebrow: "Reken het uit",
       title: "Hoe dit er op jouw schaal uitziet",
-      body: "Schuif met de regelaars. Het rekent met de echte verdeling: 80 % naar jou, op alles.",
+      body: "Schuif met de regelaars. Het rekent met de echte verdeling: 60 % naar jou, op alles.",
       followersLabel: "Volgers die je bereikt",
       conversionLabel: "Hoeveel er abonneren",
       priceLabel: "Maandprijs",
@@ -229,19 +525,54 @@ export const nl: PagesTranslation = {
       resultLabel: "Wat je per maand overhoudt",
       breakdownSubs: "Abonnementen",
       breakdownMaps: "Verkochte programma’s",
-      shareNote: "Na onze 20 %, voor de belasting die je lokaal betaalt.",
+      shareNote: "Na onze 40 %, voor de belasting die je lokaal betaalt.",
       annual: "per jaar",
       disclaimer: "Dit is een illustratie, geen belofte. Wat je echt verdient hangt af van je publiek, je prijzen en hoe goed het programma is.",
     },
-    tools: { eyebrow: "Waar je mee werkt", title: "Genoeg om dit serieus te doen" },
+    tools: {
+      items: [
+      { title: "Programmabouwer", body: "Blokken, weken, sessies en oefeningen, met een bibliotheek van 36 bewegingen waar al coaching aan hangt en die groeit met elke gepubliceerde Map. Kopieer een week, verplaats een blok, duw een update in één keer naar iedereen." },
+      { title: "Je videobibliotheek", body: "Neem een demo één keer op en hergebruik hem. Je clips hangen aan die beweging in elk programma dat je schrijft." },
+      { title: "Live sessies", body: "Stream naar je abonnees met hartslag en belasting in beeld van iedereen die met een V1 kijkt." },
+      { title: "Check-in wachtrij", body: "Wekelijkse antwoorden, foto's en cijfers in één lijst die je kunt afwerken, met je antwoord opgeslagen in het dossier van die persoon." },
+      { title: "Je eigen pagina", body: "Je programma's, je abonnementsniveaus en alle partnerproducten die je aanraadt, op één pagina waar je mensen heen stuurt." },
+      { title: "Analytics", body: "Waar je volgers vandaan kwamen, wat converteert, welke programma's mensen afmaken, en de week waarin ze meestal afhaken." },
+      ], eyebrow: "Waar je mee werkt", title: "Genoeg om dit serieus te doen" },
     payouts: {
+      rows: [
+      ["Jouw deel", "60% van elk programma, abonnement en kanaal"],
+      ["Wanneer je betaald wordt", "Maandelijks, op de 5e, over de maand ervoor"],
+      ["Minimale uitbetaling", "$1.000. Alles daaronder schuift door naar de volgende maand in plaats van te vervallen"],
+      ["Hoe je betaald wordt", "Bankoverschrijving, Wise of Stripe Connect in meer dan 40 landen"],
+      ["Terugbetalingen", "Tegen kostprijs afgetrokken, nooit met een boete erbovenop"],
+      ["Partnerproducten", "Extra commissie op alles wat je aanbeveelt"],
+      ],
       eyebrow: "Betaald worden",
       title: "Maandelijks, op een vaste datum, zonder verrassingen",
       note: "Geen plaatsingskosten, geen maandelijkse platformkosten, geen minimumaantal volgers.",
     },
-    steps: { eyebrow: "Aan de slag", title: "Vier stappen, ongeveer een week", cta: "Aanmelden" },
-    voices: { eyebrow: "Uit de eerste groep coaches", title: "Wat er voor hen veranderde" },
-    faq: { eyebrow: "Vragen", title: "Die mensen echt stellen" },
+    steps: {
+      items: [
+      { title: "Meld je aan", body: "Vertel ons wie je coacht en laat wat van je werk zien. We lezen elke aanmelding zelf." },
+      { title: "Word geverifieerd", body: "Papieren, verzekering waar van toepassing, en identiteitsbewijs. Het duurt twee of drie dagen, en daarom vertrouwen leden het label." },
+      { title: "Bouw iets", body: "Schrijf je eerste programma of breng er een mee dat je al draait. Ons team loopt het met je door voordat het live gaat." },
+      { title: "Ga live", body: "Je pagina opent, je feeds beginnen, en we zetten je voor leden die trainen naar wat jij coacht." },
+      ], eyebrow: "Aan de slag", title: "Vier stappen, ongeveer een week", cta: "Aanmelden" },
+    voices: {
+      items: [
+      { quote: "Ik stuurde geen PDF's meer en zat niet meer achter mensen aan in DM's. Mijn voltooiingspercentage ging van ongeveer een derde naar boven de negentig procent zonder dat ik één oefening veranderde.", name: "Jordan Cole", role: "Krachtcoach, 12,6k volgers" },
+      { quote: "De privéfeed betaalt mijn huur. De publieke feed voedt de privéfeed. Ik hoefde nooit te kiezen tussen weggeven en een bedrijf runnen.", name: "Maya Reyes", role: "Hybride coach, 41k volgers" },
+      { quote: "Iemands herstel zien vóór zijn sessie veranderde hoe ik programma's schrijf. Ik stopte met gokken rond week drie.", name: "Dr. Sam Whitfield", role: "Sportwetenschapper, 8,2k volgers" },
+      ], eyebrow: "Uit de eerste groep coaches", title: "Wat er voor hen veranderde" },
+    faq: {
+      items: [
+      { q: "Heb ik veel volgers nodig?", a: "Nee. We kijken naar hoe goed de coaching is, niet naar hoeveel volgers je hebt. Ongeveer een derde van onze eerste groep kwam binnen met minder dan tweeduizend." },
+      { q: "Mag ik overal elders blijven posten?", a: "Ja, en dat zou je moeten doen. Terrifit is waar het programma, de betaling en de relatie leven. We vragen geen exclusiviteit." },
+      { q: "Van wie zijn de programma's die ik schrijf?", a: "Van jou. Je kunt ze offline halen, aanpassen of meenemen. Wie er al een kocht, houdt de versie die hij kocht." },
+      { q: "Wat als iemand geld terugvraagt?", a: "Dat handelen wij af. Het gaat er tegen kostprijs af binnen het retourvenster, en we zetten er nooit een boete bovenop." },
+      { q: "Kan ik iemands gezondheidsgegevens zien?", a: "Alleen wat hij specifiek heeft gedeeld, en alleen zolang hij het aan laat staan. Je ziet nooit iets waarmee hij niet heeft ingestemd." },
+      { q: "Heb ik een V1-band nodig om te publiceren?", a: "Nee. Leden zonder band loggen hun sets met de hand en krijgen nog steeds automatische gewichtsprogressie. Een V1 voegt live hartslag toe, automatische setdetectie en de herstelgegevens die bepalen hoe zwaar hun volgende sessie moet zijn." },
+      ], eyebrow: "Vragen", title: "Die mensen echt stellen" },
     cta: {
       eyebrow: "Oprichtende coaches",
       title: "De eerste duizend zetten de toon",
@@ -255,6 +586,8 @@ export const nl: PagesTranslation = {
     meta: { title: "Contact — Terrifit", description: "Neem contact op over je lidmaatschap, de V1 band, een aanmelding als coach, samenwerkingen of pers." },
     hero: { eyebrow: "Contact", title: "Praat met een echt mens", sub: "Een klein team leest alles wat hier binnenkomt. Kies het juiste vakje en je hoort meestal binnen één werkdag iets terug." },
     form: {
+      namePlaceholder: "Alex Duarte",
+      emailPlaceholder: "jij@voorbeeld.nl",
       title: "Stuur ons een bericht",
       topicLabel: "Waar gaat het over?",
       topics: [
@@ -311,6 +644,11 @@ export const nl: PagesTranslation = {
   },
 
   shop: {
+    searchLabel: "Zoek in de shop",
+    searchPlaceholder: "Eiwitten, bandjes, de band…",
+    departmentsLabel: "Afdelingen",
+    itemOne: "artikel",
+    itemMany: "artikelen",
     meta: { title: "Terrifit Shop — de V1 band, bandjes, supplementen en spullen", description: "Pre-order de Terrifit V1 band, haal bandjes en een PowerPack, en sla de supplementen in die wij en onze partners echt gebruiken." },
     hero: { eyebrow: "Terrifit Shop", title: "Supplementen nu. Hardware vanaf november.", sub: "De supplementen, herstelproducten en trainingsspullen gaan vandaag weg — die van ons, en een korte lijst van partners die we hebben gecontroleerd. De V1 band en de accessoires staan open voor pre-order en gaan in november 2027 weg." },
     trust: [
@@ -319,7 +657,7 @@ export const nl: PagesTranslation = {
       { title: "2 jaar garantie", body: "Op alles wat we zelf maken" },
       { title: "Veilig afrekenen", body: "Kaart, wallets en crypto" },
     ],
-    categories: { all: "Alles", band: "Band en lidmaatschap", accessories: "Accessoires", apparel: "Kleding", fuel: "Supplementen", recovery: "Herstel" },
+    categories: { bundles: "Sets", all: "Alles", band: "Band en lidmaatschap", accessories: "Accessoires", apparel: "Kleding", fuel: "Supplementen", recovery: "Herstel" },
     sortLabel: "Sorteren",
     sort: { featured: "Uitgelicht", priceLow: "Prijs: laag naar hoog", priceHigh: "Prijs: hoog naar laag", rating: "Best beoordeeld" },
     resultCount: "producten",
@@ -446,7 +784,7 @@ export const nl: PagesTranslation = {
     },
   },
 
-  search: {
+  search: { hint: "⌘K",
     placeholder: "Zoek op Terrifit",
     open: "Zoeken",
     close: "Zoeken sluiten",

@@ -1,239 +1,89 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { Locale } from "@/i18n/config";
 import type { PagesCopy } from "@/i18n/pages";
+import { storefrontCopy } from "@/i18n/storefront";
 import { Shot } from "@/components/ui/Shot";
 import { useCart } from "@/lib/shop/cart";
 import { discountPercent, formatMoney } from "@/lib/shop/money";
 import { unitPriceCents, type Product } from "@/lib/shop/catalog";
-import { ProductCard } from "@/components/shop/ProductCard";
+import { hasBundleGallery, isConceptImage } from "@/lib/shop/product-media";
+import { ProductCard } from "./ProductCard";
+import { ProductMedia } from "./ProductMedia";
+import { CartLink } from "./CartButton";
+import { launchCopy } from "@/i18n/launch";
 
-export function ProductDetail({
-  locale,
-  product,
-  products,
-  copy,
-}: {
-  locale: Locale;
-  product: Product;
-  products: Product[];
-  copy: PagesCopy["shop"];
+export function ProductDetail({ locale, product, products, copy }: {
+  locale: Locale; product: Product; products: Product[]; copy: PagesCopy["shop"];
 }) {
   const cart = useCart();
+  const text = storefrontCopy(locale);
+  const launch = launchCopy(locale);
+  const upcoming = product.launchStatus === "upcoming";
+  const membership = product.launchStatus === "membership";
   const [variantId, setVariantId] = useState(product.variants[0]?.id);
   const [quantity, setQuantity] = useState(1);
   const [subscribe, setSubscribe] = useState(false);
   const [shot, setShot] = useState(0);
-
-  const variant = product.variants.find((option) => option.id === variantId);
-  const soldOut = variant
-    ? (variant.stockQuantity ?? 0) <= 0 && variant.allowBackorder !== true
-    : (product.stockQuantity ?? 0) <= 0 && product.allowBackorder !== true;
+  const lightbox = useRef<HTMLDialogElement>(null);
+  const variant = product.variants.find(option => option.id === variantId);
+  const available = variant?.stockQuantity ?? product.stockQuantity ?? 0;
+  const backorder = variant?.allowBackorder ?? product.allowBackorder;
+  const tracked = product.fulfilment === "ship" && product.trackInventory !== false;
+  const soldOut = tracked && available <= 0 && !backorder;
+  const preorder = tracked && available <= 0 && backorder;
+  const maxQuantity = tracked && !backorder ? Math.min(20, Math.max(1, available)) : 20;
   const base = unitPriceCents(product, variantId);
   const discount = subscribe ? (product.subscription?.discountPercent ?? 0) : 0;
   const unit = Math.round(base * (1 - discount / 100));
-  const off = discountPercent(product.priceCents, product.compareAtCents);
-
-  // The colourway pickers on the band swap the photograph too.
-  const gallery = variant?.image
-    ? [{ src: variant.image, alt: `${product.name} in ${variant.label}`, ratio: 1 }, ...product.media]
-    : product.media;
+  const off = discountPercent(unit, product.compareAtCents);
+  const bundle = hasBundleGallery(product);
+  const images = variant?.image ? [{ src: variant.image, alt: `${product.name} — ${variant.label}` }, ...product.media] : product.media;
+  const gallery = [...(bundle ? [{ src: "bundle", alt: text.bundle }] : []), ...images.filter((item, index) => images.findIndex(other => other.src === item.src) === index)];
   const current = gallery[Math.min(shot, gallery.length - 1)];
+  const related = products.filter(item => item.slug !== product.slug).sort((a, b) => Number(b.category === product.category) - Number(a.category === product.category)).slice(0, 4);
+  const categoryLabel = copy.categories[product.category];
+  const stockText = upcoming ? launch.upcoming : soldOut ? text.out : preorder ? text.preorder : text.available;
+  const productImage = current?.src === "bundle" ? <ProductMedia product={product} priority /> : <Shot src={current?.src ?? ""} alt={current?.alt ?? product.name} ratio={1} priority fit="contain" sizes="(max-width: 900px) 100vw, 55vw" fallback={{ label: product.name, sub: product.brand }} />;
 
-  const related = products.filter((item) => item.slug !== product.slug && item.category !== "band").slice(0, 4);
-
-  return (
-    <>
-      <div className="sh-detail">
-        <div className="tf-shell">
-          <Link className="sh-back" href={`/${locale}/shop`}>
-            <span aria-hidden>←</span> {copy.product.back}
-          </Link>
-
-          <div className="sh-detail-grid">
-            <div className="sh-gallery">
-              <Shot
-                src={current?.src ?? ""}
-                alt={current?.alt ?? product.name}
-                ratio={1}
-                priority
-                fit="cover"
-                sizes="(max-width: 900px) 100vw, 52vw"
-                fallback={{ label: product.name, sub: product.brand }}
-              />
-              {gallery.length > 1 ? (
-                <div className="sh-thumbs" role="group" aria-label={product.name}>
-                  {gallery.map((item, index) => (
-                    <button
-                      key={item.src}
-                      type="button"
-                      aria-label={item.alt}
-                      aria-current={index === shot}
-                      className={index === shot ? "is-active" : undefined}
-                      onClick={() => setShot(index)}
-                    >
-                      <Shot src={item.src} alt="" ratio={1} sizes="80px" fallback={{ label: product.name }} />
-                    </button>
-                  ))}
-                </div>
-              ) : null}
-            </div>
-
-            <div className="sh-buy">
-              <p className="sh-brand">
-                {product.brand}
-                <span className={product.partner ? "sh-tag is-partner" : "sh-tag"}>
-                  {product.partner ? copy.partnerBadge : copy.originalBadge}
-                </span>
-              </p>
-              <h1>{product.name}</h1>
-              <p className="sh-tagline">{product.tagline}</p>
-
-              <div className="sh-rating numeric">
-                ★ {product.rating}
-                <span>
-                  {product.reviews.toLocaleString()} {copy.reviewsLabel}
-                </span>
-              </div>
-
-              <div className="sh-buy-price">
-                <strong className="numeric">{formatMoney(unit, locale)}</strong>
-                {product.compareAtCents ? (
-                  <s className="numeric">{formatMoney(product.compareAtCents, locale)}</s>
-                ) : null}
-                {off > 0 ? <em className="numeric">{copy.save} {off}%</em> : null}
-              </div>
-
-              {product.variants.length > 0 ? (
-                <fieldset className="sh-variants">
-                  <legend>{product.variantLabel ?? copy.product.chooseLabel}</legend>
-                  <div role="radiogroup" aria-label={product.variantLabel ?? copy.product.chooseLabel}>
-                    {product.variants.map((option) => (
-                      <button
-                        key={option.id}
-                        type="button"
-                        role="radio"
-                        aria-checked={option.id === variantId}
-                        className={option.id === variantId ? "is-active" : undefined}
-                        onClick={() => {
-                          setVariantId(option.id);
-                          setShot(0);
-                        }}
-                      >
-                        {option.swatch ? <i style={{ background: option.swatch }} aria-hidden /> : null}
-                        <span>{option.label}</span>
-                        {option.priceCents ? (
-                          <b className="numeric">{formatMoney(option.priceCents, locale)}</b>
-                        ) : null}
-                      </button>
-                    ))}
-                  </div>
-                  {variant?.note ? <p className="sh-variant-note">{variant.note}</p> : null}
-                </fieldset>
-              ) : null}
-
-              {product.subscription ? (
-                <div className="sh-subscribe" role="radiogroup" aria-label={copy.product.subscribeLabel}>
-                  <button
-                    type="button"
-                    role="radio"
-                    aria-checked={!subscribe}
-                    className={!subscribe ? "is-active" : undefined}
-                    onClick={() => setSubscribe(false)}
-                  >
-                    {copy.product.oneTime}
-                  </button>
-                  <button
-                    type="button"
-                    role="radio"
-                    aria-checked={subscribe}
-                    className={subscribe ? "is-active" : undefined}
-                    onClick={() => setSubscribe(true)}
-                  >
-                    {copy.product.subscribeLabel}
-                    {product.subscription.discountPercent > 0 ? (
-                      <b className="numeric">
-                        {copy.product.subscribeSave} {product.subscription.discountPercent}%
-                      </b>
-                    ) : null}
-                  </button>
-                </div>
-              ) : null}
-
-              <div className="sh-add-row">
-                <div className="sh-qty" role="group" aria-label={copy.product.quantity}>
-                  <button type="button" onClick={() => setQuantity((value) => Math.max(1, value - 1))} aria-label="−">
-                    −
-                  </button>
-                  <span className="numeric">{quantity}</span>
-                  <button type="button" onClick={() => setQuantity((value) => Math.min(20, value + 1))} aria-label="+">
-                    +
-                  </button>
-                </div>
-                <button
-                  type="button"
-                  className="sh-button sh-button-block"
-                  disabled={soldOut}
-                  onClick={() => cart.add({ slug: product.slug, variantId, quantity, subscribe })}
-                >
-                  {soldOut ? copy.stock.out : <>{copy.product.addToBag} · <span className="numeric">{formatMoney(unit * quantity, locale)}</span></>}
-                </button>
-              </div>
-
-              <p className="sh-ships">
-                <span className={`sh-stock is-${product.stock}`}>{copy.stock[product.stock]}</span>
-                {product.shipsIn}
-              </p>
-
-              {product.partner ? <p className="sh-partner-note">{copy.product.partnerNote}</p> : null}
-            </div>
-          </div>
-
-          <div className="sh-detail-info">
-            <section>
-              <h2>{copy.product.overview}</h2>
-              <p>{product.description}</p>
-              <ul className="sh-highlights">
-                {product.highlights.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </section>
-
-            <section>
-              <h2>{copy.product.specs}</h2>
-              <dl className="sh-specs">
-                {product.specs.map(([label, value]) => (
-                  <div key={label}>
-                    <dt>{label}</dt>
-                    <dd className="numeric">{value}</dd>
-                  </div>
-                ))}
-              </dl>
-            </section>
-
-            <section>
-              <h2>{copy.product.shippingTitle}</h2>
-              <p>{copy.product.shippingBody}</p>
-              <h2 className="sh-subhead">{copy.product.warrantyTitle}</h2>
-              <p>{copy.product.warrantyBody}</p>
-            </section>
+  return <div className="pd-page">
+    <div className="tf-shell">
+      <div className="pd-top"><nav className="pd-breadcrumb" aria-label={copy.product.back}><Link href={`/${locale}/shop`}>{copy.hero.eyebrow}</Link><span aria-hidden>/</span><Link href={`/${locale}/shop?category=${product.category}`}>{categoryLabel}</Link><span aria-hidden>/</span><span>{product.name}</span></nav><CartLink locale={locale} label={text.bag} /></div>
+      <div className="pd-grid">
+        <div className="pd-gallery">
+          <button className="pd-image" type="button" onClick={() => lightbox.current?.showModal()} aria-label={text.zoom}>{productImage}<span className="pd-zoom" aria-hidden>↗</span></button>
+          {gallery.length > 1 ? <div className="pd-thumbs" role="group" aria-label={text.gallery}>{gallery.map((item, index) => <button key={item.src} type="button" aria-label={item.alt} aria-pressed={index === shot} onClick={() => setShot(index)}>{item.src === "bundle" ? <ProductMedia product={product} /> : <Shot src={item.src} alt="" fit="contain" sizes="80px" fallback={{ label: product.name }} />}</button>)}</div> : null}
+          {product.media.some(item => isConceptImage(item.src)) ? <p className="pd-concept">{text.concept}</p> : null}
+        </div>
+        <div className="pd-buy" id="product-options">
+          <div className="pd-brand"><span>{product.brand}</span><span>{product.partner ? copy.partnerBadge : copy.originalBadge}</span></div>
+          <h1>{product.name}</h1><p className="pd-tagline">{product.tagline}</p>
+          <div className="pd-price numeric"><strong>{formatMoney(unit, locale)}</strong>{off > 0 ? <><s>{formatMoney(product.compareAtCents!, locale)}</s><span>{copy.save} {off}%</span></> : null}</div>
+          <p className="pd-description">{product.description}</p>
+          {product.variants.length > 0 ? <fieldset className="pd-variants"><legend>{product.variantLabel ?? copy.product.chooseLabel}<span>{variant?.label}</span></legend><div>
+            {product.variants.map(option => <label key={option.id} className={option.id === variantId ? "is-selected" : ""}>
+              <input type="radio" name="product-variant" checked={option.id === variantId} onChange={() => { setVariantId(option.id); setShot(0); setQuantity(1); }} />
+              {option.swatch ? <i style={{ background: option.swatch }} aria-hidden /> : null}<span>{option.label}</span>
+              {option.priceCents && option.priceCents !== product.priceCents ? <small>{formatMoney(option.priceCents, locale)}</small> : null}
+            </label>)}
+          </div>{variant?.note ? <p>{variant.note}</p> : null}</fieldset> : null}
+          {product.subscription ? <fieldset className="pd-subscribe"><legend>{copy.product.subscribeLabel}</legend><label><input type="radio" name="purchase-type" checked={!subscribe} onChange={() => setSubscribe(false)} /><span>{copy.product.oneTime}</span><b>{formatMoney(base, locale)}</b></label><label><input type="radio" name="purchase-type" checked={subscribe} onChange={() => setSubscribe(true)} /><span>{product.subscription.label}</span><b>{copy.save} {product.subscription.discountPercent}%</b></label></fieldset> : null}
+          {upcoming || membership ? <Link className="th-button" href={`/${locale}/${membership ? "membership" : "app"}`}>{membership ? launch.membership : launch.app}<span aria-hidden>↗</span></Link> : <>
+          <div className="pd-add-row"><div className="pd-quantity" role="group" aria-label={copy.product.quantity}><button type="button" disabled={quantity <= 1} onClick={() => setQuantity(value => Math.max(1, value - 1))} aria-label={text.decrease}>−</button><output className="numeric" aria-live="polite">{quantity}</output><button type="button" disabled={quantity >= maxQuantity} onClick={() => setQuantity(value => Math.min(maxQuantity, value + 1))} aria-label={text.increase}>+</button></div><button className="th-button" type="button" disabled={soldOut} onClick={() => cart.add({ slug: product.slug, variantId, quantity, subscribe })}>{soldOut ? text.out : <>{preorder ? text.preorder : text.add}<span className="numeric">{formatMoney(unit * quantity, locale)}</span></>}</button></div>
+          </>}
+          <div className="pd-delivery"><span data-stock={soldOut ? "out" : preorder ? "preorder" : "in"}><i aria-hidden />{stockText}</span><p>{product.shipsIn}</p></div><p className="pd-tax-note">{text.taxes}</p>
+          {product.partner ? <p className="pd-partner">{copy.product.partnerNote}</p> : null}
+          <div className="pd-disclosures">
+            <details open><summary>{text.details}<span aria-hidden>+</span></summary><ul>{product.highlights.map(item => <li key={item}>{item}</li>)}</ul></details>
+            <details><summary>{copy.product.specs}<span aria-hidden>+</span></summary><dl>{product.specs.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl></details>
+            <details><summary>{text.delivery}<span aria-hidden>+</span></summary><p>{product.shipsIn}</p><p>{text.deliveryBody}</p><Link href={`/${locale}/legal/refunds`}>{text.delivery} ↗</Link></details>
           </div>
         </div>
       </div>
-
-      <section className="sh-related">
-        <div className="tf-shell">
-          <h2>{copy.product.relatedTitle}</h2>
-          <div className="sh-grid">
-            {related.map((item) => (
-              <ProductCard key={item.slug} locale={locale} product={item} copy={copy} />
-            ))}
-          </div>
-        </div>
-      </section>
-    </>
-  );
+      <section className="pd-related"><div className="th-section-heading"><h2>{copy.product.relatedTitle}</h2><Link className="th-text-link" href={`/${locale}/shop`}>{text.shopAll}<span aria-hidden>↗</span></Link></div><div className="sc-grid">{related.map(item => <ProductCard key={item.slug} locale={locale} product={item} copy={copy} />)}</div></section>
+    </div>
+    <dialog aria-label={product.name} ref={lightbox} className="pd-lightbox" onClick={event => { if (event.target === event.currentTarget) lightbox.current?.close(); }}><button className="tw-close" type="button" aria-label={text.closeImage} onClick={() => lightbox.current?.close()}>×</button>{productImage}</dialog>
+  </div>;
 }

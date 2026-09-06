@@ -8,6 +8,8 @@ import { useScrollY } from "@/scroll";
 import { useAppState } from "@/app-state";
 import { theme } from "@/theme";
 import { OrderTrackButton } from "./OrderTrackButton";
+import { CoachButton } from "./CoachButton";
+import { useOrders } from "@/data";
 
 /** Scroll distance at which the wordmark has finished fading and comes out. */
 const COLLAPSE_AT = 56;
@@ -16,6 +18,8 @@ export function AppHeader({ unread = 0 }: { unread?: number }) {
   const router=useRouter();
   const scrollY=useScrollY();
   const {isPro}=useAppState();
+  // Drives whether the Coach shows its label or just its mark.
+  const activeOrders=useOrders().data?.active??0;
   function openSignal(){router.push("/signal" as never)}
   // Past a screen's worth of thumb travel the wordmark has served its purpose:
   // it collapses to nothing and the mark alone holds the position under the
@@ -33,10 +37,12 @@ export function AppHeader({ unread = 0 }: { unread?: number }) {
   },[scrollY]);
   const wordOpacity=scrollY?scrollY.interpolate({inputRange:[0,24,COLLAPSE_AT],outputRange:[1,1,0],extrapolate:"clamp"}):1;
   return <View style={s.row}>
-    {/* Anything in flight gets a mark on the left, so an order is never
-        something you have to go looking for. */}
-    <View style={s.spacer}>
+    {/* The left slot holds the things you might want to jump straight to:
+        an order in flight, and the Coach. When both are present the Coach
+        drops to its icon so the pair still fits beside the wordmark. */}
+    <View style={[s.spacer, s.leftSlot]}>
       <OrderTrackButton />
+      <CoachButton compact={activeOrders > 0} />
     </View>
     <View pointerEvents="box-none" style={s.centre}>
       <Pressable accessibilityRole="button" accessibilityLabel="Your daily signal" onPress={openSignal} style={s.brand}><TerrifitMark size={17} colour={isPro?theme.ink:undefined}/>{isPro?<Text style={s.pro}>PRO</Text>:collapsed?null:<Animated.View style={{opacity:wordOpacity}}><Text numberOfLines={1} style={s.word}>TERRIFIT</Text></Animated.View>}</Pressable>
@@ -50,6 +56,7 @@ export function AppHeader({ unread = 0 }: { unread?: number }) {
 const s=StyleSheet.create({
   centre:{position:"absolute",left:0,right:0,top:0,bottom:0,alignItems:"center",justifyContent:"center"},
   spacer:{width:40,alignItems:"flex-start",justifyContent:"center"},
+  leftSlot:{width:"auto",flexDirection:"row",alignItems:"center",gap:7},
   orders:{width:36,height:36,borderRadius:18,alignItems:"center",justifyContent:"center",borderWidth:1,borderColor:theme.accent,backgroundColor:theme.accentSoft},
   orderCount:{position:"absolute",top:-2,right:-2,minWidth:16,height:16,borderRadius:8,paddingHorizontal:4,backgroundColor:theme.accent,alignItems:"center",justifyContent:"center",borderWidth:1.5,borderColor:theme.bg},
   orderCountText:{color:"#fff",fontSize:9,fontWeight:"900"},

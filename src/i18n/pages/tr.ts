@@ -2,23 +2,151 @@ import type { PagesTranslation } from "./merge";
 
 /** Turkish. Deep partial merged over English. */
 export const tr: PagesTranslation = {
-  roadmap: {
-    eyebrow: "Ne zaman ne çıkıyor",
-    title: "Takviyeler bugün çıkıyor. Gerisinin tarihi var.",
-    body: "«Yakında» demektense tarihi vermeyi tercih ediyoruz. Kurduğumuz şey bu, geldiği sırayla.",
-    nowLabel: "Şimdi satışta",
-    nowTitle: "Takviyeler ve ekipman",
-    nowBody: "Bağımsız laboratuvarda test edilmiş besin, toparlanma ve antrenman ekipmanı; 40’tan fazla ülkeye gönderim. Terrifit’in bugün satın alabileceğin kısmı bu.",
-    nowCta: "Mağazaya git",
+  availableNow: {
+    eyebrow: "Şimdi mevcut",
+    title: "Bunlardan ikisi bugün çıkıyor. Üçüncüsü ön siparişe açık.",
+    body: "Geri sayım yok, bekleme listesi yok. Besin ve giyim şu anda depodan çıkıyor, V1 ise lansman fiyatından rezervasyon alıyor.",
     items: [
-      { date: "Kasım 2026", title: "Sosyal platform", body: "Akışlar, kanallar ve üretici ağı. Topluluğun anlatılmak yerine gerçekten var olduğu ilk yer." },
-      { date: "Ocak 2027", title: "Terrifit uygulaması", body: "iOS ve Android; Map kütüphanesi, kontroller ve analiz katmanının tamamı." },
-      { date: "Kasım 2027", title: "V1 bileklik", body: "Ön siparişler geliş sırasına göre, lansman fiyatıyla gönderiliyor." },
+      { status: "Şimdi gönderiliyor", title: "Terrifuel takviyeleri", body: "Bağımsız test edilmiş protein, elektrolit ve toparlanma ürünleri, 40+ ülkeye gönderim.", cta: "Terrifuel'e göz at", href: "shop" },
+      { status: "Şimdi gönderiliyor", title: "Terrifits spor giyim", body: "Ağır gramajlı tişört, hoodie ve şort; satışa çıkmadan önce antrenmanda test edildi.", cta: "Terrifits'e göz at", href: "shop" },
+      { status: "Ön sipariş açık", title: "V1 bilekliği", body: "Lansman fiyatından ayırt. Ön siparişler geliş sırasına göre gönderilir ve seninki gönderilene kadar iade edilebilir.", cta: "V1'i ayırt", href: "band" },
     ],
-    note: "Bunlar hedef, söz değil. Bir tarih kayarsa başka yerden duymadan önce burada söyleriz.",
+    note: "Ön siparişler, bilekliğin gönderilene kadar tamamen iade edilebilir.",
+  },
+
+  languages: {
+    eyebrow: "On dil",
+    title: "İlk günden yerel, sonradan çevrilmiş değil.",
+    body: "Terrifit önce İngilizce çıkıp sonra yerelleştirilmek yerine on dilde birden inşa edildi. Her ekran, her skor ve her hata mesajı — yalnızca bir şey ters gittiğinde gördükleriniz dahil.",
+    note: "Arapça kendi yazı tipiyle sağdan sola akar, çünkü bir dil font değişikliği değildir. Ülke adları ve tarihler bizim tuttuğumuz bir tablodan değil cihazınızdan gelir; böylece hiç gitmediğimiz yerlerde de doğrudur.",
+  },
+
+  capabilities: {
+    eyebrow: "Ne ölçüyor",
+    title: "Seni sürekli okur ve hesabını gösterir.",
+    body: "Taktığın andan itibaren kesintisiz ölçüm. Başlatılacak seans yok, kontrol edilecek ekran yok, iki hafta boyunca gece şarj edilecek bir şey yok.",
+    groups: [
+      {
+        name: "Günün her saati",
+        items: [
+          { name: "Kalp atış hızı", detail: "Sürekli, uyanıkken ve uykuda; sadece antrenmanda değil" },
+          { name: "Kalp atış hızı değişkenliği", detail: "En derin uykunda ölçülür, yani sayının anlam taşıdığı anda" },
+          { name: "Kandaki oksijen", detail: "Gece boyunca SpO₂ ve yükseklikte nasıl uyum sağladığın" },
+          { name: "Cilt sıcaklığı", detail: "Nüfus ortalamasına değil, kendi taban çizgine göre" },
+          { name: "Solunum hızı", detail: "Bir şeyler kaparken genelde ilk kımıldayan değer" },
+        ],
+      },
+      {
+        name: "Bunlardan hesaplanan",
+        items: [
+          { name: "Toparlanma", detail: "HRV, dinlenme nabzı, uyku ve solunumdan tek bir sabah skoru" },
+          { name: "Zorlanma", detail: "Gün boyu kardiyovasküler yük, 0-21 ölçeğinde" },
+          { name: "Uyku", detail: "Hafif, derin ve REM; gerçekten ihtiyacın olan uykuya karşı" },
+          { name: "T Score", detail: "Gün içinde gerçekten ne kadar hareket ettiğin, 100 üzerinden" },
+          { name: "Fiziksel yaş", detail: "Maksimum ve dinlenme nabzından. Ücretsiz ve paylaşılabilir" },
+        ],
+      },
+      {
+        name: "Antrenman sırasında",
+        items: [
+          { name: "Otomatik seanslar", detail: "Başladığını anlar ve kaydeder. Kırktan fazla aktivite" },
+          { name: "Metabolik yük", detail: "Seansın maliyeti, yarının toparlanma hedefine taşınır" },
+          { name: "Stres ve ruh hâli", detail: "Gün boyu otonomik yük, tek bir sabah ölçümü değil" },
+          { name: "VO₂max", detail: "Kardiyorespiratuar uygunluk, değiştikçe izlenir" },
+          { name: "Kalp ritmi kaydı", detail: "İstek üzerine tek derivasyonlu iz. Kendi kaydın için, teşhis değil" },
+        ],
+      },
+    ],
+    footnote: "Terrifit sağlıklı yaşam rehberliği sunar, tıbbi teşhis değil. Skorlar ve tahminler klinik ölçüm değildir. Bir şey ters görünüyorsa bir hekime görün.",
+  },
+
+  app: {
+    meta: { title: "Günün — Terrifit", description: "Toparlanma, zorlanma, uyku ve T Score’un; her sayının arkasındaki verilerle." },
+    nav: { today: "Bugün", trends: "Eğilimler", body: "Vücut", account: "Hesap" },
+    brand: "Terrifit",
+    dataFrom: "Veri kaynağı",
+    staleTitle: "Bu veri eski",
+    staleBody: "En son ölçümün",
+    staleDays: "günlük. Yeniden içe aktar ya da güncel kalması için bir uygulama bağla.",
+    staleCta: "Verini güncelle",
+    empty: { title: "Henüz okunacak bir şey yok", body: "Uygulama senin verinle çalışır. Apple Health, Google Health Connect, Garmin, Oura, Strava dışa aktarımını ya da bir InBody ölçümünü içe aktar; buradaki her sayı dolar — başlamak için bileklik gerekmez.", cta: "Verini içe aktar", secondary: "V1 ne katıyor, gör" },
+    scores: {
+      recovery: { label: "Toparlanma", unit: "%", blurb: "Vücudunun bugün ne kadar hazır olduğu, kendi son normaline göre." },
+      strain: { label: "Zorlanma", unit: "", blurb: "Günün kalp-damar sistemine ne kadar yüklendiği, 0-21 ölçeğinde." },
+      sleep: { label: "Uyku", unit: "%", blurb: "Uyuduğun süre ile ihtiyacın olan süre, ve her zamankine ne kadar yakın olduğu." },
+      movement: { label: "T Score", unit: "", blurb: "Günün ne kadarını gerçekten hareket ederek geçirdiğin, 100 üzerinden." },
+    },
+    bands: { good: "Hazır", fair: "Orta", poor: "Ağırdan al", unknown: "Ölçüm yok" },
+    why: "Bu sayı neden böyle",
+    whyClose: "Verileri gizle",
+    inputsHead: ["Veri", "Bugün", "Karşılaştırma", "Ağırlık", "Skor"],
+    missingTitle: "Bu skorda yok",
+    missingBody: "Verinde olsaydı bunlar skoru keskinleştirirdi.",
+    noScore: "Dürüst bir sayı için henüz yeterli veri yok.",
+    higher: "Yüksek olan iyi",
+    lower: "Düşük olan iyi",
+    target: "Kendi normaline yakın olan iyi",
+    trends: {
+      title: "Eğilimler", body: "Doksan gün; her sabahın o an nasıl puanlayacağıysa öyle puanlandı — sonradan gelen veriyle asla.",
+      recovery: "Toparlanma", hrv: "Kalp atış hızı değişkenliği", restingHr: "Dinlenme nabzı",
+      sleep: "Uyku", steps: "Adım", weight: "Kilo",
+      noData: "Bu ölçüm için henüz veri yok.", average: "ortalama", days: "gün kayıtlı",
+    },
+    body: {
+      title: "Vücut", body: "İçe aktardığın her ölçüm, en eski değişimden başlayarak. Kilo günlük ölçümlerinden gelir; gerisi vücut kompozisyonu ölçümü ister.", empty: "Henüz ölçüm yok. Hesabından bir InBody sayfası yükle, burada görünsünler.",
+      columns: ["Tarih", "Kilo", "Vücut yağı", "İskelet kası", "Vücut suyu", "Skor"],
+      change: "İlk ölçümden bu yana değişim", latest: "En yeni",
+    },
+    footer: "Skorlar form göstergeleridir, tıbbi ölçüm değildir. Kendi verindeki eğilimleri anlatır ve hiçbir şeyi teşhis edemez.",
+  },
+
+  appPage: {
+    meta: { title: "Terrifit uygulaması — her skor hesabını gösterir", description: "Toparlanma, zorlanma, uyku ve T Score'un; her biri arkasındaki ölçümlere açılıyor. On dil, on renk ve hiçbir şey yazmadan Apple Health'i okuyor." },
+    hero: {
+      eyebrow: "Terrifit uygulaması", title: "Vücudunu oku. İlerlemene sahip çık.", sub: "Günlük ölçümlerin, yapılandırılmış antrenman ve tamamlanan seansların, Terrifit'te bir arada. Sayılarını anla, bir sonraki seansa yer aç ve işin birikmesini gör.",
+      cta: "V1'i ön sipariş et", secondary: "Ne okuduğunu gör",
+    },
+    chapters: [
+      { kicker: "Bugün", screen: "home", title: "Günlük sinyalin, tek bir yerde.", body: "Toparlanma, zorlanma ve uyku, öne çıkardığın metrikle birlikte tek bir net görünümü paylaşır. Bir skorun arkasındaki ölçümler ve bağlam için dokun. Eski ölçümler işaretlenir, böylece bugünün verisi gibi görünmez." },
+      { kicker: "Haritalar", screen: "maps", title: "Gerçekten uygulayabileceğin bir program.", body: "Hareketleri takip et; setlerini, tekrarlarını ve ağırlıklarını kaydet ve geçen sefer neyi tamamladığını gör. Koç, gözden geçirip kabul etmen için daha kısa bir sonraki seans önerebilir; programın asla sessizce değişmez." },
+      { kicker: "Mağaza", screen: "shop", title: "Terrifuel, kayışlar ve bileklik, kendi para biriminde.", body: "Tek hesap, tek sepet, tek ödeme. Fiyatlar dolar gösterip sonunda seni şaşırtmak yerine bulunduğun yere dönüşür ve sana yolda olan her şey her ekrandan tek dokunuş uzakta." },
+      { kicker: "Fiziksel yaş", screen: "fitness-age", title: "İçine bakabileceğin bir tahmin.", body: "Fiziksel yaş tahmininin arkasındaki verileri ve sınırları gör. Bu bir form göstergesidir, klinik değerlendirme değil. Tek bir sayıyı bütün hikâye saymak yerine eğilimlerinle birlikte incele." },
+    ],
+    tint: {
+      eyebrow: "Onu kendine göre yap", title: "On renk. Birini seç ve telefonun değişmesini izle.",
+      body: "Buradaki her renk tarayıcıda filtrelenmedi, gerçek uygulamadan yakalandı; yani baktığın şey gerçek sürüm. Toparlanma, zorlanma ve uyku halkaları renklerini bilerek korur — onlar anlam taşır ve anlamı olan bir renk bir tercihi takip etmemeli.", note: "Uygulama rengin bu cihazda hatırlanır. Web sitesi Terrifit turuncusunda kalır.",
+    },
+    features: {
+      eyebrow: "İçinde ne var", title: "Sabahın altısındaki hâlin için yapıldı.",
+      items: [
+      { name: "Apple Health'i okur", detail: "HRV, dinlenme nabzı, uyku, adım ve kilo; yazmana gerek yok" },
+      { name: "Bileklik olmadan çalışır", detail: "Bir giyilebilir almadan programları takip et ve antrenman kaydet" },
+      { name: "Fiziksel yaş", detail: "Verileri ve sınırları incelenebilir bir tahmin" },
+      { name: "Vücut kompozisyonu", detail: "Yaptığın her InBody ölçümü, kilonla birlikte grafikte" },
+      { name: "Devam eden seans", detail: "Setler, tekrarlar ve ağırlıklar sen ilerledikçe kaydedilir, sonraki haftaya taşınır" },
+      { name: "Haftalık ilerleme", detail: "Tamamlanan seanslar ve aktif günler; paylaşmayı seçtiğin bir özetle" },
+      ],
+    },
+    close: { title: "Ücretsiz ve sabah okuması hep öyle kalacak.", body: "Toparlanma, zorlanma, uyku ve fiziksel yaşın hiçbir şeye mal olmuyor, sonsuza dek. Terrifit Pro ise arkasında haftalarca geçmiş isteyen işler için ayda 7,99 $.", note: "iOS ve Android'e geliyor. Bir V1 ön sipariş et, ilk gruba gir." },
   },
 
   band: {
+    story: {
+      chapters: [
+      { kicker: "Hep açık", title: "Senden asla başlatmanı istemez.", body: "Seans düğmesi yok, takmanı hatırlatan uyarı yok, gece şarjı yok. Bileğine taktığın andan itibaren kesintisiz ölçer — anlamlı bir taban çizgisi ancak böyle oluşur." },
+      { kicker: "On beş gün", title: "Ayda iki kez şarj et.", body: "Tek şarjla iki hafta kesintisiz nabız. Bataryayı düşünmeyi bırakacak kadar uzun, ki mesele de bu: şarjdaki bileklik hiçbir şey ölçmez." },
+      { kicker: "EKG ve PPG", title: "Aynı kalbi okumanın iki yolu.", body: "Optik ölçüm gün boyu çalışır. Parmak ucunu dayadığında ikinci bir elektrot tek derivasyonlu EKG izi kaydeder. Kaydeder, teşhis koymaz: bir şey olağandışı görünürse uygulama sana gerçekten yorum yapabilecek birine görünmeni söyler." },
+      { kicker: "Ekransız", title: "Bakılacak bir şey yok.", body: "Ekran yok, bildirim yok, setin ortasında bileğinde titreşim yok. Bileklik bir sensördür. Ölçüm ve arkasındaki akıl yürütme, zaten bakacağın bir ekrana aittir." },
+      { kicker: "Dokuma", title: "Saklanmak için değil, takılmak için yapıldı.", body: "Düz bir boya yerine iki renk iplik birlikte dokundu. Teri ve kloru solmadan kaldırır, yaklaşık yirmi dakikada düz kurur ve bir yemekte spor ekipmanı gibi durmaz." },
+      { kicker: "Senin sayıların", title: "Her skor açılır.", body: "Bir sayıya dokun; arkasındaki ölçümleri, her birinin karşılaştırıldığı taban çizgisini, skora ne kadar ağırlık kattığını ve günde neyin eksik kaldığını görürsün. Başka hiçbir bileklik sana hesabını göstermez." },
+      ],
+      statement: { lead: "O ölçer.", emphasis: "Uygulama açıklar." },
+    },
+    preorder: {
+      label: "Ön sipariş ilerlemesi", of: "/", reserved: "ayrıldı",
+      refund: "500'e ulaşınca üretim siparişini veriyoruz. Kartından şimdi çekiliyor ve bilekliğin gönderilene kadar istediğin an, talep üzerine, tamamen iade ediliyor.",
+      triggered: "Seri finanse edildi ve sipariş verildi. İlk sevkiyata girmek için şimdi ayırt.",
+    },
     meta: {
       title: "Terrifit V1 — ne zaman yükleneceğini söyleyen bileklik",
       description:
@@ -27,6 +155,7 @@ export const tr: PagesTranslation = {
     nav: ["Genel bakış", "Tasarım", "Ölçüm", "Pil", "Uygulamalar", "Teknik özellikler"],
     buy: "Ön sipariş",
     hero: {
+      image: { alt: "Derin antrasit bir zemin önünde süzülen Terrifit V1 bileklik, dörtte üç açıdan, dokuma kayış kameraya doğru kıvrılıyor ve sensör modülü boyunca hafif turuncu bir ışık çizgisi var" },
       eyebrow: "Terrifit V1",
       title: "Ne kadar sert çalışacağını tahmin etmeyi bırak",
       sub: "V1 nabzını, uykunu ve toparlanmanı günün 24 saati okur. Her sabah vücudunun ne kadar kaldırabileceğini söyler, antrenman sırasında da yeterince yaptığını. Bakılacak bir ekran ve açılacak bir şey yok.",
@@ -51,6 +180,19 @@ export const tr: PagesTranslation = {
       cta: "Sepete ekle",
     },
     sensing: {
+      metrics: [
+      { name: "Kalp atış hızı", detail: "Gün boyu ve gece boyu, yalnızca antrenmanda değil" },
+      { name: "Kalp atış hızı değişkenliği", detail: "En derin uykunda ölçülür; sayının gerçekten anlam taşıdığı an odur" },
+      { name: "Solunum hızı", detail: "Gece dakikadaki nefes sayısı. Bir şey kaparken genelde ilk kımıldayan değerdir" },
+      { name: "Kandaki oksijen", detail: "Gece SpO₂ ve yüksekte antrenman yapıyorsan nasıl uyum sağladığın" },
+      { name: "Cilt sıcaklığı", detail: "Herkesin ortalamasıyla değil, kendi taban çizginle karşılaştırılır" },
+      { name: "Uyku", detail: "Hafif, derin ve REM; ayrıca gerçekte ne kadar uyanık kaldığın, ihtiyacın olan uykuya karşı" },
+      { name: "Zorlanma", detail: "Kalbinin bugün ne kadar çalıştığı, 0-21 ölçeğinde" },
+      { name: "Toparlanma", detail: "Her sabah tek bir skor; HRV, dinlenme nabzı, uyku ve solunumdan hesaplanır" },
+      { name: "Hareket", detail: "Altı eksenli ivmeölçer ve jiroskop; aktivite algılama, uyku evreleme ve gün içinde gerçekten ne kadar hareket ettiğin için" },
+      { name: "Otomatik seanslar", detail: "Antrenmana başladığını anlar ve kaydeder. Kırktan fazla aktivite" },
+      ],
+      image: { alt: "Terrifit V1'in alt yüzünün çok yakın çekimi: siyah cam üzerinde parlayan beş yeşil LED ve dört sensör penceresi" },
       eyebrow: "Neleri ölçüyor",
       title: "Seni sürekli okuyor",
       body:
@@ -64,23 +206,58 @@ export const tr: PagesTranslation = {
       { title: "Saat", body: "Saat, bileğini birkaç derece çevirince okunuyor. Ekranda başka bir şey yok ve hiçbir şey titremiyor." },
     ],
     daily: {
+      steps: [
+      { time: "06:40", title: "Toparlanma skoru", body: "Uyandığında seni bekliyor ve dün gecenin sana ne yaptığını çoktan biliyor." },
+      { time: "12:00", title: "Bugünün hedefi", body: "Vücudunun bugün ne kadar antrenman kaldırabileceği — pazar günü yazdığın plana göre değil, gerçekten sahip olduğun toparlanmaya göre." },
+      { time: "17:30", title: "Seans sırasında", body: "Telefonunda canlı nabız ve zorlanma; bileklik durduğunu gördüğünde başlayan dinlenme sayaçları." },
+      { time: "22:50", title: "Ne zaman yatmalı", body: "Yarının hedefine ulaştıran saat, az önceki antrenmanın sertliğine göre ayarlanmış." },
+      ],
       eyebrow: "Normal bir gün",
       title: "Günde dört kez bakmaya değer",
       body: "Uygulamayı sürekli açmana gerek yok. Bunlar bilekliğin ne yapacağını gerçekten değiştirdiği anlar.",
     },
     battery: {
+      cards: [
+      { value: "15 gün", label: "Şarj başına", detail: "Kesintisiz nabız ölçümü sürekli açıkken." },
+      { value: "30+ gün", label: "PowerPack ile", detail: "Takılan ve sen bilekliği takarken V1'i dolduran kablosuz bir batarya." },
+      { value: "~2 saat", label: "Boştan doluya", detail: "USB-C'ye tak; tek şarj iki haftayı karşılar." },
+      { value: "Boşluk yok", label: "Verinde", detail: "Hiç çıkarmadığın için uyku ve toparlanma taban çizgilerin bozulmadan kalır." },
+      ],
+      image: { alt: "Terrifit PowerPack birinin bileğindeki bilekliğe kayarak takılıyor; tek bir kehribar şarj ışığı olan küçük mat siyah bir modül" },
       eyebrow: "Pil",
       title: "İki şarj arası iki haftadan fazla",
       body:
         "İki hafta, bir giyilebilir cihazı şarj etmeyi düşünmeyi bırakıp sadece takmaya başladığın noktadır. Güce ihtiyacı olduğunda da PowerPack üstüne geçip bileğindeyken şarj eder, böylece bir gecelik uyku verisi kaybetmezsin.",
     },
     water: {
+      points: [
+      { title: "IP68 sızdırmaz", body: "Yağmur, ter ve duş sorun değil. Kulaç atmadan ya da denize girmeden önce çıkar." },
+      { title: "Ter ve tuz", body: "Dokuma teri tutmak yerine geçirir ve yaklaşık yirmi dakikada düz kurur." },
+      { title: "Sauna ve buz banyosu", body: "−20 °C ile 60 °C arasında sertifikalı; toparlanma seansları da diğerleri gibi kaydedilir." },
+      { title: "Klor bozmaz", body: "Tam bir havuz sezonundan sonra solma, sertleşme ve koku yok." },
+      ],
+      image: { alt: "Havuz yüzeyini yaran bir yüzücünün bileğinde Terrifit V1; sert yan ışıkta havada donmuş su damlaları" },
       eyebrow: "Su ve ter",
       title: "Onunla yüzebilir, duş alabilir ve içine ter dökebilirsin",
       body:
         "V1 IP68 sertifikalıdır; yağmur, ter ve duş sorun değil. Dalış saati değildir — yüzmeden veya denize girmeden önce çıkarın.",
     },
     integrations: {
+      note: "Apple Health bugün uygulamada çalışıyor. Health Connect ve aşağıdaki doğrudan bağlantılar geliştiriliyor ve ilk bileklikler gönderilmeden önce gelecek — biri kayarsa burada söyleriz.",
+      apps: [
+      { name: "Apple Health", detail: "Her iki yönde. Antrenmanlar, uyku, nabız, HRV ve solunum." },
+      { name: "Google Health Connect", detail: "Destekleyen her Android uygulamasıyla iki yönlü senkronize olur." },
+      { name: "Samsung Health", detail: "Seanslar, uyku ve günlük aktivite." },
+      { name: "Strava", detail: "Seanslarını nabız ve zorlanma bilgisiyle otomatik paylaşır." },
+      { name: "Garmin Connect", detail: "V1 toparlanmasını Garmin aktivite geçmişinin yanına koyar." },
+      { name: "Apple Watch", detail: "Antrenman sırasında bileğinde canlı zorlanma." },
+      { name: "TrainingPeaks", detail: "Biten seansları koçunun planına gönderir." },
+      { name: "Peloton", detail: "Ders nabzı ve zorlanma aynı zaman çizelgesinde buluşur." },
+      { name: "Zwift", detail: "Nabzını doğrudan sürüşün içine yayınlar." },
+      { name: "Oura", detail: "Zaten sahip olduğun yüzükten uykuyu getirir." },
+      { name: "Fitbit", detail: "Geçiş yapıyorsan geçmişini içe aktarır." },
+      { name: "MyFitnessPal", detail: "Ne yediğini, gerçekten yaptığın işin yanına koyar." },
+      ],
       eyebrow: "Diğer uygulamalarınla çalışır",
       title: "Verin zaten tuttuğun yere gider",
       body:
@@ -88,8 +265,22 @@ export const tr: PagesTranslation = {
       footnote:
         "İstediğin zaman her şeyi CSV olarak dışa aktarabilirsin. Sağlık verisi satmıyoruz ve sen paylaşmadıkça hiçbir koç ya da üretici bunlardan hiçbirini görmüyor.",
     },
-    box: { eyebrow: "Kutuda", title: "Gerçekten ne alıyorsun" },
-    specsSection: { eyebrow: "Teknik özellikler", title: "Tam liste" },
+    box: {
+      items: [
+      { name: "V1 sensörü", detail: "Beş LED'li optik dizi, ivmeölçer, jiroskop ve cilt sıcaklığı sensörü" },
+      { name: "Dokuma kayış", detail: "Seçtiğin renkte, bileğine göre" },
+      { name: "V1 PowerPack", detail: "Sen bilekliği takarken çalışan kablosuz şarj" },
+      { name: "USB-C kablo", detail: "Bir metre, örgülü" },
+      { name: "İlk ay üyelik", detail: "Haritalar, tüm geçmişin ve içerik üretici kanalları dahil" },
+      ],
+      image: { alt: "Terrifit V1 kutusundaki her şeyin sıcak kâğıt üzerinde düz çekimi: sensör modülü, dokuma kayış, PowerPack ve örgülü USB-C kablo, ızgara düzeninde" }, eyebrow: "Kutuda", title: "Gerçekten ne alıyorsun" },
+    specsSection: {
+      groups: [
+      { title: "Sensörler", rows: [["Optik", "PPG nabız sensörü"], ["Hareket", "3 eksenli ivmeölçer"], ["Sıcaklık", "Cilt sıcaklığı"], ["Kandaki oksijen", "Gece SpO₂"]] },
+      { title: "Güç", rows: [["Batarya ömrü", "180 mAh, 15 günden fazla"], ["Şarj", "Manyetik şarj"], ["Kablo", "USB-C"]] },
+      { title: "Yapı", rows: [["Su geçirmezlik", "IP68"], ["Kayış", "Dokuma naylon ve elastan"]] },
+      { title: "Bağlantı", rows: [["Kablosuz", "Bluetooth LE 5.4"], ["Çevrimdışı depolama", "30 güne kadar"], ["Telefonlar", "iOS ve Android"], ["Dışa aktarma", "CSV, Apple Health, Health Connect"], ["Güncellemeler", "Kablosuz"]] },
+      ], eyebrow: "Teknik özellikler", title: "Tam liste" },
     privacy: {
       title: "Sağlık verin sana ait",
       body:
@@ -106,12 +297,36 @@ export const tr: PagesTranslation = {
   },
 
   maps: {
+    exercise: {
+      eyebrow: "Tek bir hareketin içinde",
+      title: "Back squat, %82'de 5 set 3 tekrar",
+      body: "Seansın ortasında bir hareketi açtığında gördüğün şey bu.",
+      cuesTitle: "Neyi düşünmeli",
+      cues: ["Barı rack'ten almadan önce gövdeni sıkıla, yürüttükten sonra değil.", "Dizlerin iniş boyunca ikinci parmağının hizasını takip etsin.", "Dipten çıkarken zemini iki yana itiyormuş gibi bas."],
+      faultsTitle: "İnsanlar nerede hata yapıyor",
+      faults: ["Kalçalar önce yükseliyor, bar öne kayıyor ve hareket good morning'e dönüşüyor.", "Dipte sıkılığı kaybetmek — sırt yuvarlanmasının çoğu orada başlar."],
+      tempoTitle: "Tempo",
+      tempo: "3-1-X-0. Üç saniye iniş, bir saniye bekleme, hızlı çıkış, tepede duraklama yok.",
+      subsTitle: "Salonunda rack yoksa",
+      subs: ["Goblet squat, 5 set 6 tekrar", "Bulgar split squat, her taraf 4 set 6 tekrar"],
+      video: { alt: "Back squat'ın dip pozisyonunun iki açıdan gösterim karesi, önden ve yandan yan yana, sade stüdyo zemini ve kılavuz çizgileriyle" },
+      bandTitle: "Bilekliğin gördüğü",
+      bandRows: [
+        ["Kalp atış hızı", "168'de zirve, sonraki sete kadar 122'ye döndü"],
+        ["Zorlanma", "Şu ana kadarki dört çalışma setinin en yükseği"],
+        ["Set algılandı", "Nabzın yükselip düşmesinden kaydedildi"],
+        ["Dinlenme", "Sonraki sete 2:41"],
+        ["Seans zorlanması", "Şu ana kadar 21 üzerinden 11,4"],
+        ["Toparlanma maliyeti", "Yarının hedefine taşınıyor"],
+      ],
+    },
     meta: {
       title: "Terrifit Maps — sana uyum sağlayan antrenman programları",
       description:
         "Map, eksiksiz bir antrenman programı: bloklar, haftalar, seanslar ve hareketler; her harekette teknik anlatımı, gerçekten kaldırdığına göre ayarlanan ağırlıklar ve V1 takıyorsan tekrar tekrar takip.",
     },
     hero: {
+      image: { alt: "Karanlık bir antrenman salonunda takozlardan çıkan sprinter, piste yalayarak vuran tek sert ışık" },
       eyebrow: "Terrifit Maps",
       title: "Geçen hafta ne kaldırdığını bilen bir program",
       sub: "Map, planın tamamı — bloklar, haftalar, seanslar ve içindeki her hareket — bu işi meslek olarak yapan biri tarafından yazılmış. Hareketi öğretir, bara ne konacağını hesaplar, ve V1 takıyorsan seti neredeyse arkanda duran biri kadar yakından izler.",
@@ -125,6 +340,12 @@ export const tr: PagesTranslation = {
       { label: "Seansların tamamlanma oranı" },
     ],
     anatomy: {
+      layers: [
+      { key: "block", label: "Blok", title: "Bloklar neyin peşinde olduğunu belirler", body: "Tek bir şeye yönelmiş dört ila altı hafta: hacim kurmak, şiddeti yükseltmek, zirveye çıkmak ya da yükü azaltmak. Harita hangisinde olduğunu ve kabaca nasıl hissettirmesi gerektiğini söyler.", detail: ["Kurulum · 1-4. haftalar", "Şiddet · 5-9. haftalar", "Zirve · 10 ve 11. haftalar", "Yük azaltma · 12. hafta"] },
+      { key: "week", label: "Hafta", title: "Haftalar ne kadar yaptığını dengeler", body: "Hacim, şiddet ve bilekliğinin geçen hafta hakkında bildirdiği her şey aynı hesaba girer. Kötü bir uyku haftası tek bir seansı değil, tüm haftayı değiştirir.", detail: ["Planlanan zorlanma 62", "Ağır günler: pazartesi, perşembe", "Bir isteğe bağlı kondisyon aralığı", "3 gün kötü toparlanmadan sonra otomatik yük azaltma"] },
+      { key: "session", label: "Seans", title: "Seanslar seni neyin beklediğini söyler", body: "Isınma, ana hareket, tamamlayıcılar, bitirici. Başlamadan önce süre ve zorlanma tahmini alırsın; neye evet dediğini bilirsin.", detail: ["Isınma · 8 dk", "Back squat · 5×3, %82", "Romen deadlift · 3×8", "Bulgar split squat · 3×10 her taraf", "Bitirici · 6 dk"] },
+      { key: "exercise", label: "Hareket", title: "Hareketler yalnızca listelenmez, öğretilir", body: "Her hareket bir gösterimle gelir: gerçekten önemli üç ipucu, insanların gerçekten yaptığı iki hata, bir tempo ve salonunda ekipman yoksa yerine koyacağın bir alternatif.", detail: ["İki açıdan gösterim", "3 teknik ipucu", "2 yaygın hata", "Tempo 3-1-X-0", "2 alternatif"] },
+      ],
       eyebrow: "Bir Map nasıl kurulur",
       title: "Dört katman, her Map’te aynı",
       body: "Kim yazmış olursa olsun her Map aynı şekilde açılır, yani yeni bir koçun tablosunu öğrenmek zorunda kalmazsın. Bir katman seç ve içinde ne olduğuna bak.",
@@ -138,12 +359,52 @@ export const tr: PagesTranslation = {
       chartCaption: "Bir kuvvet Map’inin on iki haftası. Düz geçen iki hafta, Map’in kendiliğinden eklediği bir deload.",
     },
     form: {
+      image: { alt: "Tam efor hâlinde önden görülen bisikletçi, eller gidonun alt kısmında, bilekte V1 görünür" },
+      points: [
+      { title: "Dokunmadan setler", body: "Nabzının yükselip düşmesi setin nerede başlayıp bittiğini işaretler; baktığında tik zaten orada olur." },
+      { title: "Kendini tutan dinlenme", body: "Sayaç set bitince başlar ve fazla oturduğunda seni dürter." },
+      { title: "Seans boyunca zorlanma", body: "Bu setin öncekilerle karşılaştırması; zayıf bir dördüncü set sen hâlâ barın başındayken görünür." },
+      { title: "Seans zorlanması", body: "Seansın toplam kardiyovasküler maliyeti; yarının toparlanma hedefini besler." },
+      { title: "Hakem yine sensin", body: "Bileklik kalbini okur, barını değil. Tekrarlarını saymaz, derinliğini not vermez ve öyleymiş gibi de yapmaz." },
+      { title: "Her şey düzenlenebilir", body: "Otomatik kayıt varsayılan olarak kapalıdır ve işaretlediği her set tek dokunuşla düzeltilir." },
+      ],
       eyebrow: "Teknik ve uygulama",
       title: "Sadece toplamı değil, seti izler",
       body:
         "V1’deki ivmeölçer ve jiroskop her tekrarda bileğini okur. Bu, tekrarları saymaya, inişi kronometrelemeye, barın gerçekte ne kadar yol aldığını ölçmeye ve dördüncü tekrarın birinciye benzemeyi bıraktığı anı fark etmeye yeter.",
     },
     library: {
+      included: "Dahil",
+      items: [
+      {
+        slug: "hypertrophy-base", name: "Hipertrofi Temeli", type: "Fizik", level: "Geri dönen", weeks: 12, days: 4,
+        creator: "Dara Okafor", credential: "Kuvvet ve kondisyon antrenörü, 11 yıl, iki ulusal program",
+        summary: "Haftada dört gün, gerçekten iyi olacağın altı hareket etrafında. Hacim dört hafta yükselir, sonra şiddet devralır, sonra zirve ve yük azaltma.",
+        equipment: "Bar, rack, dambıl, kablo istasyonu",
+        image: { alt: "Tek bir tepe ışığı altında kombinasyon çalışan boksör, sargılar takılı, nefes verirken" },
+      },
+      {
+        slug: "strength-five", name: "Kuvvet Beş", type: "Kuvvet", level: "İstikrarlı", weeks: 10, days: 3,
+        creator: "Ivan Petrov", credential: "Powerlifting antrenörü, IPF'de üç kürsü sporcusu",
+        summary: "Daha büyük bir toplamın peşinde on hafta. Haftada üç seans: squat, bench ve deadlift; onları ilerleten tamamlayıcı çalışmayla.",
+        equipment: "Bar, rack, sehpa",
+        image: { alt: "Swing'in tepesinde kettlebell, sporcu gergin, sert yan ışık" },
+      },
+      {
+        slug: "engine-builder", name: "Motor Kurucu", type: "Dayanıklılık", level: "Yeni", weeks: 8, days: 5,
+        creator: "Nadia Haddad", credential: "Dayanıklılık antrenörü, maraton ve triatlon",
+        summary: "Daha geniş bir aerobik temel için sekiz hafta. Haftada beş kolay-orta seans; çünkü temel, fazla yavaş hissettiren bir tempoda kurulur.",
+        equipment: "Yol, koşu bandı ya da bisiklet",
+        image: { alt: "İlk ışıkta açık bir yolda birlikte ilerleyen koşucular" },
+      },
+      {
+        slug: "return-to-training", name: "Antrenmana Dönüş", type: "Sağlık", level: "Yeni", weeks: 6, days: 3,
+        creator: "Sofia Marchetti", credential: "Rehabilitasyon ve spora dönüş, on iki yıl",
+        summary: "Uzun bir aradan sonra altı haftalık dönüş; hakaret sayılacak kadar hafif gelecek ağırlıklarla başlıyor. Mesele tam da bu — toleransı test etmiyorsun, yeniden kuruyorsun.",
+        equipment: "Dambıl, direnç bandı",
+        image: { alt: "Çimende rahat tempoda koşan biri, erken ışık, yüzünde zorlanma yok" },
+      },
+      ],
       eyebrow: "Kütüphane",
       title: "Gerçekten sahip olduğun haftaya uyanı bul",
       body: "Hedefe, seviyene, elindeki ekipmana ve haftada gerçekten çalışabileceğin gün sayısına göre filtrele.",
@@ -172,12 +433,24 @@ export const tr: PagesTranslation = {
   },
 
   creators: {
+    verification: {
+      eyebrow: "Yayımlamadan önce",
+      title: "Her koç, ilk Haritası yayına girmeden önce bir insan tarafından doğrulanır.",
+      body: "Kim olduğunu ve başkalarına antrenman yazmak için onu neyin nitelikli kıldığını kontrol etmeden hiç kimse Terrifit'te program yayımlayamaz veya takipçi toplayamaz. Birkaç gün sürer ve bir Terrifit Haritasını bir yabancının PDF'inden değerli kılan da budur.",
+      items: [
+      { name: "Kim olduğun", detail: "Resmî kimlik; hesapla ve Haritalarında görünecek isimle eşleştirilir." },
+      { name: "Seni neyin nitelikli kıldığı", detail: "Antrenörlük sertifikan, diploman, yarışma geçmişin ya da belgelenmiş danışan çalışman. Birden fazla yolu kabul ediyoruz; hiçbirinin olmamasını kabul etmiyoruz." },
+      { name: "Ne yayımlamayı düşündüğün", detail: "İlk Haritanın taslağı; ekibimizdeki bir koç tarafından, kendi programlarımıza uyguladığımız ölçütle incelenir." },
+      ],
+      note: "Doğrulanana kadar profilini kurabilir ve bir Harita taslağı hazırlayabilirsin, ama gizli kalır; takipçi ya da ödeme alamazsın.",
+    },
     meta: {
       title: "Terrifit’te koçluk yap — zaten yaptığın işten kazan",
       description:
-        "Antrenman programları yayımla, ücretsiz bir genel akış ve ücretli bir özel akış tut, kanallar aç, üyelerine yaz ve paylaşmayı seçtikleri verileri gör. %80 sende kalır, her ay ödenir.",
+        "Antrenman programları yayımla, ücretsiz bir genel akış ve ücretli bir özel akış tut, kanallar aç, üyelerine yaz ve paylaşmayı seçtikleri verileri gör. %60 sende kalır, her ay ödenir.",
     },
     hero: {
+      image: { alt: "Pistte iki atlet arasında bayrak değişimi; bayrağın el değiştirdiği an" },
       eyebrow: "Koçlar ve üreticiler için",
       title: "Seni takip edenler zaten çalışıyor. Artık nasıl gittiğini görebilirsin.",
       sub: "Başka her yerde paylaşır ve umut edersin. Burada seni takip edenlerle seninle çalışanlar aynı liste, ve programının işe yarayıp yaramadığını gerçekten görebiliyorsun. Map yayımla, ücretsiz paylaş, premium sat, kanal aç ve insanlara doğrudan yaz.",
@@ -191,6 +464,12 @@ export const tr: PagesTranslation = {
       { label: "Başlamak için ücret" },
     ],
     why: {
+      cards: [
+      { title: "%60'ı sende kalır", body: "Programlarda, aboneliklerde ve kanal erişiminde. Her ay sabit bir tarihte, her kalemi gösteren bir ekstreyle ödenir." },
+      { title: "Sonuçları görebilirsin", body: "Biri izin verdiğinde; geliyor mu, nasıl uyuyor ve ne kaldırıyor görürsün. Referansların ekran görüntüsü olmaktan çıkar." },
+      { title: "İnsanlar seni gerçekten bulabilir", body: "Üyeler hedefe, seviyeye ve ekipmana göre arar; bu hafta kimin daha çok paylaştığına göre değil. İyi bir program, sen tanıtmayı bıraktıktan çok sonra bile satmaya devam eder." },
+      { title: "Hepsi tek yerde", body: "Program teslimi, ödemeler, topluluk, mesajlar, check-in'ler ve analizler. Ne tablo, ne PDF, ne ayrı bir sohbet uygulaması, ne de bağlantı sayfası." },
+      ],
       eyebrow: "Neden bir platform daha",
       title: "Çünkü bu, işe yarayıp yaramadığını gösterebiliyor",
       body:
@@ -201,26 +480,43 @@ export const tr: PagesTranslation = {
       title: "Ücretsiz paylaş, iyi olanı sat, aynı profil",
       body:
         "Genel akışın seni nasıl buldukları. Özel akışın nasıl kazandığın. İkisi tek profilde yan yana duruyor, yani seni takip eden biri abone olmaya tek dokunuş uzakta.",
-      public: { label: "Genel akış", price: "Ücretsiz", title: "Kitlen buradan geliyor", body: "Herkese açık paylaştığın her şey Terrifit genelinde bulunabiliyor — üyeler tarafından ve birlikte çalışacak birini arayan diğer koçlar tarafından." },
-      private: { label: "Özel akış", price: "Fiyatı sen belirle", title: "Para burada", body: "Öğrenmen yıllar süren şeyler için sadece abonelere açık bir akış. Aylık, yıllık ya da Map’lerinden biriyle birlikte." },
+      public: { items: ["Uzunluk sınırı olmayan gönderiler, klipler ve fotoğraf serileri", "Senin çalıştırdığın hedefe doğru antrenman yapan üyelere gösterilir", "Diğer üreticiler tarafından yeniden paylaşılır; yeni takipçilerin çoğu oradan gelir", "Haritalarından herhangi birinden ücretsiz bir örnek seans, tek dokunuşla", "Platformdaki herkesten yorum ve tepkiler"], label: "Genel akış", price: "Ücretsiz", title: "Kitlen buradan geliyor", body: "Herkese açık paylaştığın her şey Terrifit genelinde bulunabiliyor — üyeler tarafından ve birlikte çalışacak birini arayan diğer koçlar tarafından." },
+      private: { items: ["Programlama çözümlemeleri ve gerçek teknik derinlik", "Halka açık bir gönderiye asla koymayacağın ipuçları ve düzeltmeler", "Yalnızca abonelere özel canlı yayınlar ve soru-cevaplar", "Yayımladığın her Haritaya erken erişim", "İstediğin an iptal edilebilen abonelikler; bizim tahsil ettiğimiz, sana aylık ödediğimiz"], label: "Özel akış", price: "Fiyatı sen belirle", title: "Para burada", body: "Öğrenmen yıllar süren şeyler için sadece abonelere açık bir akış. Aylık, yıllık ya da Map’lerinden biriyle birlikte." },
     },
     channels: {
+      items: [
+      { title: "Grup kanalları", body: "Aynı hafta aynı Haritadaki herkes tek bir odada. Sen yetişmeden birbirlerinin sorularını yanıtlamaya başlarlar." },
+      { title: "Doğrudan mesajlar", body: "Herhangi bir üyeyle bire bir; güncel Haritası ve haftası sohbetin yanında görünür." },
+      { title: "Planlı check-in'ler", body: "Her pazar aynı beş soruyu sor. Yanıtlar sohbet geçmişi yerine bir kuyruğa düşer." },
+      { title: "Sesli notlar ve form kontrolü", body: "Biri sana bir set gönderir, sen videosunun üstüne otuz saniyelik ses gönderirsin." },
+      { title: "Duyurular", body: "Tüm abonelere, tek bir kanala ya da yalnızca geride kalanlara gönder." },
+      { title: "Kayıtlı yanıtlar", body: "Haftada kırk kez yazdığın yanıt, iki dokunuşta hazır." },
+      ],
+      image: { alt: "Bir Terrifit koç kanalını gösteren telefon ekranı: üye mesajları ve sabitlenmiş üçüncü hafta duyurusu, koyu arayüz, tek elle tutuluyor" },
       eyebrow: "Kanallar ve mesajlar",
       title: "Bin kişiyle aynı anda ya da tek kişiyle konuş",
       body:
         "Kanallar senin odaların. Aynı programı yapan herkes için bir tane, yeni başlayanlar için bir tane, birebir çalıştığın kişiler için bir tane. Doğrudan mesajlar hemen altında, böylece bir kontrol yorum akışında kaybolmuyor.",
     },
     figures: {
+      shared: [
+      { label: "Katılım", value: "%94", note: "Planlanan seanslara karşı yapılanlar" },
+      { label: "Toparlanma", value: "+9", note: "14 günlük hareketli ortalama" },
+      { label: "Uyku", value: "7s 12d", note: "Blok boyunca medyan" },
+      { label: "Hacim", value: "12.450 kg", note: "Bu hafta, hepsi toplandığında" },
+      { label: "Tahmini 1RM", value: "%+11", note: "Back squat, birinci haftadan bu yana" },
+      { label: "Check-in serisi", value: "9 hafta", note: "Üst üste pazarlar" },
+      ],
       eyebrow: "Onların rakamları",
       title: "İlerlemelerini görürsün, ama sadece onlar evet derse",
       body:
         "Bir üye antrenman verisini seninle, koç koç, istediği süre boyunca paylaşabilir. Açık olduğu sürece tahmin etmezsin. Kapattığı anda senin tarafından siliniyor ve bunu ona söylüyoruz.",
-      consent: { title: "Paylaşım nasıl işliyor" },
+      consent: { points: ["Başlangıçta kapalıdır ve koç bazında ayarlanır.", "Üye, hangi sayıları görebildiğini açık bir dille, tam olarak görür.", "Tek dokunuş kapatır ve senin görünümün saniyeler içinde boşalır.", "Paylaştığı hiçbir şeyi ona yükseltme satmak için asla kullanmayız."], title: "Paylaşım nasıl işliyor" },
     },
     calculator: {
       eyebrow: "Hesabı yap",
       title: "Bu senin ölçeğinde nasıl görünüyor",
-      body: "Kaydırıcıları oynat. Gerçek paylaşımı kullanıyor: her şeyde %80 sana.",
+      body: "Kaydırıcıları oynat. Gerçek paylaşımı kullanıyor: her şeyde %60 sana.",
       followersLabel: "Ulaşabildiğin takipçi",
       conversionLabel: "Kaçı abone oluyor",
       priceLabel: "Aylık fiyat",
@@ -229,19 +525,54 @@ export const tr: PagesTranslation = {
       resultLabel: "Her ay eline geçen",
       breakdownSubs: "Abonelikler",
       breakdownMaps: "Program satışları",
-      shareNote: "Bizim %20’mizden sonra, yerel vergilerinden önce.",
+      shareNote: "Bizim %40’mizden sonra, yerel vergilerinden önce.",
       annual: "yılda",
       disclaimer: "Bu bir örnek, bir söz değil. Gerçekte ne kazandığın kitlene, fiyatlandırmana ve programın ne kadar iyi olduğuna bağlı.",
     },
-    tools: { eyebrow: "Neyle çalışacaksın", title: "Bunu ciddi ciddi yürütmeye yeter" },
+    tools: {
+      items: [
+      { title: "Program oluşturucu", body: "Bloklar, haftalar, seanslar ve hareketler; hâlihazırda koçluk bilgisi taşıyan ve yayımlanan her Haritayla büyüyen 36 hareketlik bir kütüphaneyle. Bir haftayı kopyala, bir bloğu taşı, güncellemeyi herkese tek seferde gönder." },
+      { title: "Kendi video kütüphanen", body: "Bir gösterimi bir kez çek ve tekrar kullan. Kliplerin, yazdığın her programda o harekete iliştirilir." },
+      { title: "Canlı seanslar", body: "Abonelerine yayın yap; V1 takarak izleyen herkesin nabzı ve zorlanması ekranda." },
+      { title: "Check-in kuyruğu", body: "Haftalık yanıtlar, fotoğraflar ve sayılar tek bir listede; yanıtın o kişinin dosyasına kaydedilir." },
+      { title: "Kendi sayfan", body: "Programların, abonelik kademelerin ve önerdiğin iş ortağı ürünleri; insanları yönlendireceğin tek bir sayfada." },
+      { title: "Analizler", body: "Takipçilerin nereden geldi, ne dönüşüyor, hangi programları insanlar bitiriyor ve genelde hangi hafta bırakıyorlar." },
+      ], eyebrow: "Neyle çalışacaksın", title: "Bunu ciddi ciddi yürütmeye yeter" },
     payouts: {
+      rows: [
+      ["Senin payın", "Her program, abonelik ve kanalın %60'ı"],
+      ["Ne zaman ödenir", "Her ay, ayın 5'inde, bir önceki ay için"],
+      ["Asgari ödeme", "1.000 $. Altında kalan tutar kaybolmaz, sonraki aya devreder"],
+      ["Nasıl ödenir", "40'tan fazla ülkede banka havalesi, Wise veya Stripe Connect"],
+      ["İadeler", "Maliyetinden düşülür, üstüne asla ceza eklenmez"],
+      ["İş ortağı ürünleri", "Önerdiğin her şeyde ek komisyon"],
+      ],
       eyebrow: "Ödeme",
       title: "Her ay, sabit bir tarihte, sürpriz yok",
       note: "Listeleme ücreti, aylık platform ücreti veya minimum takipçi sayısı yok.",
     },
-    steps: { eyebrow: "Başlarken", title: "Dört adım, yaklaşık bir hafta", cta: "Başvur" },
-    voices: { eyebrow: "İlk koç grubundan", title: "Onlar için ne değişti" },
-    faq: { eyebrow: "Sorular", title: "Gerçekten sorulanlar" },
+    steps: {
+      items: [
+      { title: "Başvur", body: "Kimi çalıştırdığını anlat ve işinden bir şeyler göster. Her başvuruyu kendimiz okuyoruz." },
+      { title: "Doğrulan", body: "Belgeler, gerektiği yerde sigorta ve kimlik. İki üç gün sürer; üyelerin rozete güvenmesinin sebebi de bu." },
+      { title: "Bir şey inşa et", body: "İlk programını yaz ya da hâlihazırda yürüttüğün birini getir. Ekibimiz yayına girmeden önce seninle birlikte gözden geçirir." },
+      { title: "Yayına gir", body: "Sayfan açılır, akışların başlar ve seni, senin çalıştırdığın şeye doğru antrenman yapan üyelerin önüne koyarız." },
+      ], eyebrow: "Başlarken", title: "Dört adım, yaklaşık bir hafta", cta: "Başvur" },
+    voices: {
+      items: [
+      { quote: "PDF göndermeyi ve insanları mesajlardan kovalamayı bıraktım. Tamamlama oranım tek bir hareketi değiştirmeden yaklaşık üçte birden yüzde doksanın üzerine çıktı.", name: "Jordan Cole", role: "Kuvvet antrenörü, 12,6 bin takipçi" },
+      { quote: "Özel akış kiramı ödüyor. Genel akış özel akışı besliyor. Bedava vermekle iş yürütmek arasında hiç seçim yapmak zorunda kalmadım.", name: "Maya Reyes", role: "Hibrit koç, 41 bin takipçi" },
+      { quote: "Birinin seansından önce toparlanmasını görmek program yazma şeklimi değiştirdi. Üçüncü hafta civarında tahmin yürütmeyi bıraktım.", name: "Dr. Sam Whitfield", role: "Spor bilimci, 8,2 bin takipçi" },
+      ], eyebrow: "İlk koç grubundan", title: "Onlar için ne değişti" },
+    faq: {
+      items: [
+      { q: "Büyük bir takipçi kitlesi gerekiyor mu?", a: "Hayır. Kaç takipçin olduğuna değil, koçluğun ne kadar iyi olduğuna bakıyoruz. İlk grubumuzun yaklaşık üçte biri iki binin altında takipçiyle geldi." },
+      { q: "Başka her yerde paylaşmaya devam edebilir miyim?", a: "Evet, ve etmelisin. Terrifit; programın, ödemenin ve ilişkinin yaşadığı yer. Senden münhasırlık istemiyoruz." },
+      { q: "Yazdığım programlar kimin?", a: "Senin. Yayından kaldırabilir, değiştirebilir ya da başka yere taşıyabilirsin. Daha önce satın alan, aldığı sürümü elinde tutar." },
+      { q: "Biri iade isterse ne olur?", a: "Onunla biz ilgileniriz. İade penceresi içinde maliyetinden düşülür ve üstüne asla ceza eklemeyiz." },
+      { q: "Birinin sağlık verisini görebilir miyim?", a: "Yalnızca özellikle paylaşmayı seçtiğini ve yalnızca açık bıraktığı sürece. Onay vermediği hiçbir şeyi asla görmezsin." },
+      { q: "Yayımlamak için V1 bilekliği gerekir mi?", a: "Hayır. Bilekliği olmayan üyeler setlerini elle kaydeder ve yine de otomatik ağırlık ilerlemesi alır. V1; canlı nabız, otomatik set algılama ve bir sonraki seansın ne kadar zor olacağını belirleyen toparlanma verisini ekler." },
+      ], eyebrow: "Sorular", title: "Gerçekten sorulanlar" },
     cta: {
       eyebrow: "Kurucu koçlar",
       title: "İlk bin kişi çıtayı belirliyor",
@@ -255,6 +586,8 @@ export const tr: PagesTranslation = {
     meta: { title: "İletişim — Terrifit", description: "Üyeliğin, V1 bileklik, koçluk başvurusu, iş ortaklıkları veya basın hakkında bize yaz." },
     hero: { eyebrow: "İletişim", title: "Gerçek bir insanla konuş", sub: "Buraya gelen her şeyi küçük bir ekip okuyor. Doğru kutuyu seç, genelde bir iş günü içinde dönüş yapıyoruz." },
     form: {
+      namePlaceholder: "Alex Duarte",
+      emailPlaceholder: "sen@ornek.com",
       title: "Bize yaz",
       topicLabel: "Konu nedir?",
       topics: [
@@ -311,6 +644,11 @@ export const tr: PagesTranslation = {
   },
 
   shop: {
+    searchLabel: "Mağazada ara",
+    searchPlaceholder: "Protein, kayışlar, bileklik…",
+    departmentsLabel: "Bölümler",
+    itemOne: "ürün",
+    itemMany: "ürün",
     meta: { title: "Terrifit Mağaza — V1 bileklik, kayışlar, takviyeler ve ekipman", description: "Terrifit V1 bilekliği ön sipariş ver, kayış ve PowerPack al, bizim ve iş ortaklarımızın gerçekten kullandığı takviyeleri stokla." },
     hero: { eyebrow: "Terrifit Mağaza", title: "Takviyeler şimdi. Donanım kasımdan itibaren.", sub: "Takviyeler, toparlanma ürünleri ve antrenman ekipmanı bugün çıkıyor — bizimkiler ve kontrol ettiğimiz kısa bir iş ortağı listesi. V1 bileklik ve aksesuarları ön siparişe açık ve Kasım 2027’de gönderiliyor." },
     trust: [
@@ -319,7 +657,7 @@ export const tr: PagesTranslation = {
       { title: "2 yıl garanti", body: "Ürettiğimiz her şeyde" },
       { title: "Güvenli ödeme", body: "Kart, cüzdanlar ve kripto" },
     ],
-    categories: { all: "Her şey", band: "Bileklik ve üyelik", accessories: "Aksesuarlar", apparel: "Giyim", fuel: "Takviyeler", recovery: "Toparlanma" },
+    categories: { bundles: "Setler", all: "Her şey", band: "Bileklik ve üyelik", accessories: "Aksesuarlar", apparel: "Giyim", fuel: "Takviyeler", recovery: "Toparlanma" },
     sortLabel: "Sırala",
     sort: { featured: "Öne çıkanlar", priceLow: "Fiyat: artan", priceHigh: "Fiyat: azalan", rating: "En yüksek puan" },
     resultCount: "ürün",
@@ -446,7 +784,7 @@ export const tr: PagesTranslation = {
     },
   },
 
-  search: {
+  search: { hint: "⌘K",
     placeholder: "Terrifit’te ara",
     open: "Ara",
     close: "Aramayı kapat",

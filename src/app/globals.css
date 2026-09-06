@@ -2541,6 +2541,18 @@ html[dir="rtl"] .cr-switch.is-on i::after { transform: translateX(-14px); }
 .cr-payout-list dd { margin: 0; color: #4a4842; font-size: 0.88rem; line-height: 1.6; }
 .cr-payout-note p { margin-top: 22px; color: #6d6a63; font-size: 0.78rem; }
 
+/* Verification sits on the dark ground between payouts (paper) and steps, so
+   it borrows the payout list's structure with the dark section's palette. */
+.cr-verify { padding-block: clamp(80px, 9vw, 130px); }
+.cr-verify-list { margin: 44px 0 0; border-top: 1px solid rgb(255 255 255 / 0.14); }
+.cr-verify-list > div { display: grid; grid-template-columns: 0.42fr 1fr; gap: 20px; padding: 18px 0; border-bottom: 1px solid rgb(255 255 255 / 0.14); }
+.cr-verify-list dt { color: #fff; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.cr-verify-list dd { margin: 0; color: rgb(255 255 255 / 0.62); font-size: 0.88rem; line-height: 1.6; }
+.cr-verify .cr-payout-note p { color: rgb(255 255 255 / 0.5); }
+@media (max-width: 760px) {
+  .cr-verify-list > div { grid-template-columns: 1fr; gap: 6px; }
+}
+
 .cr-steps { padding-block: clamp(80px, 9vw, 130px); }
 .cr-step-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin: 48px 0 0; padding: 0; background: rgb(255 255 255 / 0.12); list-style: none; }
 .cr-step-list li { min-width: 0; padding: 30px 26px; background: var(--cr-ink); }

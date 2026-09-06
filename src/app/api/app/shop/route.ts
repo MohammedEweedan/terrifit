@@ -112,6 +112,7 @@ export async function GET(request: Request) {
         // the product people research hardest before spending £229.
         specGroups: product.slug === "terrifit-v1" ? copy.band.specsSection.groups : null,
         stock: product.stock,
+        launchStatus: product.launchStatus,
         stockQuantity: product.stockQuantity ?? 0,
         allowBackorder: product.allowBackorder ?? false,
         shipsIn: product.shipsIn,
