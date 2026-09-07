@@ -397,3 +397,9 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 **Reverted or committed** — 2 files no longer differ from HEAD
 
 <sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 10:43
+
+**Committed** `b90c666` on `main` — feat: update Dockerfile and app.yaml for Prisma migration toolchain and deployment process
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

@@ -150,4 +150,11 @@ jobs:
             echo "then add its ID as the DIGITALOCEAN_APP_ID secret."
             exit 0
           fi
-          doctl apps create-deployment "$APP_ID" --wait
+          # `update --spec`, not `create-deployment`.
+          #
+          # create-deployment redeploys whatever spec the app already has, so
+          # every change to .do/app.yaml stayed in the repo and never reached
+          # DigitalOcean — the migrate job kept running an `npx` command that
+          # had been fixed locally three times over. Applying the spec makes
+          # the file the source of truth and still triggers the deployment.
+          doctl apps update "$APP_ID" --spec .do/app.yaml --wait
