@@ -4,12 +4,18 @@ import { legalRedirects } from "./src/lib/destinations";
 
 const nextConfig: NextConfig = {
   /**
-   * Emits a self-contained server bundle with only the modules actually
-   * imported, so the container ships without `node_modules`. Without it the
-   * image carries the full dependency tree — several hundred megabytes that
-   * have to be pushed to the registry and pulled on every deploy.
+   * Self-contained server output, for the container — but never on Vercel.
+   *
+   * Standalone emits a server bundle carrying only the modules actually
+   * imported, so the Docker image ships without `node_modules`. Vercel builds
+   * its own output format and expects the default tracing artefacts; with
+   * standalone set it finishes all 444 pages and then dies looking for
+   * `.next/next-server.js.nft.json`, which standalone never writes.
+   *
+   * So: on for self-hosting, off on Vercel, decided by the platform's own
+   * environment variable rather than by remembering to flip a flag.
    */
-  output: "standalone",
+  output: process.env.VERCEL ? undefined : "standalone",
 
   /**
    * The old marketing pages at /privacy, /terms, /health and /affiliate are now

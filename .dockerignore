@@ -1,0 +1,13 @@
+# Anything the image does not need, and anything that must never be in it.
+.git
+.github
+node_modules
+.next
+mobile
+docs
+.env
+.env.*
+*.log
+.DS_Store
+.vercel
+coverage
