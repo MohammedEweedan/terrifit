@@ -341,3 +341,19 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 **Reverted or committed** — 2 files no longer differ from HEAD
 
 <sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 10:10
+
+**Committed** `b1301a3` on `main` — feat: update DigitalOcean deployment configuration and improve type generation for Next.js
+
+**Reverted or committed** — 3 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 10:15
+
+**Working tree** — 1 file · +52 −1
+
+- **other** — `.github/workflows/deploy-digitalocean.yml`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

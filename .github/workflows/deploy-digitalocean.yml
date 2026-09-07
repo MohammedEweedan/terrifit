@@ -26,6 +26,31 @@ jobs:
   verify:
     name: Typecheck, lint and test
     runs-on: ubuntu-latest
+
+    # A throwaway Postgres, because some of these tests are integration tests
+    # and have to be. `rate-limit.test.ts` guards a bug that no mock can see:
+    # Prisma maps DateTime to `timestamp` while SQL `NOW()` is `timestamptz`,
+    # so every window read as already expired and the limiter let everything
+    # through while still returning true and still writing rows. Only a real
+    # query shows that. This is disposable and never touches production.
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: terrifit_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd=pg_isready
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/terrifit_test
+
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -45,6 +70,10 @@ jobs:
 
       - run: npx tsc --noEmit
       - run: npm run lint
+
+      # The schema has to exist before the integration tests touch it.
+      - run: npx prisma migrate deploy
+
       - run: npm test
       # Every locale must carry every key; a missing one silently ships English.
       - run: npm run check:i18n
@@ -91,5 +120,19 @@ jobs:
       - name: Roll out
         # App Platform pulls the new image. The pre-deploy job in .do/app.yaml
         # runs `prisma migrate deploy` before any new container takes traffic.
+        #
+        # Skipped when the app does not exist yet. `doctl apps create` fails
+        # with "Image tag or digest not found" until something has been pushed
+        # to the registry, so the very first run has to be push-only — and
+        # that should not look like a broken pipeline.
+        env:
+          APP_ID: ${{ secrets.DIGITALOCEAN_APP_ID }}
         run: |
-          doctl apps create-deployment "${{ secrets.DIGITALOCEAN_APP_ID }}" --wait
+          if [ -z "$APP_ID" ]; then
+            echo "DIGITALOCEAN_APP_ID is not set — image pushed, deploy skipped."
+            echo "The image now exists, so create the app once with:"
+            echo "  doctl apps create --spec .do/app.yaml"
+            echo "then add its ID as the DIGITALOCEAN_APP_ID secret."
+            exit 0
+          fi
+          doctl apps create-deployment "$APP_ID" --wait
