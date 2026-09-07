@@ -403,3 +403,17 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 **Committed** `b90c666` on `main` — feat: update Dockerfile and app.yaml for Prisma migration toolchain and deployment process
 
 <sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 10:54
+
+**Committed** `8e7356e` on `main` — feat: update deployment process to use `doctl apps update` for applying app spec
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 10:56
+
+**Working tree** — 1 file · +11 −1
+
+- **other** — `.do/app.yaml`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

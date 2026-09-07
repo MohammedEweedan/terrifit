@@ -69,7 +69,11 @@ jobs:
     # symlink is no better: Docker COPY flattens it into a real file whose
     # relative `require("./cli.js")` then points at the wrong directory.
     # Running build/index.js in place resolves both.
-    run_command: cd migrate && node node_modules/prisma/build/index.js migrate deploy
+    # Wrapped in `sh -c` because App Platform execs run_command directly
+    # rather than through a shell: `cd migrate && node …` had it looking for
+    # an executable named "cd" and failing with exit 128 before the container
+    # even started.
+    run_command: sh -c "cd migrate && node node_modules/prisma/build/index.js migrate deploy"
     envs:
       - key: DATABASE_URL
         scope: RUN_TIME
