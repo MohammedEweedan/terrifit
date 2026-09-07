@@ -27,12 +27,22 @@ jobs:
     name: Typecheck, lint and test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 24
           cache: npm
       - run: npm ci
+
+      # `next-env.d.ts` and `.next/types` are generated, and gitignored by
+      # Next's own default. Without them `tsc` on a fresh clone cannot resolve
+      # `*.png` imports (the `next/image-types/global` reference lives in
+      # next-env.d.ts) or the `PageProps`/`LayoutProps` globals Next 16 emits
+      # for route files — ten errors that never appear locally, because a dev
+      # server has always regenerated them. `typegen` does this without paying
+      # for a full build.
+      - run: npx next typegen
+
       - run: npx tsc --noEmit
       - run: npm run lint
       - run: npm test
@@ -44,7 +54,7 @@ jobs:
     needs: verify
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2

@@ -6,7 +6,12 @@ export const BAND_FINISHES = [
   { id: "black", label: "Black", yarn: "#252629", weave: "#101113", accent: "#b8babd" },
   { id: "bubblegum", label: "Bubblegum", yarn: "#f573b0", weave: "#efe7e6", accent: "#ff7ab8" },
   { id: "olive", label: "Olive", yarn: "#777b54", weave: "#393e2a", accent: "#929b70" },
-  { id: "sandstone", label: "Sandstone", yarn: "#c7b69b", weave: "#e6ddce", accent: "#c8b99d" },
+  // `stone`, not `sandstone`. The shop catalogue calls this colourway "stone"
+  // and that is the id carried on variants and orders; the viewer had its own
+  // name for it, so `bandFinish("stone")` missed and fell through to
+  // BAND_FINISHES[0] — selecting Stone on the band page rendered an Ember
+  // band. The asset files were renamed to match.
+  { id: "stone", label: "Stone", yarn: "#c7b69b", weave: "#e6ddce", accent: "#c8b99d" },
 ] as const;
 
 export type BandFinish = (typeof BAND_FINISHES)[number];

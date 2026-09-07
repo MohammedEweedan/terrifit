@@ -314,3 +314,30 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **media** — `public/media/band/colourways-v2/sandstone.png`, `public/media/band/colourways-v2/terrifit-band-stone.png`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 10:00
+
+**Committed** `211a2e8` on `main` — feat: update DigitalOcean deployment configuration and add new media assets
+
+**Reverted or committed** — 4 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 10:10
+
+**Working tree** — 5 files · +69 −17
+
+- **other** — `.github/workflows/deploy-digitalocean.yml`
+- **media** — `public/media/band/colourways-v2/stone.png`, `public/media/band/materials-v1/stone.png`
+- **website** — `src/components/band/colourways.ts`
+- **shop** — `src/lib/shop/__tests__/colourways.test.ts`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 10:10
+
+**Committed** `26df194` on `main` — feat: add new stone images for band colourways and materials
+
+**Reverted or committed** — 2 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
