@@ -62,7 +62,10 @@ jobs:
       registry_type: DOCR
       repository: terrifit-web
       tag: latest
-    run_command: npx prisma migrate deploy
+    # The local binary, not `npx`. npx resolves from the registry when the
+    # package is absent, which is how this job ended up doing a network
+    # install at container start instead of running a migration.
+    run_command: ./node_modules/.bin/prisma migrate deploy
     envs:
       - key: DATABASE_URL
         scope: RUN_TIME

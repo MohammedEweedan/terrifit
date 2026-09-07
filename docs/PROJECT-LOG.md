@@ -373,3 +373,19 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **other** — `.github/workflows/deploy-digitalocean.yml`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 10:19
+
+**Committed** `08a9639` on `main` — feat: add check for DigitalOcean access token in deployment workflow
+
+**Reverted or committed** — 1 file no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 10:31
+
+**Working tree** — 2 files · +39 −2
+
+- **other** — `.do/app.yaml`, `Dockerfile`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
