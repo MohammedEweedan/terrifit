@@ -62,10 +62,14 @@ jobs:
       registry_type: DOCR
       repository: terrifit-web
       tag: latest
-    # The local binary, not `npx`. npx resolves from the registry when the
-    # package is absent, which is how this job ended up doing a network
-    # install at container start instead of running a migration.
-    run_command: ./node_modules/.bin/prisma migrate deploy
+    # The CLI's real entrypoint, not `npx` and not the `.bin` shim.
+    #
+    # `npx` fetches from the registry when the package is missing, which had
+    # this job doing a network install at container start. The `.bin/prisma`
+    # symlink is no better: Docker COPY flattens it into a real file whose
+    # relative `require("./cli.js")` then points at the wrong directory.
+    # Running build/index.js in place resolves both.
+    run_command: cd migrate && node node_modules/prisma/build/index.js migrate deploy
     envs:
       - key: DATABASE_URL
         scope: RUN_TIME

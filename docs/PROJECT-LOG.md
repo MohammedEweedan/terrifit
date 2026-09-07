@@ -389,3 +389,11 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **other** — `.do/app.yaml`, `Dockerfile`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 10:33
+
+**Committed** `25b0560` on `main` — feat: update Dockerfile and app.yaml for Prisma migration and user permissions
+
+**Reverted or committed** — 2 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

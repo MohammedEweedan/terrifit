@@ -5,6 +5,8 @@
 # gets that wrong quietly — the client builds and then fails to connect at
 # runtime. The image is bigger by a few tens of megabytes and correct.
 ARG NODE_VERSION=24-slim
+# Kept in step with the client the app was built against.
+ARG PRISMA_VERSION=^7.10.0
 
 # ---------------------------------------------------------------- dependencies
 FROM node:${NODE_VERSION} AS deps
@@ -18,6 +20,20 @@ COPY prisma.config.ts ./
 # That directory is gitignored, so it has to be produced here — it is not in
 # the build context. `prisma generate` needs no database.
 RUN npm ci
+
+# -------------------------------------------------------------------- migrator
+# The migration toolchain, installed on its own.
+#
+# Cherry-picking `node_modules/prisma` and `node_modules/@prisma` out of the
+# full tree does not work: npm hoists transitive dependencies to the top level,
+# so `@prisma/config` looks for `effect` and does not find it. Installing
+# prisma alone resolves its own tree, and lands at about 250MB against 851MB
+# for the whole of node_modules.
+FROM node:${NODE_VERSION} AS migrator
+WORKDIR /migrate
+ARG PRISMA_VERSION
+RUN npm init -y > /dev/null \
+    && npm install --no-audit --no-fund --omit=dev "prisma@${PRISMA_VERSION}"
 
 # --------------------------------------------------------------------- builder
 FROM node:${NODE_VERSION} AS builder
@@ -75,11 +91,19 @@ COPY --from=builder --chown=nextjs:nodejs /app/src/generated ./src/generated
 # slow at best, and it failed outright on a user with no home directory.
 # `prisma migrate deploy` reads the schema and the migrations folder, so both
 # have to be present; it does not open the app's own client.
-COPY --from=deps --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
-COPY --from=deps --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
-COPY --from=deps --chown=nextjs:nodejs /app/node_modules/.bin/prisma ./node_modules/.bin/prisma
-COPY --chown=nextjs:nodejs prisma ./prisma
-COPY --chown=nextjs:nodejs prisma.config.ts ./
+# The migration toolchain, kept in its own directory so it cannot collide with
+# the standalone server's own node_modules. Invoked as build/index.js rather
+# than through `node_modules/.bin/prisma`: that is a symlink, Docker's COPY
+# dereferences it into a real file in .bin/, and its relative
+# `require("./cli.js")` then resolves against the wrong directory.
+COPY --from=migrator --chown=nextjs:nodejs /migrate/node_modules ./migrate/node_modules
+# The schema and config live *beside* that tree, not at /app. `prisma.config.ts`
+# imports "prisma/config", which Node resolves from the config file's own
+# directory upward — from /app it would look in /app/node_modules, which holds
+# the standalone server's traced deps and no prisma. Everything the migration
+# needs sits under /app/migrate and the job runs with that as its directory.
+COPY --chown=nextjs:nodejs prisma ./migrate/prisma
+COPY --chown=nextjs:nodejs prisma.config.ts ./migrate/prisma.config.ts
 
 USER nextjs
 EXPOSE 8080
