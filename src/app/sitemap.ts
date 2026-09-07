@@ -32,7 +32,12 @@ const PUBLIC_PATHS = [
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
-  const products = await listProducts();
+  // The rest of the app degrades when the catalogue is unreachable — the
+  // landing page already falls back to an empty list. The sitemap was the one
+  // build-time database call without a catch, so a database that was briefly
+  // unreachable failed the whole deploy rather than shipping a sitemap that
+  // was merely missing its product URLs.
+  const products = await listProducts().catch(() => []);
   const paths = [...new Set([...PUBLIC_PATHS, ...products.map((product) => `shop/${product.slug}`)])];
 
   return paths.flatMap((path) =>
