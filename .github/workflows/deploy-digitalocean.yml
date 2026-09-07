@@ -1,0 +1,78 @@
+name: Build and deploy to DigitalOcean
+
+# Builds the container, pushes it to DigitalOcean Container Registry, and lets
+# App Platform pull the new tag. Migrations are NOT run here — they run as an
+# App Platform pre-deploy job, so they execute once against the live database
+# rather than once per CI run from a runner that should not be able to reach it.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  # A newer commit makes an in-flight deploy irrelevant. Cancel it rather than
+  # racing two images into the registry.
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  REGISTRY: registry.digitalocean.com
+  # The DOCR namespace, i.e. the registry name you created in DigitalOcean.
+  REGISTRY_NAME: terrifit
+  IMAGE_NAME: terrifit-web
+
+jobs:
+  verify:
+    name: Typecheck, lint and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx tsc --noEmit
+      - run: npm run lint
+      - run: npm test
+      # Every locale must carry every key; a missing one silently ships English.
+      - run: npm run check:i18n
+
+  build:
+    name: Build image and push to DOCR
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Log in to DOCR
+        run: doctl registry login --expiry-seconds 1200
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          # Both tags: the SHA is what App Platform pins to, `latest` is for
+          # pulling by hand when something needs reproducing locally.
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:latest
+          # Layer cache in the registry, so a dependency-only change does not
+          # rebuild the whole tree on every push.
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:buildcache
+          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:buildcache,mode=max
+
+      - name: Roll out
+        # App Platform pulls the new image. The pre-deploy job in .do/app.yaml
+        # runs `prisma migrate deploy` before any new container takes traffic.
+        run: |
+          doctl apps create-deployment "${{ secrets.DIGITALOCEAN_APP_ID }}" --wait

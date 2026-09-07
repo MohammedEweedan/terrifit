@@ -275,3 +275,17 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 **Committed** `14b62ca` on `main` — feat: update shop page to use listProductsOrSeed for product retrieval
 
 <sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 05:08
+
+**Committed** `45d607c` on `main` — feat: add Dockerfile and .dockerignore for containerization setup
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 05:12
+
+**Working tree** — 2 files · +6 −0
+
+- **other** — `.do/`, `.github/`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
