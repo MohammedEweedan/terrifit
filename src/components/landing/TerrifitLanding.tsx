@@ -23,7 +23,7 @@ import { Languages } from "@/components/landing/Languages";
 import { AnnouncementBar, type Announcement } from "@/components/marketing/AnnouncementBar";
 import { getPagesCopy } from "@/i18n/pages";
 
-import bandProduct from "../../../public/media/terrifit-band-new.png";
+import bandProduct from "../../../public/media/band/colourways-v2/ember.png";
 import heroDesktop from "../../../public/rebrand/desktop-bg-clean.png";
 import boxer from "../../../public/rebrand/combos-boxer-clean.png";
 import kettlebell from "../../../public/rebrand/faq-kettlebell-clean.png";

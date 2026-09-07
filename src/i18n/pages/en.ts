@@ -429,7 +429,7 @@ export const en = {
       secondary: "See what it tracks",
       scroll: "Scroll",
       image: {
-        src: "/media/terrifit-band-new.png",
+        src: "/media/band/colourways-v2/ember.png",
         alt: "Terrifit V1 band floating against a deep charcoal backdrop, three-quarter angle, the woven strap curving toward camera with a faint orange rim light along the sensor module",
       },
     },

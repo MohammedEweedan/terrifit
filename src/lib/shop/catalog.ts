@@ -102,7 +102,7 @@ export const V1_COLOURWAYS: Variant[] = [
     swatch: "repeating-linear-gradient(48deg,#0b0b0b 0 3px,#ff4d16 3px 6px)",
     accent: "#ff6a2a",
     sku: "TF-V1-EMB",
-    image: "/media/terrifit-band-new.png",
+    image: "/media/band/colourways-v2/ember.png",
   },
   {
     id: "black",
@@ -111,7 +111,7 @@ export const V1_COLOURWAYS: Variant[] = [
     swatch: "repeating-linear-gradient(48deg,#050505 0 3px,#242424 3px 6px)",
     accent: "#cfcfcf",
     sku: "TF-V1-BLK",
-    image: "/media/terrifit-band-black.png",
+    image: "/media/band/colourways-v2/black.png",
   },
   {
     id: "graphite",
@@ -120,7 +120,7 @@ export const V1_COLOURWAYS: Variant[] = [
     swatch: "repeating-linear-gradient(48deg,#33373c 0 3px,#a7adb4 3px 6px)",
     accent: "#b6bcc4",
     sku: "TF-V1-GRP",
-    image: "/media/terrifit-band-grey.png",
+    image: "/media/band/colourways-v2/graphite.png",
   },
   {
     id: "midnight",
@@ -129,7 +129,7 @@ export const V1_COLOURWAYS: Variant[] = [
     swatch: "repeating-linear-gradient(48deg,#0d0f12 0 3px,#1f2e4d 3px 6px)",
     accent: "#6f9bef",
     sku: "TF-V1-MID",
-    image: "/media/terrifit-band-blue.png",
+    image: "/media/band/colourways-v2/midnight.png",
   },
   {
     id: "bubblegum",
@@ -138,8 +138,26 @@ export const V1_COLOURWAYS: Variant[] = [
     swatch: "repeating-linear-gradient(48deg,#ff5fa8 0 3px,#f4eee9 3px 6px)",
     accent: "#ff7ab8",
     sku: "TF-V1-BUB",
-    image: "/media/terrifit-band-bubblegum.png",
+    image: "/media/band/colourways-v2/bubblegum.png",
   },
+  {
+    id: "stone",
+    label: "Stone",
+    note: "Light grey and dark grey, interwoven",
+    swatch: "repeating-linear-gradient(48deg,#d3d3d3 0 3px,#a9a9a9 3px 6px)",
+    accent: "#c0c0c0",
+    sku: "TF-V1-STN",
+    image: "/media/band/colourways-v2/stone.png",
+  },
+  {
+    id: "olive",
+    label: "Olive",
+    note: "Olive green and cream, interwoven",
+    swatch: "repeating-linear-gradient(48deg,#5a7d5a 0 3px,#f4eee9 3px 6px)",
+    accent: "#8b9b8b",
+    sku: "TF-V1-OLV",
+    image: "/media/band/colourways-v2/olive.png",
+  }
 ];
 
 
@@ -174,7 +192,7 @@ export const products: Product[] = [
       ["Connectivity", "Bluetooth LE 5.4"],
     ],
     media: [
-      { src: "/media/terrifit-band-new.png", alt: "The Terrifit V1 in Ember, the orange and charcoal weave shown against a dark ground", ratio: 1 },
+      { src: "/media/band/colourways-v2/ember.png", alt: "The Terrifit V1 in Ember, the orange and charcoal weave shown against a dark ground", ratio: 1 },
       { src: "/media/band-product.jpg", alt: "The Terrifit V1 photographed as a product shot, sensor module and strap together", ratio: 1 },
     ],
     stock: "preorder",
@@ -208,7 +226,7 @@ export const products: Product[] = [
       ["Care", "Machine wash cold, air dry"],
     ],
     media: [
-      { src: "/media/terrifit-band-grey.png", alt: "A Terrifit V1 strap in Graphite, the two-tone grey weave shown flat", ratio: 1 },
+      { src: "/media/band/colourways-v2/grey.png", alt: "A Terrifit V1 strap in Graphite, the two-tone grey weave shown flat", ratio: 1 },
     ],
     stock: "preorder",
     shipsIn: "Pre-order · ships November 2027",
@@ -227,11 +245,13 @@ export const products: Product[] = [
     badges: ["Five colours"],
     variantLabel: "Colourway",
     variants: [
-      { id: "ember", label: "Ember", note: "Orange and charcoal interweave", swatch: "linear-gradient(135deg,#ff5a1f 0%,#ff5a1f 48%,#1b1b1d 52%,#1b1b1d 100%)", accent: "#ff7a45", sku: "TF-STR1-EMB", image: "/media/terrifit-band-new.png" },
-      { id: "black", label: "Black", note: "Black on black, matte clasp", swatch: "linear-gradient(135deg,#2a2a2d 0%,#2a2a2d 48%,#0d0d0f 52%,#0d0d0f 100%)", accent: "#cfd3d8", sku: "TF-STR1-BLK", image: "/media/terrifit-band-black.png" },
-      { id: "graphite", label: "Graphite", note: "Two greys, one light one dark", swatch: "linear-gradient(135deg,#8b9099 0%,#8b9099 48%,#3a3f45 52%,#3a3f45 100%)", accent: "#b9bfc7", sku: "TF-STR1-GRA", image: "/media/terrifit-band-grey.png" },
-      { id: "midnight", label: "Midnight", note: "Navy and black interweave", swatch: "linear-gradient(135deg,#2b3a5c 0%,#2b3a5c 48%,#0c0f16 52%,#0c0f16 100%)", accent: "#7d93c4", sku: "TF-STR1-MID", image: "/media/terrifit-band-blue.png" },
-      { id: "bubblegum", label: "Bubblegum", note: "Hot pink and off-white interweave", swatch: "linear-gradient(135deg,#ff5fa8 0%,#ff5fa8 48%,#f4eee9 52%,#f4eee9 100%)", accent: "#ff7ab8", sku: "TF-STR1-BUB", image: "/media/terrifit-band-bubblegum.png" },
+      { id: "ember", label: "Ember", note: "Orange and charcoal interweave", swatch: "linear-gradient(135deg,#ff5a1f 0%,#ff5a1f 48%,#1b1b1d 52%,#1b1b1d 100%)", accent: "#ff7a45", sku: "TF-STR1-EMB", image: "/media/band/colourways-v2/ember.png" },
+      { id: "black", label: "Black", note: "Black on black, matte clasp", swatch: "linear-gradient(135deg,#2a2a2d 0%,#2a2a2d 48%,#0d0d0f 52%,#0d0d0f 100%)", accent: "#cfd3d8", sku: "TF-STR1-BLK", image: "/media/band/colourways-v2/black.png" },
+      { id: "graphite", label: "Graphite", note: "Two greys, one light one dark", swatch: "linear-gradient(135deg,#8b9099 0%,#8b9099 48%,#3a3f45 52%,#3a3f45 100%)", accent: "#b9bfc7", sku: "TF-STR1-GRA", image: "/media/band/colourways-v2/graphite.png" },
+      { id: "midnight", label: "Midnight", note: "Navy and black interweave", swatch: "linear-gradient(135deg,#2b3a5c 0%,#2b3a5c 48%,#0c0f16 52%,#0c0f16 100%)", accent: "#7d93c4", sku: "TF-STR1-MID", image: "/media/band/colourways-v2/midnight.png" },
+      { id: "bubblegum", label: "Bubblegum", note: "Hot pink and off-white interweave", swatch: "linear-gradient(135deg,#ff5fa8 0%,#ff5fa8 48%,#f4eee9 52%,#f4eee9 100%)", accent: "#ff7ab8", sku: "TF-STR1-BUB", image: "/media/band/colourways-v2/bubblegum.png" },
+      { id: "stone", label: "Stone", note: "Light grey and dark grey, interwoven", swatch: "repeating-linear-gradient(48deg,#d3d3d3 0 3px,#a9a9a9 3px 6px)", accent: "#c0c0c0", sku: "TF-STR1-STN", image: "/media/band/colourways-v2/stone.png" },
+      { id: "olive", label: "Olive", note: "Olive green and cream, interwoven", swatch: "repeating-linear-gradient(48deg,#5a7d5a 0 3px,#f4eee9 3px 6px)", accent: "#8b9b8b", sku: "TF-STR1-OLV", image: "/media/band/colourways-v2/olive.png" },
     ],
     description:
       "A single strap in whichever colour you want, so you are not buying four to change one. Same woven yarn as the strap in the box: it takes sweat without holding the smell and dries flat in about twenty minutes.",
@@ -242,7 +262,7 @@ export const products: Product[] = [
       ["Sizes", "One strap, adjustable 13–21 cm"],
     ],
     media: [
-      { src: "/media/terrifit-band-new.png", alt: "A single Terrifit V1 strap in Ember, the orange and charcoal weave shown flat against a dark ground", ratio: 1 },
+      { src: "/media/band/colourways-v2/ember.png", alt: "A single Terrifit V1 strap in Ember, the orange and charcoal weave shown flat against a dark ground", ratio: 1 },
     ],
     stock: "preorder",
     shipsIn: "Pre-order · ships November 2027",
@@ -274,7 +294,7 @@ export const products: Product[] = [
       ["Care", "Rinse after training, air dry"],
     ],
     media: [
-      { src: "/media/terrifit-band-black.png", alt: "The Terrifit V1 bicep strap in black, the wider band shown flat with its silicone grip facing up", ratio: 1 },
+      { src: "/media/band/colourways-v2/black.png", alt: "The Terrifit V1 bicep strap in black, the wider band shown flat with its silicone grip facing up", ratio: 1 },
     ],
     stock: "preorder",
     shipsIn: "Pre-order · ships November 2027",
@@ -743,7 +763,7 @@ export const products: Product[] = [
       ["Warranty", "Two years on the band"],
     ],
     media: [
-      { src: "/media/terrifit-band-new.png", alt: "A Terrifit V1 with a spare woven strap and a magnetic charger arranged on a dark ground", ratio: 1 },
+      { src: "/media/band/colourways-v2/ember.png", alt: "A Terrifit V1 with a spare woven strap and a magnetic charger arranged on a dark ground", ratio: 1 },
     ],
     stock: "preorder",
     shipsIn: "Pre-order",

@@ -9,9 +9,9 @@ import type { Product } from "./catalog";
 const placeholder = (name: string) => `/media/shop/placeholders/${name}-v1.jpg`;
 /** Replace only known, missing launch assets; staff-uploaded media stays authoritative. */
 const legacyImages: Record<string, string> = {
-  "/media/band/v1-hero.jpg": "/media/terrifit-band-new.png",
-  "/media/band/v1-underside.jpg": "/media/terrifit-band-black.png",
-  "/media/band/v1-wrist.jpg": "/media/terrifit-band-grey.png",
+  "/media/band/v1-hero.jpg": "/media/band/colourways-v2/ember.png",
+  "/media/band/v1-underside.jpg": "/media/band/colourways-v2/black.png",
+  "/media/band/v1-wrist.jpg": "/media/band/colourways-v2/grey.png",
   "/media/shop/strap-set.jpg": placeholder("straps"),
   "/media/shop/charger.jpg": placeholder("charger"),
   "/media/shop/membership.jpg": "/media/app/shots/terrifit-home.jpg",
@@ -34,8 +34,8 @@ const bundles: Record<string, { original: string; items: Product["media"] }> = {
     { src: placeholder("magnesium"), alt: "Night magnesium" },
     { src: placeholder("omega"), alt: "Triple omega-3" },
   ] },
-  "v1-starter-bundle": { original: "/media/terrifit-band-new.png", items: [
-    { src: "/media/terrifit-band-new.png", alt: "Terrifit V1 in Ember" },
+  "v1-starter-bundle": { original: "/media/band/colourways-v2/ember.png", items: [
+    { src: "/media/band/colourways-v2/ember.png", alt: "Terrifit V1 in Ember" },
     { src: placeholder("straps"), alt: "Replacement strap concept" },
     { src: placeholder("charger"), alt: "Magnetic charger concept" },
   ] },

@@ -228,3 +228,30 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **website** — `src/app/sitemap.ts`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 04:10
+
+**Committed** `71e054a` on `main` — feat(prisma): improve datasource handling to prevent build failures on missing DATABASE_URL
+
+**Reverted or committed** — 2 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 04:37
+
+**Working tree** — 22 files · +91 −15
+
+- **media** — `public/media/band/colourways-v2/black.png`, `public/media/band/colourways-v2/bubblegum.png`, `public/media/band/colourways-v2/ember.png`, `public/media/band/colourways-v2/graphite.png`, `public/media/band/colourways-v2/midnight.png`, `public/media/band/colourways-v2/olive.png` and 9 more
+- **website** — `src/app/globals.css`, `src/app/sitemap.ts`, `src/components/navigation/TerrifitHeader.tsx`, `src/components/search/SiteSearch.tsx`, `src/app/[locale]/hardware/`
+- **copy and locales** — `src/i18n/website.ts`, `src/i18n/hardware.ts`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 04:46
+
+**Working tree** — 2 files · +120 −15
+
+- **website** — `src/app/[locale]/layout.tsx`
+- **database** — `prisma/migrations/20260907024101/`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

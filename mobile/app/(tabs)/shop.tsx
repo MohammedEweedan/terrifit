@@ -139,7 +139,7 @@ export default function ShopScreen() {
           {shop.data?.yourBand ? (
             <View style={s.owned}>
               <ProductImage
-                uri={shop.data.yourBand.image ?? "/media/terrifit-band-new.png"}
+                uri={shop.data.yourBand.image ?? "/media/band/ember.png"}
                 name={shop.data.yourBand.label}
                 style={s.ownedImage}
               />

@@ -2,7 +2,8 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import type { Locale } from "@/i18n/config";
 import type { SearchResult } from "@/lib/search";
 
@@ -164,7 +165,24 @@ function SearchDialog({
     }
   }
 
-  return (
+  /**
+   * The overlay is rendered into `document.body`, not where it sits in the tree.
+   *
+   * `SiteSearch` lives inside `TerrifitHeader`, and `.tf-header.is-solid`
+   * carries `backdrop-filter: blur(18px)`. An ancestor with a backdrop-filter
+   * becomes the *containing block* for `position: fixed` descendants — so the
+   * panel's `inset: 0` resolved against the header's 76px-tall box instead of
+   * the viewport, and the search panel opened cropped to the height of the
+   * header that contained it. The mobile drawer did the same thing.
+   *
+   * A portal takes it out of that containing block and out of the header's
+   * stacking context, so `inset: 0` means the viewport again and the z-index
+   * is measured against the page rather than against the header's children.
+   */
+  const mounted = useSyncExternalStore(subscribeNoop, () => true, () => false);
+  if (!mounted) return null;
+
+  return createPortal(
     <motion.div
       className="tf-search-backdrop"
       initial={{ opacity: 0 }}
@@ -249,9 +267,13 @@ function SearchDialog({
           )}
         </div>
       </motion.div>
-    </motion.div>
+    </motion.div>,
+    document.body,
   );
 }
+
+/** The portal target only exists on the client; nothing to subscribe to. */
+const subscribeNoop = () => () => {};
 
 function SearchIcon() {
   return (

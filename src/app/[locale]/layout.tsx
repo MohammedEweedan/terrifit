@@ -96,6 +96,25 @@ export default async function LocaleLayout({
       suppressHydrationWarning
     >
       <head>
+        {/*
+          A raw <script>, deliberately, not `next/script`.
+
+          React logs "Encountered a script tag while rendering React component"
+          for this in development. The warning is about client rendering —
+          scripts in components do not execute on a client navigation — and it
+          does not apply here: this only ever has to run once, in the
+          server-rendered HTML, before the browser paints anything.
+
+          `next/script` with `strategy="beforeInteractive"` is the documented
+          alternative and is wrong for this case. It does not emit the script
+          inline; it pushes it onto Next's loader queue
+          (`self.__next_s.push(...)`), so it runs *after* first paint and the
+          site flashes the wrong theme on every load. Verified by diffing the
+          served HTML both ways.
+
+          The warning is stripped from production builds and the production
+          HTML carries this inline in <head>, which is the whole point.
+        */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="min-h-full">

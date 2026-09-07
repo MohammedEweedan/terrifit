@@ -5,11 +5,13 @@ import { theme } from "@/theme";
 
 /** The launch colourways, in the order they slide through. */
 const BANDS = [
-  { id: "ember", image: "/media/terrifit-band-new.png", tint: "#ff5a1f" },
-  { id: "bubblegum", image: "/media/terrifit-band-bubblegum.png", tint: "#ff7ab8" },
-  { id: "black", image: "/media/terrifit-band-black.png", tint: "#8b9099" },
-  { id: "graphite", image: "/media/terrifit-band-grey.png", tint: "#b9bfc7" },
-  { id: "midnight", image: "/media/terrifit-band-blue.png", tint: "#7d93c4" },
+  { id: "ember", image: "/media/band/ember.png", tint: "#ff5a1f" },
+  { id: "bubblegum", image: "/media/band/bubblegum.png", tint: "#ff7ab8" },
+  { id: "black", image: "/media/band/black.png", tint: "#8b9099" },
+  { id: "graphite", image: "/media/band/graphite.png", tint: "#b9bfc7" },
+  { id: "midnight", image: "/media/band/midnight.png", tint: "#7d93c4" },
+  { id: "stone", image: "/media/band/stone.png", tint: "#a9a9a9" },
+  { id: "olive", image: "/media/band/olive.png", tint: "#5a7d5a" },
 ];
 
 /**

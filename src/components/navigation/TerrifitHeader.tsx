@@ -29,7 +29,7 @@ const items = [
 ] as const;
 
 export function TerrifitHeader({locale,copy}:{locale:Locale;copy:Dictionary}) {
-  const [open,setOpen]=useState(false); const [solid,setSolid]=useState(false); const pathname=usePathname(); const ui=marketingUi[locale]; const search=getPagesCopy(locale).search; const extra=websiteCopy(locale); const links=[...items.map(item=>({slug:item.slug,label:ui.nav[item.label]})),{slug:"coaching",label:extra.coaching},{slug:"membership",label:extra.membership}];
+  const [open,setOpen]=useState(false); const [solid,setSolid]=useState(false); const pathname=usePathname(); const ui=marketingUi[locale]; const search=getPagesCopy(locale).search; const extra=websiteCopy(locale); const links=[...items.map(item=>({slug:item.slug,label:ui.nav[item.label]})),{slug:"hardware",label:extra.hardware},{slug:"coaching",label:extra.coaching},{slug:"membership",label:extra.membership}];
   useEffect(()=>{rememberAttribution()},[pathname]);
   useEffect(()=>{const onScroll=()=>setSolid(window.scrollY>24);onScroll();window.addEventListener("scroll",onScroll,{passive:true});return()=>window.removeEventListener("scroll",onScroll)},[]);
   useEffect(()=>{document.body.style.overflow=open?"hidden":"";const key=(e:KeyboardEvent)=>e.key==="Escape"&&setOpen(false);window.addEventListener("keydown",key);return()=>{document.body.style.overflow="";window.removeEventListener("keydown",key)}},[open]);

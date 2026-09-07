@@ -12,6 +12,7 @@ import type { Locale } from "./config";
 type Copy = {
   /** Header and dashboard navigation. */
   coaching: string;
+  hardware: string;
   membership: string;
   coach: string;
   /** The app showcase page. */
@@ -33,7 +34,7 @@ type Copy = {
 
 const copy: Record<Locale, Copy> = {
   en: {
-    coaching: "Coaching", membership: "Membership", coach: "Coach",
+    coaching: "Coaching", hardware: "Hardware", membership: "Membership", coach: "Coach",
     insideApp: "Inside the app", getApp: "Get the app",
     appAvailability: "Free to start · Band purchase optional",
     inviteLabel: "Your invitation link", copyLink: "Copy invite link",
@@ -44,7 +45,7 @@ const copy: Record<Locale, Copy> = {
     reviewWithCoach: "Review with Coach",
   },
   ar: {
-    coaching: "التوجيه", membership: "العضوية", coach: "المدرب",
+    coaching: "التوجيه", hardware: "الأجهزة", membership: "العضوية", coach: "المدرب",
     insideApp: "داخل التطبيق", getApp: "احصل عليه",
     appAvailability: "مجاني للبدء · شراء السوار اختياري",
     inviteLabel: "رابط دعوتك", copyLink: "انسخ الرابط",
@@ -55,7 +56,7 @@ const copy: Record<Locale, Copy> = {
     reviewWithCoach: "افتح المدرب",
   },
   es: {
-    coaching: "Coaching", membership: "Membresía", coach: "Entrenador",
+    coaching: "Coaching", hardware: "Dispositivos", membership: "Membresía", coach: "Entrenador",
     insideApp: "Dentro de la app", getApp: "Consigue la app",
     appAvailability: "Gratis para empezar · La pulsera es opcional",
     inviteLabel: "Tu enlace de invitación", copyLink: "Copiar enlace",
@@ -66,7 +67,7 @@ const copy: Record<Locale, Copy> = {
     reviewWithCoach: "Abrir el entrenador",
   },
   fr: {
-    coaching: "Coaching", membership: "Abonnement", coach: "Coach",
+    coaching: "Coaching", hardware: "Matériel", membership: "Abonnement", coach: "Coach",
     insideApp: "Dans l’app", getApp: "Obtenir l’app",
     appAvailability: "Gratuit au départ · Bracelet optionnel",
     inviteLabel: "Votre lien d’invitation", copyLink: "Copier le lien",
@@ -77,7 +78,7 @@ const copy: Record<Locale, Copy> = {
     reviewWithCoach: "Ouvrir le coach",
   },
   de: {
-    coaching: "Coaching", membership: "Mitgliedschaft", coach: "Coach",
+    coaching: "Coaching", hardware: "Hardware", membership: "Mitgliedschaft", coach: "Coach",
     insideApp: "In der App", getApp: "App holen",
     appAvailability: "Kostenlos starten · Band optional",
     inviteLabel: "Dein Einladungslink", copyLink: "Link kopieren",
@@ -88,7 +89,7 @@ const copy: Record<Locale, Copy> = {
     reviewWithCoach: "Coach öffnen",
   },
   nl: {
-    coaching: "Coaching", membership: "Lidmaatschap", coach: "Coach",
+    coaching: "Coaching", hardware: "Hardware", membership: "Lidmaatschap", coach: "Coach",
     insideApp: "In de app", getApp: "Download de app",
     appAvailability: "Gratis om te beginnen · Band optioneel",
     inviteLabel: "Je uitnodigingslink", copyLink: "Link kopiëren",
@@ -99,7 +100,7 @@ const copy: Record<Locale, Copy> = {
     reviewWithCoach: "Coach openen",
   },
   pt: {
-    coaching: "Coaching", membership: "Assinatura", coach: "Treinador",
+    coaching: "Coaching", hardware: "Dispositivos", membership: "Assinatura", coach: "Treinador",
     insideApp: "Dentro da app", getApp: "Obter a app",
     appAvailability: "Grátis para começar · Pulseira opcional",
     inviteLabel: "O seu link de convite", copyLink: "Copiar link",
@@ -110,7 +111,7 @@ const copy: Record<Locale, Copy> = {
     reviewWithCoach: "Abrir o treinador",
   },
   it: {
-    coaching: "Coaching", membership: "Abbonamento", coach: "Coach",
+    coaching: "Coaching", hardware: "Dispositivi", membership: "Abbonamento", coach: "Coach",
     insideApp: "Dentro l’app", getApp: "Scarica l’app",
     appAvailability: "Gratis per iniziare · Braccialetto opzionale",
     inviteLabel: "Il tuo link di invito", copyLink: "Copia il link",
@@ -121,7 +122,7 @@ const copy: Record<Locale, Copy> = {
     reviewWithCoach: "Apri il coach",
   },
   tr: {
-    coaching: "Koçluk", membership: "Üyelik", coach: "Koç",
+    coaching: "Koçluk", hardware: "Cihazlar", membership: "Üyelik", coach: "Koç",
     insideApp: "Uygulamanın içinde", getApp: "Uygulamayı al",
     appAvailability: "Başlaması ücretsiz · Bileklik isteğe bağlı",
     inviteLabel: "Davet bağlantın", copyLink: "Bağlantıyı kopyala",
@@ -132,7 +133,7 @@ const copy: Record<Locale, Copy> = {
     reviewWithCoach: "Koçu aç",
   },
   ru: {
-    coaching: "Тренер", membership: "Подписка", coach: "Тренер",
+    coaching: "Тренер", hardware: "Устройства", membership: "Подписка", coach: "Тренер",
     insideApp: "Внутри приложения", getApp: "Установить приложение",
     appAvailability: "Начать бесплатно · Браслет по желанию",
     inviteLabel: "Ваша ссылка-приглашение", copyLink: "Скопировать ссылку",

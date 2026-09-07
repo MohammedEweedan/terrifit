@@ -18,6 +18,7 @@ const base = (process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://terrifit.com"
 const PUBLIC_PATHS = [
   "",
   "app",
+  "hardware",
   "coaching",
   "membership",
   "band",

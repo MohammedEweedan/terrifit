@@ -3018,7 +3018,11 @@ html[dir="rtl"] .cr-switch.is-on i::after { transform: translateX(-14px); }
   display: grid;
   align-items: start;
   justify-items: center;
-  padding: clamp(60px, 12vh, 130px) 16px 24px;
+  /* Clear the fixed chrome. The old `clamp(60px, 12vh, 130px)` floor put the
+     panel at 60px on a short viewport, tucked under a 76px header and the
+     34px announcement bar below it. Anchored to the same variables the chrome
+     is sized from, so it stays correct when the header shrinks on mobile. */
+  padding: max(clamp(60px, 12vh, 130px), calc(var(--tf-header-h, 76px) + var(--tf-announce-h, 0px) + 16px)) 16px 24px;
   background: rgb(0 0 0 / 0.7);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
@@ -5088,7 +5092,12 @@ html[dir="rtl"] .tf-section-intro h2 { font-size: clamp(2.1rem, 3.6vw, 3.4rem); 
    the line already fits. A marquee that runs when the text fits is decoration
    that moves, which is the thing people install extensions to kill. */
 
+/* Declared on :root as well as .tf-site: the search overlay is portalled to
+   <body>, outside .tf-site, and needs these to clear the fixed chrome. */
+:root { --tf-header-h: 76px; --tf-announce-h: 0px; }
 .tf-site { --tf-announce-h: 34px; }
+body:has(.tf-announce) { --tf-announce-h: 34px; }
+@media (max-width: 760px) { :root { --tf-header-h: 70px; } }
 
 .tf-announce {
   position: fixed;
@@ -6078,4 +6087,39 @@ html[dir="rtl"] .tf-section-intro h2 { font-size: clamp(2.1rem, 3.6vw, 3.4rem); 
   .ax-pips { position: relative; justify-content: center; margin-top: 1.5rem; align-self: auto; }
   .ax-hero-shot { max-height: 26vh; }
   .ax-static article { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+}
+
+
+/* --------------------------------------------------------------------------
+   Hardware page
+--------------------------------------------------------------------------- */
+
+.hw-devices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.hw-device { display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 18px; overflow: hidden; background: var(--surface); }
+.hw-device-art { position: relative; display: grid; place-items: center; aspect-ratio: 4 / 3; background: radial-gradient(ellipse at 50% 45%, rgb(255 255 255 / 0.06), transparent 70%); }
+.hw-device-art img { width: 100%; height: 100%; object-fit: contain; padding: 26px; }
+.hw-device-pending { color: var(--fg-3); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+.hw-device-body { display: flex; flex-direction: column; flex: 1; gap: 10px; padding: 26px; }
+.hw-device-body h2 { font-size: clamp(1.4rem, 2.4vw, 1.9rem); line-height: 1.15; letter-spacing: -0.03em; }
+.hw-device-tagline { color: var(--accent); font-size: 0.85rem; font-weight: 600; }
+.hw-device-body > p { color: var(--fg-2); font-size: 0.87rem; line-height: 1.7; }
+.hw-device-body ul { display: grid; gap: 8px; margin: 4px 0 0; padding-inline-start: 18px; list-style: disc; color: var(--fg-3); font-size: 0.8rem; line-height: 1.6; }
+.hw-device-price { margin-top: auto; padding-top: 16px; font-size: 1.35rem; letter-spacing: -0.03em; }
+.hw-device .tf-button { align-self: flex-start; }
+
+.hw-together .rf-lede { max-width: 62ch; }
+.hw-readouts { display: grid; gap: 10px; margin: 28px 0 0; padding: 0; list-style: none; }
+.hw-readouts li { padding: 16px 18px; border-inline-start: 2px solid var(--accent); background: var(--surface); border-radius: 0 10px 10px 0; color: var(--fg-2); font-size: 0.87rem; line-height: 1.6; }
+
+.hw-plan-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin: 28px 0 24px; }
+.hw-plan-grid article { padding: 24px; border: 1px solid var(--border); border-radius: 16px; }
+.hw-plan-pro { border-color: var(--accent-line); background: var(--accent-soft); }
+.hw-plan-grid h3 { font-size: 1.05rem; font-weight: 650; }
+.hw-plan-grid .rf-amount { display: block; margin: 10px 0 12px; font-size: 2rem; letter-spacing: -0.04em; }
+.hw-plan-grid p { color: var(--fg-3); font-size: 0.83rem; line-height: 1.7; }
+
+@media (max-width: 860px) {
+  .hw-devices, .hw-plan-grid { grid-template-columns: 1fr; }
+  .hw-device-art { aspect-ratio: 16 / 10; }
+  .hw-device-body { padding: 20px; }
 }
