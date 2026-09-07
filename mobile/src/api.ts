@@ -6,6 +6,8 @@
  * a change to a formula or a price ships without an App Store review.
  */
 import Constants from "expo-constants";
+import type { ScaleState } from "../../shared/devices";
+export type { ScaleState, ScaleConnection } from "../../shared/devices";
 
 /**
  * Where the Next.js app is running.
@@ -124,6 +126,11 @@ export type Dashboard = {
 };
 
 export type BodyScan = {
+  deviceId?: string | null;
+  muscleMassKg?: number | null;
+  fatMassKg?: number | null;
+  bodyWaterPercent?: number | null;
+  bmi?: number | null;
   id: string;
   takenAt: string;
   source: string;
@@ -490,6 +497,9 @@ export const MIN_PASSWORD = 10;
 
 export const getDashboard = (token: string) => request<Dashboard>("/api/app/dashboard", token);
 export const getBody = (token: string) => request<{ scans: BodyScan[] }>("/api/app/body", token);
+export const getScale = (token: string) => request<ScaleState>("/api/app/scale", token);
+export const disconnectScale = (token: string) => request<{ ok: boolean }>("/api/app/scale", token, { method: "DELETE" });
+export const saveBodyBaseline = (token: string, input: { requestId: string; weightKg: number; bodyFatPercent?: number }) => request<{ scan: BodyScan }>("/api/app/body", token, { method: "POST", body: JSON.stringify(input) });
 export const getProfile = (token: string) => request<Profile>("/api/app/profile", token);
 export const getBand = (token: string) => request<BandState>("/api/app/band", token);
 export const getMaps = (token: string) => request<{ active: ActiveMap[]; maps: MapSummary[]; total: number }>("/api/app/maps", token);

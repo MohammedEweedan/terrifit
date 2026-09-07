@@ -257,6 +257,7 @@ model User {
   sentMessages  Message[]       @relation("sender")
   memberships   Conversation[]  @relation("members")
   bands         BandDevice[]
+  scales        ScaleDevice[]
   notifications Notification[]
   enrollments   MapEnrollment[]
   reviews       ProductReview[]
@@ -429,6 +430,14 @@ model BodyScan {
   source  String
   takenAt DateTime
 
+  /// Origin survives disconnects; retries of one vendor measurement are deduplicated.
+  deviceId             String?
+  providerMeasurementId String?
+  muscleMassKg         Float?
+  fatMassKg            Float?
+  bodyWaterPercent     Float?
+  bmi                  Float?
+
   weightKg           Float?
   bodyFatPercent     Float?
   skeletalMuscleKg   Float?
@@ -445,6 +454,27 @@ model BodyScan {
   createdAt DateTime @default(now())
 
   @@index([userId, takenAt])
+  @@unique([userId, deviceId, providerMeasurementId])
+}
+
+/// Independent from BandDevice: a member may own either device or both.
+model ScaleDevice {
+  id           String @id @default(cuid())
+  userId       String
+  user         User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider     String
+  externalId   String
+  model        String
+  colourway    String @default("black")
+  firmware     String?
+  batteryPercent Int?
+  capabilities String @default("[]")
+  pairedAt     DateTime @default(now())
+  lastSyncAt   DateTime?
+  disconnectedAt DateTime?
+
+  @@unique([provider, externalId])
+  @@index([userId, disconnectedAt])
 }
 
 /// A link to another health app. Kept even when revoked, so the member can see

@@ -22,17 +22,20 @@ const translations: Record<Locale, readonly string[]> = {
 };
 
 export function BandViewer({ locale, colourway, onColourway, compact = false, hero = false }: { locale: Locale; colourway?: string; onColourway?: (id: string) => void; compact?: boolean; hero?: boolean }) {
-  const [ownColour, setOwnColour] = useState("ember");
+  const [ownColour, setOwnColour] = useState("black");
   const selected = bandFinish(colourway ?? ownColour);
-  const finishRef = useRef(selected); finishRef.current = selected;
+  const finishRef = useRef(selected);
   const host = useRef<HTMLDivElement>(null);
   const scene = useRef<BandScene | null>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "fallback">("loading");
   const reduced = useReducedMotion();
   const [autoPreference, setAutoPreference] = useState<boolean | null>(null);
   const auto = autoPreference ?? !reduced;
-  const autoRef = useRef(auto); autoRef.current = auto;
+  const autoRef = useRef(auto);
   const t = translations[locale];
+
+  useEffect(() => { finishRef.current = selected; }, [selected]);
+  useEffect(() => { autoRef.current = auto; }, [auto]);
 
   useEffect(() => {
     const container = host.current;
@@ -41,10 +44,12 @@ export function BandViewer({ locale, colourway, onColourway, compact = false, he
     const observer = new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting || started) return;
       started = true;
-      void import("./band-scene").then(({ mountBandScene }) => {
+      void import("./band-scene").then(async ({ mountBandScene }) => {
         if (cancelled) return;
         scene.current = mountBandScene(container, finishRef.current, () => setStatus("fallback"));
-        scene.current.setAuto(autoRef.current); setStatus("ready");
+        scene.current.setAuto(autoRef.current);
+        await scene.current.ready;
+        if (!cancelled) setStatus("ready");
       }).catch(() => { if (!cancelled) setStatus("fallback"); });
     }, { rootMargin: "200px" });
     observer.observe(container);
@@ -57,16 +62,12 @@ export function BandViewer({ locale, colourway, onColourway, compact = false, he
   return <section className={`${styles.viewer} ${compact ? styles.compact : ""} ${hero ? styles.hero : ""}`} aria-label={t[0]}>
     <div className={styles.top}><span>TERRIFIT BAND <b>360°</b></span><span>{selected.label}</span></div>
     <div className={styles.stage}>
-      <div ref={host} className={styles.canvas} tabIndex={ready ? 0 : -1} role="group" aria-label={`${selected.label}. ${t[1]}`} onKeyDown={event => {
-        const actions: Record<string, () => void> = { ArrowLeft: () => scene.current?.rotate(1), ArrowRight: () => scene.current?.rotate(-1), ArrowUp: () => scene.current?.tilt(1), ArrowDown: () => scene.current?.tilt(-1), Home: () => scene.current?.reset() };
+      <div ref={host} className={styles.canvas} tabIndex={ready ? 0 : -1} role="group" aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown Home Space + -" aria-label={`${selected.label}. ${t[1]}`} onKeyDown={event => {
+        const actions: Record<string, () => void> = { ArrowLeft: () => scene.current?.rotate(1), ArrowRight: () => scene.current?.rotate(-1), ArrowUp: () => scene.current?.tilt(1), ArrowDown: () => scene.current?.tilt(-1), Home: () => scene.current?.reset(), " ": () => setAutoPreference(!auto), "+": () => scene.current?.zoom(1), "-": () => scene.current?.zoom(-1) };
         if (actions[event.key]) { event.preventDefault(); actions[event.key](); }
       }} />
       {!ready ? <Image className={styles.poster} src={bandRender(selected.id)} alt={`Terrifit Band — ${selected.label}`} fill sizes="(max-width: 800px) 100vw, 900px" /> : null}
       <div className={styles.hint} aria-live="polite">{ready ? <><span aria-hidden>↔</span> {t[1]}</> : status === "fallback" ? t[11] : t[12]}</div>
-    </div>
-    <div className={styles.controls}>
-      <div><button disabled={!ready} onClick={() => scene.current?.rotate(1)} aria-label={t[6]}>↶</button><button disabled={!ready} onClick={() => scene.current?.rotate(-1)} aria-label={t[7]}>↷</button><button disabled={!ready} onClick={() => scene.current?.zoom(1)} aria-label={t[8]}>+</button><button disabled={!ready} onClick={() => scene.current?.zoom(-1)} aria-label={t[9]}>−</button></div>
-      <div><button disabled={!ready} onClick={() => scene.current?.inside()}>{t[5]}</button><button disabled={!ready} onClick={() => scene.current?.reset()} aria-label={t[4]}>⟲</button><button disabled={!ready} aria-pressed={auto} onClick={() => setAutoPreference(!auto)}>{auto ? t[2] : t[3]}</button></div>
     </div>
     <div className={styles.finishes} role="group" aria-label={t[0]}>{BAND_FINISHES.map(finish => <button key={finish.id} aria-pressed={selected.id === finish.id} aria-label={finish.label} onClick={() => { setOwnColour(finish.id); onColourway?.(finish.id); }}><i style={{ background: `repeating-linear-gradient(48deg,${finish.yarn} 0 2px,${finish.weave} 2px 4px)` }} /><span>{finish.label}</span></button>)}</div>
     <p className={styles.note}>{t[10]}</p>

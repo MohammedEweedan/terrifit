@@ -11,13 +11,6 @@
 .poster{object-fit:contain;pointer-events:none;z-index:2}
 .hint{position:absolute;bottom:14px;inset-inline:16px;text-align:center;color:var(--fg-3,#62615e);font:400 11px/1.4 var(--font-inter,Arial),sans-serif;pointer-events:none;z-index:3}.hint span{font-size:16px;margin-inline-end:6px}
 
-/* Four controls, not seven. Rotate, zoom and reset were buttons for things the
-   drag gesture already does better; the keyboard still reaches all of them. */
-.controls{padding:10px 22px;display:flex;justify-content:center;gap:8px}
-.controls button{border:1px solid transparent;background:transparent;color:inherit;min-height:44px;padding:8px 16px;font:500 12px/1.2 var(--font-inter,Arial),sans-serif;border-radius:22px;cursor:pointer}
-.controls button:hover{background:#8882}.controls button:disabled{opacity:.35;cursor:default}
-.controls button[aria-pressed=true]{background:#8881;border-color:#8883}
-
 .finishes{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;padding:18px 12px 10px}
 .finishes button{display:grid;justify-items:center;gap:9px;background:transparent;border:0;color:inherit;min-width:62px;min-height:44px;padding:6px 4px;cursor:pointer}
 .finishes i{display:block;width:32px;height:32px;border-radius:50%;box-shadow:0 0 0 1px #8884,inset 0 1px 2px #fff4;transition:box-shadow .2s}
@@ -30,8 +23,6 @@
   .viewer{border-radius:18px;margin:20px 0}
   .stage,.compact .stage{height:340px}
   .top{padding:16px 18px}
-  .controls{padding:8px 10px;gap:6px}
-  .controls button{font-size:12px;padding:8px 14px}
   /* One scrolling row rather than a wrapped grid that pushes the band off
      screen. Each swatch keeps a 44px target. */
   .finishes{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scrollbar-width:none;gap:2px;padding:14px 10px 8px;scroll-snap-type:x proximity}
@@ -47,3 +38,6 @@
 .hero .top{display:none}.hero .stage{height:560px;border-radius:20px;overflow:hidden}
 .hero .finishes{padding-top:12px}.hero .note{margin-bottom:4px}
 @media(max-width:600px){.hero .stage{height:360px}.hero{margin-top:18px}.hero .note{margin-top:4px}}
+
+/* Neutral studio for direct comparison with the supplied product render. */
+.viewer:not(.hero) .stage{background:#f4f4f3}

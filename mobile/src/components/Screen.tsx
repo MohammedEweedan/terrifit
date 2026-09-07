@@ -17,6 +17,8 @@ type Props = {
    * below the fold and hides behind the tab bar.
    */
   overlay?: ReactNode;
+  /** Transparent section navigation, above this screen's heading. */
+  leading?: ReactNode;
   title: string;
   eyebrow?: string;
   /** Sits on the title row, right-aligned. A cart, a filter, a history link. */
@@ -35,7 +37,7 @@ type Props = {
  * because content passing behind a transparent bar reads as a rendering fault,
  * and it grows a hairline once you have scrolled past it.
  */
-export function Screen({ title, eyebrow, titleAction, refreshing = false, onRefresh, children, header, overlay }: Props) {
+export function Screen({ title, eyebrow, titleAction, refreshing = false, onRefresh, children, header, overlay, leading }: Props) {
   const insets = useSafeAreaInsets();
   const { locale } = usePreferences();
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -78,6 +80,7 @@ export function Screen({ title, eyebrow, titleAction, refreshing = false, onRefr
             ) : undefined
           }
         >
+          {leading}
           {title || eyebrow ? (
             <View style={s.header}>
               <View style={s.headerText}>

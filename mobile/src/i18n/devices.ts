@@ -1,0 +1,32 @@
+const en = {
+  band: "Band", scale: "Scale", devices: "Devices", connected: "Connected", upcoming: "Coming later", notConnected: "Not connected",
+  scaleTitle: "More than a number.", scaleBody: "Your weight and body composition, alongside the training that got you here.",
+  setup: "Set up your Scale", exploreSetup: "Explore Scale setup", explore: "Explore the Scale", latest: "Latest measurement", weight: "Weight", fat: "Body fat", muscle: "Muscle mass", skeletal: "Skeletal muscle", water: "Body water", bmi: "BMI", bmr: "BMR", visceral: "Visceral fat estimate",
+  noMeasurement: "Your starting point is yours.", noMeasurementBody: "Record a baseline today. Your Scale will add readings here when it connects.",
+  addBaseline: "Record a measurement", history: "Body history", change: "Since your previous measurement", manual: "Entered by you", estimated: "Body composition values are estimates. Compare readings from the same source under similar conditions.",
+  source: "Source", measured: "Measured", unknown: "Not measured", firmware: "Firmware", battery: "Battery", sync: "Last sync", awaiting: "Awaiting first sync", never: "Not yet", remove: "Disconnect Scale", removeTitle: "Disconnect your Scale?", removeBody: "Your Band stays connected and your measurement history stays in your account.", keep: "Keep connected", cancel: "Cancel", confirmRemove: "Disconnect", error: "Something went wrong. Please try again.", retry: "Try again",
+  unavailable: "Scale pairing is coming later.", unavailableBody: "Terrifit Scale has not launched yet. Bluetooth setup will open when supported hardware is ready. You can record your own measurements now.",
+  next: "Continue", back: "Back", close: "Close", finish: "Finish", steps: ["Finish", "Prepare", "Connect", "Baseline"],
+  chooseTitle: "Make it yours.", chooseBody: "Choose the finish you want to explore. This does not connect or reserve a Scale.", black: "Black / Orange", white: "White / Orange",
+  prepareTitle: "A little consistency. A clearer picture.", prepareBody: "A simple routine makes your measurements easier to compare.",
+  prepare: [["A firm, level surface", "Use the same hard floor for each reading."], ["Bare, dry feet", "Stand evenly over the contact pads for composition readings."], ["A familiar time", "Measure under similar conditions and follow your device’s instructions."]],
+  connectTitle: "One account. Both devices.", connectBody: "Your Scale will connect independently of your Band. Each keeps its own battery, connection and sync status.",
+  check: "Check connection availability", checking: "Checking availability…", baselineTitle: "Start where you are.", baselineBody: "Enter an actual measurement. This is saved as a manual entry, not as a Scale reading.", optionalFat: "Body fat % · optional", weightLabel: "Weight", save: "Save measurement", saving: "Saving…", skip: "Skip for now", saved: "Your baseline is saved.", savedBody: "Find it in your Scale tab and body history. Your Scale connection is still waiting for supported hardware.", invalidWeight: "Enter a weight between 10 and 500 kg (22–1,102 lb).", invalidFat: "Enter a body fat percentage between 1 and 80, or leave it blank.", openScale: "Open Scale", concept: "Design preview", softwareFirst: "Your training starts now. Devices follow.", hardwareBody: "Use workouts, Maps and progress tracking today. Band and Scale data will join the same picture when you connect them.",
+};
+type DeviceCopy = typeof en;
+const ar: DeviceCopy = {
+  band: "السوار", scale: "الميزان", devices: "الأجهزة", connected: "متصل", upcoming: "قريباً", notConnected: "غير متصل",
+  scaleTitle: "أكثر من مجرد رقم.", scaleBody: "وزنك وتكوين جسمك بجانب التدريب الذي أوصلك إلى هنا.",
+  setup: "إعداد الميزان", exploreSetup: "استكشف إعداد الميزان", explore: "استكشف الميزان", latest: "أحدث قياس", weight: "الوزن", fat: "دهون الجسم", muscle: "الكتلة العضلية", skeletal: "العضلات الهيكلية", water: "ماء الجسم", bmi: "مؤشر كتلة الجسم", bmr: "الأيض الأساسي", visceral: "تقدير الدهون الحشوية",
+  noMeasurement: "ابدأ من حيث أنت.", noMeasurementBody: "سجل قياسك الأول اليوم. سيضيف الميزان قراءاته هنا عند اتصاله.",
+  addBaseline: "تسجيل قياس", history: "سجل الجسم", change: "منذ القياس السابق", manual: "أدخلته بنفسك", estimated: "قيم تكوين الجسم تقديرية. قارن قراءات المصدر نفسه في ظروف متشابهة.",
+  source: "المصدر", measured: "تم القياس", unknown: "لم يُقَس", firmware: "البرنامج الثابت", battery: "البطارية", sync: "آخر مزامنة", awaiting: "بانتظار أول مزامنة", never: "ليس بعد", remove: "فصل الميزان", removeTitle: "فصل الميزان؟", removeBody: "يبقى سوارك متصلاً ويُحفظ سجل قياساتك في حسابك.", keep: "إبقاء الاتصال", cancel: "إلغاء", confirmRemove: "فصل", error: "حدث خطأ. حاول مرة أخرى.", retry: "حاول مجدداً",
+  unavailable: "اتصال الميزان متاح لاحقاً.", unavailableBody: "لم يُطلق ميزان تيريفت بعد. سيُتاح الإعداد بالبلوتوث عند جاهزية الأجهزة المدعومة. يمكنك تسجيل قياساتك يدوياً الآن.",
+  next: "متابعة", back: "رجوع", close: "إغلاق", finish: "إنهاء", steps: ["اللون", "التحضير", "الاتصال", "القياس"],
+  chooseTitle: "على ذوقك.", chooseBody: "اختر اللون الذي تريد استكشافه. هذا لا يربط الميزان ولا يحجزه.", black: "أسود / برتقالي", white: "أبيض / برتقالي",
+  prepareTitle: "ثبات أكثر. صورة أوضح.", prepareBody: "روتين بسيط يجعل مقارنة قياساتك أسهل.",
+  prepare: [["سطح صلب ومستوي", "استخدم الأرضية الصلبة نفسها لكل قياس."], ["قدمان حافيتان وجافتان", "قف بتوازن فوق نقاط التلامس لقراءة تكوين الجسم."], ["وقت معتاد", "قس في ظروف متشابهة واتبع إرشادات جهازك."]],
+  connectTitle: "حساب واحد. جهازان.", connectBody: "يتصل الميزان بشكل مستقل عن السوار، ولكل منهما حالة بطارية واتصال ومزامنة منفصلة.",
+  check: "تحقق من توفر الاتصال", checking: "جارٍ التحقق…", baselineTitle: "ابدأ من حيث أنت.", baselineBody: "أدخل قياساً حقيقياً. سيُحفظ كإدخال يدوي وليس قراءة من الميزان.", optionalFat: "دهون الجسم % · اختياري", weightLabel: "الوزن", save: "حفظ القياس", saving: "جارٍ الحفظ…", skip: "تخطي الآن", saved: "تم حفظ قياس البداية.", savedBody: "ستجده في تبويب الميزان وسجل الجسم. ما زال اتصال الميزان بانتظار الأجهزة المدعومة.", invalidWeight: "أدخل وزناً بين 10 و500 كغ (22–1102 رطل).", invalidFat: "أدخل نسبة دهون بين 1 و80 أو اتركها فارغة.", openScale: "فتح الميزان", concept: "معاينة التصميم", softwareFirst: "تدريبك يبدأ الآن. الأجهزة لاحقاً.", hardwareBody: "استخدم التمارين والبرامج وتتبع التقدم اليوم. تنضم بيانات السوار والميزان إلى الصورة نفسها عند توصيلهما.",
+};
+export const deviceCopy = (locale: string): DeviceCopy => locale === "ar" ? ar : en;
