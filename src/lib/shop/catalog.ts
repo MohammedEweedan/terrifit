@@ -226,7 +226,7 @@ export const products: Product[] = [
       ["Care", "Machine wash cold, air dry"],
     ],
     media: [
-      { src: "/media/band/colourways-v2/grey.png", alt: "A Terrifit V1 strap in Graphite, the two-tone grey weave shown flat", ratio: 1 },
+      { src: "/media/band/colourways-v2/graphite.png", alt: "A Terrifit V1 strap in Graphite, the two-tone grey weave shown flat", ratio: 1 },
     ],
     stock: "preorder",
     shipsIn: "Pre-order · ships November 2027",
@@ -324,7 +324,7 @@ export const products: Product[] = [
       ["In the box", "Charger and cable"],
     ],
     media: [
-      { src: "/media/shop/charger.jpg", alt: "The Terrifit V1 magnetic charger, a small matte black puck on a braided USB-C cable, photographed on a plain ground", ratio: 1 },
+      { src: "/media/shop/placeholders/charger-v1.png", alt: "The Terrifit V1 magnetic charger, a small matte black puck on a braided USB-C cable, photographed on a plain ground", ratio: 1 },
     ],
     stock: "preorder",
     shipsIn: "Pre-order · ships November 2027",
@@ -355,7 +355,7 @@ export const products: Product[] = [
       ["Data export", "CSV and Apple Health"],
     ],
     media: [
-      { src: "/media/shop/membership.jpg", alt: "Terrifit app open on a phone held in one hand, showing the recovery ring at 82 percent on a dark interface", ratio: 1 },
+      { src: "/media/shop/membership.png", alt: "Terrifit app open on a phone held in one hand, showing the recovery ring at 82 percent on a dark interface", ratio: 1 },
     ],
     stock: "preorder",
     shipsIn: "Starts January 2027, when the app opens",
@@ -389,7 +389,7 @@ export const products: Product[] = [
       ["Care", "Machine wash cold"],
     ],
     media: [
-      { src: "/media/shop/field-tee.jpg", alt: "Heavyweight charcoal training t-shirt laid flat on concrete with a small orange Terrifit mark on the chest", ratio: 1 },
+      { src: "/media/shop/placeholders/tee-v1.png", alt: "Heavyweight charcoal training t-shirt laid flat on concrete with a small orange Terrifit mark on the chest", ratio: 1 },
     ],
     stock: "in",
     shipsIn: "Ships in 2 days",
@@ -535,7 +535,7 @@ export const products: Product[] = [
       ["Sold by", "Northstar"],
     ],
     media: [
-      { src: "/media/shop/magnesium.jpg", alt: "Deep navy supplement bottle with a minimal label, shot at night against a dark surface with one soft highlight", ratio: 1 },
+      { src: "/media/shop/placeholders/magnesium-v1.png", alt: "Deep navy supplement bottle with a minimal label, shot at night against a dark surface with one soft highlight", ratio: 1 },
     ],
     stock: "in",
     shipsIn: "Ships from partner in 3–5 days",
@@ -562,7 +562,7 @@ export const products: Product[] = [
       ["Care", "Dishwasher safe"],
     ],
     media: [
-      { src: "/media/shop/shaker.jpg", alt: "Matte black shaker bottle with an orange lid on concrete, hard shadow", ratio: 1 },
+      { src: "/media/shop/placeholders/shaker-v1.png", alt: "Matte black shaker bottle with an orange lid on concrete, hard shadow", ratio: 1 },
     ],
     stock: "in",
     shipsIn: "Ships in 2 days",
@@ -604,7 +604,7 @@ export const products: Product[] = [
       ["Care", "Machine wash cold"],
     ],
     media: [
-      { src: "/media/shop/terrifits-tee.jpg", alt: "Heavyweight charcoal training t-shirt laid flat on concrete with a small orange Terrifit mark on the chest", ratio: 1 },
+      { src: "/media/shop/placeholders/tee-v1.png", alt: "Heavyweight charcoal training t-shirt laid flat on concrete with a small orange Terrifit mark on the chest", ratio: 1 },
     ],
     stock: "in",
     shipsIn: "Ships in 2 days",
@@ -639,7 +639,7 @@ export const products: Product[] = [
       ["Care", "Machine wash cold, dry flat"],
     ],
     media: [
-      { src: "/media/shop/terrifits-hoodie.jpg", alt: "Charcoal heavyweight hoodie photographed flat on concrete with a small orange Terrifit mark at the chest", ratio: 1 },
+      { src: "/media/shop/placeholders/hoodie-v1.png", alt: "Charcoal heavyweight hoodie photographed flat on concrete with a small orange Terrifit mark at the chest", ratio: 1 },
     ],
     stock: "in",
     shipsIn: "Ships in 2 days",
@@ -674,7 +674,7 @@ export const products: Product[] = [
       ["Care", "Machine wash cold"],
     ],
     media: [
-      { src: "/media/shop/terrifits-shorts.jpg", alt: "Charcoal training shorts laid flat on concrete, zip pocket visible on the right hip", ratio: 1 },
+      { src: "/media/shop/placeholders/shorts-v1.png", alt: "Charcoal training shorts laid flat on concrete, zip pocket visible on the right hip", ratio: 1 },
     ],
     stock: "in",
     shipsIn: "Ships in 2 days",
@@ -735,7 +735,7 @@ export const products: Product[] = [
       ["Testing", "Third-party tested for heavy metals"],
     ],
     media: [
-      { src: "/media/shop/magnesium.jpg", alt: "Navy magnesium bottle and an amber omega-3 bottle photographed together at night against a dark surface", ratio: 1 },
+      { src: "/media/shop/placeholders/magnesium-v1.png", alt: "Navy magnesium bottle and an amber omega-3 bottle photographed together at night against a dark surface", ratio: 1 },
     ],
     stock: "in",
     shipsIn: "Ships in 2 days",

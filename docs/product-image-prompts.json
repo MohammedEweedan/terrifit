@@ -6,55 +6,55 @@
       "key": "hydration",
       "prompt": "Use case: product-mockup. Create a square premium ecommerce placeholder product photograph for Terrifit: one matte black rectangular box of hydration electrolyte sticks with one slim stick leaning against it. The packaging aesthetic is technical and restrained: matte black, subtle brushed silver diagonal accent, thin Terrifit orange rule, clean condensed white typography. Exact front text: \"TERRIFIT\" then \"FUEL\" then \"DAILY HYDRATION\". On stick only \"TERRIFIT\". No quantities, certifications or health claims. Product fully visible, upright at a subtle three-quarter angle, centered occupying about 65% of the frame with generous space on all sides. Warm off-white seamless studio surface, soft directional light from upper left, realistic fine paper texture and soft grounded shadow. Beautiful premium fitness brand catalogue quality. No decorative props, no water splashes, no scenery, no people, no watermark.",
       "source": "/Users/moe/.codex/generated_images/01a07144-c046-7e23-a19a-e495b6fdcdfd/exec-cd60e105-fc8f-4f04-a96f-a87602970374.png",
-      "destination": "public/media/shop/placeholders/hydration-v1.jpg"
+      "destination": "public/media/shop/placeholders/hydration-v1.png"
     },
     {
       "key": "tee",
       "prompt": "Use case: product-mockup. Create a square premium ecommerce placeholder catalogue photograph of a Terrifits heavyweight charcoal training T-shirt. Front view, laid flat with realistic volume in the fabric, sleeves naturally arranged, entire garment visible centered with 16% empty margin. 240 gsm rich textured cotton, dropped shoulders, substantial neckline. Tiny orange four-rounded-square mark on left chest with very small clean uppercase \"TERRIFIT\" below it. Plain warm off-white seamless studio ground, soft directional light, subtle natural shadow. Product is black charcoal, restrained tech fitness brand styling, pristine but tactile, no model, no hanger, no other garments or props, no badges, no watermark.",
       "source": "/Users/moe/.codex/generated_images/01a07144-c046-7e23-a19a-e495b6fdcdfd/exec-ebd4343c-d17c-4b8b-b12e-bab8079d41ff.png",
-      "destination": "public/media/shop/placeholders/tee-v1.jpg"
+      "destination": "public/media/shop/placeholders/tee-v1.png"
     },
     {
       "key": "shaker",
       "prompt": "Use case: product-mockup. Create a square premium ecommerce placeholder product photograph of one Terrifit training shaker bottle: matte charcoal black Tritan cylindrical body, burnt orange sealed screw lid and flip drinking cap, no handle. Exact tiny uppercase \"TERRIFIT\" wordmark on body in warm white. Product fully visible and upright centered, subtle three-quarter view, occupying 65% of frame with generous empty margin. Warm off-white seamless studio surface, subtle grounded shadow falling to lower right, soft directional studio light reveals realistic matte polymer texture. Restrained elegant fitness technology catalogue photography. No liquid, no splashes, no human, no props, no nutritional claims, no watermark.",
       "source": "/Users/moe/.codex/generated_images/01a07144-c046-7e23-a19a-e495b6fdcdfd/exec-cf97b4a8-dc9a-4d90-9ef9-d60f32b1773c.png",
-      "destination": "public/media/shop/placeholders/shaker-v1.jpg"
+      "destination": "public/media/shop/placeholders/shaker-v1.png"
     },
     {
       "key": "hoodie",
       "prompt": "Use case: product-mockup. Square premium ecommerce placeholder catalogue photograph of one Terrifits charcoal heavyweight pullover hoodie. Front view laid flat, natural realistic fabric volume, sleeves gently angled down, entire garment centered with 16% clear margin. Dense brushed cotton, substantial hood, ribbed cuffs, kangaroo pocket. Tiny orange four-rounded-square mark on left chest with very small clean uppercase \"TERRIFIT\" below it. Warm off-white seamless studio ground, soft directional light from top left and gentle grounded shadow. Rich textured near-black fabric, understated technical fitness brand, no model, no hanger, no extra objects or text, no watermark. Match a cohesive premium apparel catalogue.",
       "source": "/Users/moe/.codex/generated_images/01a07144-c046-7e23-a19a-e495b6fdcdfd/exec-a9e564fd-af79-40f7-bc0b-e1dbabb49ec2.png",
-      "destination": "public/media/shop/placeholders/hoodie-v1.jpg"
+      "destination": "public/media/shop/placeholders/hoodie-v1.png"
     },
     {
       "key": "shorts",
       "prompt": "Use case: product-mockup. Square premium ecommerce placeholder catalogue photograph of one pair of Terrifits charcoal seven-inch training shorts. Front view laid flat, natural realistic volume, whole product centered with 18% clear margin. Matte four-way-stretch woven fabric, elastic waistband with internal drawstring, discreet right hip zip pocket, tiny orange four-rounded-square mark near lower left hem. Warm off-white seamless studio surface with soft light from top left and gentle natural shadow. Rich tactile charcoal textile, restrained premium fitness brand, no model, no hanger, no other objects, no explanatory text, no watermark.",
       "source": "/Users/moe/.codex/generated_images/01a07144-c046-7e23-a19a-e495b6fdcdfd/exec-6e6a9089-e012-48d4-aa3f-149aa397ac5c.png",
-      "destination": "public/media/shop/placeholders/shorts-v1.jpg"
+      "destination": "public/media/shop/placeholders/shorts-v1.png"
     },
     {
       "key": "charger",
       "prompt": "Use case: product-mockup. Square premium ecommerce placeholder studio photograph of a compact magnetic fitness-band charging puck with a neatly curved short braided USB-C cable. Matte charcoal black puck, discreet tiny orange four-rounded-square mark, metallic contact pins, USB-C connector at other end. Entire cable and puck visible arranged in a graceful flat oval, centered in frame with ample empty margin. Plain warm off-white seamless studio surface, soft directional light and grounded natural shadows. Realistic technically plausible industrial-design concept for Terrifit. No fitness band, no screen, no Apple branding, no packaging or other objects, no printed specifications, no watermark.",
       "source": "/Users/moe/.codex/generated_images/01a07144-c046-7e23-a19a-e495b6fdcdfd/exec-58881749-0a55-433b-b197-edc379e9b124.png",
-      "destination": "public/media/shop/placeholders/charger-v1.jpg"
+      "destination": "public/media/shop/placeholders/charger-v1.png"
     },
     {
       "key": "omega",
       "prompt": "Use case: product-mockup. Generate one square premium e-commerce placeholder photograph. A single amber glass supplement bottle with matte black screw cap, ivory minimalist label with elegant black typography exactly \"PIONEER LABS\" and \"TRIPLE OMEGA-3\", a small burnt orange geometric accent. No quantities, certifications, medical claims or additional copy. Centered product fills 65% height of frame. Warm off-white seamless studio background, soft upper-left lighting and realistic grounded shadow. Refined contemporary sports nutrition catalog. No people, props or watermark.",
       "source": "/Users/moe/.codex/generated_images/01a07144-c046-7e23-a19a-e495b6fdcdfd/exec-e6332c92-2adc-4d02-945b-a5ebfe2237f0.png",
-      "destination": "public/media/shop/placeholders/omega-v1.jpg"
+      "destination": "public/media/shop/placeholders/omega-v1.png"
     },
     {
       "key": "magnesium",
       "prompt": "Use case: product-mockup. Generate one square premium e-commerce placeholder photograph. A single dark navy matte supplement bottle with black screw cap. Restrained silver typography exactly \"NORTHSTAR\" and \"NIGHT MAGNESIUM\", subtle star symbol and a narrow warm white rule. No quantities, certifications, medical claims or additional copy. Centered product fills 65% height of frame. Warm off-white seamless studio background, soft upper-left lighting and realistic grounded shadow. Refined contemporary sports nutrition catalog. No people, props or watermark.",
       "source": "/Users/moe/.codex/generated_images/01a07144-c046-7e23-a19a-e495b6fdcdfd/exec-bcce75c6-2201-4905-8673-fc4a8bc7d13d.png",
-      "destination": "public/media/shop/placeholders/magnesium-v1.jpg"
+      "destination": "public/media/shop/placeholders/magnesium-v1.png"
     },
     {
       "key": "straps",
       "prompt": "Use case: product-mockup. Generate one square premium e-commerce placeholder studio photograph of two replacement woven fitness tracker wrist straps, one graphite black and one burnt orange, each formed into an open oval loop with precise dark slim hardware. No screen, electronics or sensor module. Tactile premium fine nylon weave and realistic soft edges. Two straps arranged diagonally side by side in a balanced sculptural composition filling 65% of the image. Warm off-white seamless studio background, soft upper-left lighting, gently grounded shadows. No text, logo, people, props or watermark.",
       "source": "/Users/moe/.codex/generated_images/01a07144-c046-7e23-a19a-e495b6fdcdfd/exec-bbe0f8b8-2670-4ac0-ada2-8818dadf3a4c.png",
-      "destination": "public/media/shop/placeholders/straps-v1.jpg"
+      "destination": "public/media/shop/placeholders/straps-v1.png"
     }
   ],
   "note": "Generated as PNG, stored as JPEG at quality 92: these are photographic renders on a plain ground with no transparency, so PNG cost 15MB across nine files and bought nothing. Regenerating? Convert before committing."

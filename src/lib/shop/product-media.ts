@@ -11,7 +11,7 @@ const placeholder = (name: string) => `/media/shop/placeholders/${name}-v1.jpg`;
 const legacyImages: Record<string, string> = {
   "/media/band/v1-hero.jpg": "/media/band/colourways-v2/ember.png",
   "/media/band/v1-underside.jpg": "/media/band/colourways-v2/black.png",
-  "/media/band/v1-wrist.jpg": "/media/band/colourways-v2/grey.png",
+  "/media/band/v1-wrist.jpg": "/media/band/colourways-v2/graphite.png",
   "/media/shop/strap-set.jpg": placeholder("straps"),
   "/media/shop/charger.jpg": placeholder("charger"),
   "/media/shop/membership.jpg": "/media/app/shots/terrifit-home.jpg",

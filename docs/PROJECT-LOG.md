@@ -434,3 +434,27 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **shop** — `src/lib/shop/catalog-store.ts`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 11:26
+
+**Committed** `4b21826` on `main` — feat: refactor product retrieval to use getProductOrSeed for improved error handling
+
+**Reverted or committed** — 3 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 11:49
+
+**Working tree** — 3 files · +10 −2
+
+- **shop** — `src/lib/shop/catalog.ts`, `src/lib/shop/product-media.ts`, `src/lib/shop/__tests__/media-paths.test.ts`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 11:55
+
+**Working tree** — 4 files · +18 −2
+
+- **media** — `public/media/shop/placeholders/charger-v1.png`, `public/media/shop/placeholders/hoodie-v1.png`, `public/media/shop/placeholders/hydration-v1.png`, `public/media/shop/placeholders/magnesium-v1.png`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
