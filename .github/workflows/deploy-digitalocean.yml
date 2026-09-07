@@ -85,6 +85,21 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      # Checked before the action runs, because `action-doctl` fails with
+      # "Input required and not supplied: token" — which reads like a bug in
+      # the workflow rather than a secret nobody has added yet.
+      - name: Check the DigitalOcean token is configured
+        env:
+          DO_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+        run: |
+          if [ -z "$DO_TOKEN" ]; then
+            echo "::error::DIGITALOCEAN_ACCESS_TOKEN is not set on this repository."
+            echo "Add it under Settings > Secrets and variables > Actions > New repository secret."
+            echo "Generate the token at https://cloud.digitalocean.com/account/api/tokens"
+            echo "It needs write access to Container Registry and Apps."
+            exit 1
+          fi
+
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:

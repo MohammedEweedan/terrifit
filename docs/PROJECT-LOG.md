@@ -357,3 +357,19 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **other** — `.github/workflows/deploy-digitalocean.yml`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 10:15
+
+**Committed** `2a463da` on `main` — feat: enhance DigitalOcean deployment workflow with PostgreSQL service for integration tests
+
+**Reverted or committed** — 1 file no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 10:18
+
+**Working tree** — 1 file · +23 −0
+
+- **other** — `.github/workflows/deploy-digitalocean.yml`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
