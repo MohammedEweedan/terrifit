@@ -7,6 +7,7 @@ declare global {
     turnstile?: {
       render: (el: HTMLElement, options: Record<string, unknown>) => string;
       remove: (id: string) => void;
+      reset: (id: string) => void;
     };
   }
 }
@@ -41,9 +42,27 @@ function loadTurnstile(): Promise<void> {
  * server side is permissive in exactly the same condition, so the two halves
  * cannot end up disagreeing about whether a token is required.
  */
-export function TurnstileWidget({ onToken, action }: { onToken: (token: string | null) => void; action?: string }) {
+export function TurnstileWidget({
+  onToken,
+  action,
+  resetKey = 0,
+}: {
+  onToken: (token: string | null) => void;
+  action?: string;
+  /**
+   * Increment to issue a fresh challenge.
+   *
+   * Turnstile tokens are single-use. These forms stay on the page after a
+   * failed submission, so without this the retry would replay a spent token and
+   * be rejected for as long as the person kept trying. The parent clears its
+   * own token in the same event handler that bumps this, which keeps the state
+   * change out of an effect.
+   */
+  resetKey?: number;
+}) {
   const host = useRef<HTMLDivElement>(null);
   const callback = useRef(onToken);
+  const widget = useRef<string>(undefined);
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
@@ -68,6 +87,7 @@ export function TurnstileWidget({ onToken, action }: { onToken: (token: string |
           "expired-callback": () => callback.current(null),
           "error-callback": () => callback.current(null),
         });
+        widget.current = widgetId;
       })
       .catch(() => {
         if (!cancelled) setFailed(true);
@@ -76,8 +96,15 @@ export function TurnstileWidget({ onToken, action }: { onToken: (token: string |
     return () => {
       cancelled = true;
       if (widgetId && window.turnstile) window.turnstile.remove(widgetId);
+      widget.current = undefined;
     };
   }, [action]);
+
+  useEffect(() => {
+    // Skips the initial render, where the widget is already fresh.
+    if (!resetKey || !widget.current || !window.turnstile) return;
+    window.turnstile.reset(widget.current);
+  }, [resetKey]);
 
   if (!SITE_KEY) return null;
   // The server fails open when Cloudflare is unreachable, so a blocked script

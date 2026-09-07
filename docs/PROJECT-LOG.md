@@ -495,3 +495,22 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **server** — `src/lib/media.ts`, `src/lib/turnstile.ts`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 12:42
+
+**Committed** `91e80ad` on `main` — feat: integrate Cloudflare Turnstile for enhanced security
+
+**Reverted or committed** — 21 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 12:59
+
+**Working tree** — 9 files · +169 −13
+
+- **other** — `.env.example`
+- **docs** — `docs/CLOUDFLARE.md`
+- **website** — `src/app/api/contact/route.ts`, `src/app/api/waitlist/route.ts`, `src/components/contact/ContactExperience.tsx`, `src/components/sections/WaitlistForm.tsx`, `src/components/security/TurnstileWidget.tsx`
+- **server** — `src/lib/turnstile.ts`, `src/lib/__tests__/turnstile.test.ts`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

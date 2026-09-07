@@ -24,6 +24,7 @@ export async function POST(request: Request) {
   const challenge = await verifyTurnstile(
     (body as { turnstileToken?: unknown } | null)?.turnstileToken,
     request.headers.get("x-forwarded-for"),
+    "waitlist",
   );
   if (!challenge.ok) {
     return NextResponse.json({ error: "challenge", reason: challenge.reason }, { status: 403 });

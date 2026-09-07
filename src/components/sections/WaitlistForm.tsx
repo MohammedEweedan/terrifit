@@ -77,6 +77,7 @@ export function WaitlistForm({
   // Null until the challenge solves. The server only requires it when a
   // secret is configured, so this stays null — and harmless — without keys.
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [challengeRound, setChallengeRound] = useState(0);
 
   // The creator CTAs elsewhere on the page pre-select the matching role.
   useEffect(() => {
@@ -163,6 +164,8 @@ export function WaitlistForm({
         } else {
           setErrors({ form: d.waitlist.errors.generic });
         }
+        setTurnstileToken(null);
+        setChallengeRound((round) => round + 1);
         setStatus("idle");
         return;
       }
@@ -173,6 +176,8 @@ export function WaitlistForm({
       track("waitlist_success", { role, duplicate: data.duplicate, position: data.position });
     } catch {
       setErrors({ form: d.waitlist.errors.network });
+      setTurnstileToken(null);
+      setChallengeRound((round) => round + 1);
       setStatus("idle");
     }
   }
@@ -393,7 +398,7 @@ export function WaitlistForm({
               </p>
             ) : null}
 
-            <TurnstileWidget onToken={setTurnstileToken} action="waitlist" />
+            <TurnstileWidget onToken={setTurnstileToken} action="waitlist" resetKey={challengeRound} />
 
             <button
               type="submit"

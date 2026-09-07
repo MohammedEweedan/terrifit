@@ -91,6 +91,7 @@ function ContactForm({ locale, copy }: { locale: Locale; copy: PagesCopy["contac
   const [error, setError] = useState("");
   const [invalid, setInvalid] = useState<string[]>([]);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [challengeRound, setChallengeRound] = useState(0);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -124,6 +125,8 @@ function ContactForm({ locale, copy }: { locale: Locale; copy: PagesCopy["contac
         | null;
 
       setStatus("error");
+      setTurnstileToken(null);
+      setChallengeRound((round) => round + 1);
       if (response.status === 429) setError(copy.errorRate);
       else if (response.status === 422) {
         setInvalid(payload?.fields ?? []);
@@ -131,6 +134,8 @@ function ContactForm({ locale, copy }: { locale: Locale; copy: PagesCopy["contac
       } else setError(copy.errorGeneric);
     } catch {
       setStatus("error");
+      setTurnstileToken(null);
+      setChallengeRound((round) => round + 1);
       setError(copy.errorGeneric);
     }
   }
@@ -186,7 +191,7 @@ function ContactForm({ locale, copy }: { locale: Locale; copy: PagesCopy["contac
         </p>
       ) : null}
 
-      <TurnstileWidget onToken={setTurnstileToken} action="contact" />
+      <TurnstileWidget onToken={setTurnstileToken} action="contact" resetKey={challengeRound} />
 
       <button className="ct-button" type="submit" disabled={status === "sending"}>
         {status === "sending" ? copy.sending : copy.submit}

@@ -67,9 +67,42 @@ only what changed rather than all 84MB.
 
 ## Turnstile
 
-1. Create a Turnstile widget for `terri.fit` (works on any host, Cloudflare DNS
-   or not).
-2. Set `NEXT_PUBLIC_TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` in Vercel.
+The widget exists. Its site key is `0x4AAAAAAErS0U_FTe3dZG7O`, and it is public
+by design — it is served in the page HTML, so it is committed to `.env.example`.
+
+**The only outstanding step is the secret**, which cannot be committed and
+cannot be set from here:
+
+1. Cloudflare dashboard → Turnstile → this widget → copy the **secret key**.
+2. Vercel → Settings → Environment Variables → add `TURNSTILE_SECRET_KEY` for
+   Production and Preview. Add `NEXT_PUBLIC_TURNSTILE_SITE_KEY` with the site
+   key above in the same place.
+3. Redeploy. Enforcement begins the moment the secret is present.
+
+Cloudflare's own guided flow moves the secret with `wrangler secret put`, which
+assumes a Cloudflare Worker backend. This project is Next.js on Vercel and has
+no Worker and no `wrangler.toml`, so that path has no destination here — the
+equivalent secret store is Vercel's environment variables.
+
+### What the server checks
+
+`success` alone is not enough. The site key is public, so anyone can embed it on
+a page they control, solve the challenge there and replay the token against our
+API — the token verifies as genuine, because it is. So `verifyTurnstile` also
+pins:
+
+- **action** — a token minted for the contact form cannot be spent on the
+  waitlist.
+- **hostname** — the challenge must have been solved on one of our domains.
+  Override with `TURNSTILE_ALLOWED_HOSTNAMES` (comma-separated).
+
+Cloudflare's published testing keys return `hostname: example.com` and no
+action, so responses flagged `metadata.result_with_testing_key` skip both pins.
+A real key cannot set that flag.
+
+Tokens are **single-use**. Both forms clear their token and re-render the
+challenge after any failed submission, otherwise a retry would replay a spent
+token and be rejected for as long as the person kept trying.
 
 Enforcement is keyed on the secret alone. Unset, the widget renders nothing and
 the server skips the check, so the forms behave exactly as they do without
