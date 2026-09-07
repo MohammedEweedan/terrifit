@@ -35,14 +35,21 @@ services:
       - key: NODE_ENV
         value: production
       - key: NEXT_PUBLIC_SITE_URL
-        value: https://terrifit.com
-      # Prisma opens a pool per instance. A 1GB managed cluster allows about
-      # 22 connections, so three instances on default pooling exhaust it.
-      # ${db.DATABASE_URL} is bound by App Platform; the pgbouncer flags route
-      # through DigitalOcean's connection pool in transaction mode.
+        value: https://terri.fit
+      # App Platform binds this from the attached cluster. It already carries
+      # `?sslmode=require`, so anything appended must use `&`, not `?`.
+      #
+      # Fine at one or two instances. Prisma opens a pool per instance and a
+      # 1GB managed cluster allows roughly 22 connections, so before scaling
+      # past that: create a connection pool on the cluster in the DigitalOcean
+      # console (transaction mode), then replace this value with that pool's
+      # own connection string — it has a different port and database name —
+      # and append `&pgbouncer=true&connection_limit=1`. `pgbouncer=true` only
+      # tells Prisma to stop using prepared statements; on its own it routes
+      # nothing.
       - key: DATABASE_URL
         scope: RUN_AND_BUILD_TIME
-        value: ${db.DATABASE_URL}?pgbouncer=true&connection_limit=1
+        value: ${db.DATABASE_URL}
 
 jobs:
   # Runs to completion before any new container takes traffic. Migrations

@@ -289,3 +289,28 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **other** — `.do/`, `.github/`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 09:45
+
+**Committed** `34d9ede` on `main` — feat: add DigitalOcean deployment workflow and app specification
+
+**Reverted or committed** — 2 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 09:48
+
+**Working tree** — 1 file · +20 −5
+
+- **other** — `.do/app.yaml`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 09:52
+
+**Working tree** — 3 files · +35 −5
+
+- **other** — `.github/workflows/deploy-digitalocean.yml`
+- **media** — `public/media/band/colourways-v2/sandstone.png`, `public/media/band/colourways-v2/terrifit-band-stone.png`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

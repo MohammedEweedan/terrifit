@@ -61,6 +61,13 @@ jobs:
         with:
           context: .
           push: true
+          # Pinned, not inferred. App Platform runs linux/amd64. A build on an
+          # Apple Silicon machine defaults to arm64, pushes without complaint,
+          # and then fails to start on App Platform with an exec-format error
+          # that looks nothing like an architecture problem. GitHub's runners
+          # are amd64 natively, so this costs nothing here and would cost a
+          # QEMU emulation pass anywhere else.
+          platforms: linux/amd64
           # Both tags: the SHA is what App Platform pins to, `latest` is for
           # pulling by hand when something needs reproducing locally.
           tags: |
