@@ -90,7 +90,7 @@ export function AnnouncementBar({ announcement }: { announcement: Announcement |
   const line = (
     <span className="tf-announce-run" ref={run}>
       <span className="tf-announce-dot" aria-hidden />
-      {announcement.text} <b className="tf-announce-cta">{announcement.cta}</b>
+      {announcement.text} <b className="tf-announce-cta">{announcement.cta}<span aria-hidden> →</span></b>
     </span>
   );
 
@@ -113,7 +113,7 @@ export function AnnouncementBar({ announcement }: { announcement: Announcement |
           {ticker ? (
             <span className="tf-announce-run" aria-hidden>
               <span className="tf-announce-dot" />
-              {announcement.text} <b className="tf-announce-cta">{announcement.cta}</b>
+              {announcement.text} <b className="tf-announce-cta">{announcement.cta}<span aria-hidden> →</span></b>
             </span>
           ) : null}
         </div>

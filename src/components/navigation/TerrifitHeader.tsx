@@ -42,7 +42,9 @@ export function TerrifitHeader({locale,copy}:{locale:Locale;copy:Dictionary}) {
             edge, the wordmark centres, and the bag and menu take the trailing
             edge. Keeping them siblings is what lets that happen without either
             layout being nested inside the other. */}
-        <Link href={`/${locale}`} className="tf-wordmark" aria-label="Terrifit home"><TerrifitMark className="tf-mark" size={20}/>TERRIFIT</Link>
+        <Link href={`/${locale}`} className="tf-wordmark" aria-label="Terrifit home"><TerrifitMark className="tf-mark" size={20}/>{/* The letters need their own element so the mark can mask them as it
+            sweeps past. Marked aria-hidden with the accessible name on the
+            link, so a partly masked wordmark is never read out. */}<span className="tf-wordmark-text" aria-hidden>TERRIFIT</span></Link>
         <nav className="tf-desktop-nav" aria-label="Primary navigation">{links.map(({slug,label})=><Link key={slug} href={`/${locale}/${slug}`} aria-current={pathname===`/${locale}/${slug}`?"page":undefined}>{label}</Link>)}</nav>
         <SiteSearch locale={locale} labels={search}/>
         <div className="tf-locale-wrap"><LocaleSwitcher current={locale} label={ui.chooseLanguage}/><ThemeToggle className="tf-theme-toggle" labels={{theme:copy.nav.theme,light:copy.nav.themeLight,dark:copy.nav.themeDark}}/></div>

@@ -63,6 +63,16 @@ export function CheckoutForm({
   const [status, setStatus] = useState<"idle" | "placing" | "error">("idle");
   const [error, setError] = useState("");
   const [invalid, setInvalid] = useState<string[]>([]);
+  const [values, setValues] = useState<Record<string, string>>({});
+  /**
+   * How far the form has opened up.
+   *
+   * Sections appear as the previous one is completed, the way Stripe's own
+   * checkout does, so the page starts as two fields rather than a wall. It only
+   * ever moves forward: clearing an email should not fold the address away and
+   * throw it out. Advanced from the change handler, never from an effect.
+   */
+  const [reached, setReached] = useState(1);
   const appleWallet = useAppleWallet();
   const googleWallet = useGoogleWallet();
 
@@ -71,6 +81,29 @@ export function CheckoutForm({
   // A rail with no credentials records the order without charging anything. The
   // customer is told that here, before they commit, rather than afterwards.
   const sandbox = sandboxMethods.includes(method);
+
+  function stepFor(next: Record<string, string>): number {
+    const has = (name: string) => (next[name] ?? "").trim().length > 0;
+    const contactDone = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test((next.email ?? "").trim()) && has("name");
+    if (!contactDone) return 1;
+    if (!hasPhysical) return 3;
+    const addressDone = has("line1") && has("city") && has("postcode") && has("country");
+    return addressDone ? 3 : 2;
+  }
+
+  function update(name: string, value: string) {
+    const next = { ...values, [name]: value };
+    setValues(next);
+    setReached((current) => Math.max(current, stepFor(next)));
+  }
+
+  /** Props every controlled field needs, so no call site can forget one. */
+  const field = (name: string) => ({
+    name,
+    value: values[name] ?? "",
+    onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+      update(name, event.target.value),
+  });
 
   // A bag emptied in another tab must not leave someone filling in an address
   // for nothing.
@@ -158,42 +191,42 @@ export function CheckoutForm({
               </legend>
               <label className={`sh-field ${invalid.includes("email") ? "is-invalid" : ""}`}>
                 <span>{copy.checkout.emailLabel}</span>
-                <input name="email" type="email" required autoComplete="email" />
+                <input {...field("email")} type="email" required autoComplete="email" />
                 <small>{copy.checkout.emailHint}</small>
               </label>
               <label className={`sh-field ${invalid.includes("name") ? "is-invalid" : ""}`}>
                 <span>{copy.checkout.nameLabel}</span>
-                <input name="name" type="text" required autoComplete="name" />
+                <input {...field("name")} type="text" required autoComplete="name" />
               </label>
             </fieldset>
 
-            {hasPhysical ? (
-              <fieldset className="sh-fieldset">
+            {hasPhysical && reached >= 2 ? (
+              <fieldset className="sh-fieldset sh-reveal">
                 <legend>
                   <span className="numeric">02</span> {copy.checkout.step2}
                 </legend>
                 <label className={`sh-field ${invalid.includes("line1") ? "is-invalid" : ""}`}>
                   <span>{copy.checkout.addressLabel}</span>
-                  <input name="line1" type="text" required autoComplete="address-line1" />
+                  <input {...field("line1")} type="text" required autoComplete="address-line1" />
                 </label>
                 <label className="sh-field">
                   <span>{copy.checkout.address2Label}</span>
-                  <input name="line2" type="text" autoComplete="address-line2" />
+                  <input {...field("line2")} type="text" autoComplete="address-line2" />
                 </label>
                 <div className="sh-field-row">
                   <label className={`sh-field ${invalid.includes("city") ? "is-invalid" : ""}`}>
                     <span>{copy.checkout.cityLabel}</span>
-                    <input name="city" type="text" required autoComplete="address-level2" />
+                    <input {...field("city")} type="text" required autoComplete="address-level2" />
                   </label>
                   <label className={`sh-field ${invalid.includes("postcode") ? "is-invalid" : ""}`}>
                     <span>{copy.checkout.postcodeLabel}</span>
-                    <input name="postcode" type="text" required autoComplete="postal-code" />
+                    <input {...field("postcode")} type="text" required autoComplete="postal-code" />
                   </label>
                 </div>
                 <div className="sh-field-row">
                   <label className={`sh-field ${invalid.includes("country") ? "is-invalid" : ""}`}>
                     <span>{copy.checkout.countryLabel}</span>
-                    <select name="country" required defaultValue="" autoComplete="country">
+                    <select {...field("country")} required autoComplete="country">
                       <option value="" disabled>
                         —
                       </option>
@@ -206,13 +239,14 @@ export function CheckoutForm({
                   </label>
                   <label className="sh-field">
                     <span>{copy.checkout.phoneLabel}</span>
-                    <input name="phone" type="tel" autoComplete="tel" />
+                    <input {...field("phone")} type="tel" autoComplete="tel" />
                   </label>
                 </div>
               </fieldset>
             ) : null}
 
-            <fieldset className="sh-fieldset">
+            {reached >= 3 ? (
+            <fieldset className="sh-fieldset sh-reveal">
               <legend>
                 <span className="numeric">{hasPhysical ? "03" : "02"}</span> {copy.checkout.step3}
               </legend>
@@ -234,6 +268,7 @@ export function CheckoutForm({
                 ))}
               </div>
             </fieldset>
+            ) : null}
           </div>
 
           <aside className="sh-summary">
@@ -288,7 +323,7 @@ export function CheckoutForm({
               </p>
             ) : null}
 
-            <button className="sh-button sh-button-block" type="submit" disabled={status === "placing"}>
+            <button className="sh-button sh-button-block sh-button-checkout" type="submit" disabled={status === "placing" || reached < 3}>
               {status === "placing" ? copy.checkout.placing : copy.checkout.place}
             </button>
             {sandbox ? <p className="sh-sandbox">{copy.checkout.testMode}</p> : null}

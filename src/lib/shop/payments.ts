@@ -35,6 +35,15 @@ export type PaymentRequest = {
   /** Absolute URLs the gateway sends the customer back to. */
   successUrl: string;
   cancelUrl: string;
+  /**
+   * The order, itemised, so the gateway's own page lists what was bought.
+   *
+   * Optional: a caller that cannot supply it still gets a working charge for
+   * `amountCents` under `description`.
+   */
+  lines?: Array<{ title: string; variant?: string | null; unitCents: number; quantity: number }>;
+  shippingCents?: number;
+  taxCents?: number;
 };
 
 const env = (key: string) => process.env[key]?.trim() || "";
@@ -134,13 +143,50 @@ export async function createPayment(request: PaymentRequest): Promise<PaymentOut
  * brings Apple Pay, Google Pay, 3-D Secure and SCA with it and keeps card data
  * entirely off our origin.
  */
+/**
+ * The order as Stripe line items, or null if they cannot be trusted.
+ *
+ * Stripe totals the line items itself, so these must add up to exactly what the
+ * order says is owed — a rounding difference would charge the customer an
+ * amount the order does not record. When the arithmetic does not reconcile the
+ * caller falls back to a single aggregate line, which is always right about the
+ * money even though it is vague about the contents.
+ */
+function stripeLineItems(request: PaymentRequest): Record<string, string> | null {
+  const lines = request.lines;
+  if (!lines?.length) return null;
+
+  const entries: Array<{ name: string; unit: number; quantity: number }> = lines.map((line) => ({
+    name: line.variant ? `${line.title} — ${line.variant}` : line.title,
+    unit: line.unitCents,
+    quantity: line.quantity,
+  }));
+  if (request.shippingCents) entries.push({ name: "Shipping", unit: request.shippingCents, quantity: 1 });
+  if (request.taxCents) entries.push({ name: "Tax", unit: request.taxCents, quantity: 1 });
+
+  const total = entries.reduce((sum, entry) => sum + entry.unit * entry.quantity, 0);
+  if (total !== request.amountCents) return null;
+
+  const fields: Record<string, string> = {};
+  entries.forEach((entry, index) => {
+    fields[`line_items[${index}][quantity]`] = String(entry.quantity);
+    fields[`line_items[${index}][price_data][currency]`] = request.currency.toLowerCase();
+    fields[`line_items[${index}][price_data][unit_amount]`] = String(entry.unit);
+    fields[`line_items[${index}][price_data][product_data][name]`] = entry.name;
+  });
+  return fields;
+}
+
 async function stripeCheckout(request: PaymentRequest): Promise<PaymentOutcome> {
+  const itemised = stripeLineItems(request);
   const body = new URLSearchParams({
     mode: "payment",
-    "line_items[0][quantity]": "1",
-    "line_items[0][price_data][currency]": request.currency.toLowerCase(),
-    "line_items[0][price_data][unit_amount]": String(request.amountCents),
-    "line_items[0][price_data][product_data][name]": request.description,
+    ...(itemised ?? {
+      "line_items[0][quantity]": "1",
+      "line_items[0][price_data][currency]": request.currency.toLowerCase(),
+      "line_items[0][price_data][unit_amount]": String(request.amountCents),
+      "line_items[0][price_data][product_data][name]": request.description,
+    }),
     customer_email: request.email,
     client_reference_id: request.orderNumber,
     success_url: request.successUrl,

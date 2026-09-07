@@ -105,6 +105,16 @@ export async function POST(request: Request) {
       currency: written.currency.code,
       email: input.email,
       description: orderDescription(written.lines),
+      // Itemised so Stripe's own page lists the order rather than one opaque
+      // line carrying the whole total.
+      lines: written.lines.map((line) => ({
+        title: line.title,
+        variant: line.variant,
+        unitCents: line.unitCents,
+        quantity: line.quantity,
+      })),
+      shippingCents: written.totals.shippingCents,
+      taxCents: written.totals.taxCents,
       successUrl: `${origin}/${input.locale}/shop/order/${written.number}`,
       cancelUrl: `${origin}/${input.locale}/shop/checkout?cancelled=${written.number}`,
     });

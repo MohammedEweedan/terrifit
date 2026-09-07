@@ -531,3 +531,58 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **tooling** — `scripts/sync-r2.mjs`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 13:41
+
+**Committed** `9390eab` on `main` — feat: add USDT (TRC-20) payment method and related functionality
+
+**Reverted or committed** — 2 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 23:52
+
+**Working tree** — 1 file · +11 −0
+
+- **other** — `.env.example`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 00:04
+
+**Working tree** — 14 files · +215 −13
+
+- **other** — `package.json`
+- **website** — `src/app/[locale]/hardware/page.tsx`, `src/app/[locale]/nimda/page.tsx`, `src/app/api/checkout/route.ts`, `src/app/globals.css`, `src/components/landing/TerrifitLanding.tsx`, `src/components/shop/CartView.tsx` and 2 more
+- **server** — `src/lib/admin.ts`, `src/lib/__tests__/admin-superadmin.test.ts`
+- **shop** — `src/lib/shop/catalog.ts`, `src/lib/shop/payments.ts`
+- **tooling** — `scripts/sync-catalog-prices.mjs`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 00:56
+
+**Working tree** — 2 files · +336 −25
+
+- **website** — `src/app/storefront.css`, `src/components/shop/ShopCatalog.tsx`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 01:44
+
+**Working tree** — 5 files · +531 −43
+
+- **website** — `src/app/[locale]/page.tsx`, `src/components/band/BandExperience.tsx`, `src/components/marketing/AnnouncementBar.tsx`, `src/components/navigation/TerrifitHeader.tsx`
+- **copy and locales** — `src/i18n/storefront.ts`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 01:49
+
+**Committed** `00be403` on `main` — feat: implement admin console page with server-side authentication and data fetching
+
+**Working tree** — 1 file · +540 −43
+
+- **website** — `src/app/[locale]/nimda/page.tsx`
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

@@ -34,6 +34,7 @@ import shotMapsDark from "../../../public/media/app/maps-dark.png";
 import { AppShowcase } from "@/components/platform/AppShowcase";
 import trainWorkLive from "../../../public/media/train-work-live.jpg";
 import { websiteCopy } from "@/i18n/website";
+import { SloganMark } from "./SloganMark";
 
 
 /**
@@ -145,7 +146,7 @@ function Hero({ locale }: { locale: Locale }) {
       <div className="tf-shell th-hero-grid">
         <motion.div className="th-hero-copy" initial={reduce ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease }}>
           <p className="th-eyebrow"><i aria-hidden />{text.eyebrow}</p>
-          <h1><span>{text.slogan[0]}</span><span>{text.slogan[1]}</span></h1>
+          <SloganMark />
           <p className="th-lede">{text.heroBody}</p>
           <div className="th-actions">
             <a className="th-button" href="#waitlist" onClick={openWaitlist}>{text.early}<span aria-hidden>↗</span></a>

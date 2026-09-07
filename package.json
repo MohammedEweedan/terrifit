@@ -17,7 +17,8 @@
     "test:watch": "vitest",
     "admin:grant": "node --experimental-strip-types scripts/grant-admin.mjs",
     "postinstall": "prisma generate",
-    "sync:r2": "node scripts/sync-r2.mjs"
+    "sync:r2": "node scripts/sync-r2.mjs",
+    "sync:prices": "node --experimental-strip-types scripts/sync-catalog-prices.mjs"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.0",

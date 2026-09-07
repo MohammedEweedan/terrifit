@@ -75,7 +75,7 @@ export function CartView({ locale, copy }: { locale: Locale; copy: PagesCopy["sh
               </p>
             ) : null}
 
-            <Link className="sh-button sh-button-block" href={`/${locale}/shop/checkout`}>
+            <Link className="sh-button sh-button-block sh-button-checkout" href={`/${locale}/shop/checkout`}>
               {copy.cart.checkout}
             </Link>
             <Link className="sh-text-link" href={`/${locale}/shop`}>

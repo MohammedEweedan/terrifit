@@ -44,7 +44,6 @@ export function ShopCatalog({ locale, copy, products, initialCategory = "all" }:
 
   return <div className="sc-store">
     <header className="tf-shell sc-header">
-      <Link className="sc-store-name" href={`/${locale}/shop`}>TERRIFIT <span>STORE</span></Link>
       <div className="sc-header-end"><label className="sc-search"><span className="sr-only">{copy.searchLabel}</span>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
         <input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder={copy.searchPlaceholder} autoComplete="off" />

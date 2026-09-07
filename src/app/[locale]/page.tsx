@@ -7,6 +7,7 @@ import { listProducts } from "@/lib/shop/catalog-store";
 import { prisma } from "@/lib/db";
 import { launchOfferState, FOUNDING_ORDERS } from "@/lib/shop/launch-offer";
 import type { Announcement } from "@/components/marketing/AnnouncementBar";
+import { storefrontCopy } from "@/i18n/storefront";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -47,9 +48,13 @@ export default async function LandingPage({
   const announcement: Announcement | null = offer.open
     ? {
         id: `founding-${offer.remaining}`,
-        text: `Founding hundred: ${offer.remaining} of ${FOUNDING_ORDERS} places left. Terrifuel over $150 earns a Terrifits tee, a V1 earns the hoodie.`,
+        text: storefrontCopy(locale)
+          .announce.replace("{remaining}", String(offer.remaining))
+          .replace("{total}", String(FOUNDING_ORDERS)),
         href: `/${locale}/shop`,
-        cta: "See the shop →",
+        // The arrow is rendered by the bar, which mirrors it in RTL — baking a
+        // "→" into the string points the wrong way in Arabic.
+        cta: storefrontCopy(locale).announceCta,
       }
     : null;
 

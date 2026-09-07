@@ -297,7 +297,17 @@ function Colourways({
                 onClick={() => onColourway(option.id)}
                 aria-pressed={option.id === colourway}
               >
-                <span className="bp-weave-swatch" style={{ background: option.swatch }} aria-hidden />
+                {/* The render sits behind the name rather than beside it: the
+                    colourway is the product, so the tile should show the band
+                    itself and let the swatch be a small confirmation. */}
+                <span className="bp-weave-art">
+                  {option.image ? (
+                    <Shot src={option.image} alt={`Terrifit V1 in ${option.label}`} ratio={4 / 3}
+                          fit="contain" sizes="(max-width: 780px) 45vw, 300px"
+                          fallback={{ label: option.label }} />
+                  ) : null}
+                  <i style={{ background: option.swatch }} aria-hidden />
+                </span>
                 <strong style={{ color: option.accent }}>{option.label}</strong>
                 <span>{option.note}</span>
               </button>

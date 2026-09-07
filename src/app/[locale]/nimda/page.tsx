@@ -20,7 +20,7 @@ export default async function AdminPage({ params }: { params: Promise<{ locale: 
   // Server-side, before anything renders: the console never reaches the
   // browser for someone who is not staff.
   const admin = await requireAdmin();
-  if (!admin) redirect(`/${locale}/signin?next=/${locale}/admin`);
+  if (!admin) redirect(`/${locale}/signin?next=/${locale}/nimda`);
 
   const [overview, members, orders, posts, audit, products] = await Promise.all([
     adminOverview(),

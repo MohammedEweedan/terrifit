@@ -269,3 +269,35 @@
 
 :root[data-theme="light"] .tf-announce { background:#f0f0f2; color:#424247; border-color:var(--border); }
 :root[data-theme="light"] .tf-announce .tf-announce-cta { color:#ab3d18; }
+
+/* ── Hero wordmark ────────────────────────────────────────────────────────
+   Scoped through `.th-hero h1` so it outranks the generic hero heading rules
+   above, which otherwise (a) paint the last child orange from the first frame,
+   killing the reveal, and (b) force `display:block` on every child span, which
+   stacks the fragments vertically instead of laying them out as one line. */
+.th-hero h1.th-slogan { margin:22px 0 20px; letter-spacing:.005em; line-height:.96; text-align:center; font-size:clamp(3rem,6.1vw,6.2rem); }
+/* The wordmark cannot break mid-line — the morph depends on it staying one
+   run — so its size has to be driven by the viewport rather than floored at a
+   desktop value. A fixed rem floor overflowed the page on a phone and took the
+   whole layout sideways with it. */
+@media (max-width:860px){ .th-hero h1.th-slogan { font-size:min(10.4vw,4.6rem); margin:16px 0 18px; } }
+.th-hero h1.th-slogan > span,
+.th-hero h1.th-slogan span { display:inline; color:inherit; }
+.th-hero h1.th-slogan .th-slogan-line { display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:center; gap:0 .26em; }
+.th-hero h1.th-slogan .th-slogan-word { display:flex; align-items:flex-end; }
+.th-hero h1.th-slogan .th-slogan-drop { display:inline-block; overflow:hidden; white-space:pre; width:var(--w); }
+/* Arabic keeps the identical Latin wordmark; the RTL rule above would swap in
+   Noto Kufi and reverse the fragment order. */
+[dir="rtl"] .th-hero h1.th-slogan { font-family:var(--font-anton),sans-serif; font-weight:400; letter-spacing:.005em; line-height:.96; direction:ltr; unicode-bidi:isolate; font-size:clamp(3rem,6.1vw,6.2rem); }
+@media (max-width:860px){ [dir="rtl"] .th-hero h1.th-slogan { font-size:min(10.4vw,4.6rem); } }
+/* Centre the whole hero column, not just the heading. */
+.th-hero-copy { align-items:center; text-align:center; }
+.th-hero-copy .th-lede { margin-inline:auto; }
+/* The reduced-motion resting state has to be declared at this specificity too:
+   the rules above (0,4,1) outrank the ones in globals.css (0,1,0), so without
+   these the "collapsed" fragments keep their 4em box and leave a hole in the
+   middle of the wordmark. */
+@media (prefers-reduced-motion: reduce) {
+  .th-hero h1.th-slogan .th-slogan-drop { animation:none; width:0; opacity:0; }
+  .th-hero h1.th-slogan .th-slogan-word { animation:none; color:#ff6229; }
+}

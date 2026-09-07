@@ -169,7 +169,7 @@ export const products: Product[] = [
     category: "band",
     brand: "TERRIFIT",
     partner: false,
-    priceCents: 22900,
+    priceCents: 19900,
     rating: 4.9,
     reviews: 412,
     badges: ["New", "Founding price"],
