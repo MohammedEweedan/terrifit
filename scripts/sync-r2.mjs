@@ -23,6 +23,16 @@ const root = fileURLToPath(new URL("..", import.meta.url));
 const source = join(root, "public/media");
 const dryRun = process.argv.includes("--dry-run");
 
+// Next.js loads .env for the app; a bare node script does not, so running
+// `npm run sync:r2` locally would otherwise report every variable missing even
+// with a fully populated .env sitting next to it.
+try {
+  process.loadEnvFile(join(root, ".env"));
+} catch {
+  // No .env, or a runtime without loadEnvFile: fall back to the real
+  // environment, which is how CI supplies these anyway.
+}
+
 const required = ["R2_ACCOUNT_ID", "R2_ACCESS_KEY_ID", "R2_SECRET_ACCESS_KEY", "R2_BUCKET"];
 const missing = required.filter((name) => !process.env[name]);
 if (missing.length) {

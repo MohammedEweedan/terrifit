@@ -739,6 +739,7 @@ export const de: PagesTranslation = {
         google_pay: { label: "Google Pay", note: "Zahle mit einer in deinem Google-Konto gespeicherten Karte." },
         paypal: { label: "PayPal", note: "Dein PayPal-Guthaben oder eine hinterlegte Karte" },
         crypto: { label: "Krypto", note: "USDT, USDC, BTC und ETH über unseren Zahlungsdienst" },
+        usdt_trc20: { label: "USDT (TRC-20)", note: "USDT über das Tron-Netzwerk senden. Ihre Bestellung wird bestätigt, sobald die Überweisung eingeht." },
       },
       summaryTitle: "Was du kaufst",
       subtotal: "Zwischensumme",
@@ -766,6 +767,15 @@ export const de: PagesTranslation = {
       emailLabel: "Bestätigung an",
       totalLabel: "Gesamt bezahlt",
       methodLabel: "Bezahlt mit",
+      usdt: {
+        title: "USDT senden, um die Bestellung abzuschließen",
+        body: "Überweisen Sie genau den unten genannten Betrag. Wir bestätigen Ihre Bestellung, sobald die Überweisung in der Blockchain eintrifft.",
+        networkLabel: "Netzwerk",
+        addressLabel: "Wallet-Adresse",
+        amountLabel: "Zu sendender Betrag",
+        referenceLabel: "Verwendungszweck",
+        warning: "Senden Sie ausschließlich USDT über das TRC-20-Netzwerk (Tron). Über andere Netzwerke gesendete Beträge sind unwiederbringlich verloren.",
+      },
       itemsLabel: "Das kommt",
       nextTitle: "Wie es weitergeht",
       next: [

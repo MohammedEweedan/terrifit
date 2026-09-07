@@ -99,7 +99,7 @@ export const checkoutItemSchema = z.object({
  * because a customer chooses between them, and because each needs its own
  * button and its own device support check.
  */
-export const PAYMENT_METHODS = ["card", "apple_pay", "google_pay", "paypal", "crypto"] as const;
+export const PAYMENT_METHODS = ["card", "apple_pay", "google_pay", "paypal", "crypto", "usdt_trc20"] as const;
 export type PaymentMethod = (typeof PAYMENT_METHODS)[number];
 
 export const checkoutSchema = z.object({

@@ -739,6 +739,7 @@ export const ru: PagesTranslation = {
         google_pay: { label: "Google Pay", note: "Оплата картой, сохранённой в аккаунте Google." },
         paypal: { label: "PayPal", note: "Баланс PayPal или привязанная карта" },
         crypto: { label: "Крипта", note: "USDT, USDC, BTC и ETH через нашего провайдера" },
+        usdt_trc20: { label: "USDT (TRC-20)", note: "Отправьте USDT в сети Tron. Заказ подтверждается, как только поступит перевод." },
       },
       summaryTitle: "Что вы покупаете",
       subtotal: "Промежуточный итог",
@@ -766,6 +767,15 @@ export const ru: PagesTranslation = {
       emailLabel: "Подтверждение отправлено на",
       totalLabel: "Оплачено",
       methodLabel: "Способ оплаты",
+      usdt: {
+        title: "Отправьте USDT, чтобы завершить заказ",
+        body: "Переведите точную сумму, указанную ниже. Мы подтвердим заказ, как только перевод появится в сети.",
+        networkLabel: "Сеть",
+        addressLabel: "Адрес кошелька",
+        amountLabel: "Сумма к отправке",
+        referenceLabel: "Назначение",
+        warning: "Отправляйте только USDT в сети TRC-20 (Tron). Средства, отправленные в любой другой сети, вернуть невозможно.",
+      },
       itemsLabel: "Что едет",
       nextTitle: "Что дальше",
       next: [

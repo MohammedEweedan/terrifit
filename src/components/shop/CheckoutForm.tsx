@@ -12,7 +12,7 @@ import type { PaymentMethod } from "@/lib/validation";
 import { Shot } from "@/components/ui/Shot";
 import { lineImage } from "@/lib/shop/catalog";
 
-const METHOD_ORDER: PaymentMethod[] = ["card", "apple_pay", "google_pay", "paypal", "crypto"];
+const METHOD_ORDER: PaymentMethod[] = ["card", "apple_pay", "google_pay", "paypal", "crypto", "usdt_trc20"];
 
 /**
  * Which wallets this browser can actually present.

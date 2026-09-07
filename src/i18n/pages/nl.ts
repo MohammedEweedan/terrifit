@@ -739,6 +739,7 @@ export const nl: PagesTranslation = {
         google_pay: { label: "Google Pay", note: "Betaal met een kaart die in je Google-account staat." },
         paypal: { label: "PayPal", note: "Je PayPal-saldo of een gekoppelde kaart" },
         crypto: { label: "Crypto", note: "USDT, USDC, BTC en ETH via onze betaalpartner" },
+        usdt_trc20: { label: "USDT (TRC-20)", note: "Stuur USDT via het Tron-netwerk. Je bestelling wordt bevestigd zodra de overboeking binnen is." },
       },
       summaryTitle: "Wat je koopt",
       subtotal: "Subtotaal",
@@ -766,6 +767,15 @@ export const nl: PagesTranslation = {
       emailLabel: "Bevestiging gestuurd naar",
       totalLabel: "Totaal betaald",
       methodLabel: "Betaald met",
+      usdt: {
+        title: "Stuur USDT om je bestelling af te ronden",
+        body: "Maak exact het onderstaande bedrag over. We bevestigen je bestelling zodra de overboeking op de keten staat.",
+        networkLabel: "Netwerk",
+        addressLabel: "Wallet-adres",
+        amountLabel: "Te versturen bedrag",
+        referenceLabel: "Kenmerk",
+        warning: "Stuur uitsluitend USDT via het TRC-20-netwerk (Tron). Bedragen via een ander netwerk zijn niet terug te halen.",
+      },
       itemsLabel: "Wat eraan komt",
       nextTitle: "Wat er nu gebeurt",
       next: [

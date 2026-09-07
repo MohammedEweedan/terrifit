@@ -1307,6 +1307,7 @@ export const en = {
         google_pay: { label: "Google Pay", note: "Pay with a card saved to your Google account." },
         paypal: { label: "PayPal", note: "Your PayPal balance or a card linked to it" },
         crypto: { label: "Crypto", note: "USDT, USDC, BTC and ETH through our payment processor" },
+        usdt_trc20: { label: "USDT (TRC-20)", note: "Send USDT on the Tron network. Your order is confirmed once the transfer arrives." },
       },
       summaryTitle: "What you're buying",
       subtotal: "Subtotal",
@@ -1334,6 +1335,15 @@ export const en = {
       emailLabel: "Confirmation sent to",
       totalLabel: "Total paid",
       methodLabel: "Paid with",
+      usdt: {
+        title: "Send USDT to finish your order",
+        body: "Transfer the exact amount below, then we confirm your order as soon as the transfer lands on-chain.",
+        networkLabel: "Network",
+        addressLabel: "Wallet address",
+        amountLabel: "Amount to send",
+        referenceLabel: "Reference",
+        warning: "Send only USDT on the TRC-20 (Tron) network. Funds sent on any other network cannot be recovered.",
+      },
       itemsLabel: "What's coming",
       nextTitle: "What happens now",
       next: [

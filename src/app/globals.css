@@ -6131,3 +6131,40 @@ body:has(.tf-announce) { --tf-announce-h: 34px; }
   margin: 18px 0 4px;
   min-height: 65px;
 }
+
+/* Direct USDT transfer instructions on the order page. This is the only place
+   the customer is told where to send funds, so it is deliberately loud. */
+.sh-usdt {
+  margin: 28px 0;
+  padding: 22px 24px;
+  border: 1px solid var(--border, #dfdfdb);
+  border-radius: 16px;
+  background: var(--raised, #faf9f7);
+}
+.sh-usdt h2 { margin: 0 0 6px; font-size: 1.05rem; }
+.sh-usdt > p { margin: 0 0 16px; color: var(--fg-2, #4a4945); }
+.sh-usdt-facts { display: grid; gap: 14px; margin: 0; }
+.sh-usdt-facts dt { font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; color: var(--fg-3, #62615e); }
+.sh-usdt-facts dd { margin: 4px 0 0; font-weight: 600; }
+/* An address that wraps mid-string can be copied with a stray newline in it,
+   which sends the transfer nowhere. Keep it intact and scroll instead. */
+.sh-usdt-address {
+  display: block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .92rem;
+  word-break: keep-all;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--bg, #f1efec);
+  user-select: all;
+}
+.sh-usdt-warning {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: .88rem;
+  background: color-mix(in srgb, #ff6229 12%, transparent);
+  border: 1px solid color-mix(in srgb, #ff6229 35%, transparent);
+}

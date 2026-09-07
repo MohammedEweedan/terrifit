@@ -1,4 +1,5 @@
 import type { PaymentMethod } from "@/lib/validation";
+import { usdtWallet } from "./usdt";
 
 /**
  * Payment gateways.
@@ -63,6 +64,11 @@ export function methodConfigured(method: PaymentMethod): boolean {
       return Boolean(env("PAYPAL_CLIENT_ID") && env("PAYPAL_SECRET"));
     case "crypto":
       return Boolean(env("NOWPAYMENTS_API_KEY"));
+    case "usdt_trc20":
+      // No processor and no API key — a valid wallet address is the whole
+      // configuration. `usdtWallet()` returns null on a malformed one, which
+      // takes the rail off the checkout rather than collecting into nowhere.
+      return Boolean(usdtWallet());
   }
 }
 
@@ -84,7 +90,7 @@ export function sandboxAllowed(): boolean {
 }
 
 export function availableMethods(): PaymentMethod[] {
-  const all: PaymentMethod[] = ["card", "apple_pay", "google_pay", "paypal", "crypto"];
+  const all: PaymentMethod[] = ["card", "apple_pay", "google_pay", "paypal", "crypto", "usdt_trc20"];
   return all.filter((method) => methodConfigured(method) || sandboxAllowed());
 }
 
@@ -109,6 +115,12 @@ export async function createPayment(request: PaymentRequest): Promise<PaymentOut
         return await paypalOrder(request);
       case "crypto":
         return await nowPaymentsInvoice(request);
+      case "usdt_trc20":
+        // Nothing to call. The customer transfers the funds themselves, so the
+        // order is recorded as pending and the confirmation page shows the
+        // address, the amount and the order number to reference. It becomes
+        // `paid` only when the transfer is verified on-chain.
+        return { status: "pending", reference: request.orderNumber, sandbox: false };
     }
   } catch {
     return { status: "failed", reference: null, sandbox: false, error: "gateway_error" };

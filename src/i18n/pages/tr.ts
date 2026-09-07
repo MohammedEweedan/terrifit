@@ -739,6 +739,7 @@ export const tr: PagesTranslation = {
         google_pay: { label: "Google Pay", note: "Google hesabınızda kayıtlı kartla ödeyin." },
         paypal: { label: "PayPal", note: "PayPal bakiyen veya bağlı bir kart" },
         crypto: { label: "Kripto", note: "Ödeme sağlayıcımız üzerinden USDT, USDC, BTC ve ETH" },
+        usdt_trc20: { label: "USDT (TRC-20)", note: "USDT'yi Tron ağı üzerinden gönderin. Transfer ulaştığında siparişiniz onaylanır." },
       },
       summaryTitle: "Ne alıyorsun",
       subtotal: "Ara toplam",
@@ -766,6 +767,15 @@ export const tr: PagesTranslation = {
       emailLabel: "Onay şuraya gönderildi",
       totalLabel: "Ödenen toplam",
       methodLabel: "Ödeme yöntemi",
+      usdt: {
+        title: "Siparişinizi tamamlamak için USDT gönderin",
+        body: "Aşağıdaki tutarı birebir gönderin. Transfer zincire ulaştığı anda siparişinizi onaylıyoruz.",
+        networkLabel: "Ağ",
+        addressLabel: "Cüzdan adresi",
+        amountLabel: "Gönderilecek tutar",
+        referenceLabel: "Referans",
+        warning: "Yalnızca TRC-20 (Tron) ağı üzerinden USDT gönderin. Başka bir ağdan gönderilen tutarlar geri alınamaz.",
+      },
       itemsLabel: "Gelenler",
       nextTitle: "Şimdi ne oluyor",
       next: [

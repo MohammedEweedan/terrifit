@@ -514,3 +514,20 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **server** — `src/lib/turnstile.ts`, `src/lib/__tests__/turnstile.test.ts`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 13:24
+
+**Committed** `2233e0d` on `main` — feat: integrate Cloudflare Turnstile for enhanced security and implement verification checks
+
+**Reverted or committed** — 9 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 13:30
+
+**Working tree** — 2 files · +28 −1
+
+- **other** — `.env.example`
+- **tooling** — `scripts/sync-r2.mjs`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

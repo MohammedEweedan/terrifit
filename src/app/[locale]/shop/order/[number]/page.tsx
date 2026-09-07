@@ -6,6 +6,7 @@ import { isLocale } from "@/i18n/config";
 import { getPagesCopy } from "@/i18n/pages";
 import { prisma } from "@/lib/db";
 import { formatMoney } from "@/lib/shop/money";
+import { usdtWallet, usdtAmountDue, USDT_NETWORK } from "@/lib/shop/usdt";
 
 export const metadata: Metadata = {
   title: "Order confirmed — Terrifit",
@@ -47,6 +48,11 @@ export default async function OrderPage({
 
   const paid = order.paymentStatus === "paid";
 
+  // Direct USDT transfers have no gateway and no redirect, so this page is the
+  // only place the customer is ever told where to send the funds. Shown only
+  // while the order is unpaid — once it settles the instructions are noise.
+  const wallet = order.paymentMethod === "usdt_trc20" && !paid ? usdtWallet() : null;
+
   return (
     <SiteShell locale={locale} className="sh-site">
       <div className="sh-page">
@@ -75,6 +81,34 @@ export default async function OrderPage({
               <dd>{copy.checkout.methods[order.paymentMethod as keyof typeof copy.checkout.methods]?.label ?? order.paymentMethod}</dd>
             </div>
           </dl>
+
+          {wallet ? (
+            <section className="sh-usdt">
+              <h2>{copy.order.usdt.title}</h2>
+              <p>{copy.order.usdt.body}</p>
+              <dl className="sh-usdt-facts">
+                <div>
+                  <dt>{copy.order.usdt.networkLabel}</dt>
+                  <dd>{USDT_NETWORK}</dd>
+                </div>
+                <div>
+                  <dt>{copy.order.usdt.amountLabel}</dt>
+                  <dd className="numeric">{usdtAmountDue(order.totalCents, order.currency).toFixed(2)} USDT</dd>
+                </div>
+                <div>
+                  <dt>{copy.order.usdt.addressLabel}</dt>
+                  {/* Selectable and unbroken: a wrapped address that is copied
+                      with a stray space in it sends the money nowhere. */}
+                  <dd><code className="sh-usdt-address">{wallet}</code></dd>
+                </div>
+                <div>
+                  <dt>{copy.order.usdt.referenceLabel}</dt>
+                  <dd className="numeric">{order.number}</dd>
+                </div>
+              </dl>
+              <p className="sh-usdt-warning" role="note">{copy.order.usdt.warning}</p>
+            </section>
+          ) : null}
 
           <section className="sh-order-items">
             <h2>{copy.order.itemsLabel}</h2>

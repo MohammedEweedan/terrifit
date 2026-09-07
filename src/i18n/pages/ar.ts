@@ -749,6 +749,7 @@ export const ar: PagesTranslation = {
         google_pay: { label: "Google Pay", note: "ادفع ببطاقة محفوظة في حساب Google الخاص بك." },
         paypal: { label: "PayPal", note: "رصيد PayPal أو بطاقة مرتبطة به" },
         crypto: { label: "عملات رقمية", note: "USDT وUSDC وBTC وETH عبر معالج الدفع لدينا" },
+        usdt_trc20: { label: "USDT (TRC-20)", note: "أرسل USDT عبر شبكة ترون. يتم تأكيد طلبك بمجرد وصول التحويل." },
       },
       summaryTitle: "ما تشتريه",
       subtotal: "المجموع الفرعي",
@@ -776,6 +777,15 @@ export const ar: PagesTranslation = {
       emailLabel: "أُرسل التأكيد إلى",
       totalLabel: "الإجمالي المدفوع",
       methodLabel: "الدفع عبر",
+      usdt: {
+        title: "أرسل USDT لإتمام طلبك",
+        body: "حوّل المبلغ المحدد أدناه بالضبط، وسنؤكد طلبك فور وصول التحويل على الشبكة.",
+        networkLabel: "الشبكة",
+        addressLabel: "عنوان المحفظة",
+        amountLabel: "المبلغ المطلوب إرساله",
+        referenceLabel: "المرجع",
+        warning: "أرسل USDT فقط عبر شبكة TRC-20 (ترون). الأموال المرسلة عبر أي شبكة أخرى لا يمكن استردادها.",
+      },
       itemsLabel: "ما هو قادم",
       nextTitle: "ماذا يحدث الآن",
       next: [
