@@ -31,29 +31,29 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "validation", fields: ["country"] }, { status: 422 });
   }
 
-  const existing = await prisma.waitlistEntry.findUnique({
-    where: { email: input.email },
-    select: { referralCode: true, position: true, referrals: true, role: true },
-  });
-
-  // Re-submitting an email returns the original place rather than an error —
-  // people forget they signed up, and a hard failure loses them.
-  if (existing) {
-    return NextResponse.json(
-      {
-        duplicate: true,
-        referralCode: existing.referralCode,
-        position: displayPosition(existing.position, existing.referrals),
-        role: existing.role,
-        referralBoost: REFERRAL_BOOST,
-      },
-      { status: 200 },
-    );
-  }
-
   const referredByCode = input.referredByCode?.trim().toUpperCase() || null;
 
   try {
+    const existing = await prisma.waitlistEntry.findUnique({
+      where: { email: input.email },
+      select: { referralCode: true, position: true, referrals: true, role: true },
+    });
+
+    // Re-submitting an email returns the original place rather than an error —
+    // people forget they signed up, and a hard failure loses them.
+    if (existing) {
+      return NextResponse.json(
+        {
+          duplicate: true,
+          referralCode: existing.referralCode,
+          position: displayPosition(existing.position, existing.referrals),
+          role: existing.role,
+          referralBoost: REFERRAL_BOOST,
+        },
+        { status: 200 },
+      );
+    }
+
     const entry = await prisma.$transaction(async (tx) => {
       const referrer = referredByCode
         ? await tx.waitlistEntry.findUnique({
@@ -106,7 +106,13 @@ export async function POST(request: Request) {
       },
       { status: 201 },
     );
-  } catch {
+  } catch (error) {
+    // The duplicate lookup used to sit outside this guard, so an unreachable
+    // database threw straight through the handler: a bare 500 with an empty
+    // body that the form could only report as a generic failure. The catch was
+    // also bare, so the cause never reached the logs either. Both cost real
+    // debugging time — keep the lookup inside, and keep the reason.
+    console.error("waitlist POST failed", error);
     return NextResponse.json({ error: "server" }, { status: 500 });
   }
 }

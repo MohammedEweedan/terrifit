@@ -458,3 +458,20 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **media** — `public/media/shop/placeholders/charger-v1.png`, `public/media/shop/placeholders/hoodie-v1.png`, `public/media/shop/placeholders/hydration-v1.png`, `public/media/shop/placeholders/magnesium-v1.png`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 12:04
+
+**Committed** `7b86896` on `main` — feat: update product media paths and add tests for media existence
+
+**Reverted or committed** — 7 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 12:16
+
+**Working tree** — 2 files · +37 −23
+
+- **website** — `src/app/api/waitlist/route.ts`
+- **shop** — `src/lib/shop/product-media.ts`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

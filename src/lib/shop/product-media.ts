@@ -6,7 +6,7 @@ import type { Product } from "./catalog";
  * nine files — the whole set is now under 2.7MB at quality 92, which is
  * indistinguishable at the sizes the site draws them.
  */
-const placeholder = (name: string) => `/media/shop/placeholders/${name}-v1.jpg`;
+const placeholder = (name: string) => `/media/shop/placeholders/${name}-v1.png`;
 /** Replace only known, missing launch assets; staff-uploaded media stays authoritative. */
 const legacyImages: Record<string, string> = {
   "/media/band/v1-hero.jpg": "/media/band/colourways-v2/ember.png",
@@ -14,7 +14,7 @@ const legacyImages: Record<string, string> = {
   "/media/band/v1-wrist.jpg": "/media/band/colourways-v2/graphite.png",
   "/media/shop/strap-set.jpg": placeholder("straps"),
   "/media/shop/charger.jpg": placeholder("charger"),
-  "/media/shop/membership.jpg": "/media/app/shots/terrifit-home.jpg",
+  "/media/shop/membership.png": "/media/app/shots/terrifit-home.jpg",
   "/media/shop/field-tee.jpg": placeholder("tee"),
   "/media/shop/terrifits-tee.jpg": placeholder("tee"),
   "/media/shop/terrifits-hoodie.jpg": placeholder("hoodie"),
