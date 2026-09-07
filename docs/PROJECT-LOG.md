@@ -255,3 +255,11 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **database** — `prisma/migrations/20260907024101/`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 04:53
+
+**Committed** `16d6cd7` on `main` — feat: add hardware page and localization support
+
+**Reverted or committed** — 24 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

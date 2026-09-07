@@ -189,6 +189,31 @@ export async function listProducts(options: { includeInactive?: boolean } = {}):
   return (await rows(options.includeInactive === true)).map(toProduct);
 }
 
+/**
+ * The catalogue, falling back to the code-defined seed when the database is
+ * unreachable.
+ *
+ * `products` in `catalog.ts` is what `ensureCatalogSeeded()` writes into the
+ * database in the first place, so this is not a degraded answer — it is the
+ * same catalogue, minus any edits an admin has made since. The database copy
+ * exists so the shop can be edited without a deploy, not because the code
+ * copy is incomplete.
+ *
+ * This exists because the root layout needs a catalogue on *every* page in
+ * order to price the cart, which made all 444 prerendered pages — including
+ * `/en/about` and the password-reset screens — require a live database at
+ * build time. A build that cannot reach Postgres should still produce a
+ * working site; a cart that silently prices nothing should not be the
+ * alternative.
+ */
+export async function listProductsOrSeed(): Promise<Product[]> {
+  try {
+    return await listProducts();
+  } catch {
+    return seedProducts;
+  }
+}
+
 export async function getProduct(slug: string, options: { includeInactive?: boolean } = {}): Promise<Product | undefined> {
   return (await listProducts(options)).find((product) => product.slug === slug);
 }

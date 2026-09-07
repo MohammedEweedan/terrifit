@@ -9,7 +9,7 @@ import { isLocale, localeMeta, locales } from "@/i18n/config";
 import { themeScript } from "@/lib/theme";
 import { CartProvider } from "@/lib/shop/cart";
 import { CartDrawer } from "@/components/shop/CartDrawer";
-import { listProducts } from "@/lib/shop/catalog-store";
+import { listProductsOrSeed } from "@/lib/shop/catalog-store";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -85,7 +85,7 @@ export default async function LocaleLayout({
   if (!isLocale(locale)) notFound();
 
   const meta = localeMeta[locale];
-  const catalog = await listProducts();
+  const catalog = await listProductsOrSeed();
 
   return (
     <html
