@@ -263,3 +263,9 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 **Reverted or committed** — 24 files no longer differ from HEAD
 
 <sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 05:02
+
+**Committed** `cc9c896` on `main` — feat: implement fallback for product listing to ensure catalog availability
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
