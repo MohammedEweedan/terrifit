@@ -11,6 +11,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { FEATURE_KEYS, PROFESSIONAL_ROLES, ROLES, type Role } from "@/lib/validation";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
+import { TurnstileWidget } from "@/components/security/TurnstileWidget";
 
 const REF_KEY = "ryvn.ref";
 
@@ -73,6 +74,9 @@ export function WaitlistForm({
   const [status, setStatus] = useState<"idle" | "submitting">("idle");
   const [result, setResult] = useState<Result | null>(null);
   const [copied, setCopied] = useState(false);
+  // Null until the challenge solves. The server only requires it when a
+  // secret is configured, so this stays null — and harmless — without keys.
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
   // The creator CTAs elsewhere on the page pre-select the matching role.
   useEffect(() => {
@@ -120,6 +124,7 @@ export function WaitlistForm({
       referredByCode,
       source: typeof document !== "undefined" ? document.referrer.slice(0, 120) : "",
       consent: form.get("consent") === "on",
+      turnstileToken,
     };
 
     const nextErrors: Record<string, string> = {};
@@ -387,6 +392,8 @@ export function WaitlistForm({
                 {errors.form}
               </p>
             ) : null}
+
+            <TurnstileWidget onToken={setTurnstileToken} action="waitlist" />
 
             <button
               type="submit"

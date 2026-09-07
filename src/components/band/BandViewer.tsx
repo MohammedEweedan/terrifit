@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import { SmartImage } from "@/components/media/SmartImage";
 import { useReducedMotion } from "framer-motion";
 import type { Locale } from "@/i18n/config";
 import { BAND_FINISHES, bandFinish, bandRender } from "./colourways";
@@ -66,7 +66,7 @@ export function BandViewer({ locale, colourway, onColourway, compact = false, he
         const actions: Record<string, () => void> = { ArrowLeft: () => scene.current?.rotate(1), ArrowRight: () => scene.current?.rotate(-1), ArrowUp: () => scene.current?.tilt(1), ArrowDown: () => scene.current?.tilt(-1), Home: () => scene.current?.reset(), " ": () => setAutoPreference(!auto), "+": () => scene.current?.zoom(1), "-": () => scene.current?.zoom(-1) };
         if (actions[event.key]) { event.preventDefault(); actions[event.key](); }
       }} />
-      {!ready ? <Image className={styles.poster} src={bandRender(selected.id)} alt={`Terrifit Band — ${selected.label}`} fill sizes="(max-width: 800px) 100vw, 900px" /> : null}
+      {!ready ? <SmartImage className={styles.poster} src={bandRender(selected.id)} alt={`Terrifit Band — ${selected.label}`} fill sizes="(max-width: 800px) 100vw, 900px" /> : null}
       <div className={styles.hint} aria-live="polite">{ready ? <><span aria-hidden>↔</span> {t[1]}</> : status === "fallback" ? t[11] : t[12]}</div>
     </div>
     <div className={styles.finishes} role="group" aria-label={t[0]}>{BAND_FINISHES.map(finish => <button key={finish.id} aria-pressed={selected.id === finish.id} aria-label={finish.label} onClick={() => { setOwnColour(finish.id); onColourway?.(finish.id); }}><i style={{ background: `repeating-linear-gradient(48deg,${finish.yarn} 0 2px,${finish.weave} 2px 4px)` }} /><span>{finish.label}</span></button>)}</div>

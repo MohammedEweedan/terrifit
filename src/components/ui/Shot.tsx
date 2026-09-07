@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { mediaUrl } from "@/lib/media";
 
 /**
  * An image slot that is honest about being empty.
@@ -42,8 +43,13 @@ export function Shot({
    */
   fallback?: { label: string; sub?: string };
 }) {
-  const [failedSrc, setFailedSrc] = useState<string>();
-  const failed = failedSrc === src;
+  // Two sources, tried in order: Cloudflare R2, then the copy that is still in
+  // public/. Only when both fail is the slot genuinely empty and the brief (or
+  // the branded tile) drawn instead. Resetting on a changed `src` is derived
+  // during render rather than in an effect, which this codebase does not allow.
+  const [attempt, setAttempt] = useState({ key: src, url: mediaUrl(src), failed: false });
+  const current = attempt.key === src ? attempt : { key: src, url: mediaUrl(src), failed: false };
+  const failed = current.failed;
   const file = src.split("/").pop() ?? src;
 
   return (
@@ -75,13 +81,21 @@ export function Shot({
            art-directed anyway. */
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={src}
+          key={current.url}
+          src={current.url}
           alt={alt}
           sizes={sizes}
           loading={priority ? "eager" : "lazy"}
           fetchPriority={priority ? "high" : undefined}
           decoding="async"
-          onError={() => setFailedSrc(src)}
+          onError={() =>
+            // R2 missed: retry the local file before giving up on the slot.
+            setAttempt(
+              current.url === src
+                ? { key: src, url: src, failed: true }
+                : { key: src, url: src, failed: false },
+            )
+          }
           style={{ objectFit: fit, objectPosition: position }}
         />
       )}

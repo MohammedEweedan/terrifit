@@ -475,3 +475,23 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **shop** — `src/lib/shop/product-media.ts`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 12:17
+
+**Committed** `c1f846a` on `main` — feat: refactor waitlist POST handler for improved error handling and duplicate entry response
+
+**Reverted or committed** — 2 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 12:38
+
+**Working tree** — 21 files · +594 −14
+
+- **other** — `.env.example`, `.github/workflows/deploy-digitalocean.yml`, `next.config.ts`, `package-lock.json`, `package.json`
+- **website** — `src/app/api/contact/route.ts`, `src/app/api/waitlist/route.ts`, `src/app/globals.css`, `src/components/app/AppShowcasePage.tsx`, `src/components/band/BandScrollStory.tsx`, `src/components/band/BandViewer.tsx` and 6 more
+- **docs** — `docs/CLOUDFLARE.md`
+- **tooling** — `scripts/sync-r2.mjs`
+- **server** — `src/lib/media.ts`, `src/lib/turnstile.ts`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

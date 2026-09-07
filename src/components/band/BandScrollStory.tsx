@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { SmartImage } from "@/components/media/SmartImage";
 import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { useRef } from "react";
 import type { PagesCopy } from "@/i18n/pages";
@@ -60,7 +60,7 @@ export function BandScrollStory({
     return (
       <section className="bs-static">
         <div className="bs-shell">
-          <Image src={image.src} alt={image.alt} width={900} height={600} className="bs-static-image" />
+          <SmartImage src={image.src} alt={image.alt} width={900} height={600} className="bs-static-image" />
           <ol className="bs-static-list">
             {chapters.map((chapter) => (
               <li key={chapter.title}>
@@ -85,7 +85,7 @@ export function BandScrollStory({
       <div ref={track} className="bs-track" style={{ height: `${(chapters.length + 1) * 100}vh` }}>
         <div className="bs-stage">
           <motion.div className="bs-product" style={{ scale, y: lift }}>
-            <Image
+            <SmartImage
               src={image.src}
               alt={image.alt}
               width={900}

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { contactSchema } from "@/lib/validation";
 import { clientKey, rateLimit } from "@/lib/rate-limit";
+import { verifyTurnstile } from "@/lib/turnstile";
 
 export const runtime = "nodejs";
 
@@ -17,6 +18,14 @@ export async function POST(request: Request) {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: "invalid_json" }, { status: 400 });
+  }
+
+  const challenge = await verifyTurnstile(
+    (body as { turnstileToken?: unknown } | null)?.turnstileToken,
+    request.headers.get("x-forwarded-for"),
+  );
+  if (!challenge.ok) {
+    return NextResponse.json({ error: "challenge", reason: challenge.reason }, { status: 403 });
   }
 
   const parsed = contactSchema.safeParse(body);

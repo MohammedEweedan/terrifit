@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import { waitlistSchema } from "@/lib/validation";
 import { generateReferralCode, displayPosition, REFERRAL_BOOST } from "@/lib/referral";
 import { clientKey, rateLimit } from "@/lib/rate-limit";
+import { verifyTurnstile } from "@/lib/turnstile";
 import { isKnownMarket } from "@/lib/markets";
 import { getWaitlistStats } from "@/lib/stats";
 
@@ -18,6 +19,14 @@ export async function POST(request: Request) {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: "invalid_json" }, { status: 400 });
+  }
+
+  const challenge = await verifyTurnstile(
+    (body as { turnstileToken?: unknown } | null)?.turnstileToken,
+    request.headers.get("x-forwarded-for"),
+  );
+  if (!challenge.ok) {
+    return NextResponse.json({ error: "challenge", reason: challenge.reason }, { status: 403 });
   }
 
   const parsed = waitlistSchema.safeParse(body);

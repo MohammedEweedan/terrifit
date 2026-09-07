@@ -11,6 +11,7 @@ import type { PagesCopy } from "@/i18n/pages";
 import { ACCENTS, findAccent, type AccentKey } from "@/lib/accents";
 import { getAccent, getServerAccent, setAccent, subscribeAccent } from "@/lib/accent-store";
 import { websiteCopy } from "@/i18n/website";
+import { mediaUrl, mediaFallback } from "@/lib/media";
 
 const compactQuery = "(max-width: 900px) and (max-height: 740px)";
 const getCompactViewport = () => window.matchMedia(compactQuery).matches;
@@ -87,7 +88,12 @@ export function AppShowcasePage({
           {copy.chapters.map((chapter) => (
             <article key={chapter.title}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img className="ax-shot" src={shot(chapter.screen)} alt={chapter.title} loading="lazy" decoding="async" />
+              <img className="ax-shot" src={mediaUrl(shot(chapter.screen))} alt={chapter.title} loading="lazy" decoding="async"
+          onError={(event) => {
+            const img = event.currentTarget;
+            const local = mediaFallback(img.src);
+            if (local !== img.src) img.src = local;
+          }} />
               <div>
                 <p className="ax-kicker">{chapter.kicker}</p>
                 <h2>{chapter.title}</h2>
@@ -152,7 +158,12 @@ function Hero({
           transition={{ duration: 1, ease, delay: 0.28 }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="ax-shot" src={shot} alt={copy.hero.title} fetchPriority="high" decoding="async" />
+          <img className="ax-shot" src={mediaUrl(shot)} alt={copy.hero.title} fetchPriority="high" decoding="async"
+          onError={(event) => {
+            const img = event.currentTarget;
+            const local = mediaFallback(img.src);
+            if (local !== img.src) img.src = local;
+          }} />
         </motion.div>
       </div>
     </header>
@@ -188,7 +199,7 @@ function Story({
             {copy.chapters.map((chapter, index) => (
               <Screen
                 key={chapter.screen}
-                src={shot(chapter.screen)}
+                src={mediaUrl(shot(chapter.screen))}
                 alt={chapter.title}
                 index={index}
                 count={count}
@@ -243,6 +254,11 @@ function Screen({
     <motion.img
       className="ax-shot"
       src={src}
+      onError={(event) => {
+        const img = event.currentTarget;
+        const local = mediaFallback(img.src);
+        if (local !== img.src) img.src = local;
+      }}
       alt={alt}
       style={{ opacity, scale }}
       loading={priority ? "eager" : "lazy"}
@@ -302,7 +318,12 @@ function Tint({
 
         <div className="ax-tint-preview">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="ax-shot" src={shot} alt={copy.tint.title} loading="lazy"/>
+          <img className="ax-shot" src={mediaUrl(shot)} alt={copy.tint.title} loading="lazy"
+            onError={(event) => {
+              const img = event.currentTarget;
+              const local = mediaFallback(img.src);
+              if (local !== img.src) img.src = local;
+            }} />
         </div>
         <div className="ax-swatches" role="radiogroup" aria-label={copy.tint.title}>
           {ACCENTS.map((item) => (

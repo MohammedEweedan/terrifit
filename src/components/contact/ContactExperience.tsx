@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import type { Locale } from "@/i18n/config";
 import type { PagesCopy } from "@/i18n/pages";
+import { TurnstileWidget } from "@/components/security/TurnstileWidget";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -89,6 +90,7 @@ function ContactForm({ locale, copy }: { locale: Locale; copy: PagesCopy["contac
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
   const [invalid, setInvalid] = useState<string[]>([]);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -107,6 +109,7 @@ function ContactForm({ locale, copy }: { locale: Locale; copy: PagesCopy["contac
           email: form.get("email"),
           message: form.get("message"),
           consent: form.get("consent") === "on",
+          turnstileToken,
           locale,
         }),
       });
@@ -182,6 +185,8 @@ function ContactForm({ locale, copy }: { locale: Locale; copy: PagesCopy["contac
           {error}
         </p>
       ) : null}
+
+      <TurnstileWidget onToken={setTurnstileToken} action="contact" />
 
       <button className="ct-button" type="submit" disabled={status === "sending"}>
         {status === "sending" ? copy.sending : copy.submit}

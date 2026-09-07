@@ -2,6 +2,13 @@ import type { NextConfig } from "next";
 import { locales } from "./src/i18n/config";
 import { legalRedirects } from "./src/lib/destinations";
 
+/**
+ * Media origin. Empty until the R2 bucket is wired up, which is the same
+ * signal `src/lib/media.ts` uses, so config and runtime cannot disagree.
+ */
+const mediaBase = (process.env.NEXT_PUBLIC_MEDIA_BASE ?? "").trim().replace(/\/+$/, "");
+const mediaHost = mediaBase ? new URL(mediaBase) : null;
+
 const nextConfig: NextConfig = {
   /**
    * Self-contained server output, for the container — but never on Vercel.
@@ -16,6 +23,39 @@ const nextConfig: NextConfig = {
    * environment variable rather than by remembering to flip a flag.
    */
   output: process.env.VERCEL ? undefined : "standalone",
+
+  images: {
+    /**
+     * R2 is the origin, not the delivery path. Keeping the optimiser in front
+     * of it means the bucket is read on a cache miss and nothing else: the
+     * resized AVIF/WebP variants are what browsers actually receive, and they
+     * are served from the edge. It also means an R2 outage degrades to stale
+     * cache first, and only then to the `public/` copy that SmartImage and Shot
+     * retry against.
+     */
+    remotePatterns: mediaHost
+      ? [{ protocol: mediaHost.protocol.replace(":", "") as "https" | "http", hostname: mediaHost.hostname, pathname: "/media/**" }]
+      : [],
+    formats: ["image/avif", "image/webp"],
+    // Media is content-addressed by deploy, never edited in place, so the
+    // optimiser has no reason to re-fetch it for a year.
+    minimumCacheTTL: 31_536_000,
+  },
+
+  /**
+   * The copies in `public/media` are the R2 fallback, and they are immutable —
+   * a changed image gets a new filename via the manifest rather than a new body
+   * at the same path. Without this they are served with Vercel's short default
+   * and re-fetched constantly, which is exactly the cost R2 was meant to remove.
+   */
+  async headers() {
+    return [
+      {
+        source: "/media/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+    ];
+  },
 
   /**
    * The old marketing pages at /privacy, /terms, /health and /affiliate are now

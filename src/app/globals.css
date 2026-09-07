@@ -6123,3 +6123,11 @@ body:has(.tf-announce) { --tf-announce-h: 34px; }
   .hw-device-art { aspect-ratio: 16 / 10; }
   .hw-device-body { padding: 20px; }
 }
+
+/* Turnstile renders a fixed-size iframe; this only gives it room to breathe
+   and keeps it from butting against the submit button. It collapses to nothing
+   when no site key is configured, because the widget renders null. */
+.tf-turnstile:not(:empty) {
+  margin: 18px 0 4px;
+  min-height: 65px;
+}

@@ -158,3 +158,23 @@ jobs:
           # had been fixed locally three times over. Applying the spec makes
           # the file the source of truth and still triggers the deployment.
           doctl apps update "$APP_ID" --spec .do/app.yaml --wait
+
+      # Mirrors public/media to R2 after a successful rollout. Skipped entirely
+      # when the secrets are absent, so a fork or a repo without the bucket
+      # configured still deploys. The files stay in the image either way — R2
+      # is the fast path, not the only one.
+      - name: Sync media to Cloudflare R2
+        env:
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+        run: |
+          # Guarded in the shell rather than with `if:`, because a step's own
+          # env block is not in scope when its condition is evaluated.
+          if [ -z "$R2_ACCOUNT_ID" ]; then
+            echo "R2 secrets not configured — skipping media sync."
+            exit 0
+          fi
+          npm ci --no-audit --no-fund
+          npm run sync:r2
