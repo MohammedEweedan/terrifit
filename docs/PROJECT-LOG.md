@@ -417,3 +417,20 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **other** — `.do/app.yaml`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 10:56
+
+**Committed** `3fc28a8` on `main` — feat: update migration command in app.yaml to use shell execution for compatibility
+
+**Reverted or committed** — 1 file no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 11:11
+
+**Working tree** — 3 files · +26 −5
+
+- **website** — `src/app/[locale]/band/page.tsx`, `src/app/[locale]/shop/[slug]/page.tsx`
+- **shop** — `src/lib/shop/catalog-store.ts`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

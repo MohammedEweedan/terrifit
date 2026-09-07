@@ -4,7 +4,7 @@ import { SiteShell } from "@/components/layout/SiteShell";
 import { ProductDetail } from "@/components/shop/ProductDetail";
 import { isLocale } from "@/i18n/config";
 import { getPagesCopy } from "@/i18n/pages";
-import { getProduct, listProducts } from "@/lib/shop/catalog-store";
+import { getProductOrSeed, listProductsOrSeed } from "@/lib/shop/catalog-store";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +14,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
   const { locale, slug } = await params;
-  const product = await getProduct(slug);
+  const product = await getProductOrSeed(slug);
   if (!isLocale(locale) || !product) return {};
   const title = `${product.name} — ${product.tagline}`;
   return {
@@ -31,7 +31,7 @@ export default async function ProductPage({
   params: Promise<{ locale: string; slug: string }>;
 }) {
   const { locale, slug } = await params;
-  const [product, products] = await Promise.all([getProduct(slug), listProducts()]);
+  const [product, products] = await Promise.all([getProductOrSeed(slug), listProductsOrSeed()]);
   if (!isLocale(locale) || !product) notFound();
   return (
     <SiteShell locale={locale} className="sh-site">

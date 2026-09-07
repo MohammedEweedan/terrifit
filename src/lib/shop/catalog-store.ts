@@ -218,6 +218,19 @@ export async function getProduct(slug: string, options: { includeInactive?: bool
   return (await listProducts(options)).find((product) => product.slug === slug);
 }
 
+/**
+ * One product, falling back to the code-defined seed like `listProductsOrSeed`.
+ *
+ * `getProduct` throws when the database is unreachable, and the band page and
+ * every shop product page call it directly. That made those two routes — and
+ * only those two — return a 500 while the rest of the site degraded quietly,
+ * which surfaces in the browser as React error #441: the server render threw,
+ * so React fell back to client rendering and found nothing there either.
+ */
+export async function getProductOrSeed(slug: string): Promise<Product | undefined> {
+  return (await listProductsOrSeed()).find((product) => product.slug === slug);
+}
+
 export async function getV1Colourways(options: { includeInactive?: boolean } = {}): Promise<Variant[]> {
   return (await getProduct("terrifit-v1", options))?.variants ?? [];
 }

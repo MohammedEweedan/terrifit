@@ -4,7 +4,7 @@ import { BandExperience } from "@/components/band/BandExperience";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { isLocale, locales } from "@/i18n/config";
 import { getPagesCopy } from "@/i18n/pages";
-import { getProduct } from "@/lib/shop/catalog-store";
+import { getProductOrSeed } from "@/lib/shop/catalog-store";
 import { preorderState } from "@/lib/shop/preorder";
 
 export const dynamic = "force-dynamic";
@@ -32,7 +32,7 @@ export async function generateMetadata({
 export default async function BandPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const product = await getProduct("terrifit-v1");
+  const product = await getProductOrSeed("terrifit-v1");
   if (!product) notFound();
   const preorder = await preorderState();
   return (
