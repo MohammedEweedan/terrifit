@@ -15,7 +15,7 @@ import type { MarketOption } from "@/lib/markets";
 import { signupAttribution } from "@/lib/referral-client";
 import { SOCIAL_PLATFORMS, type SocialPlatform } from "@/lib/validation";
 import { TurnstileWidget } from "@/components/security/TurnstileWidget";
-import athletePhoto from "../../../public/rebrand/desktop-bg-clean.png";
+import athletePhoto from "../../../public/media/hoodie-hero.png";
 import styles from "./LandingWaitlist.module.css";
 
 type SignupRole = "athlete" | "creator" | "partner";
@@ -171,7 +171,7 @@ export function LandingWaitlist({ locale, markets, copy }: {
         <div className={styles.finalTop}><span>TERRIFIT / {copy.waitlist.eyebrow}</span><span aria-hidden>↗</span></div>
         <div className={styles.finalGrid}>
           <h2>{text.waitTitle}</h2>
-          <div className={styles.finalAction}><p>{text.waitBody}</p><button className={styles.button} type="button" onClick={() => setManuallyOpen(true)}>{text.early}<span aria-hidden>↗</span></button><small><span aria-hidden>✓</span>{text.waitFoot}</small></div>
+          <div className={styles.finalAction}><button className={styles.button} type="button" onClick={() => setManuallyOpen(true)}>{text.early}<span aria-hidden>↗</span></button><small><span aria-hidden>✓</span>{text.waitFoot}</small></div>
         </div>
         <div className={styles.finalBottom}><span>{text.heroFoot}</span><span aria-hidden>TF / ∞</span></div>
       </div>
@@ -183,10 +183,10 @@ export function LandingWaitlist({ locale, markets, copy }: {
             <aside className={styles.aside}>
               <Image src={athletePhoto} alt="" fill sizes="(max-width: 700px) 1px, 390px" placeholder="blur" />
               <div className={styles.asideTop}><span>TERRIFIT®</span><span aria-hidden>↗</span></div>
-              <div className={styles.asideCopy}><div className={styles.asidePill}><span aria-hidden />{text.early}</div><h3>{text.waitAside}</h3><p>{text.waitAsideBody}</p><span className={styles.asideFoot}>{text.heroFoot}</span></div>
+              <div className={styles.asideCopy}><div className={styles.asidePill}><span aria-hidden />{text.early}</div><h3>{text.waitAside}</h3></div>
             </aside>
             <div className={styles.content}>
-              <div className={styles.heading}><p className={styles.eyebrow}><span aria-hidden />{copy.waitlist.eyebrow}</p><h2 id="waitlist-title">{result ? text.ready : copy.waitlist.headline}</h2><p id="waitlist-description">{result ? copy.waitlist.success.referralBody : text.waitBody}</p></div>
+              <div className={styles.heading}><p className={styles.eyebrow}><span aria-hidden />{copy.waitlist.eyebrow}</p><h2 id="waitlist-title">{result ? text.ready : copy.waitlist.headline}</h2></div>
               {result ? <div className={styles.success}>
                 <div className={styles.position} role="status"><span className={styles.successCheck} aria-hidden>✓</span><div><p>{copy.waitlist.success.title}</p><strong>#{result.position.toLocaleString(locale)}</strong><span>{copy.waitlist.success.positionLabel}</span></div><span className={styles.positionMark} aria-hidden>↗</span></div>
                 <div className={styles.referral}><h3>{copy.waitlist.success.referralTitle}</h3><label htmlFor="waitlist-invite">{site.inviteLabel}</label><div className={styles.referralInput}><input id="waitlist-invite" dir="ltr" readOnly value={invite} onFocus={(event) => event.target.select()} /><button type="button" onClick={async () => { try { await navigator.clipboard.writeText(invite); setCopied(true); track("waitlist_invite_copied"); } catch { setCopied(false); modalRef.current?.querySelector<HTMLInputElement>("#waitlist-invite")?.select(); } }}>{copied ? site.copied : site.copyLink}</button></div><span className={styles.copyStatus} role="status">{copied ? site.linkReady : ""}</span></div>

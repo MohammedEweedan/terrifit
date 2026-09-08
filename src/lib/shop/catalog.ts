@@ -200,6 +200,65 @@ export const products: Product[] = [
     fulfilment: "ship",
   },
   {
+    // The second half of the hardware pair. `launch.ts` has matched this slug
+    // since before the product existed, so it is gated behind
+    // HARDWARE_PREORDERS_OPEN exactly like the Band.
+    slug: "terrifit-scale",
+    name: "Terrifit Scale",
+    tagline: "The morning half of the picture",
+    category: "band",
+    brand: "TERRIFIT",
+    partner: false,
+    priceCents: 7500,
+    rating: 4.8,
+    reviews: 96,
+    badges: ["New", "Founding price"],
+    variantLabel: "Finish",
+    variants: [
+      {
+        id: "black",
+        label: "Black",
+        note: "Matte black glass, brushed steel feet",
+        swatch: "linear-gradient(135deg,#141518,#2b2e33)",
+        accent: "#8b939d",
+        sku: "TF-SCL-BLK",
+        image: "/media/scale/black-v1.png",
+      },
+      {
+        id: "white",
+        label: "White",
+        note: "Bone glass, brushed steel feet",
+        swatch: "linear-gradient(135deg,#f2efe9,#d8d4cc)",
+        accent: "#b8b2a6",
+        sku: "TF-SCL-WHT",
+        image: "/media/scale/white-v1.png",
+      },
+    ],
+    description:
+      "The Band reads the day; the Scale reads the morning. Step on and it records weight, body fat, muscle mass and water in about five seconds, then hands it to the app so your readiness score knows what your body is actually made of — not just how it slept. It is the same account, the same graph, no second app to open.",
+    highlights: [
+      "Weight, body fat, muscle mass and body water in one step",
+      "Recognises up to eight people without anyone tapping anything",
+      "Writes to Apple Health and Google Health Connect automatically",
+      "A year on four AAA batteries",
+    ],
+    specs: [
+      ["Measurements", "Weight · body fat · muscle · water"],
+      ["Method", "Bio-impedance, four electrodes"],
+      ["Capacity", "180 kg / 400 lb"],
+      ["Graduation", "50 g"],
+      ["Profiles", "Up to 8, recognised automatically"],
+      ["Connectivity", "Bluetooth LE 5.4 · Wi-Fi"],
+    ],
+    media: [
+      { src: "/media/scale/black-v1.png", alt: "The Terrifit Scale in black, matte glass with a brushed steel edge, photographed from above", ratio: 1 },
+      { src: "/media/scale/white-v1.png", alt: "The Terrifit Scale in white, bone glass on a plain ground", ratio: 1 },
+    ],
+    stock: "preorder",
+    shipsIn: "Pre-order · ships November 2027",
+    fulfilment: "ship",
+  },
+  {
     slug: "v1-strap-set",
     name: "V1 Strap Set",
     tagline: "All three weaves, one box",

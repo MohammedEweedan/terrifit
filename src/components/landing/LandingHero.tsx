@@ -7,7 +7,7 @@ import type { Locale } from "@/i18n/config";
 import { storefrontCopy } from "@/i18n/storefront";
 import { marketingDetails } from "@/i18n/marketing";
 import { SloganMark } from "./SloganMark";
-import athlete from "../../../public/rebrand/desktop-bg-clean.png";
+import athlete from "../../../public/media/final-hero.png";
 import band from "../../../public/media/band/colourways-v2/ember.png";
 import styles from "./LandingHero.module.css";
 
@@ -25,9 +25,7 @@ export function LandingHero({ locale }: { locale: Locale }) {
     <section className={styles.hero} id="top">
       <div className={`tf-shell ${styles.grid}`}>
         <motion.div className={styles.copy} initial={reduce ? false : { opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, ease }}>
-          <p className={styles.eyebrow}><span aria-hidden="true" />{text.eyebrow}</p>
           <div className={styles.headline}><SloganMark /></div>
-          <p className={styles.lede}>{text.heroBody}</p>
           <div className={styles.actions}>
             <a className={styles.primary} href="#waitlist" onClick={openWaitlist}>{text.early}<span aria-hidden="true">↗</span></a>
             <Link className={styles.secondary} href={`/${locale}/app`}>{text.explore}<span aria-hidden="true">→</span></Link>

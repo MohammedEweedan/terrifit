@@ -1099,7 +1099,8 @@ html[dir="rtl"] .scrim-full {
 .tf-map-card-copy > div strong { color: var(--tf-orange); font-size: 0.76rem; }
 
 .tf-lifestyle { position: relative; min-height: clamp(420px, 56vw, 760px); overflow: hidden; background: #080808; color: #fff; }
-.tf-lifestyle > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.tf-lifestyle > picture { display: contents; }
+.tf-lifestyle img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .tf-lifestyle-shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgb(0 0 0 / 0.62), transparent 55%, rgb(0 0 0 / 0.16)); }
 .tf-lifestyle-words { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1px 1fr 1px 1fr; align-items: center; }
 .tf-lifestyle-words span { text-align: center; font-family: var(--font-display), sans-serif; font-size: clamp(4rem, 9vw, 9rem); font-weight: 800; letter-spacing: -0.04em; text-shadow: 0 5px 25px rgb(0 0 0 / 0.4); }
@@ -1338,8 +1339,7 @@ html[dir="rtl"] .scrim-full {
   .tf-map-scroller { display: flex; gap: 12px; overflow-x: auto; margin-inline: -20px; padding: 0 20px 16px; scroll-snap-type: x mandatory; }
   .tf-map-card { flex: 0 0 82vw; scroll-snap-align: center; }
   .tf-map-card > a { aspect-ratio: 0.78; }
-  .tf-lifestyle { min-height: 260px; aspect-ratio: 1.78; }
-  .tf-lifestyle > img { object-fit: contain; object-position: center; }
+  .tf-lifestyle img { object-fit: cover; object-position: center; }
   .tf-lifestyle-words { grid-template-columns: 1fr 1px 1fr 1px 1fr; grid-template-rows: 1fr; }
   .tf-lifestyle-words span { min-width: 0; padding-inline: 4px; font-size: clamp(1rem, 4.5vw, 1.7rem); line-height: 0.94; letter-spacing: -0.035em; text-wrap: balance; overflow-wrap: anywhere; }
   .tf-lifestyle-words i { justify-self: center; width: 2px; height: 36px; transform: rotate(16deg); }
@@ -4099,15 +4099,23 @@ html[dir="rtl"] .tf-section-intro h2 { font-size: clamp(2.1rem, 3.6vw, 3.4rem); 
 --------------------------------------------------------------------------- */
 
 @media (max-width: 760px) {
+  /* Full screen. The mobile crop is 9:16 — shot to fill a phone rather than
+     sit in a band — so the old 62svh cap left a portrait image letterboxed in
+     a landscape slot. `svh` rather than `dvh`: the small viewport unit is
+     measured with the browser chrome showing, so the section always fits and
+     does not resize as the address bar hides. */
   .tf-lifestyle {
     aspect-ratio: auto;
     min-height: 0;
-    height: min(62svh, 460px);
+    height: 100svh;
   }
 
-  .tf-lifestyle > img {
+  /* Descendant, not child: the image is inside <picture> now, and the old
+     `> img` selector silently stopped matching. `center` rather than 58%,
+     which was compensating for a landscape crop that is no longer served. */
+  .tf-lifestyle img {
     object-fit: cover;
-    object-position: 58% center;
+    object-position: center;
   }
 
   .tf-lifestyle-words {
@@ -6710,4 +6718,106 @@ html[dir="rtl"] .tf-wordmark {
 .ob-code {
   display: inline-block; margin-bottom: 6px; padding: 8px 14px; border-radius: 10px;
   background: var(--surface-2); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9rem;
+}
+
+/* ── Scale product page (`sl-`) ───────────────────────────────────────────
+   Namespaced away from `sc-`, which the shop catalogue already owns. */
+.sl-page { background: var(--bg); color: var(--fg); padding-block: clamp(110px, 13vh, 160px) clamp(60px, 8vw, 110px); }
+.sl-hero { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+.sl-hero > * { min-width: 0; }
+.sl-eyebrow { color: var(--accent); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; }
+.sl-hero h1 { margin: 14px 0 10px; font-family: var(--font-anton), var(--font-inter), sans-serif; font-size: clamp(2.4rem, 5.2vw, 4rem); line-height: 0.98; text-transform: uppercase; letter-spacing: -0.01em; }
+.sl-tagline { margin: 0 0 14px; color: var(--fg); font-size: clamp(1rem, 1.7vw, 1.25rem); font-weight: 600; }
+.sl-body { max-width: 56ch; color: var(--fg-2); font-size: 0.95rem; line-height: 1.7; }
+.sl-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; margin-top: 26px; }
+.sl-cta {
+  display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 999px;
+  background: var(--accent); color: var(--accent-fg);
+  font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+  transition: background 160ms ease, transform 160ms ease;
+}
+.sl-cta:hover { background: var(--accent-hover); transform: translateY(-2px); }
+.sl-link { color: var(--fg-2); font-size: 0.86rem; font-weight: 600; }
+.sl-link:hover { color: var(--accent); }
+.sl-note { margin-top: 18px; color: var(--fg-3); font-size: 0.76rem; line-height: 1.6; }
+.sl-hero-art { border-radius: 24px; padding: clamp(16px, 3vw, 32px); background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-card); }
+
+.sl-points { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: clamp(48px, 7vw, 88px); }
+.sl-points article { display: grid; gap: 10px; padding: 22px; border: 1px solid var(--border); border-radius: 18px; background: var(--surface); }
+.sl-points span { color: var(--accent); font-size: 0.74rem; font-weight: 800; letter-spacing: 0.1em; }
+.sl-points p { margin: 0; color: var(--fg-2); font-size: 0.9rem; line-height: 1.6; }
+
+.sl-finishes { margin-top: clamp(48px, 7vw, 88px); }
+.sl-finishes h2 { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-3); }
+.sl-finish-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-top: 16px; }
+.sl-finish-grid article { display: grid; gap: 6px; padding: 18px; border: 1px solid var(--border); border-radius: 18px; background: var(--surface); }
+.sl-finish-grid strong { font-size: 1rem; }
+.sl-finish-grid span { color: var(--fg-2); font-size: 0.82rem; line-height: 1.5; }
+
+.sl-specs { margin-top: clamp(48px, 7vw, 88px); }
+.sl-specs dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0; margin: 0; border-top: 1px solid var(--border); }
+.sl-specs dl > div { padding: 20px 22px; border-bottom: 1px solid var(--border); border-inline-start: 1px solid var(--border); }
+.sl-specs dl > div:first-child { border-inline-start: 0; }
+.sl-specs dt { color: var(--fg-3); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+.sl-specs dd { margin: 8px 0 0; font-size: 0.95rem; }
+
+.sl-together { margin-top: clamp(56px, 8vw, 100px); padding: clamp(26px, 4vw, 48px); border: 1px solid var(--border); border-radius: 24px; background: var(--surface); }
+.sl-together h2 { margin: 12px 0 10px; font-size: clamp(1.5rem, 3vw, 2.2rem); line-height: 1.15; }
+.sl-together ul { margin: 18px 0 26px; padding: 0; list-style: none; display: grid; gap: 10px; }
+.sl-together li { padding-inline-start: 20px; position: relative; color: var(--fg-2); font-size: 0.92rem; line-height: 1.6; }
+.sl-together li::before { content: "→"; position: absolute; inset-inline-start: 0; color: var(--accent); }
+
+@media (max-width: 900px) {
+  .sl-hero { grid-template-columns: 1fr; }
+  .sl-hero-art { order: -1; }
+  .sl-points { grid-template-columns: 1fr; }
+  .sl-specs dl > div { border-inline-start: 0; }
+}
+
+/* Landing shop: three departments, led by photography. */
+.th-shop-departments {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(12px, 1.6vw, 22px);
+  margin-top: clamp(26px, 3.5vw, 44px);
+}
+.th-department {
+  position: relative; display: block; overflow: hidden;
+  border-radius: 20px; border: 1px solid var(--border); background: var(--surface);
+  transition: transform 320ms cubic-bezier(.2,.7,.3,1), box-shadow 320ms ease, border-color 200ms ease;
+}
+.th-department:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: var(--shadow-card); }
+.th-department .tf-shot { border: 0; border-radius: 0; }
+.th-department img { transition: transform 620ms cubic-bezier(.2,.7,.3,1); }
+.th-department:hover img { transform: scale(1.04); }
+/* The label sits on the photograph, so it carries its own scrim rather than
+   depending on whatever happens to be in the lower third of the image. */
+.th-department-label {
+  position: absolute; inset-inline: 0; bottom: 0;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 40px 20px 18px;
+  background: linear-gradient(to top, rgb(8 8 10 / 0.86), rgb(8 8 10 / 0));
+  color: #fff;
+}
+.th-department-label strong { font-size: clamp(0.95rem, 1.5vw, 1.15rem); font-weight: 700; letter-spacing: -0.01em; }
+.th-department-label em { font-style: normal; opacity: 0.7; }
+.th-department:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+@media (max-width: 800px) {
+  /* One row that scrolls, rather than three tiles squeezed to postage stamps. */
+  .th-shop-departments {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 74%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin-inline: calc(50% - 50vw);
+    padding-inline: max(24px, calc(50vw - 50%));
+  }
+  .th-shop-departments::-webkit-scrollbar { display: none; }
+  .th-department { scroll-snap-align: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .th-department, .th-department img { transition: none; }
 }

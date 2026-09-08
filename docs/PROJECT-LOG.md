@@ -722,3 +722,38 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 **Committed** `af199fb` on `main` — chore: update project log with recent commit details and revert information
 
 <sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 13:05
+
+**Committed** `ac8143c` on `main` — feat: add LandingHero and LandingWaitlist components with styles
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 14:10
+
+**Working tree** — 5 files · +120 −1
+
+- **website** — `src/app/[locale]/hardware/page.tsx`, `src/app/globals.css`, `src/app/[locale]/scale/`
+- **shop** — `src/lib/shop/catalog.ts`
+- **media** — `public/media/gym-hero.png`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 14:31
+
+**Working tree** — 7 files · +220 −20
+
+- **website** — `src/components/account/AuthForm.tsx`, `src/components/landing/LandingWaitlist.tsx`, `src/components/landing/TerrifitLanding.tsx`, `src/components/navigation/TerrifitFooter.tsx`
+- **copy and locales** — `src/i18n/marketing.ts`
+- **media** — `public/media/creatine-shot.png`, `public/media/hoodie-hero.png`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 15:41
+
+**Working tree** — 7 files · +274 −35
+
+- **website** — `src/components/landing/LandingHero.tsx`, `src/components/navigation/TerrifitHeader.tsx`
+- **media** — `public/media/desktop-twl.png`, `public/media/final-hero.png`, `public/media/hoodie-sec.png`, `public/media/mobile-twl.png`, `public/media/sled.jpg`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import Image, { type StaticImageData } from "next/image";
+import Image, { getImageProps, type StaticImageData } from "next/image";
 import Link from "next/link";
 import { createContext, useContext } from "react";
 import type { Dictionary } from "@/i18n";
@@ -11,7 +11,6 @@ import { TerrifitHeader } from "@/components/navigation/TerrifitHeader";
 import { TerrifitFooter } from "@/components/navigation/TerrifitFooter";
 import { marketingDetails, marketingUi } from "@/i18n/marketing";
 import { storefrontCopy } from "@/i18n/storefront";
-import { ProductCard } from "@/components/shop/ProductCard";
 import type { Product } from "@/lib/shop/catalog";
 import { BandCallouts } from "@/components/band/BandCallouts";
 import { AvailableNow } from "@/components/marketing/AvailableNow";
@@ -28,10 +27,12 @@ import shotHomeDark from "../../../public/media/app/home-dark.png";
 import shotShopDark from "../../../public/media/app/shop-dark.png";
 import shotMapsDark from "../../../public/media/app/maps-dark.png";
 import { AppShowcase } from "@/components/platform/AppShowcase";
-import trainWorkLive from "../../../public/media/train-work-live.jpg";
+import desktopTwl from "../../../public/media/desktop-twl.png";
+import mobileTwl from "../../../public/media/mobile-twl.png";
 import { LandingHero } from "./LandingHero";
 import { LandingWaitlist } from "./LandingWaitlist";
 import styles from "./TerrifitLanding.module.css";
+import { Shot } from "@/components/ui/Shot";
 
 
 /**
@@ -295,9 +296,32 @@ function MapsSection({ locale }: { locale: Locale }) {
 
 function LifestyleSection({locale}:{locale:Locale}) {
   const detail=marketingDetails[locale];
+
+  /**
+   * Two crops, not two sizes.
+   *
+   * The desktop frame is 16:9 and the mobile one is 9:16 — a different
+   * composition rather than the same picture scaled, which `sizes` cannot
+   * express. `getImageProps` is the documented way to keep Next's optimised
+   * `srcSet` while letting `<picture>` choose between them, so exactly one of
+   * the two is ever downloaded.
+   */
+  const common = {
+    alt: "One athlete wearing Terrifit while training, working and at a formal event",
+    sizes: "100vw",
+  };
+  const { props: { srcSet: desktop } } = getImageProps({ ...common, src: desktopTwl, width: 1672, height: 941 });
+  const { props: { srcSet: mobile, ...rest } } = getImageProps({ ...common, src: mobileTwl, width: 941, height: 1672 });
+
   return (
     <section className="tf-lifestyle" aria-label="Terrifit from training to everyday life">
-      <Image src={trainWorkLive} alt="One athlete wearing Terrifit while training, working and at a formal event" placeholder="blur" sizes="100vw" />
+      <picture>
+        <source media="(min-width: 760px)" srcSet={desktop} />
+        {/* `alt` comes through ...rest from `common`; the rule only sees a
+            literal attribute. */}
+        {/* eslint-disable-next-line jsx-a11y/alt-text */}
+        <img {...rest} srcSet={mobile} />
+      </picture>
       <div className="tf-lifestyle-shade" />
       <div className="tf-lifestyle-words"><span>{detail.lifestyle[0]}</span><i /><span>{detail.lifestyle[1]}</span><i /><span>{detail.lifestyle[2]}</span></div>
       <p>{detail.lifestyle[3]}</p>
@@ -307,12 +331,43 @@ function LifestyleSection({locale}:{locale:Locale}) {
 
 function ShopSection({ locale, products }: { locale: Locale; products: Product[] }) {
   const text = storefrontCopy(locale);
-  const picks = ["recovery-protein", "daily-hydration", "terrifits-field-tee", "training-shaker"]
-    .flatMap(slug => products.find(product => product.slug === slug) ?? []);
+  const shop = getPagesCopy(locale).shop;
+
+  /**
+   * Three departments, led by photography rather than by four product cards.
+   *
+   * The cards repeat what the shop page already does and reduce the store to
+   * whichever four items happened to be picked; this says what the store *is* —
+   * training, fuel, and what you wear — and sends each tile into the shop with
+   * that filter already applied. Labels come from the shop's own category copy,
+   * which is translated in all ten locales, so the section adds no new strings.
+   */
+  const departments = [
+    { key: "accessories", src: "/media/gym-hero.png", alt: "A Terrifit member mid-session in the gym" },
+    { key: "fuel", src: "/media/creatine-shot.png", alt: "Terrifuel creatine monohydrate photographed as a product shot" },
+    { key: "apparel", src: "/media/hoodie-hero.png", alt: "The Terrifits hoodie worn outdoors" },
+  ] as const;
+
+  // A count per department, so a tile never sends someone to an empty filter.
+  const counted = departments.filter(
+    (department) => products.some((product) => product.category === department.key),
+  );
+
   return <section id="shop" className="th-shop">
     <div className="tf-shell">
       <div className="th-section-heading"><div><p className="th-eyebrow">{text.shopEyebrow}</p><h2>{text.essentials}</h2></div><Link className="th-text-link" href={`/${locale}/shop`}>{text.shopAll}<span aria-hidden>↗</span></Link></div>
-      <div className="sc-grid">{picks.map(product => <ProductCard key={product.slug} locale={locale} product={product} copy={getPagesCopy(locale).shop} />)}</div>
+      <div className="th-shop-departments">
+        {(counted.length > 0 ? counted : departments).map(department => (
+          <Link key={department.key} className="th-department" href={`/${locale}/shop?category=${department.key}`}>
+            <Shot src={department.src} alt={department.alt} ratio={4 / 5} sizes="(max-width: 800px) 90vw, 380px"
+                  fallback={{ label: shop.categories[department.key] }} />
+            <span className="th-department-label">
+              <strong>{shop.categories[department.key]}</strong>
+              <em aria-hidden>↗</em>
+            </span>
+          </Link>
+        ))}
+      </div>
     </div>
   </section>;
 }

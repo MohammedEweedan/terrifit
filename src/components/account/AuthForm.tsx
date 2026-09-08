@@ -7,7 +7,7 @@ import { useState } from "react";
 import type { Locale } from "@/i18n/config";
 import type { PagesCopy } from "@/i18n/pages";
 import { marketingDetails, marketingUi } from "@/i18n/marketing";
-import athlete from "../../../public/media/hero-male.jpg";
+import athlete from "../../../public/media/gym-hero.png";
 import { authUi } from "./auth-copy";
 import styles from "./AuthForm.module.css";
 
@@ -103,13 +103,6 @@ export function AuthForm({
             placeholder="blur"
           />
           <div className={styles.storyShade} />
-          <div className={styles.storyTop}>
-            <span className={styles.brand} dir="ltr">
-              <span className={styles.mark} aria-hidden="true"><i /><i /><i /><i /></span>
-              TERRIFIT
-            </span>
-            <span className={styles.crosshair} aria-hidden="true">+</span>
-          </div>
           <div className={styles.orbit} aria-hidden="true"><span /></div>
           <div className={styles.storyCopy}>
             <p className={styles.storyTitle}>

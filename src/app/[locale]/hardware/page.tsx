@@ -44,7 +44,7 @@ export default async function HardwarePage({ params }: { params: Promise<{ local
 
   const devices = [
     { ...copy.band, price: BAND_CENTS, href: `/${locale}/band`, art: bandRender, alt: copy.band.name },
-    { ...copy.scale, price: SCALE_CENTS, href: `/${locale}/shop`, art: scaleRender, alt: copy.scale.name },
+    { ...copy.scale, price: SCALE_CENTS, href: `/${locale}/scale`, art: scaleRender, alt: copy.scale.name },
   ];
 
   return (
