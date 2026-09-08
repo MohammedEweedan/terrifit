@@ -708,3 +708,11 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **other** — `.do/app.yaml`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 11:14
+
+**Committed** `c3f8ac0` on `main` — chore: update app.yaml with detailed explanation for DATABASE_URL configuration
+
+**Reverted or committed** — 1 file no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
