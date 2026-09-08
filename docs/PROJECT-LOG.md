@@ -618,3 +618,11 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **shop** — `src/lib/shop/catalog.ts`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 04:55
+
+**Committed** `92eec8d` on `main` — feat: implement admin waitlist and messages management in the admin console
+
+**Reverted or committed** — 9 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
