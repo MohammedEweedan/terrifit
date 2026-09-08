@@ -626,3 +626,17 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 **Reverted or committed** — 9 files no longer differ from HEAD
 
 <sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 04:56
+
+**Committed** `d6ff29f` on `main` — chore: update project log with recent admin console changes
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 10:13
+
+**Working tree** — 4 files · +94 −10
+
+- **website** — `src/app/[locale]/nimda/page.tsx`, `src/app/globals.css`, `src/components/admin/AdminConsole.tsx`, `src/app/[locale]/nimda/error.tsx`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

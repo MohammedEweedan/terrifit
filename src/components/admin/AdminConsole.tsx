@@ -79,8 +79,25 @@ type Messages = { unhandled: number; messages: Message[] };
 const TABS = ["Overview", "Products", "Orders", "Revenue", "Members", "Waitlist", "Messages", "Content", "Audit"] as const;
 type Tab = (typeof TABS)[number];
 
-const money = (cents: number, currency = "USD") =>
-  new Intl.NumberFormat("en", { style: "currency", currency }).format(cents / 100);
+/**
+ * Money, in a console that must never go blank.
+ *
+ * `Intl.NumberFormat` throws a RangeError for an empty string, null, or
+ * anything that is not a three-letter code — and a default parameter only
+ * covers `undefined`, so `currency: null` on a single legacy order was enough
+ * to throw during render and take the whole console down to a blank page.
+ * A malformed code now degrades to the amount plus whatever was stored.
+ */
+const money = (cents: number, currency?: string | null) => {
+  const code = (currency ?? "USD").trim().toUpperCase();
+  const amount = (cents ?? 0) / 100;
+  if (!/^[A-Z]{3}$/.test(code)) return `${amount.toFixed(2)} ${code || "?"}`.trim();
+  try {
+    return new Intl.NumberFormat("en", { style: "currency", currency: code }).format(amount);
+  } catch {
+    return `${amount.toFixed(2)} ${code}`;
+  }
+};
 const salesRevenue = (metric: SalesMetric) =>
   metric.revenue.length ? metric.revenue.map((entry) => money(entry.cents, entry.currency)).join(" · ") : "No paid sales";
 const when = (iso: string) => new Date(iso).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });

@@ -6484,3 +6484,17 @@ html[dir="rtl"] .tf-wordmark {
 .ad-table tr.is-done { opacity: 0.55; }
 .ad-table tr.is-done th[scope="row"]::after { content: " ✓"; color: var(--good); }
 .ad-table td code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.78rem; }
+
+/* Console error boundary: readable on any theme, and never a blank page. */
+.ad-error {
+  max-width: 60ch; margin: 18vh auto; padding: 28px 30px;
+  border: 1px solid var(--border); border-radius: 16px;
+  background: var(--surface); color: var(--fg);
+}
+.ad-error h1 { margin: 0 0 10px; font-size: 1.2rem; }
+.ad-error p { margin: 0 0 12px; color: var(--fg-2); font-size: 0.9rem; line-height: 1.6; }
+.ad-error code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.82rem; }
+.ad-error button {
+  min-height: 42px; padding: 0 20px; border: 0; border-radius: 999px;
+  background: var(--accent); color: var(--accent-fg); font-weight: 700; cursor: pointer;
+}
