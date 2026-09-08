@@ -29,6 +29,10 @@ model WaitlistEntry {
   features String @default("[]")
 
   // Professional applicants (coach / nutritionist / creator)
+  // `handle` is the username or profile URL; `platform` says where it lives.
+  // A handle on its own is unusable — "@moe" is a different person on every
+  // network, and reviewing a creator means opening their actual profile.
+  platform     String?
   handle       String?
   audienceSize String?
   credentials  String?

@@ -271,7 +271,9 @@ export const en = {
       country: "Market",
       countryPlaceholder: "Select your market",
       handle: "Main social handle",
-      handlePlaceholder: "@yourhandle",
+      platform: "Platform",
+      platformPlaceholder: "Where is your audience?",
+      handlePlaceholder: "Username or profile link",
       audience: "Audience size",
       audiencePlaceholder: "Select a range",
       credentials: "Qualifications",
@@ -285,6 +287,7 @@ export const en = {
       features: "What matters most to you",
       featuresNote: "Pick as many as apply — this is the demand signal we build against.",
     },
+    platforms: { instagram: "Instagram", tiktok: "TikTok", youtube: "YouTube", x: "X", facebook: "Facebook", twitch: "Twitch", strava: "Strava", podcast: "Podcast", website: "Website", other: "Somewhere else" },
     audienceRanges: ["Under 1,000", "1,000 – 10,000", "10,000 – 100,000", "100,000 – 1M", "Over 1M"],
     brandCategories: ["Supplements", "Apparel", "Equipment", "Accessories", "Digital products"],
     features: {

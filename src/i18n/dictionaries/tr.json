@@ -330,7 +330,9 @@
       "country": "Pazar",
       "countryPlaceholder": "Pazarını seç",
       "handle": "Ana hesap",
-      "handlePlaceholder": "@hesabın",
+      "platform": "Platform",
+      "platformPlaceholder": "Kitleniz nerede?",
+      "handlePlaceholder": "Kullanıcı adı veya profil bağlantısı",
       "audience": "Kitle büyüklüğü",
       "audiencePlaceholder": "Bir aralık seç",
       "credentials": "Yeterlilikler",
@@ -343,6 +345,18 @@
       "brandCategoryPlaceholder": "Bir kategori seç",
       "features": "Senin için en önemlisi",
       "featuresNote": "Uygun olanların hepsini seç — üzerine inşa ettiğimiz talep sinyali budur."
+    },
+    "platforms": {
+      "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "youtube": "YouTube",
+      "x": "X",
+      "facebook": "Facebook",
+      "twitch": "Twitch",
+      "strava": "Strava",
+      "podcast": "Podcast",
+      "website": "Web sitesi",
+      "other": "Başka bir yer"
     },
     "audienceRanges": [
       "1.000'den az",

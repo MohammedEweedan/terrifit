@@ -330,7 +330,9 @@
       "country": "Mercato",
       "countryPlaceholder": "Seleziona il tuo mercato",
       "handle": "Profilo principale",
-      "handlePlaceholder": "@tuoprofilo",
+      "platform": "Piattaforma",
+      "platformPlaceholder": "Dov'è il tuo pubblico?",
+      "handlePlaceholder": "Nome utente o link del profilo",
       "audience": "Dimensione del pubblico",
       "audiencePlaceholder": "Seleziona un intervallo",
       "credentials": "Qualifiche",
@@ -343,6 +345,18 @@
       "brandCategoryPlaceholder": "Seleziona una categoria",
       "features": "Cosa ti interessa di più",
       "featuresNote": "Seleziona tutto ciò che si applica: è il segnale di domanda su cui costruiamo."
+    },
+    "platforms": {
+      "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "youtube": "YouTube",
+      "x": "X",
+      "facebook": "Facebook",
+      "twitch": "Twitch",
+      "strava": "Strava",
+      "podcast": "Podcast",
+      "website": "Sito web",
+      "other": "Altrove"
     },
     "audienceRanges": [
       "Meno di 1.000",

@@ -330,7 +330,9 @@
       "country": "السوق",
       "countryPlaceholder": "اختر سوقك",
       "handle": "الحساب الرئيسي",
-      "handlePlaceholder": "@حسابك",
+      "platform": "المنصة",
+      "platformPlaceholder": "أين جمهورك؟",
+      "handlePlaceholder": "اسم المستخدم أو رابط الملف",
       "audience": "حجم الجمهور",
       "audiencePlaceholder": "اختر نطاقاً",
       "credentials": "المؤهلات",
@@ -343,6 +345,18 @@
       "brandCategoryPlaceholder": "اختر فئة",
       "features": "ما الذي يهمّك أكثر",
       "featuresNote": "اختر كل ما ينطبق — هذه هي إشارة الطلب التي نبني عليها."
+    },
+    "platforms": {
+      "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "youtube": "YouTube",
+      "x": "X",
+      "facebook": "Facebook",
+      "twitch": "Twitch",
+      "strava": "Strava",
+      "podcast": "Podcast",
+      "website": "موقع إلكتروني",
+      "other": "مكان آخر"
     },
     "audienceRanges": [
       "أقل من 1,000",

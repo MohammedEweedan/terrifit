@@ -12,10 +12,13 @@ export function AuthForm({
   locale,
   mode,
   copy,
+  next,
 }: {
   locale: Locale;
   mode: Mode;
   copy: PagesCopy["account"];
+  /** Where to land after signing in. Validated by the caller. */
+  next?: string;
 }) {
   const router = useRouter();
   const text = mode === "signup" ? copy.signup : copy.signin;
@@ -53,7 +56,9 @@ export function AuthForm({
       if (response.ok) {
         // A hard refresh so the server components pick up the new session
         // cookie rather than rendering the signed-out shell from cache.
-        router.replace(`/${locale}/account`);
+        // Falls back to the account page when nothing asked for a
+        // particular destination — the ordinary sign-in case.
+        router.replace(next ?? `/${locale}/account`);
         router.refresh();
         return;
       }

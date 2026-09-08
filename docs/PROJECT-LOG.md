@@ -656,3 +656,22 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **other** — `.do/app.yaml`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 10:21
+
+**Committed** `c7362fd` on `main` — feat: add uselibpqcompat flag to DATABASE_URL for TLS compatibility
+
+**Reverted or committed** — 1 file no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 10:32
+
+**Working tree** — 21 files · +294 −15
+
+- **database** — `prisma/schema.prisma`, `prisma/migrations/20260908082602_waitlist_platform/`
+- **website** — `src/app/[locale]/signin/page.tsx`, `src/app/api/waitlist/route.ts`, `src/app/globals.css`, `src/components/account/AuthForm.tsx`, `src/components/sections/WaitlistForm.tsx`
+- **copy and locales** — `src/i18n/dictionaries/ar.json`, `src/i18n/dictionaries/de.json`, `src/i18n/dictionaries/en.ts`, `src/i18n/dictionaries/es.json`, `src/i18n/dictionaries/fr.json`, `src/i18n/dictionaries/it.json` and 4 more
+- **server** — `src/lib/validation.ts`, `src/lib/__tests__/safe-next.test.ts`, `src/lib/__tests__/waitlist-platform.test.ts`, `src/lib/safe-next.ts`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

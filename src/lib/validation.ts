@@ -6,6 +6,18 @@ export type Role = (typeof ROLES)[number];
 /** Roles that must clear credential or compliance review before they can sell. */
 export const PROFESSIONAL_ROLES: readonly Role[] = ["coach", "nutritionist", "creator"];
 
+/**
+ * Networks a creator can be reviewed on.
+ *
+ * "@moe" is a different person on every one of these, so a handle without a
+ * platform cannot be checked by anyone — which is the entire point of asking
+ * for it before someone is allowed to publish Maps.
+ */
+export const SOCIAL_PLATFORMS = [
+  "instagram", "tiktok", "youtube", "x", "facebook", "twitch", "strava", "podcast", "website", "other",
+] as const;
+export type SocialPlatform = (typeof SOCIAL_PLATFORMS)[number];
+
 export const FEATURE_KEYS = [
   "maps",
   "checkins",
@@ -29,7 +41,8 @@ export const waitlistSchema = z
     locale: z.string().trim().min(2).max(8).default("en"),
     features: z.array(z.enum(FEATURE_KEYS)).max(FEATURE_KEYS.length).default([]),
 
-    handle: z.string().trim().max(120).optional().or(z.literal("")),
+    platform: z.enum(SOCIAL_PLATFORMS).optional().or(z.literal("")),
+    handle: z.string().trim().max(200).optional().or(z.literal("")),
     audienceSize: z.string().trim().max(60).optional().or(z.literal("")),
     credentials: z.string().trim().max(1000).optional().or(z.literal("")),
 
@@ -45,6 +58,20 @@ export const waitlistSchema = z
     // Brands cannot be reviewed without something to review.
     if (value.role === "brand" && !value.brandName?.trim()) {
       ctx.addIssue({ code: "custom", path: ["brandName"], message: "required" });
+    }
+
+    const handle = value.handle?.trim();
+    const platform = value.platform?.trim();
+
+    // Creators are verified before they can publish Maps or gather a following,
+    // and that review is someone opening the profile. Both halves or neither.
+    if (value.role === "creator") {
+      if (!platform) ctx.addIssue({ code: "custom", path: ["platform"], message: "required" });
+      if (!handle) ctx.addIssue({ code: "custom", path: ["handle"], message: "required" });
+    }
+    // Any role that volunteers a handle still has to say where it is.
+    if (handle && !platform) {
+      ctx.addIssue({ code: "custom", path: ["platform"], message: "required" });
     }
   });
 

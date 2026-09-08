@@ -330,7 +330,9 @@
       "country": "Markt",
       "countryPlaceholder": "Kies je markt",
       "handle": "Belangrijkste account",
-      "handlePlaceholder": "@jouwaccount",
+      "platform": "Platform",
+      "platformPlaceholder": "Waar zit je publiek?",
+      "handlePlaceholder": "Gebruikersnaam of profiellink",
       "audience": "Grootte van je publiek",
       "audiencePlaceholder": "Kies een bereik",
       "credentials": "Kwalificaties",
@@ -343,6 +345,18 @@
       "brandCategoryPlaceholder": "Kies een categorie",
       "features": "Wat voor jou het belangrijkst is",
       "featuresNote": "Kies alles wat van toepassing is — dit is het vraagsignaal waarop we bouwen."
+    },
+    "platforms": {
+      "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "youtube": "YouTube",
+      "x": "X",
+      "facebook": "Facebook",
+      "twitch": "Twitch",
+      "strava": "Strava",
+      "podcast": "Podcast",
+      "website": "Website",
+      "other": "Ergens anders"
     },
     "audienceRanges": [
       "Minder dan 1.000",

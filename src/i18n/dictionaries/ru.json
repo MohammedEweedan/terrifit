@@ -330,7 +330,9 @@
       "country": "Рынок",
       "countryPlaceholder": "Выберите свой рынок",
       "handle": "Основной аккаунт",
-      "handlePlaceholder": "@вашаккаунт",
+      "platform": "Платформа",
+      "platformPlaceholder": "Где ваша аудитория?",
+      "handlePlaceholder": "Имя пользователя или ссылка",
       "audience": "Размер аудитории",
       "audiencePlaceholder": "Выберите диапазон",
       "credentials": "Квалификации",
@@ -343,6 +345,18 @@
       "brandCategoryPlaceholder": "Выберите категорию",
       "features": "Что для вас важнее всего",
       "featuresNote": "Отметьте всё подходящее — это и есть сигнал спроса, по которому мы строим."
+    },
+    "platforms": {
+      "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "youtube": "YouTube",
+      "x": "X",
+      "facebook": "Facebook",
+      "twitch": "Twitch",
+      "strava": "Strava",
+      "podcast": "Podcast",
+      "website": "Сайт",
+      "other": "Где-то ещё"
     },
     "audienceRanges": [
       "Менее 1 000",

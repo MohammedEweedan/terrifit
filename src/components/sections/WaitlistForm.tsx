@@ -12,6 +12,7 @@ import { FEATURE_KEYS, PROFESSIONAL_ROLES, ROLES, type Role } from "@/lib/valida
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 import { TurnstileWidget } from "@/components/security/TurnstileWidget";
+import { SOCIAL_PLATFORMS } from "@/lib/validation";
 
 const REF_KEY = "ryvn.ref";
 
@@ -116,6 +117,7 @@ export function WaitlistForm({
       country: String(form.get("country") ?? ""),
       locale,
       features,
+      platform: String(form.get("platform") ?? ""),
       handle: String(form.get("handle") ?? ""),
       audienceSize: String(form.get("audienceSize") ?? ""),
       credentials: String(form.get("credentials") ?? ""),
@@ -295,10 +297,20 @@ export function WaitlistForm({
 
             {isProfessional ? (
               <div className="mt-5 grid gap-5 sm:grid-cols-2">
+                {/* Platform first: it changes what a handle even means, and
+                    reviewing a creator is someone opening the profile. */}
+                <SelectField
+                  id="platform"
+                  label={d.waitlist.fields.platform}
+                  placeholder={d.waitlist.fields.platformPlaceholder}
+                  error={errors.platform}
+                  groups={[SOCIAL_PLATFORMS.map((key) => ({ code: key, name: d.waitlist.platforms[key] }))]}
+                />
                 <Field
                   id="handle"
                   label={d.waitlist.fields.handle}
                   placeholder={d.waitlist.fields.handlePlaceholder}
+                  error={errors.handle}
                   dir="ltr"
                 />
                 <SelectField

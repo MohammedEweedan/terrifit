@@ -82,6 +82,7 @@ export async function POST(request: Request) {
           country: input.country,
           locale: input.locale,
           features: JSON.stringify(input.features),
+          platform: input.platform || null,
           handle: input.handle || null,
           audienceSize: input.audienceSize || null,
           credentials: input.credentials || null,

@@ -6498,3 +6498,81 @@ html[dir="rtl"] .tf-wordmark {
   min-height: 42px; padding: 0 20px; border: 0; border-radius: 999px;
   background: var(--accent); color: var(--accent-fg); font-weight: 700; cursor: pointer;
 }
+
+/* ── Sign in / create account ─────────────────────────────────────────────
+   Scoped to `.ac-auth` and deliberately not `.ac-dashboard`, which shares some
+   of the selectors above and has its own layout to keep.
+
+   Driven by theme tokens rather than the hardcoded #0a0a0a it used before, so
+   the page follows the cream light palette instead of staying a black slab in
+   the middle of a light site. */
+.ac-auth {
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 0%, var(--accent-soft), transparent 70%),
+    var(--bg);
+  color: var(--fg);
+  padding-block: clamp(120px, 14vh, 170px) clamp(70px, 8vw, 120px);
+}
+.ac-auth .ac-lede { color: var(--fg-2); }
+
+.ac-auth form {
+  gap: 16px;
+  width: min(460px, 100%);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: clamp(26px, 3.4vw, 38px);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+.ac-auth .ac-eyebrow { color: var(--accent); }
+.ac-auth h1 { font-size: clamp(1.9rem, 3.2vw, 2.5rem); letter-spacing: -0.03em; }
+
+.ac-auth .ac-field > span { color: var(--fg-2); }
+.ac-auth .ac-field input,
+.ac-auth .ac-field select {
+  min-height: 52px;
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  background: var(--bg-elev);
+  color: var(--fg);
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+.ac-auth .ac-field input::placeholder { color: var(--fg-3); }
+/* There was no visible focus state at all: keyboard users had no way to tell
+   which field they were in. */
+.ac-auth .ac-field input:focus-visible,
+.ac-auth .ac-field select:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.ac-auth .ac-field.is-invalid input { border-color: var(--bad); }
+
+.ac-auth .ac-roles label {
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  color: var(--fg);
+  transition: border-color 160ms ease, background 160ms ease;
+}
+.ac-auth .ac-roles label:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* One action on the page, so it gets the full width rather than sitting in a
+   corner of the card. */
+.ac-auth .ac-button {
+  justify-self: stretch;
+  width: 100%;
+  min-height: 52px;
+  margin-top: 4px;
+  background: var(--accent);
+  color: var(--accent-fg);
+  font-size: 0.72rem;
+}
+.ac-auth .ac-button:hover:not(:disabled) { background: var(--accent-hover); }
+.ac-auth .ac-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.ac-auth .ac-swap { color: var(--fg-2); font-size: 0.84rem; }
+.ac-auth .ac-swap a { color: var(--accent); text-underline-offset: 3px; }
+.ac-auth .ac-error { color: var(--bad); }

@@ -330,7 +330,9 @@
       "country": "Mercado",
       "countryPlaceholder": "Seleciona o teu mercado",
       "handle": "Conta principal",
-      "handlePlaceholder": "@aminhaconta",
+      "platform": "Plataforma",
+      "platformPlaceholder": "Onde está seu público?",
+      "handlePlaceholder": "Usuário ou link do perfil",
       "audience": "Dimensão da audiência",
       "audiencePlaceholder": "Seleciona um intervalo",
       "credentials": "Qualificações",
@@ -343,6 +345,18 @@
       "brandCategoryPlaceholder": "Seleciona uma categoria",
       "features": "O que mais te importa",
       "featuresNote": "Escolhe tudo o que se aplica — é este o sinal de procura sobre o qual construímos."
+    },
+    "platforms": {
+      "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "youtube": "YouTube",
+      "x": "X",
+      "facebook": "Facebook",
+      "twitch": "Twitch",
+      "strava": "Strava",
+      "podcast": "Podcast",
+      "website": "Site",
+      "other": "Em outro lugar"
     },
     "audienceRanges": [
       "Menos de 1000",

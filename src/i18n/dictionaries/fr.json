@@ -330,7 +330,9 @@
       "country": "Marché",
       "countryPlaceholder": "Sélectionnez votre marché",
       "handle": "Compte principal",
-      "handlePlaceholder": "@votrecompte",
+      "platform": "Plateforme",
+      "platformPlaceholder": "Où est votre audience ?",
+      "handlePlaceholder": "Nom d'utilisateur ou lien du profil",
       "audience": "Taille de l'audience",
       "audiencePlaceholder": "Sélectionnez une tranche",
       "credentials": "Qualifications",
@@ -343,6 +345,18 @@
       "brandCategoryPlaceholder": "Sélectionnez une catégorie",
       "features": "Ce qui compte le plus pour vous",
       "featuresNote": "Cochez tout ce qui s'applique : c'est le signal de demande sur lequel nous construisons."
+    },
+    "platforms": {
+      "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "youtube": "YouTube",
+      "x": "X",
+      "facebook": "Facebook",
+      "twitch": "Twitch",
+      "strava": "Strava",
+      "podcast": "Podcast",
+      "website": "Site web",
+      "other": "Ailleurs"
     },
     "audienceRanges": [
       "Moins de 1 000",
