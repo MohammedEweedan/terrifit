@@ -68,8 +68,6 @@ export function Languages({ copy, current }: { copy: PagesCopy["languages"]; cur
           })}
         </ul>
 
-        <p className="tf-langs-note">{copy.note}</p>
-
       </div>
     </section>
   );

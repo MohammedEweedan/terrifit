@@ -586,3 +586,11 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **website** — `src/app/[locale]/nimda/page.tsx`
 
 <sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-07 · 01:49
+
+**Committed** `612feb9` on `main` — feat: enhance storefront with new hero wordmark animation and accessibility improvements
+
+**Reverted or committed** — 22 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
