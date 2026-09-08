@@ -14,6 +14,8 @@
     "app:android": "npm run android --prefix mobile",
     "app:check": "npm run typecheck --prefix mobile",
     "test": "vitest run",
+    "test:deploy": "node --test scripts/__tests__/*.test.mjs",
+    "db:migrate:deploy": "node scripts/migrate-deploy.mjs",
     "test:watch": "vitest",
     "admin:grant": "node --experimental-strip-types scripts/grant-admin.mjs",
     "postinstall": "prisma generate",

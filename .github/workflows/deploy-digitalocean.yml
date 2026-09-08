@@ -11,10 +11,11 @@ on:
   workflow_dispatch:
 
 concurrency:
-  # A newer commit makes an in-flight deploy irrelevant. Cancel it rather than
-  # racing two images into the registry.
-  group: deploy-${{ github.ref }}
-  cancel-in-progress: true
+  # Once App Platform starts a deployment, cancelling its GitHub runner does
+  # not stop that remote migration. Keep the rollout (including --wait) alive
+  # and queue the next commit so pre-deploy jobs cannot race from this workflow.
+  group: deploy-production
+  cancel-in-progress: false
 
 env:
   REGISTRY: registry.digitalocean.com
@@ -75,6 +76,7 @@ jobs:
       - run: npx prisma migrate deploy
 
       - run: npm test
+      - run: npm run test:deploy
       # Every locale must carry every key; a missing one silently ships English.
       - run: npm run check:i18n
 
@@ -157,7 +159,10 @@ jobs:
           # DigitalOcean — the migrate job kept running an `npx` command that
           # had been fixed locally three times over. Applying the spec makes
           # the file the source of truth and still triggers the deployment.
-          doctl apps update "$APP_ID" --spec .do/app.yaml --wait
+          # The service and its pre-deploy job must use the same immutable
+          # image, even when another push updates the registry's latest tag.
+          node scripts/prepare-deploy.mjs "$GITHUB_SHA" "$RUNNER_TEMP/terrifit-app.yaml"
+          doctl apps update "$APP_ID" --spec "$RUNNER_TEMP/terrifit-app.yaml" --wait
 
       # Mirrors public/media to R2 after a successful rollout. Skipped entirely
       # when the secrets are absent, so a fork or a repo without the bucket

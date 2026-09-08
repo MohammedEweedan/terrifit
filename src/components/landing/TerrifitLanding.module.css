@@ -1,0 +1,10 @@
+/* Keep the fixed navigation legible above the campaign's warm paper, even
+   before the visitor scrolls. The site's light theme retains its own header. */
+.landing :global(.tf-header) { background: rgb(20 24 20 / .97); }
+.landing :global(.tf-platform) { position: relative; overflow: hidden; }
+.landing :global(.tf-platform)::before { content: ""; position: absolute; width: 720px; height: 720px; inset-inline-end: -260px; top: -250px; border: 1px solid #ff622921; border-radius: 50%; box-shadow: 0 0 0 100px #ff622909, 0 0 0 200px #ff622906; pointer-events: none; }
+.landing :global(.tf-platform-grid) { position: relative; }
+.landing :global(.tf-map-card) { transition: transform .35s; }
+.landing :global(.tf-map-card):hover { transform: translateY(-7px); }
+.landing :global(.tf-map-card a):focus-visible { outline: 2px solid #ff6229; outline-offset: 5px; }
+@media (prefers-reduced-motion: reduce) { .landing :global(.tf-map-card) { transition: none; } .landing :global(.tf-map-card):hover { transform: none; } }

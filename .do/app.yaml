@@ -21,9 +21,11 @@ services:
     image:
       registry_type: DOCR
       repository: terrifit-web
-      # Set by `doctl apps create-deployment` from CI; pinned to a commit SHA
-      # so a rollback is a redeploy of a known tag rather than a rebuild.
+      # CI renders both image tags to the same full commit SHA before applying
+      # this spec. `latest` is only the initial manual bootstrap default.
       tag: latest
+      deploy_on_push:
+        enabled: false
 
     health_check:
       http_path: /en
@@ -69,20 +71,23 @@ jobs:
       registry_type: DOCR
       repository: terrifit-web
       tag: latest
+      deploy_on_push:
+        enabled: false
     # The CLI's real entrypoint, not `npx` and not the `.bin` shim.
     #
     # `npx` fetches from the registry when the package is missing, which had
     # this job doing a network install at container start. The `.bin/prisma`
     # symlink is no better: Docker COPY flattens it into a real file whose
     # relative `require("./cli.js")` then points at the wrong directory.
-    # Running build/index.js in place resolves both.
+    # The wrapper invokes build/index.js in place and retries only Prisma's
+    # ten-second advisory-lock timeout. Migration/SQL failures remain fatal.
     # Wrapped in `sh -c` because App Platform execs run_command directly
     # rather than through a shell: `cd migrate && node …` had it looking for
     # an executable named "cd" and failing with exit 128 before the container
     # even started.
-    run_command: sh -c "cd migrate && node node_modules/prisma/build/index.js migrate deploy"
+    run_command: sh -c "cd migrate && exec node migrate-deploy.mjs"
     envs:
-      - key: DATABASE_URL
+      - key: DIRECT_URL
         scope: RUN_TIME
         # Migrations take DDL locks and must not go through the transaction
         # pooler, which cannot hold a session across statements. The TLS flag is

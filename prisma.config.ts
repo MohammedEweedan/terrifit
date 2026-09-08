@@ -23,7 +23,9 @@ try {
  * still fail without it, but they fail at the point the connection is wanted
  * and say so plainly.
  */
-const url = process.env.DATABASE_URL;
+// CLI operations need a session that stays on one PostgreSQL backend. Keep a
+// direct URL available when the application's DATABASE_URL uses a pooler.
+const url = process.env.DIRECT_URL || process.env.DATABASE_URL;
 
 export default defineConfig({
   schema: "prisma/schema.prisma",

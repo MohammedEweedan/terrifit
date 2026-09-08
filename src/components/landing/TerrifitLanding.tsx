@@ -1,18 +1,15 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
-import { createContext, useCallback, useContext, useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { signupAttribution } from "@/lib/referral-client";
-import { track } from "@/lib/analytics";
+import { createContext, useContext } from "react";
 import type { Dictionary } from "@/i18n";
 import { localeMeta, type Locale } from "@/i18n/config";
 import type { MarketOption } from "@/lib/markets";
 import { TerrifitHeader } from "@/components/navigation/TerrifitHeader";
 import { TerrifitFooter } from "@/components/navigation/TerrifitFooter";
 import { marketingDetails, marketingUi } from "@/i18n/marketing";
-import { clearHash, getHash, getServerHash, subscribeHash } from "@/lib/hash";
 import { storefrontCopy } from "@/i18n/storefront";
 import { ProductCard } from "@/components/shop/ProductCard";
 import type { Product } from "@/lib/shop/catalog";
@@ -24,7 +21,6 @@ import { AnnouncementBar, type Announcement } from "@/components/marketing/Annou
 import { getPagesCopy } from "@/i18n/pages";
 
 import bandProduct from "../../../public/media/band/colourways-v2/ember.png";
-import heroDesktop from "../../../public/rebrand/desktop-bg-clean.png";
 import boxer from "../../../public/rebrand/combos-boxer-clean.png";
 import kettlebell from "../../../public/rebrand/faq-kettlebell-clean.png";
 import cyclist from "../../../public/rebrand/whyus-cyclist-clean.png";
@@ -33,8 +29,9 @@ import shotShopDark from "../../../public/media/app/shop-dark.png";
 import shotMapsDark from "../../../public/media/app/maps-dark.png";
 import { AppShowcase } from "@/components/platform/AppShowcase";
 import trainWorkLive from "../../../public/media/train-work-live.jpg";
-import { websiteCopy } from "@/i18n/website";
-import { SloganMark } from "./SloganMark";
+import { LandingHero } from "./LandingHero";
+import { LandingWaitlist } from "./LandingWaitlist";
+import styles from "./TerrifitLanding.module.css";
 
 
 /**
@@ -114,12 +111,11 @@ export function TerrifitLanding({
   shopProducts: Product[];
 }) {
   return (
-    <CopyContext.Provider value={copy}><div className="tf-site">
+    <CopyContext.Provider value={copy}><div className={`tf-site ${styles.landing}`}>
       <TerrifitHeader locale={locale} copy={copy} />
       <AnnouncementBar announcement={announcement} />
       <main id="main-content">
-        <Hero locale={locale} />
-        <MetricRail locale={locale} />
+        <LandingHero locale={locale} />
         <PlatformSection locale={locale} waitlistCount={waitlistCount} />
         <MapsSection locale={locale} />
         <BandSection locale={locale} />
@@ -131,48 +127,11 @@ export function TerrifitLanding({
         <Languages copy={getPagesCopy(locale).languages} current={locale} />
         <ShopSection locale={locale} products={shopProducts} />
         <AvailableNow locale={locale} copy={getPagesCopy(locale).availableNow} />
-        <FinalWaitlist locale={locale} markets={markets} />
+        <LandingWaitlist locale={locale} markets={markets} copy={copy} />
       </main>
       <TerrifitFooter locale={locale} copy={copy} />
     </div></CopyContext.Provider>
   );
-}
-
-function Hero({ locale }: { locale: Locale }) {
-  const text = storefrontCopy(locale);
-  const reduce = useReducedMotion();
-  return (
-    <section className="th-hero" id="top">
-      <div className="tf-shell th-hero-grid">
-        <motion.div className="th-hero-copy" initial={reduce ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease }}>
-          <p className="th-eyebrow"><i aria-hidden />{text.eyebrow}</p>
-          <SloganMark />
-          <p className="th-lede">{text.heroBody}</p>
-          <div className="th-actions">
-            <a className="th-button" href="#waitlist" onClick={openWaitlist}>{text.early}<span aria-hidden>↗</span></a>
-            <Link className="th-text-link" href={`/${locale}/app`}>{text.explore}<span aria-hidden>→</span></Link>
-          </div>
-          <span className="th-hero-foot">{text.heroFoot}</span>
-        </motion.div>
-        <motion.div className="th-hero-art" initial={reduce ? false : { opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.9, ease }}>
-          <Image src={heroDesktop} alt="Athlete in motion against Terrifit's signature orange" fill preload placeholder="blur" sizes="(max-width: 760px) 100vw, 55vw" />
-          <span className="th-art-index" aria-hidden>TF / 01</span>
-          <div className="th-art-caption"><span>{text.heroCaption}</span><a href="#metrics" aria-label={text.browse}>↓</a></div>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-function MetricRail({ locale }: { locale: Locale }) {
-  const text = storefrontCopy(locale);
-  return <nav id="metrics" className="th-paths tf-shell" aria-label={text.browse}>
-    {text.paths.map((path, i) => <Link key={path.href} href={`/${locale}/${path.href}`}>
-      <span className="th-path-number" aria-hidden>0{i + 1}</span>
-      <div><h2>{path.title}</h2><p>{path.body}</p><span>{path.label}</span></div>
-      <b aria-hidden>↗</b>
-    </Link>)}
-  </nav>;
 }
 
 function BandSection({ locale }: { locale: Locale }) {
@@ -356,151 +315,6 @@ function ShopSection({ locale, products }: { locale: Locale; products: Product[]
       <div className="sc-grid">{picks.map(product => <ProductCard key={product.slug} locale={locale} product={product} copy={getPagesCopy(locale).shop} />)}</div>
     </div>
   </section>;
-}
-
-function FinalWaitlist({ locale, markets }: { locale: Locale; markets: MarketOption[] }) {
-  const text = storefrontCopy(locale);
-  const copy = useCopy();
-  const ui = marketingUi[locale];
-  const detail = marketingDetails[locale];
-  // Opening from `/#waitlist` is driven by the fragment rather than copied into
-  // state inside an effect, which would be a cascading render.
-  const hash = useSyncExternalStore(subscribeHash, getHash, getServerHash);
-  const [manuallyOpen, setManuallyOpen] = useState(false);
-  const open = manuallyOpen || hash === "#waitlist";
-
-  // Closing also drops the fragment, so a refresh does not reopen the modal the
-  // visitor just dismissed.
-  const closeWaitlist = useCallback(() => {
-    setManuallyOpen(false);
-    if (window.location.hash === "#waitlist") clearHash();
-  }, []);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [country, setCountry] = useState("");
-  const [role, setRole] = useState<"athlete" | "creator" | "partner">("athlete");
-  const [organization, setOrganization] = useState("");
-  const [consent, setConsent] = useState(false);
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [message, setMessage] = useState("");
-  const [invite, setInvite] = useState("");
-  const [copied, setCopied] = useState(false);
-  const modalRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const show = () => setManuallyOpen(true);
-    const onKey = (event: KeyboardEvent) => event.key === "Escape" && closeWaitlist();
-    window.addEventListener("terrifit:open-waitlist", show);
-    window.addEventListener("keydown", onKey);
-    return () => {
-      window.removeEventListener("terrifit:open-waitlist", show);
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [closeWaitlist]);
-
-  useEffect(() => {
-    if (!open) return;
-    const previous = document.body.style.overflow;
-    const previousFocus=document.activeElement as HTMLElement|null;
-    document.body.style.overflow = "hidden";
-    modalRef.current?.querySelector<HTMLButtonElement>("button")?.focus();
-    const trap=(event:KeyboardEvent)=>{if(event.key!=="Tab")return;const nodes=Array.from(modalRef.current?.querySelectorAll<HTMLElement>('button:not([disabled]),a[href],input,select,textarea,[tabindex="0"]')??[]);const first=nodes[0],last=nodes[nodes.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}};
-    window.addEventListener("keydown",trap);
-    return () => { document.body.style.overflow = previous;window.removeEventListener("keydown",trap);previousFocus?.focus(); };
-  }, [open]);
-
-  async function submit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (!name.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !country || !consent) {
-      setStatus("error");
-      setMessage(!name.trim() || !country ? copy.waitlist.errors.required : !consent ? copy.waitlist.errors.consent : copy.waitlist.errors.email);
-      return;
-    }
-    setStatus("loading");
-    setMessage("");
-    try {
-      const response = await fetch("/api/waitlist", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: name.trim(), email, country, locale, role,
-          features: role === "creator" ? ["maps", "coaching", "communities", "livestreams"] : role === "partner" ? ["marketplace", "communities"] : ["maps", "coaching", "health", "communities"],
-          consent: true, brandName: role === "partner" ? organization || name.trim() : "",
-          ...signupAttribution(),
-        }),
-      });
-      const result = await response.json();
-      if (!response.ok) throw new Error("request_failed");
-      setStatus("success");
-      setMessage(`${copy.waitlist.success.title} #${result.position}`);
-      const inviteUrl=new URL(`/${locale}`,window.location.origin);inviteUrl.searchParams.set("ref",result.referralCode);setInvite(inviteUrl.toString());
-      track("waitlist_joined",{source:signupAttribution().source,role});
-    } catch {
-      setStatus("error");
-      setMessage(copy.waitlist.errors.generic);
-    }
-  }
-
-  const site = websiteCopy(locale);
-
-  return (
-    <section id="waitlist" className="tw-final">
-      <div className="tf-shell tw-final-inner">
-        <div><p className="th-eyebrow">TERRIFIT / {copy.waitlist.eyebrow}</p><h2>{text.waitTitle}</h2></div>
-        <div><p>{text.waitBody}</p><button className="th-button" type="button" onClick={() => setManuallyOpen(true)}>{text.early}<span aria-hidden>↗</span></button><small>{text.waitFoot}</small></div>
-      </div>
-
-      <AnimatePresence>
-        {open ? (
-          <motion.div className="tw-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={closeWaitlist}>
-            <motion.div ref={modalRef} className="tw-modal" role="dialog" aria-modal="true" aria-labelledby="waitlist-title" initial={{ opacity: 0, y: 24, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 16, scale: 0.98 }} transition={{ ease }} onClick={(event) => event.stopPropagation()}>
-              <button className="tw-close" type="button" onClick={closeWaitlist} aria-label={text.close}>×</button>
-              <aside className="tw-aside">
-                <Image src={heroDesktop} alt="" fill sizes="380px" />
-                <span className="tw-aside-brand">TERRIFIT</span>
-                <div><h3>{text.waitAside}</h3><p>{text.waitAsideBody}</p><span>{text.heroFoot}</span></div>
-              </aside>
-              <div className="tw-content">
-              <div className="tw-heading"><span className="th-eyebrow">{copy.waitlist.eyebrow}</span><h2 id="waitlist-title">{status === "success" ? text.ready : text.waitTitle}</h2><p>{status === "success" ? copy.waitlist.success.referralBody : text.waitBody}</p></div>
-
-              {status === "success" ? (
-                <motion.div className="tw-success" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
-                  <span className="tw-success-check" aria-hidden>✓</span><strong>{message}</strong>
-                  {invite?<div className="tw-referral"><label htmlFor="invite-link">{site.inviteLabel}</label><input id="invite-link" readOnly value={invite} onFocus={event=>event.target.select()}/><button className="th-button" type="button" onClick={async()=>{try{await navigator.clipboard.writeText(invite);setCopied(true);track("waitlist_invite_copied");}catch{setCopied(false);}}}>{copied ? site.copied : site.copyLink}</button><span role="status">{copied ? site.linkReady : ""}</span></div>:null}
-                  <button className="th-text-link" type="button" onClick={closeWaitlist}>{detail.waitlist[4]}</button>
-                </motion.div>
-              ) : (
-                <form onSubmit={submit} noValidate>
-                  <fieldset className="tw-role-picker">
-                    <legend>{copy.waitlist.roleLabel}</legend>
-                    {[
-                      ["athlete", copy.waitlist.roles.athlete.label, copy.waitlist.roles.athlete.note],
-                      ["creator", copy.waitlist.roles.creator.label, copy.waitlist.roles.creator.note],
-                      ["partner", ui.partner, copy.waitlist.roles.brand.note],
-                    ].map(([value, label]) => (
-                      <label key={value} className={role === value ? "active" : ""}><input type="radio" name="waitlist-role" checked={role === value} onChange={() => setRole(value as typeof role)} /><span>{label}</span></label>
-                    ))}
-                  </fieldset>
-                  <div className="tw-fields">
-                    <label><span>{copy.waitlist.fields.name}</span><input required value={name} onChange={(event) => setName(event.target.value)} placeholder={copy.waitlist.fields.namePlaceholder} autoComplete="name" /></label>
-                    <label><span>{copy.waitlist.fields.email}</span><input required type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder={copy.waitlist.fields.emailPlaceholder} autoComplete="email" /></label>
-                    <label><span>{ui.countryQuestion}</span><select required value={country} onChange={(event) => setCountry(event.target.value)}><option value="">{ui.countryPlaceholder}</option>{markets.map((market) => <option key={market.code} value={market.code}>{market.name}</option>)}</select></label>
-                    {role === "partner" ? <label><span>{ui.organization}</span><input value={organization} onChange={(event) => setOrganization(event.target.value)} placeholder={copy.waitlist.fields.brandNamePlaceholder} /></label> : null}
-                  </div>
-                  <label className="tw-consent"><input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} /><span>{copy.waitlist.consent}</span></label>
-
-                  {message ? <p className="tw-message" role="alert">{message}</p> : null}
-                  <button className="th-button tw-submit" type="submit" disabled={status === "loading"}>{status === "loading" ? copy.waitlist.submitting : copy.waitlist.submit}</button>
-                  <p className="tw-foot">{text.waitFoot}</p>
-                </form>
-              )}
-              </div>
-            </motion.div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-    </section>
-  );
 }
 
 function SectionIntro({ kicker, title, body, inverse = false }: { kicker: string; title: React.ReactNode; body: string; inverse?: boolean }) {

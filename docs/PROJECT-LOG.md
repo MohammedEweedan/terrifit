@@ -716,3 +716,9 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 **Reverted or committed** — 1 file no longer differ from HEAD
 
 <sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 11:19
+
+**Committed** `af199fb` on `main` — chore: update project log with recent commit details and revert information
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

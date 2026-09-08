@@ -6,7 +6,7 @@
 # runtime. The image is bigger by a few tens of megabytes and correct.
 ARG NODE_VERSION=24-slim
 # Kept in step with the client the app was built against.
-ARG PRISMA_VERSION=^7.10.0
+ARG PRISMA_VERSION=7.10.0
 
 # ---------------------------------------------------------------- dependencies
 FROM node:${NODE_VERSION} AS deps
@@ -104,6 +104,7 @@ COPY --from=migrator --chown=nextjs:nodejs /migrate/node_modules ./migrate/node_
 # needs sits under /app/migrate and the job runs with that as its directory.
 COPY --chown=nextjs:nodejs prisma ./migrate/prisma
 COPY --chown=nextjs:nodejs prisma.config.ts ./migrate/prisma.config.ts
+COPY --chown=nextjs:nodejs scripts/migrate-deploy.mjs ./migrate/migrate-deploy.mjs
 
 USER nextjs
 EXPOSE 8080
