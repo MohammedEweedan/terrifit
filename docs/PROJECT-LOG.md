@@ -757,3 +757,11 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **media** — `public/media/desktop-twl.png`, `public/media/final-hero.png`, `public/media/hoodie-sec.png`, `public/media/mobile-twl.png`, `public/media/sled.jpg`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 15:44
+
+**Committed** `609f76e` on `main` — feat: add Scale product page with dynamic content and localization support
+
+**Reverted or committed** — 19 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
