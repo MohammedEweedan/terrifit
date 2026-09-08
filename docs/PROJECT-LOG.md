@@ -640,3 +640,19 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **website** — `src/app/[locale]/nimda/page.tsx`, `src/app/globals.css`, `src/components/admin/AdminConsole.tsx`, `src/app/[locale]/nimda/error.tsx`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 10:13
+
+**Committed** `ac7c8f7` on `main` — feat: implement error boundary for admin console and enhance money formatting
+
+**Reverted or committed** — 4 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 10:21
+
+**Working tree** — 1 file · +20 −3
+
+- **other** — `.do/app.yaml`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

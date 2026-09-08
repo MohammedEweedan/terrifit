@@ -47,9 +47,16 @@ services:
       # and append `&pgbouncer=true&connection_limit=1`. `pgbouncer=true` only
       # tells Prisma to stop using prepared statements; on its own it routes
       # nothing.
+      # `uselibpqcompat=true` is not optional here. Without it the pg driver
+      # treats `sslmode=require` as `verify-full`, and DigitalOcean's managed
+      # cluster presents a certificate signed by its own CA, which is not in
+      # Node's trust store. The result is
+      #   "Error opening a TLS connection: self-signed certificate in chain"
+      # on every query — a failure that reads like a broken app rather than a
+      # connection-string flag.
       - key: DATABASE_URL
         scope: RUN_AND_BUILD_TIME
-        value: ${db.DATABASE_URL}
+        value: ${db.DATABASE_URL}&uselibpqcompat=true
 
 jobs:
   # Runs to completion before any new container takes traffic. Migrations
@@ -78,8 +85,10 @@ jobs:
       - key: DATABASE_URL
         scope: RUN_TIME
         # Migrations take DDL locks and must not go through the transaction
-        # pooler, which cannot hold a session across statements.
-        value: ${db.DATABASE_URL}
+        # pooler, which cannot hold a session across statements. The TLS flag is
+        # needed here for the same reason as above, or the job fails before it
+        # applies anything.
+        value: ${db.DATABASE_URL}&uselibpqcompat=true
 
 databases:
   - name: db
