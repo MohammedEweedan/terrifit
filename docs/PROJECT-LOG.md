@@ -692,3 +692,19 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **copy and locales** — `src/i18n/onboarding.ts`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 10:59
+
+**Committed** `508ed16` on `main` — feat(onboarding): implement guided sign-up flow with localization support
+
+**Reverted or committed** — 4 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 11:11
+
+**Working tree** — 1 file · +17 −0
+
+- **other** — `.do/app.yaml`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

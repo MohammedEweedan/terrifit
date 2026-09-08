@@ -88,6 +88,15 @@ jobs:
         # pooler, which cannot hold a session across statements. The TLS flag is
         # needed here for the same reason as above, or the job fails before it
         # applies anything.
+        #
+        # This is not a style preference. `prisma migrate` guards itself with
+        # `pg_advisory_lock(72707369)`, which is session-scoped: run through
+        # PgBouncer in transaction mode and the lock is taken on one backend
+        # while the unlock is delivered to another. The lock is then orphaned on
+        # an idle pooler connection and every later run dies with
+        #   P1002 ... Timed out trying to acquire a postgres advisory lock
+        # until that backend is terminated or the pool is restarted. Always use
+        # this direct binding, never a pool connection string.
         value: ${db.DATABASE_URL}&uselibpqcompat=true
 
 databases:
