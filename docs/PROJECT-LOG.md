@@ -675,3 +675,20 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **server** — `src/lib/validation.ts`, `src/lib/__tests__/safe-next.test.ts`, `src/lib/__tests__/waitlist-platform.test.ts`, `src/lib/safe-next.ts`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 10:40
+
+**Committed** `5fd49f8` on `main` — feat: add platform field to waitlist entry and enhance sign-in flow with safe redirects
+
+**Reverted or committed** — 21 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 10:48
+
+**Working tree** — 4 files · +143 −0
+
+- **website** — `src/app/globals.css`, `src/app/[locale]/onboarding/`, `src/components/onboarding/`
+- **copy and locales** — `src/i18n/onboarding.ts`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
