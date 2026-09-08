@@ -193,7 +193,7 @@ export const products: Product[] = [
     ],
     media: [
       { src: "/media/band/colourways-v2/ember.png", alt: "The Terrifit V1 in Ember, the orange and charcoal weave shown against a dark ground", ratio: 1 },
-      { src: "/media/band-product.jpg", alt: "The Terrifit V1 photographed as a product shot, sensor module and strap together", ratio: 1 },
+      { src: "/media/band/colourways-v2/olive.png", alt: "The Terrifit V1 photographed as a product shot, sensor module and strap together", ratio: 1 },
     ],
     stock: "preorder",
     shipsIn: "Pre-order · ships November 2027",

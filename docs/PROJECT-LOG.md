@@ -594,3 +594,27 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 **Reverted or committed** — 22 files no longer differ from HEAD
 
 <sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 04:31
+
+**Committed** `1173a99` on `main` — feat: remove language note from Languages component for cleaner UI
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 04:42
+
+**Working tree** — 1 file · +72 −26
+
+- **website** — `src/app/globals.css`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-08 · 04:54
+
+**Working tree** — 8 files · +325 −32
+
+- **website** — `src/app/[locale]/nimda/page.tsx`, `src/app/api/auth/login/route.ts`, `src/app/api/auth/signup/route.ts`, `src/components/admin/AdminConsole.tsx`, `src/app/api/admin/messages/`, `src/app/api/admin/waitlist/`
+- **server** — `src/lib/admin-data.ts`
+- **shop** — `src/lib/shop/catalog.ts`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

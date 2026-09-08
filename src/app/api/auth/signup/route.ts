@@ -4,6 +4,7 @@ import { signupSchema } from "@/lib/validation";
 import { clientKey, rateLimit } from "@/lib/rate-limit";
 import { createSession, hashPassword, setSessionCookie } from "@/lib/auth";
 import { demoDataEnabled, seedDemoHistory } from "@/lib/health/demo-seed";
+import { isSuperadminEmail } from "@/lib/admin";
 
 export const runtime = "nodejs";
 
@@ -50,6 +51,10 @@ export async function POST(request: Request) {
         role: input.role,
         locale: input.locale,
         passwordHash: await hashPassword(input.password),
+        // Staff access is still not something a user can ask for: the
+        // allowlist lives in server configuration, so this only fires for
+        // whoever actually controls one of those addresses.
+        isAdmin: isSuperadminEmail(input.email),
         // An empty profile is created up front so the account page never has to
         // deal with the row not existing.
         profile: { create: {} },

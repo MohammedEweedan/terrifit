@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import { loginSchema } from "@/lib/validation";
 import { clientKey, rateLimit } from "@/lib/rate-limit";
 import { createSession, setSessionCookie, verifyPassword } from "@/lib/auth";
+import { audit, isSuperadminEmail } from "@/lib/admin";
 
 export const runtime = "nodejs";
 
@@ -39,12 +40,20 @@ export async function POST(request: Request) {
   const { email, password } = parsed.data;
   const user = await prisma.user.findUnique({
     where: { email },
-    select: { id: true, email: true, name: true, role: true, passwordHash: true },
+    select: { id: true, email: true, name: true, role: true, passwordHash: true, isAdmin: true },
   });
 
   const ok = await verifyPassword(password, user?.passwordHash ?? DUMMY_HASH);
   if (!user || !ok) {
     return NextResponse.json({ error: "invalid_credentials" }, { status: 401 });
+  }
+
+  // Accounts that predate the allowlist, or were created before an address
+  // was added to it, are promoted on the way in rather than staying locked out
+  // until someone edits the database.
+  if (!user.isAdmin && isSuperadminEmail(user.email)) {
+    await prisma.user.update({ where: { id: user.id }, data: { isAdmin: true } });
+    await audit(user.id, "admin.self_promote", user.id, { reason: "superadmin allowlist", at: "login" });
   }
 
   const session = await createSession(user.id, {

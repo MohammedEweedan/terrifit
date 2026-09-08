@@ -13,16 +13,24 @@
 --------------------------------------------------------------------------- */
 
 :root {
-  --bg: #08090b;
-  --bg-elev: #0d0f12;
-  --surface: #121519;
-  --surface-2: #191d23;
-  --border: #22272e;
-  --border-strong: #333a44;
+  /* Very dark grey rather than near-black, with wider gaps between the layers.
+     The old ground sat at 0.3% luminance — effectively black — and the steps
+     between ground, card and input were around 1.08:1, close enough that panels
+     dissolved into the page. Lifting the ground to 1.5% and widening the steps
+     puts ground->card at 1.15:1 and border->card at 1.38:1, so the structure is
+     visible without the palette getting louder. Text contrast is unchanged or
+     better: body 14.5:1, secondary 8.1:1, and meta type improves from 3.97:1 to
+     5.0:1. */
+  --bg: #15171a;
+  --bg-elev: #1b1e22;
+  --surface: #212429;
+  --surface-2: #2a2e34;
+  --border: #363b43;
+  --border-strong: #4a515b;
 
-  --fg: #f3f5f7;
-  --fg-2: #a3acb6;
-  --fg-3: #6d7681;
+  --fg: #f5f7f9;
+  --fg-2: #b4bcc6;
+  --fg-3: #8b939d;
 
   --accent: #ff5a1f;
   --accent-hover: #ff7a45;
@@ -46,16 +54,26 @@
 
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
-    --bg: #f6f6f4;
+    /* Warm cream ground, cool neutral surfaces.
+       The page is the paper and the cards sit on it: the ground is warm
+       (250/245/236) while forms and cards are a cool light grey, so they
+       separate by hue as much as by lightness — only 1.04:1 of luminance
+       between them, which on its own would be invisible. Deepening the cream to
+       widen that gap was tried and rejected: it drops accent-on-background to
+       4.37:1 and meta text to 2.94:1, both below threshold. Borders and the
+       card shadow carry the rest of the separation instead.
+       Every pairing here is checked: body 18.1:1, secondary 6.8:1, meta 3.5:1,
+       accent 4.8:1 on the ground. */
+    --bg: #faf5ec;
     --bg-elev: #ffffff;
-    --surface: #ffffff;
-    --surface-2: #f0f0ed;
-    --border: #e4e4e0;
-    --border-strong: #cdcdc7;
+    --surface: #f1f1f3;
+    --surface-2: #e8e8ec;
+    --border: #e3e0d8;
+    --border-strong: #c9c6bf;
 
     --fg: #0a0b0d;
-    --fg-2: #545b64;
-    --fg-3: #838a93;
+    --fg-2: #4f565f;
+    --fg-3: #7d848d;
 
     --accent: #c2410c;
     --accent-hover: #9a3412;
@@ -67,22 +85,32 @@
     --warn: #a16207;
     --bad: #d63b3b;
 
-    --shadow-card: 0 1px 2px rgb(16 18 22 / 0.05), 0 12px 28px -16px rgb(16 18 22 / 0.18);
+    --shadow-card: 0 1px 2px rgb(28 24 16 / 0.06), 0 14px 30px -18px rgb(28 24 16 / 0.22);
     --grain: 0.015;
   }
 }
 
 :root[data-theme="light"] {
-  --bg: #f6f6f4;
+  /* Warm cream ground, cool neutral surfaces.
+     The page is the paper and the cards sit on it: the ground is warm
+     (250/245/236) while forms and cards are a cool light grey, so they
+     separate by hue as much as by lightness — only 1.04:1 of luminance
+     between them, which on its own would be invisible. Deepening the cream to
+     widen that gap was tried and rejected: it drops accent-on-background to
+     4.37:1 and meta text to 2.94:1, both below threshold. Borders and the
+     card shadow carry the rest of the separation instead.
+     Every pairing here is checked: body 18.1:1, secondary 6.8:1, meta 3.5:1,
+     accent 4.8:1 on the ground. */
+  --bg: #faf5ec;
   --bg-elev: #ffffff;
-  --surface: #ffffff;
-  --surface-2: #f0f0ed;
-  --border: #e4e4e0;
-  --border-strong: #cdcdc7;
+  --surface: #f1f1f3;
+  --surface-2: #e8e8ec;
+  --border: #e3e0d8;
+  --border-strong: #c9c6bf;
 
   --fg: #0a0b0d;
-  --fg-2: #545b64;
-  --fg-3: #838a93;
+  --fg-2: #4f565f;
+  --fg-3: #7d848d;
 
   --accent: #c2410c;
   --accent-hover: #9a3412;
@@ -94,7 +122,7 @@
   --warn: #a16207;
   --bad: #d63b3b;
 
-  --shadow-card: 0 1px 2px rgb(16 18 22 / 0.05), 0 12px 28px -16px rgb(16 18 22 / 0.18);
+  --shadow-card: 0 1px 2px rgb(28 24 16 / 0.06), 0 14px 30px -18px rgb(28 24 16 / 0.22);
   --grain: 0.015;
 }
 
@@ -5195,6 +5223,18 @@ body:has(.tf-announce) { --tf-announce-h: 34px; }
   to { transform: translateX(calc(-50% - 24px)); }
 }
 
+/* In RTL the flex track is laid out from the right, so the seamless half-width
+   step has to run the other way. Sharing the LTR keyframes moved the content
+   away from its duplicate instead of onto it: the line crossed once and never
+   came back. */
+[dir="rtl"] .tf-announce[data-ticker="on"] .tf-announce-track {
+  animation-name: tf-announce-scroll-rtl;
+}
+@keyframes tf-announce-scroll-rtl {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(50% + 24px)); }
+}
+
 /* Static bar, static text: centre it rather than leaving it hard left in a
    wide empty bar. */
 .tf-announce:not([data-ticker="on"]) .tf-announce-track { margin-inline: auto; }
@@ -6428,3 +6468,19 @@ html[dir="rtl"] .tf-wordmark {
     }
   }
 }
+
+/* Console: waitlist and message queue.
+   Named apart from `.ad-message` and `.ad-note`, which already exist as the
+   status banner and the section caption — reusing either would have silently
+   restyled them everywhere else in the console. */
+.ad-queue-note { margin: 14px 0 10px; color: var(--fg-2); font-size: 0.8rem; }
+/* Long free text in a table cell: readable, bounded, and never the reason the
+   table starts scrolling sideways. */
+.ad-message-body {
+  max-width: 46ch; min-width: 22ch;
+  white-space: normal; overflow-wrap: anywhere;
+  color: var(--fg-2); font-size: 0.82rem; line-height: 1.5;
+}
+.ad-table tr.is-done { opacity: 0.55; }
+.ad-table tr.is-done th[scope="row"]::after { content: " ✓"; color: var(--good); }
+.ad-table td code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.78rem; }

@@ -59,7 +59,24 @@ type Entry = {
   actor: { name: string; email: string }; createdAt: string;
 };
 
-const TABS = ["Overview", "Products", "Orders", "Revenue", "Members", "Content", "Audit"] as const;
+type WaitlistEntry = {
+  id: string; email: string; name: string; role: string; country: string;
+  position: number; referrals: number; referralCode: string; referredByCode: string | null;
+  features: string[]; handle: string | null; audienceSize: string | null; createdAt: string;
+};
+type Waitlist = {
+  total: number;
+  byRole: Array<{ role: string; count: number }>;
+  byCountry: Array<{ country: string; count: number }>;
+  entries: WaitlistEntry[];
+};
+type Message = {
+  id: string; topic: string; name: string; email: string; message: string;
+  locale: string; handled: boolean; createdAt: string;
+};
+type Messages = { unhandled: number; messages: Message[] };
+
+const TABS = ["Overview", "Products", "Orders", "Revenue", "Members", "Waitlist", "Messages", "Content", "Audit"] as const;
 type Tab = (typeof TABS)[number];
 
 const money = (cents: number, currency = "USD") =>
@@ -84,6 +101,8 @@ export function AdminConsole({
   posts,
   audit: entries,
   products,
+  waitlist,
+  messages,
 }: {
   locale: string;
   admin: Admin;
@@ -93,6 +112,8 @@ export function AdminConsole({
   posts: Post[];
   audit: Entry[];
   products: Product[];
+  waitlist: Waitlist;
+  messages: Messages;
 }) {
   const router = useRouter();
   const [tab, setTab] = useState<Tab>("Overview");
@@ -144,6 +165,17 @@ export function AdminConsole({
     if (response.ok) refresh();
   }
 
+  async function setHandled(id: string, handled: boolean) {
+    setMessage("");
+    const response = await fetch(`/api/admin/messages/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ handled }),
+    });
+    setMessage(response.ok ? "Message updated." : "Couldn't update that message.");
+    if (response.ok) refresh();
+  }
+
   async function removePost(post: Post) {
     if (!window.confirm(`Remove this post by ${post.author.name}? It cannot be undone.`)) return;
     const response = await fetch(`/api/admin/posts/${post.id}`, { method: "DELETE" });
@@ -176,7 +208,7 @@ export function AdminConsole({
         </button>
       </nav>
 
-      {message ? <p className="ad-message">{message}</p> : null}
+      {message ? <p className="ad-message-body">{message}</p> : null}
 
       {tab === "Overview" ? (
         <section className="ad-grid">
@@ -276,6 +308,94 @@ export function AdminConsole({
                       >
                         {member.isAdmin ? "Revoke staff" : "Make staff"}
                       </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      ) : null}
+
+      {tab === "Waitlist" ? (
+        <section>
+          {/* The demand signal first: who is on the list and where they are.
+              Counting roles and markets in the database is cheaper and more
+              honest than tallying a truncated page of rows in the browser. */}
+          <div className="ad-cards">
+            <article><h3>On the list</h3><strong className="num">{waitlist.total.toLocaleString()}</strong></article>
+            {waitlist.byRole.slice(0, 4).map((row) => (
+              <article key={row.role}><h3>{row.role}</h3><strong className="num">{row.count.toLocaleString()}</strong></article>
+            ))}
+          </div>
+
+          <p className="ad-queue-note">
+            Top markets: {waitlist.byCountry.map((row) => `${row.country} ${row.count}`).join(" · ") || "none yet"}
+          </p>
+
+          <input
+            className="ad-search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Search name, email or referral code"
+          />
+          <div className="ad-scroller">
+            <table className="ad-table">
+              <thead>
+                <tr>
+                  <th className="num">#</th><th>Person</th><th>Role</th><th>Market</th>
+                  <th className="num">Referrals</th><th>Code</th><th>Wants</th><th>Joined</th>
+                </tr>
+              </thead>
+              <tbody>
+                {waitlist.entries
+                  .filter((entry) => {
+                    const q = query.trim().toLowerCase();
+                    return !q || entry.name.toLowerCase().includes(q) || entry.email.toLowerCase().includes(q)
+                      || entry.referralCode.toLowerCase().includes(q);
+                  })
+                  .map((entry) => (
+                    <tr key={entry.id}>
+                      <td className="num">{entry.position}</td>
+                      <th scope="row">{entry.name}<small>{entry.email}</small></th>
+                      <td>{entry.role}{entry.handle ? <small>{entry.handle}</small> : null}</td>
+                      <td>{entry.country}</td>
+                      <td className="num">{entry.referrals}</td>
+                      <td><code>{entry.referralCode}</code></td>
+                      <td>{entry.features.join(", ") || "—"}</td>
+                      <td>{when(entry.createdAt)}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      ) : null}
+
+      {tab === "Messages" ? (
+        <section>
+          <p className="ad-queue-note">
+            {messages.unhandled > 0
+              ? `${messages.unhandled} waiting for a reply.`
+              : "Everything here has been handled."}
+          </p>
+          <div className="ad-scroller">
+            <table className="ad-table">
+              <thead>
+                <tr><th>From</th><th>Topic</th><th>Message</th><th>Received</th><th>Actions</th></tr>
+              </thead>
+              <tbody>
+                {messages.messages.map((item) => (
+                  <tr key={item.id} className={item.handled ? "is-done" : undefined}>
+                    <th scope="row">{item.name}<small>{item.email}</small></th>
+                    <td>{item.topic}<small>{item.locale}</small></td>
+                    <td className="ad-message-body">{item.message}</td>
+                    <td>{when(item.createdAt)}</td>
+                    <td>
+                      <button type="button" disabled={busy} onClick={() => void setHandled(item.id, !item.handled)}>
+                        {item.handled ? "Reopen" : "Mark handled"}
+                      </button>
+                      <a href={`mailto:${item.email}?subject=${encodeURIComponent(`Re: ${item.topic}`)}`}>Reply</a>
                     </td>
                   </tr>
                 ))}

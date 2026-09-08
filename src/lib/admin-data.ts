@@ -313,3 +313,88 @@ export async function adminAudit() {
     createdAt: entry.createdAt.toISOString(),
   }));
 }
+
+/**
+ * The waitlist, with the demand signal that actually drives decisions.
+ *
+ * The list is the business right now — the founding hundred, the market mix and
+ * which parts of the product people said they wanted — and none of it was
+ * visible anywhere outside the database.
+ */
+export async function adminWaitlist(query = "", take = 200) {
+  const where = query.trim()
+    ? {
+        OR: [
+          { email: { contains: query.trim(), mode: "insensitive" as const } },
+          { name: { contains: query.trim(), mode: "insensitive" as const } },
+          { referralCode: { equals: query.trim().toUpperCase() } },
+        ],
+      }
+    : {};
+
+  const [entries, total, byRole, byCountry] = await Promise.all([
+    prisma.waitlistEntry.findMany({ where, orderBy: { position: "asc" }, take }),
+    prisma.waitlistEntry.count(),
+    prisma.waitlistEntry.groupBy({ by: ["role"], _count: { _all: true } }),
+    prisma.waitlistEntry.groupBy({ by: ["country"], _count: { _all: true }, orderBy: { _count: { country: "desc" } }, take: 8 }),
+  ]);
+
+  return {
+    total,
+    byRole: byRole.map((row) => ({ role: row.role, count: row._count._all })).sort((a, b) => b.count - a.count),
+    byCountry: byCountry.map((row) => ({ country: row.country, count: row._count._all })),
+    entries: entries.map((entry) => ({
+      id: entry.id,
+      email: entry.email,
+      name: entry.name,
+      role: entry.role,
+      country: entry.country,
+      position: entry.position,
+      referrals: entry.referrals,
+      referralCode: entry.referralCode,
+      referredByCode: entry.referredByCode,
+      // Stored as a JSON string; a malformed row must not take the page down.
+      features: ((): string[] => {
+        try {
+          const parsed: unknown = JSON.parse(entry.features);
+          return Array.isArray(parsed) ? parsed.map(String) : [];
+        } catch {
+          return [];
+        }
+      })(),
+      handle: entry.handle,
+      audienceSize: entry.audienceSize,
+      createdAt: entry.createdAt.toISOString(),
+    })),
+  };
+}
+
+/**
+ * Contact messages, unhandled first.
+ *
+ * `ContactMessage.handled` has existed since the form shipped with nothing able
+ * to set it, so every message anyone has ever sent has sat unread in a table.
+ */
+export async function adminMessages(take = 200) {
+  const [messages, unhandled] = await Promise.all([
+    prisma.contactMessage.findMany({
+      orderBy: [{ handled: "asc" }, { createdAt: "desc" }],
+      take,
+    }),
+    prisma.contactMessage.count({ where: { handled: false } }),
+  ]);
+
+  return {
+    unhandled,
+    messages: messages.map((message) => ({
+      id: message.id,
+      topic: message.topic,
+      name: message.name,
+      email: message.email,
+      message: message.message,
+      locale: message.locale,
+      handled: message.handled,
+      createdAt: message.createdAt.toISOString(),
+    })),
+  };
+}
