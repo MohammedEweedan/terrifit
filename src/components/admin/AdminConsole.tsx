@@ -76,7 +76,12 @@ type Message = {
 };
 type Messages = { unhandled: number; messages: Message[] };
 
-const TABS = ["Overview", "Products", "Orders", "Revenue", "Members", "Waitlist", "Messages", "Content", "Audit"] as const;
+type Look = {
+  id: string; title: string; note: string | null; imageUrl: string; alt: string;
+  productSlugs: string[]; published: boolean; sortOrder: number;
+};
+
+const TABS = ["Overview", "Products", "Orders", "Revenue", "Members", "Waitlist", "Messages", "Lookbook", "Content", "Audit"] as const;
 type Tab = (typeof TABS)[number];
 
 /**
@@ -120,6 +125,7 @@ export function AdminConsole({
   products,
   waitlist,
   messages,
+  looks,
 }: {
   locale: string;
   admin: Admin;
@@ -131,6 +137,7 @@ export function AdminConsole({
   products: Product[];
   waitlist: Waitlist;
   messages: Messages;
+  looks: Look[];
 }) {
   const router = useRouter();
   const [tab, setTab] = useState<Tab>("Overview");
@@ -179,6 +186,64 @@ export function AdminConsole({
       body: JSON.stringify(body),
     });
     setMessage(response.ok ? "Order updated." : "Couldn't update that order.");
+    if (response.ok) refresh();
+  }
+
+  const [lookFile, setLookFile] = useState<File | null>(null);
+  const [lookUrl, setLookUrl] = useState("");
+
+  /**
+   * Uploads the chosen image first, then creates the look with the URL it
+   * returns. Two steps rather than one multipart endpoint, so a failed upload
+   * never leaves a look pointing at nothing.
+   */
+  async function addLook(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    setMessage("");
+
+    let imageUrl = String(form.get("imageUrl") ?? "").trim();
+    if (lookFile) {
+      const upload = new FormData();
+      upload.append("file", lookFile);
+      const response = await fetch("/api/admin/upload", { method: "POST", body: upload });
+      const payload = (await response.json().catch(() => null)) as { url?: string; error?: string; detail?: string } | null;
+      if (!response.ok || !payload?.url) {
+        setMessage(payload?.detail ?? `Upload failed (${payload?.error ?? response.status}).`);
+        return;
+      }
+      imageUrl = payload.url;
+    }
+    if (!imageUrl) { setMessage("Choose a file or paste an image URL."); return; }
+
+    const response = await fetch("/api/admin/lookbook", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: form.get("title"),
+        note: form.get("note") || "",
+        imageUrl,
+        alt: form.get("alt"),
+        productSlugs: String(form.get("productSlugs") ?? "").split(",").map((s) => s.trim()).filter(Boolean),
+        sortOrder: Number(form.get("sortOrder") ?? 0),
+      }),
+    });
+    setMessage(response.ok ? "Look added." : "Couldn't add that look.");
+    if (response.ok) { setLookFile(null); setLookUrl(""); refresh(); }
+  }
+
+  async function patchLook(id: string, body: Record<string, unknown>) {
+    const response = await fetch(`/api/admin/lookbook/${id}`, {
+      method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
+    });
+    setMessage(response.ok ? "Look updated." : "Couldn't update that look.");
+    if (response.ok) refresh();
+  }
+
+  async function removeLook(look: Look) {
+    if (!window.confirm(`Remove "${look.title}"? This cannot be undone.`)) return;
+    const response = await fetch(`/api/admin/lookbook/${look.id}`, { method: "DELETE" });
+    setMessage(response.ok ? "Look removed." : "Couldn't remove that look.");
     if (response.ok) refresh();
   }
 
@@ -383,6 +448,61 @@ export function AdminConsole({
                       <td>{when(entry.createdAt)}</td>
                     </tr>
                   ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      ) : null}
+
+      {tab === "Lookbook" ? (
+        <section>
+          <form className="cnsl-look-form" onSubmit={addLook}>
+            <div className="cnsl-look-row">
+              <label><span>Title</span><input name="title" required maxLength={120} placeholder="Rest day" /></label>
+              <label><span>Order</span><input name="sortOrder" type="number" min={0} max={999} defaultValue={0} /></label>
+            </div>
+            <label><span>Alt text</span><input name="alt" required maxLength={300} placeholder="What the photograph shows, for anyone who cannot see it" /></label>
+            <label><span>Note</span><input name="note" maxLength={400} placeholder="Optional line under the title" /></label>
+            <label><span>Products</span><input name="productSlugs" placeholder="terrifits-hoodie, terrifits-training-shorts" /></label>
+            <div className="cnsl-look-row">
+              <label>
+                <span>Upload</span>
+                <input type="file" accept="image/jpeg,image/png,image/webp,image/avif"
+                       onChange={(event) => setLookFile(event.target.files?.[0] ?? null)} />
+              </label>
+              {/* Either an upload or a path already in public/media. The upload
+                  wins when both are given. */}
+              <label>
+                <span>…or image URL</span>
+                <input name="imageUrl" value={lookUrl} onChange={(event) => setLookUrl(event.target.value)}
+                       placeholder="/media/hoodie-hero.png" />
+              </label>
+            </div>
+            <button type="button" className="cnsl-refresh" onClick={(event) => (event.currentTarget.form as HTMLFormElement)?.requestSubmit()}>
+              Add look
+            </button>
+          </form>
+
+          <div className="cnsl-scroller">
+            <table className="cnsl-table">
+              <thead>
+                <tr><th>Look</th><th>Products</th><th className="num">Order</th><th>State</th><th>Actions</th></tr>
+              </thead>
+              <tbody>
+                {looks.map((look) => (
+                  <tr key={look.id} className={look.published ? undefined : "is-done"}>
+                    <th scope="row">{look.title}<small>{look.alt}</small></th>
+                    <td>{look.productSlugs.join(", ") || "—"}</td>
+                    <td className="num">{look.sortOrder}</td>
+                    <td>{look.published ? "Published" : "Draft"}</td>
+                    <td>
+                      <button type="button" disabled={busy} onClick={() => void patchLook(look.id, { published: !look.published })}>
+                        {look.published ? "Unpublish" : "Publish"}
+                      </button>
+                      <button type="button" disabled={busy} onClick={() => void removeLook(look)}>Remove</button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

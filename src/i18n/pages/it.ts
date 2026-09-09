@@ -290,7 +290,7 @@ export const it: PagesTranslation = {
     cta: {
       eyebrow: "Prima produzione",
       title: "Mettilo e dimenticatene",
-      body: "I preordini partono in ordine di arrivo da novembre 2027, e il prezzo di lancio vale per tutta la prima serie.",
+      body: "La prima serie è prevista per novembre 2027. Entra in lista e lo saprai prima di tutti, senza acconto e senza nulla da disdire.",
       primary: "Preordina V1",
       secondary: "Entra in lista",
     },

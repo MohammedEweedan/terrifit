@@ -4,6 +4,7 @@ import { isLocale } from "@/i18n/config";
 import { AdminConsole } from "@/components/admin/AdminConsole";
 import { adminAudit, adminMembers, adminMessages, adminOrders, adminOverview, adminPosts, adminWaitlist } from "@/lib/admin-data";
 import { listProducts } from "@/lib/shop/catalog-store";
+import { listAllLooks } from "@/lib/shop/lookbook";
 
 export const dynamic = "force-dynamic";
 
@@ -69,7 +70,7 @@ export default async function AdminPage({ params }: { params: Promise<{ locale: 
    * nothing naming the cause. Each section now degrades on its own, and the
    * page says which ones did.
    */
-  const [overview, members, orders, posts, audit, products, waitlist, messages] = await Promise.all([
+  const [overview, members, orders, posts, audit, products, waitlist, messages, looks] = await Promise.all([
     settle("overview", adminOverview, EMPTY_OVERVIEW),
     settle("members", adminMembers, []),
     settle("orders", adminOrders, []),
@@ -78,6 +79,7 @@ export default async function AdminPage({ params }: { params: Promise<{ locale: 
     settle("products", () => listProducts({ includeInactive: true }), []),
     settle("waitlist", adminWaitlist, { total: 0, byRole: [], byCountry: [], entries: [] }),
     settle("messages", adminMessages, { unhandled: 0, messages: [] }),
+    settle("looks", listAllLooks, []),
   ]);
 
   return (
@@ -92,6 +94,7 @@ export default async function AdminPage({ params }: { params: Promise<{ locale: 
       products={products}
       waitlist={waitlist}
       messages={messages}
+      looks={looks}
     />
   );
 }

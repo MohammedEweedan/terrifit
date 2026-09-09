@@ -13,6 +13,7 @@ import { useCart } from "@/lib/shop/cart";
 import { formatMoney } from "@/lib/shop/money";
 import { BandViewer } from "./BandViewer";
 import { launchCopy } from "@/i18n/launch";
+import { researchCopy } from "@/i18n/research";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const SECTIONS = ["overview", "design", "sensing", "battery", "integrations", "specs"] as const;
@@ -168,14 +169,20 @@ function BandHero({
         </div>}
 
         <div className="bp-hero-actions">
-          <button
-            type="button"
-            className="bp-button"
-            disabled={upcoming}
-            onClick={() => cart.add({ slug: "terrifit-v1", variantId: current.id, quantity: 1 })}
-          >
-            {upcoming ? launch.upcoming : copy.hero.cta}
-          </button>
+          {/* While the band is unbuyable the button collects interest instead
+              of sitting disabled — a dead control on the page whose only job is
+              now capturing demand. */}
+          {upcoming ? (
+            <Link className="bp-button" href={`/${locale}/onboarding`}>{launch.joinWaitlist}</Link>
+          ) : (
+            <button
+              type="button"
+              className="bp-button"
+              onClick={() => cart.add({ slug: "terrifit-v1", variantId: current.id, quantity: 1 })}
+            >
+              {copy.hero.cta}
+            </button>
+          )}
           <Link className="bp-hero-detail-link" href={`/${locale}/shop/terrifit-v1`}>
             {copy.colourways.cta} <span aria-hidden>›</span>
           </Link>
@@ -193,6 +200,9 @@ function BandHero({
  * viewport, so a two-thousand-pixel scroll always says where you are.
  */
 function BandNav({ locale, copy }: { locale: Locale; copy: PagesCopy["band"] }) {
+  const cart = useCart();
+  const launch = launchCopy(locale);
+  const upcoming = cart.catalog.find(item => item.slug === "terrifit-v1")?.launchStatus === "upcoming";
   const [active, setActive] = useState<string>(SECTIONS[0]);
 
   useEffect(() => {
@@ -227,8 +237,11 @@ function BandNav({ locale, copy }: { locale: Locale; copy: PagesCopy["band"] }) 
             </li>
           ))}
         </ul>
-        <Link className="bp-nav-buy" href={`/${locale}/shop/terrifit-v1`}>
-          {copy.buy}
+        {/* The sticky nav follows the page: while the band cannot be bought
+            it joins the list rather than sending people to a product page that
+            will not sell them anything. */}
+        <Link className="bp-nav-buy" href={upcoming ? `/${locale}/onboarding` : `/${locale}/shop/terrifit-v1`}>
+          {upcoming ? launch.joinWaitlist : copy.buy}
         </Link>
       </div>
     </nav>
@@ -318,16 +331,19 @@ function Colourways({
         <Reveal className="bp-colourway-cta">
           <p>{copy.colourways.note}</p>
           <div>
-            <button
-              type="button"
-              className="bp-button"
-              disabled={upcoming}
-            onClick={() => cart.add({ slug: "terrifit-v1", variantId: current.id, quantity: 1 })}
-            >
-              {upcoming ? launch.upcoming : copy.colourways.cta} · <span className="numeric">{price}</span>
-            </button>
-            <Link className="bp-link" href={`/${locale}/shop/terrifit-v1`}>
-              {copy.hero.cta} <span aria-hidden>→</span>
+            {upcoming ? (
+              <Link className="bp-button" href={`/${locale}/onboarding`}>{launch.joinWaitlist}</Link>
+            ) : (
+              <button
+                type="button"
+                className="bp-button"
+                onClick={() => cart.add({ slug: "terrifit-v1", variantId: current.id, quantity: 1 })}
+              >
+                {copy.colourways.cta} · <span className="numeric">{price}</span>
+              </button>
+            )}
+            <Link className="bp-link" href={upcoming ? `/${locale}/research` : `/${locale}/shop/terrifit-v1`}>
+              {upcoming ? researchCopy(locale).eyebrow : copy.hero.cta} <span aria-hidden>→</span>
             </Link>
           </div>
         </Reveal>
@@ -578,6 +594,9 @@ function Privacy({ locale, copy }: { locale: Locale; copy: PagesCopy["band"] }) 
 /* -------------------------------------------------------------------------- */
 
 function FinalCta({ locale, copy }: { locale: Locale; copy: PagesCopy["band"] }) {
+  const cart = useCart();
+  const launch = launchCopy(locale);
+  const upcoming = cart.catalog.find(item => item.slug === "terrifit-v1")?.launchStatus === "upcoming";
   return (
     <section className="bp-cta">
       <div className="tf-shell">
@@ -586,8 +605,10 @@ function FinalCta({ locale, copy }: { locale: Locale; copy: PagesCopy["band"] })
           <h2>{copy.cta.title}</h2>
           <p className="bp-lede">{copy.cta.body}</p>
           <div className="bp-hero-actions bp-center-actions">
-            <Link className="bp-button" href={`/${locale}/shop/terrifit-v1`}>
-              {copy.cta.primary}
+            {/* The closing CTA pointed at a product page that cannot be
+                bought. While the band is upcoming it joins the list instead. */}
+            <Link className="bp-button" href={upcoming ? `/${locale}/onboarding` : `/${locale}/shop/terrifit-v1`}>
+              {upcoming ? launch.joinWaitlist : copy.cta.primary}
             </Link>
             <Link className="bp-link" href={`/${locale}#waitlist`}>
               {copy.cta.secondary} <span aria-hidden>→</span>

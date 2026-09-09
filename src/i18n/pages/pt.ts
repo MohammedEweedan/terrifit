@@ -290,7 +290,7 @@ export const pt: PagesTranslation = {
     cta: {
       eyebrow: "Primeira produção",
       title: "Põe-na e esquece-te dela",
-      body: "As reservas seguem por ordem de chegada a partir de novembro de 2027, e o preço de lançamento mantém-se durante toda a primeira série.",
+      body: "A primeira leva está prevista para novembro de 2027. Entre na lista e você sabe antes de todo mundo, sem depósito e sem nada para cancelar.",
       primary: "Reservar a V1",
       secondary: "Entrar na lista",
     },

@@ -290,7 +290,7 @@ export const de: PagesTranslation = {
     cta: {
       eyebrow: "Erste Serie",
       title: "Anlegen und vergessen",
-      body: "Vorbestellungen gehen ab November 2027 in der Reihenfolge des Eingangs raus, und der Einführungspreis gilt für die gesamte erste Serie.",
+      body: "Die erste Serie ist für November 2027 geplant. Trag dich ein und du erfährst es vor allen anderen — ohne Anzahlung und ohne etwas kündigen zu müssen.",
       primary: "V1 vorbestellen",
       secondary: "Auf die Warteliste",
     },

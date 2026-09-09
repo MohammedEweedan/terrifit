@@ -557,7 +557,12 @@ export const products: Product[] = [
     rating: 4.5,
     reviews: 154,
     badges: [],
-    variants: [],
+    variantLabel: "Colour",
+    variants: [
+      { id: "black", label: "Black", note: "Matte black, steel agitator", swatch: "linear-gradient(135deg,#17181b,#2c2f34)", sku: "TF-SHK-BLK" },
+      { id: "bone", label: "Bone", note: "Off-white, steel agitator", swatch: "linear-gradient(135deg,#f3efe7,#dcd7cc)", sku: "TF-SHK-BON" },
+      { id: "ember", label: "Ember", note: "Signal orange lid", swatch: "linear-gradient(135deg,#ff5a1f,#c2410c)", sku: "TF-SHK-EMB" },
+    ],
     description:
       "A moulded agitator instead of a wire ball, a lid that actually seals, and a body that survives being dropped on a platform.",
     highlights: ["600 ml", "Moulded agitator", "Dishwasher safe"],
@@ -702,7 +707,11 @@ export const products: Product[] = [
     rating: 0,
     reviews: 0,
     badges: ["Save $10"],
-    variants: [],
+    variantLabel: "Supply",
+    variants: [
+      { id: "30-day", label: "30 days", note: "One month of the daily stack", sku: "TF-STK-D30" },
+      { id: "90-day", label: "90 days", note: "Three months, about 12% off the monthly price", priceCents: 25300, sku: "TF-STK-D90" },
+    ],
     description:
       "The three things worth taking every day, in one box: whey isolate, creatine monohydrate and electrolytes. Nothing exotic, and no proprietary blend hiding the doses.",
     highlights: ["Recovery Protein, 1 kg", "Pure Creatine, 300 g", "Daily Hydration, 30 sticks"],
@@ -730,7 +739,11 @@ export const products: Product[] = [
     rating: 0,
     reviews: 0,
     badges: ["Save $8"],
-    variants: [],
+    variantLabel: "Supply",
+    variants: [
+      { id: "30-day", label: "30 days", note: "One month of the night stack", sku: "TF-STK-N30" },
+      { id: "90-day", label: "90 days", note: "Three months, about 12% off the monthly price", priceCents: 15500, sku: "TF-STK-N90" },
+    ],
     description:
       "What to take in the evening. Magnesium bisglycinate for sleep quality, and a triple-strength omega-3 for the things that take months rather than days.",
     highlights: ["Night Magnesium, 90 caps", "Triple Omega-3, 90 caps"],

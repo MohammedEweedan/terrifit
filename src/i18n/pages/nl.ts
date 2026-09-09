@@ -290,7 +290,7 @@ export const nl: PagesTranslation = {
     cta: {
       eyebrow: "Eerste productie",
       title: "Om je pols en vergeten",
-      body: "Pre-orders gaan vanaf november 2027 de deur uit op volgorde van binnenkomst, en de introductieprijs geldt de hele eerste serie.",
+      body: "De eerste serie staat gepland voor november 2027. Schrijf je in en je hoort het als eerste, zonder aanbetaling en zonder iets op te zeggen.",
       primary: "V1 pre-orderen",
       secondary: "Op de wachtlijst",
     },

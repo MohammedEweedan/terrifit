@@ -826,3 +826,11 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **server** — `src/lib/email/send.ts`, `src/lib/email/templates.ts`, `src/lib/email/__tests__/`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-09 · 15:42
+
+**Committed** `2738038` on `main` — fix: unblock the admin console, move hardware to research, add lookbook
+
+**Reverted or committed** — 45 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

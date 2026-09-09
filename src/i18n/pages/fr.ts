@@ -290,7 +290,7 @@ export const fr: PagesTranslation = {
     cta: {
       eyebrow: "Première série",
       title: "Mettez-le et oubliez-le",
-      body: "Les précommandes partent dans l’ordre d’arrivée à partir de novembre 2027, et le prix de lancement tient sur toute la première série.",
+      body: "La première série est visée pour novembre 2027. Rejoignez la liste et vous serez prévenu avant tout le monde, sans acompte et sans rien à annuler.",
       primary: "Précommander la V1",
       secondary: "Rejoindre la liste",
     },

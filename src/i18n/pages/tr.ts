@@ -290,7 +290,7 @@ export const tr: PagesTranslation = {
     cta: {
       eyebrow: "İlk üretim",
       title: "Tak ve unut",
-      body: "Ön siparişler Kasım 2027’den itibaren geliş sırasına göre gönderiliyor ve lansman fiyatı ilk seri boyunca geçerli.",
+      body: "İlk üretim Kasım 2027 için hedefleniyor. Listeye katılın, herkesten önce haber alın; kapora yok, iptal edecek bir şey yok.",
       primary: "V1’i ön sipariş ver",
       secondary: "Bekleme listesine katıl",
     },

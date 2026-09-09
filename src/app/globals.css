@@ -6953,3 +6953,16 @@ html[dir="rtl"] .tf-wordmark {
   letter-spacing: 0.02em;
   text-transform: uppercase;
 }
+
+/* Console: lookbook composer. */
+.cnsl-look-form { display: grid; gap: 12px; max-width: 720px; margin-bottom: 26px; }
+.cnsl-look-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; }
+.cnsl-look-form label { display: grid; gap: 6px; min-width: 0; }
+.cnsl-look-form span { color: var(--fg-3); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+.cnsl-look-form input {
+  min-height: 44px; border: 1px solid var(--border-strong); border-radius: 10px;
+  padding: 0 12px; background: var(--bg-elev); color: var(--fg); font: inherit; font-size: 0.9rem;
+}
+.cnsl-look-form input[type="file"] { padding: 10px 12px; font-size: 0.8rem; }
+.cnsl-look-form input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+@media (max-width: 700px) { .cnsl-look-row { grid-template-columns: 1fr; } }

@@ -293,7 +293,7 @@ export const es: PagesTranslation = {
     cta: {
       eyebrow: "Primera producción",
       title: "Póntela y olvídate",
-      body: "Las reservas se envían por orden de llegada a partir de noviembre de 2027, y el precio de lanzamiento se mantiene toda la primera serie.",
+      body: "La primera serie está prevista para noviembre de 2027. Únete a la lista y te avisamos antes que a nadie, sin depósito y sin nada que cancelar.",
       primary: "Reservar la V1",
       secondary: "Únete a la lista",
     },

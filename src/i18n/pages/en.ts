@@ -675,7 +675,7 @@ export const en = {
     cta: {
       eyebrow: "First production run",
       title: "Put it on and forget about it",
-      body: "Pre-orders ship in the order they came in from November 2027, and the founding price holds for the whole first run.",
+      body: "The first run is targeted for November 2027. Join the list and you hear before anyone else, with no deposit and nothing to cancel.",
       primary: "Pre-order V1",
       secondary: "Join the waitlist",
     },
