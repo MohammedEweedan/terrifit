@@ -7,7 +7,7 @@ import type { Locale } from "@/i18n/config";
 import { storefrontCopy } from "@/i18n/storefront";
 import { marketingDetails } from "@/i18n/marketing";
 import { SloganMark } from "./SloganMark";
-import athlete from "../../../public/media/final-hero.png";
+import athlete from "../../../public/media/hoodie-sec.png";
 import band from "../../../public/media/band/colourways-v2/ember.png";
 import styles from "./LandingHero.module.css";
 
