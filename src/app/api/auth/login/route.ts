@@ -4,6 +4,8 @@ import { loginSchema } from "@/lib/validation";
 import { clientKey, rateLimit } from "@/lib/rate-limit";
 import { createSession, setSessionCookie, verifyPassword } from "@/lib/auth";
 import { audit, isSuperadminEmail } from "@/lib/admin";
+import { sendEmail } from "@/lib/email/send";
+import { newSignIn } from "@/lib/email/templates";
 
 export const runtime = "nodejs";
 
@@ -54,6 +56,31 @@ export async function POST(request: Request) {
   if (!user.isAdmin && isSuperadminEmail(user.email)) {
     await prisma.user.update({ where: { id: user.id }, data: { isAdmin: true } });
     await audit(user.id, "admin.self_promote", user.id, { reason: "superadmin allowlist", at: "login" });
+  }
+
+  /**
+   * Tell the account holder about a device we have not seen before.
+   *
+   * After the fact, not blocking: someone on a new phone must not be locked
+   * out, and someone who did not sign in needs to know within seconds. Sent
+   * without awaiting — a slow mail relay must never hold up a login — and
+   * failures are logged rather than surfaced.
+   */
+  const agent = request.headers.get("user-agent") ?? "";
+  const seenBefore = await prisma.session.count({
+    where: { userId: user.id, userAgent: agent || null },
+  });
+  if (seenBefore === 0 && agent) {
+    const origin = new URL(request.url).origin;
+    void sendEmail({
+      to: user.email,
+      ...newSignIn({
+        when: new Date().toUTCString(),
+        device: agent.slice(0, 120),
+        approximateLocation: request.headers.get("x-vercel-ip-city") ?? "unknown",
+        resetLink: `${origin}/en/reset`,
+      }),
+    }).catch((error) => console.error("new sign-in notice failed", error));
   }
 
   const session = await createSession(user.id, {

@@ -8,7 +8,7 @@ import {
   swatchColours,
   type Category,
 } from "@/lib/shop/catalog";
-import { getV1Colourways, listProducts, recommendationsFrom } from "@/lib/shop/catalog-store";
+import { getV1Colourways, listShopProducts, recommendationsFrom } from "@/lib/shop/catalog-store";
 import { CURRENCIES, currencyForLocale, findCurrency, formatIn, priceIn } from "@/lib/shop/currency";
 import { localeMeta } from "@/i18n/config";
 
@@ -32,7 +32,8 @@ export async function GET(request: Request) {
   const requestedLocale = new URL(request.url).searchParams.get("locale") ?? "";
   const locale: Locale = isLocale(requestedLocale) ? requestedLocale : isLocale(stored) ? stored : "en";
   const copy = getPagesCopy(locale);
-  const [products, colourways] = await Promise.all([listProducts(), getV1Colourways()]);
+  // Same rule as the web shop: only what actually ships.
+  const [products, colourways] = await Promise.all([listShopProducts(), getV1Colourways()]);
 
   // The member's market decides the currency, and an explicit `?currency=`
   // overrides it — someone living abroad may well want to pay in their own.

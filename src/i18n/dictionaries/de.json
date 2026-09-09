@@ -95,8 +95,8 @@
   },
   "prototypes": {
     "eyebrow": "Interface",
-    "headline": "Ein Präzisionsinstrument, das man im Vorbeigehen liest.",
-    "body": "Große Ziffern, eine klare Hierarchie und fast keine Animation. Gebaut für eine dunkle Gymfläche und bei Tageslicht genauso scharf.",
+    "headline": "Mitten im Satz lesbar, verschwitzt, im Dunkeln.",
+    "body": "Zahlen groß genug, um sie ohne Pause zu lesen. Immer nur eine Sache auf dem Display. Keine Animation, die um Aufmerksamkeit bettelt.",
     "tabs": {
       "feed": {
         "label": "Start",

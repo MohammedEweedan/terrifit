@@ -3,15 +3,16 @@ import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { websiteCopy } from "@/i18n/website";
 import type { Dictionary } from "@/i18n";
 import type { Locale } from "@/i18n/config";
-import { marketingDetails, marketingUi } from "@/i18n/marketing";
+import { marketingUi } from "@/i18n/marketing";
+import { researchCopy } from "@/i18n/research";
 
 export function TerrifitFooter({locale,copy}:{locale:Locale;copy:Dictionary}) {
-  const extra=websiteCopy(locale); const detail=marketingDetails[locale]; const ui=marketingUi[locale];
+  const extra=websiteCopy(locale); const ui=marketingUi[locale];
   // Slugs here are either a route folder or a member of `destinations`, which
   // the `[destination]` catch-all serves. The legal row below is separate: those
   // are the actual policies under /legal, not the marketing pages.
   const columns=[
-    [copy.footer.productTitle,[[ui.nav[0],"app"],[ui.nav[2],"maps"],[detail.band[0],"band"],[ui.nav[4],"shop"],[extra.coaching,"coaching"],[extra.membership,"membership"]]],
+    [copy.footer.productTitle,[[ui.nav[0],"app"],[researchCopy(locale).eyebrow,"research"],[ui.nav[4],"shop"],[extra.membership,"membership"]]],
     [copy.nav.creators,[[copy.footer.product[2],"creators"],[copy.footer.product[3],"platform"],[copy.footer.product[4],"platform"],[copy.faq.eyebrow,"support"]]],
     [copy.footer.companyTitle,copy.footer.company.map((label,index)=>[label,["about","careers","press","contact"][index]])],
   ] as const;

@@ -19,7 +19,7 @@ export function SloganMark({ label = "Get terrificly fit" }: { label?: string })
   return (
     <h1 className="th-slogan" aria-label={label}>
       <span className="th-slogan-line" aria-hidden="true">
-        <span className="th-slogan-get">Get</span>
+        <span className="th-slogan-get">Become</span>
         {/* The brand half carries the colour change, resolving to orange over
             the same window the letters are moving. */}
         <span className="th-slogan-word">

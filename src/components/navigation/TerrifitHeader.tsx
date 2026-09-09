@@ -1,7 +1,6 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -16,20 +15,23 @@ import { websiteCopy } from "@/i18n/website";
 import { CartButton } from "@/components/shop/CartButton";
 import { SiteSearch } from "@/components/search/SiteSearch";
 import { getPagesCopy } from "@/i18n/pages";
-import heroMale from "../../../public/media/sled.jpg";
+import { researchCopy } from "@/i18n/research";
 
 // Creators (index 3) is parked with the social product; the page stays but is
 // unlinked. Labels come from `ui.nav` by position, so each entry carries the
 // index it belongs to rather than relying on its place in this array.
+//
+// Band, Hardware, Maps and Coaching are unlinked for the same reason: neither is for sale
+// while the devices are in development, and a nav that leads with products
+// nobody can buy pushes the supplements and apparel that do ship further
+// down. Both pages still exist and are reachable from the research page.
 const items = [
   { slug: "app", label: 0 },
-  { slug: "band", label: 1 },
-  { slug: "maps", label: 2 },
   { slug: "shop", label: 4 },
 ] as const;
 
 export function TerrifitHeader({locale,copy}:{locale:Locale;copy:Dictionary}) {
-  const [open,setOpen]=useState(false); const [solid,setSolid]=useState(false); const pathname=usePathname(); const ui=marketingUi[locale]; const search=getPagesCopy(locale).search; const extra=websiteCopy(locale); const links=[...items.map(item=>({slug:item.slug,label:ui.nav[item.label]})),{slug:"hardware",label:extra.hardware},{slug:"coaching",label:extra.coaching},{slug:"membership",label:extra.membership}];
+  const [open,setOpen]=useState(false); const [solid,setSolid]=useState(false); const pathname=usePathname(); const ui=marketingUi[locale]; const search=getPagesCopy(locale).search; const extra=websiteCopy(locale); const links=[...items.map(item=>({slug:item.slug,label:ui.nav[item.label]})),{slug:"research",label:researchCopy(locale).eyebrow},{slug:"membership",label:extra.membership}];
   useEffect(()=>{rememberAttribution()},[pathname]);
   useEffect(()=>{const onScroll=()=>setSolid(window.scrollY>24);onScroll();window.addEventListener("scroll",onScroll,{passive:true});return()=>window.removeEventListener("scroll",onScroll)},[]);
   useEffect(()=>{document.body.style.overflow=open?"hidden":"";const key=(e:KeyboardEvent)=>e.key==="Escape"&&setOpen(false);window.addEventListener("keydown",key);return()=>{document.body.style.overflow="";window.removeEventListener("keydown",key)}},[open]);
@@ -51,6 +53,6 @@ export function TerrifitHeader({locale,copy}:{locale:Locale;copy:Dictionary}) {
         <div className="tf-header-actions"><CartButton locale={locale}/><Link className="tf-signin" href={`/${locale}/signin`}>{ui.signIn}</Link><Link className="tf-button tf-button-small" href={`/${locale}#waitlist`} onClick={join}>{copy.nav.join}</Link><button type="button" className={`tf-menu-button ${open?"is-open":""}`} aria-label={open?copy.nav.closeMenu:copy.nav.openMenu} aria-expanded={open} onClick={()=>setOpen(v=>!v)}><span/><span/></button></div>
       </div>
     </header>
-    <AnimatePresence>{open?<motion.div className="tf-mobile-drawer" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:.22}}><div className="tf-mobile-drawer-inner"><div className="tf-mobile-search"><SiteSearch locale={locale} labels={search}/></div><div className="tf-mobile-menu-label">{copy.hero.eyebrow}</div><nav aria-label="Mobile navigation">{links.map(({slug,label},index)=><motion.div key={slug} initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} transition={{delay:.04+index*.04}}><Link href={`/${locale}/${slug}`} onClick={()=>setOpen(false)}><span>0{index+1}</span>{label}<b>↗</b></Link></motion.div>)}</nav><div className="tf-mobile-feature"><Image src={heroMale} alt="Terrifit athlete" sizes="88vw"/><div><span>{copy.progress.eyebrow}</span><small>{copy.progress.metrics[3]}</small></div></div><div className="tf-mobile-actions"><Link className="tf-button" href={`/${locale}#waitlist`} onClick={join}>{copy.finalCta.primary}</Link><Link className="tf-text-link" href={`/${locale}/signin`} onClick={()=>setOpen(false)}>{ui.signIn}<span>→</span></Link></div></div></motion.div>:null}</AnimatePresence>
+    <AnimatePresence>{open?<motion.div className="tf-mobile-drawer" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:.22}}><div className="tf-mobile-drawer-inner"><div className="tf-mobile-search"><SiteSearch locale={locale} labels={search}/></div><div className="tf-mobile-menu-label">{copy.hero.eyebrow}</div><nav aria-label="Mobile navigation">{links.map(({slug,label},index)=><motion.div key={slug} initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} transition={{delay:.04+index*.04}}><Link href={`/${locale}/${slug}`} onClick={()=>setOpen(false)}><span>0{index+1}</span>{label}<b>↗</b></Link></motion.div>)}</nav><div className="tf-mobile-actions"><Link className="tf-button" href={`/${locale}#waitlist`} onClick={join}>{copy.finalCta.primary}</Link><Link className="tf-text-link" href={`/${locale}/signin`} onClick={()=>setOpen(false)}>{ui.signIn}<span>→</span></Link></div></div></motion.div>:null}</AnimatePresence>
   </>;
 }

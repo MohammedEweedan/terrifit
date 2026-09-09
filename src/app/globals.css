@@ -3816,7 +3816,14 @@ html[dir="rtl"] .tf-section-intro h2 { font-size: clamp(2.1rem, 3.6vw, 3.4rem); 
 
 .lr-track {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* Exactly one column per item, whatever the count. Hardcoding four left an
+     empty cell when there were three, and because the track paints a
+     background that shows through the 1px gap, that cell rendered as a visible
+     empty box. `auto-fit` was worse — at desktop widths it produced five
+     tracks for three items. Column flow is deterministic: no empty cells,
+     no assumption about how many items there are. */
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
   gap: 1px;
   margin: clamp(34px, 4vw, 52px) 0 0;
   padding: 0;
@@ -4446,55 +4453,55 @@ html[dir="rtl"] .tf-section-intro h2 { font-size: clamp(2.1rem, 3.6vw, 3.4rem); 
 /* Staff console. Deliberately plain: a dense table beats a dashboard when the
    job is finding one order among four hundred. Dark only — it is an internal
    tool and does not need to follow the marketing theme. */
-.ad { min-height: 100vh; padding: 28px clamp(16px, 4vw, 44px) 80px; background: #08090a; color: #f2f4f6; }
-.ad-top { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end; justify-content: space-between; padding-bottom: 22px; border-bottom: 1px solid #22262b; }
-.ad-eyebrow { color: var(--tf-orange); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; }
-.ad-top h1 { margin-top: 6px; font-family: var(--font-display), sans-serif; font-size: clamp(2rem, 5vw, 3rem); text-transform: uppercase; }
-.ad-who { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-size: 0.78rem; color: #9aa2ab; }
-.ad-who strong { color: #f2f4f6; }
-.ad-who a { color: var(--tf-orange); }
-.ad-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 22px 0; }
-.ad-tabs button { min-height: 40px; padding: 0 18px; border: 1px solid #22262b; border-radius: 999px; background: #121417; color: #9aa2ab; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.04em; }
-.ad-tabs button.active { border-color: var(--tf-orange); background: rgb(255 90 31 / 0.14); color: var(--tf-orange); }
-.ad-refresh { margin-left: auto; }
-.ad-message { margin-bottom: 16px; padding: 12px 14px; border: 1px solid #333941; border-radius: 10px; background: #121417; font-size: 0.84rem; }
-.ad-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
-.ad-stat { padding: 18px; border: 1px solid #22262b; border-radius: 16px; background: #121417; }
-.ad-stat span { color: #6f767e; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
-.ad-stat strong { display: block; margin-top: 8px; font-family: var(--font-display), sans-serif; font-size: 2.1rem; }
-.ad-stat small { color: #9aa2ab; font-size: 0.72rem; }
-.ad-search { width: 100%; max-width: 420px; min-height: 44px; margin-bottom: 16px; padding: 0 14px; border: 1px solid #333941; border-radius: 10px; background: #121417; color: #f2f4f6; }
-.ad-scroller { overflow-x: auto; }
-.ad-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-.ad-table th, .ad-table td { padding: 12px 10px; border-bottom: 1px solid #22262b; text-align: left; vertical-align: top; }
-.ad-table thead th { color: #6f767e; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
-.ad-table tbody th { font-weight: 800; }
-.ad-table small { display: block; margin-top: 3px; color: #6f767e; font-size: 0.7rem; font-weight: 400; }
-.ad-table .num { text-align: right; font-variant-numeric: tabular-nums; }
-.ad-badge { margin-left: 7px; padding: 2px 6px; border: 1px solid var(--tf-orange); border-radius: 5px; color: var(--tf-orange); font-size: 0.58rem; font-style: normal; font-weight: 800; text-transform: uppercase; }
-.ad-pill { display: inline-block; padding: 3px 9px; border: 1px solid #333941; border-radius: 999px; font-size: 0.68rem; font-weight: 800; }
-.ad-pill.ad-paid { border-color: #45c98a; color: #45c98a; }
-.ad-pill.ad-pending { border-color: #e8b23c; color: #e8b23c; }
-.ad-pill.ad-refunded, .ad-pill.ad-failed { border-color: #f0654f; color: #f0654f; }
-.ad-actions { display: flex; flex-wrap: wrap; gap: 6px; }
-.ad-actions button { min-height: 34px; padding: 0 12px; border: 1px solid #333941; border-radius: 8px; background: #08090a; color: #f2f4f6; font-size: 0.72rem; font-weight: 700; }
-.ad-actions button:hover { border-color: var(--tf-orange); color: var(--tf-orange); }
-.ad-note { margin-top: 16px; color: #6f767e; font-size: 0.76rem; line-height: 1.6; max-width: 62ch; }
-.ad-posts { display: grid; gap: 12px; }
-.ad-post { padding: 16px; border: 1px solid #22262b; border-radius: 14px; background: #121417; }
-.ad-post header { display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline; }
-.ad-post header span, .ad-post header em { color: #6f767e; font-size: 0.72rem; font-style: normal; }
-.ad-post p { margin-top: 10px; font-size: 0.86rem; line-height: 1.6; }
-.ad-post footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; color: #6f767e; font-size: 0.72rem; }
-.ad-post footer button { min-height: 34px; padding: 0 12px; border: 1px solid #f0654f; border-radius: 8px; background: transparent; color: #f0654f; font-size: 0.72rem; font-weight: 700; }
-.ad-detail { max-width: 40ch; color: #6f767e; font-size: 0.7rem; word-break: break-all; }
-.ad-section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
-.ad-section-head h2, .ad-subhead { font-family: var(--font-display), sans-serif; font-size: 1.35rem; text-transform: uppercase; }
-.ad-section-head .ad-note { margin-top: 4px; }
-.ad-subhead { margin: 30px 0 10px; }
-.ad-variant { display: flex !important; align-items: center; gap: 7px; }
-.ad-swatch { display: inline-flex; width: 24px; height: 24px; overflow: hidden; flex: 0 0 auto; border: 1px solid #333941; border-radius: 50%; }
-.ad-swatch i { flex: 1; min-width: 0; }
+.cnsl { min-height: 100vh; padding: 28px clamp(16px, 4vw, 44px) 80px; background: #08090a; color: #f2f4f6; }
+.cnsl-top { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end; justify-content: space-between; padding-bottom: 22px; border-bottom: 1px solid #22262b; }
+.cnsl-eyebrow { color: var(--tf-orange); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; }
+.cnsl-top h1 { margin-top: 6px; font-family: var(--font-display), sans-serif; font-size: clamp(2rem, 5vw, 3rem); text-transform: uppercase; }
+.cnsl-who { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-size: 0.78rem; color: #9aa2ab; }
+.cnsl-who strong { color: #f2f4f6; }
+.cnsl-who a { color: var(--tf-orange); }
+.cnsl-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 22px 0; }
+.cnsl-tabs button { min-height: 40px; padding: 0 18px; border: 1px solid #22262b; border-radius: 999px; background: #121417; color: #9aa2ab; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.04em; }
+.cnsl-tabs button.active { border-color: var(--tf-orange); background: rgb(255 90 31 / 0.14); color: var(--tf-orange); }
+.cnsl-refresh { margin-left: auto; }
+.cnsl-message { margin-bottom: 16px; padding: 12px 14px; border: 1px solid #333941; border-radius: 10px; background: #121417; font-size: 0.84rem; }
+.cnsl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
+.cnsl-stat { padding: 18px; border: 1px solid #22262b; border-radius: 16px; background: #121417; }
+.cnsl-stat span { color: #6f767e; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
+.cnsl-stat strong { display: block; margin-top: 8px; font-family: var(--font-display), sans-serif; font-size: 2.1rem; }
+.cnsl-stat small { color: #9aa2ab; font-size: 0.72rem; }
+.cnsl-search { width: 100%; max-width: 420px; min-height: 44px; margin-bottom: 16px; padding: 0 14px; border: 1px solid #333941; border-radius: 10px; background: #121417; color: #f2f4f6; }
+.cnsl-scroller { overflow-x: auto; }
+.cnsl-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.cnsl-table th, .cnsl-table td { padding: 12px 10px; border-bottom: 1px solid #22262b; text-align: left; vertical-align: top; }
+.cnsl-table thead th { color: #6f767e; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+.cnsl-table tbody th { font-weight: 800; }
+.cnsl-table small { display: block; margin-top: 3px; color: #6f767e; font-size: 0.7rem; font-weight: 400; }
+.cnsl-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+.cnsl-badge { margin-left: 7px; padding: 2px 6px; border: 1px solid var(--tf-orange); border-radius: 5px; color: var(--tf-orange); font-size: 0.58rem; font-style: normal; font-weight: 800; text-transform: uppercase; }
+.cnsl-pill { display: inline-block; padding: 3px 9px; border: 1px solid #333941; border-radius: 999px; font-size: 0.68rem; font-weight: 800; }
+.cnsl-pill.cnsl-paid { border-color: #45c98a; color: #45c98a; }
+.cnsl-pill.cnsl-pending { border-color: #e8b23c; color: #e8b23c; }
+.cnsl-pill.cnsl-refunded, .cnsl-pill.cnsl-failed { border-color: #f0654f; color: #f0654f; }
+.cnsl-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.cnsl-actions button { min-height: 34px; padding: 0 12px; border: 1px solid #333941; border-radius: 8px; background: #08090a; color: #f2f4f6; font-size: 0.72rem; font-weight: 700; }
+.cnsl-actions button:hover { border-color: var(--tf-orange); color: var(--tf-orange); }
+.cnsl-note { margin-top: 16px; color: #6f767e; font-size: 0.76rem; line-height: 1.6; max-width: 62ch; }
+.cnsl-posts { display: grid; gap: 12px; }
+.cnsl-post { padding: 16px; border: 1px solid #22262b; border-radius: 14px; background: #121417; }
+.cnsl-post header { display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline; }
+.cnsl-post header span, .cnsl-post header em { color: #6f767e; font-size: 0.72rem; font-style: normal; }
+.cnsl-post p { margin-top: 10px; font-size: 0.86rem; line-height: 1.6; }
+.cnsl-post footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; color: #6f767e; font-size: 0.72rem; }
+.cnsl-post footer button { min-height: 34px; padding: 0 12px; border: 1px solid #f0654f; border-radius: 8px; background: transparent; color: #f0654f; font-size: 0.72rem; font-weight: 700; }
+.cnsl-detail { max-width: 40ch; color: #6f767e; font-size: 0.7rem; word-break: break-all; }
+.cnsl-section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+.cnsl-section-head h2, .cnsl-subhead { font-family: var(--font-display), sans-serif; font-size: 1.35rem; text-transform: uppercase; }
+.cnsl-section-head .cnsl-note { margin-top: 4px; }
+.cnsl-subhead { margin: 30px 0 10px; }
+.cnsl-variant { display: flex !important; align-items: center; gap: 7px; }
+.cnsl-swatch { display: inline-flex; width: 24px; height: 24px; overflow: hidden; flex: 0 0 auto; border: 1px solid #333941; border-radius: 50%; }
+.cnsl-swatch i { flex: 1; min-width: 0; }
 
 /* The free fitness-age tool. A single-purpose landing page: one question, one
    answer, and the working underneath it. */
@@ -6315,6 +6322,17 @@ body:has(.tf-announce) { --tf-announce-h: 34px; }
   .th-slogan-word { animation: none; color: #ff6229; }
 }
 
+/* One line on phones, always.
+   The wordmark cannot break mid-run — the morph depends on it staying one
+   run — so wrapping put "GET" on its own row above "TERRIFIT". These live here
+   rather than in storefront.css because the landing hero is a CSS-Module
+   component with no `.th-hero` class, and every rule scoped to that selector
+   silently missed it. */
+@media (max-width: 860px) {
+  .th-slogan { font-size: min(8.4vw, 4.6rem); text-align: center; }
+  .th-slogan-line { flex-wrap: nowrap; justify-content: center; }
+}
+
 /* The hero copy reads as one centred column. */
 .th-hero-copy { text-align: center; }
 .th-hero-copy .th-actions,
@@ -6478,31 +6496,31 @@ html[dir="rtl"] .tf-wordmark {
 }
 
 /* Console: waitlist and message queue.
-   Named apart from `.ad-message` and `.ad-note`, which already exist as the
+   Named apart from `.cnsl-message` and `.cnsl-note`, which already exist as the
    status banner and the section caption — reusing either would have silently
    restyled them everywhere else in the console. */
-.ad-queue-note { margin: 14px 0 10px; color: var(--fg-2); font-size: 0.8rem; }
+.cnsl-queue-note { margin: 14px 0 10px; color: var(--fg-2); font-size: 0.8rem; }
 /* Long free text in a table cell: readable, bounded, and never the reason the
    table starts scrolling sideways. */
-.ad-message-body {
+.cnsl-message-body {
   max-width: 46ch; min-width: 22ch;
   white-space: normal; overflow-wrap: anywhere;
   color: var(--fg-2); font-size: 0.82rem; line-height: 1.5;
 }
-.ad-table tr.is-done { opacity: 0.55; }
-.ad-table tr.is-done th[scope="row"]::after { content: " ✓"; color: var(--good); }
-.ad-table td code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.78rem; }
+.cnsl-table tr.is-done { opacity: 0.55; }
+.cnsl-table tr.is-done th[scope="row"]::after { content: " ✓"; color: var(--good); }
+.cnsl-table td code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.78rem; }
 
 /* Console error boundary: readable on any theme, and never a blank page. */
-.ad-error {
+.cnsl-error {
   max-width: 60ch; margin: 18vh auto; padding: 28px 30px;
   border: 1px solid var(--border); border-radius: 16px;
   background: var(--surface); color: var(--fg);
 }
-.ad-error h1 { margin: 0 0 10px; font-size: 1.2rem; }
-.ad-error p { margin: 0 0 12px; color: var(--fg-2); font-size: 0.9rem; line-height: 1.6; }
-.ad-error code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.82rem; }
-.ad-error button {
+.cnsl-error h1 { margin: 0 0 10px; font-size: 1.2rem; }
+.cnsl-error p { margin: 0 0 12px; color: var(--fg-2); font-size: 0.9rem; line-height: 1.6; }
+.cnsl-error code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.82rem; }
+.cnsl-error button {
   min-height: 42px; padding: 0 20px; border: 0; border-radius: 999px;
   background: var(--accent); color: var(--accent-fg); font-weight: 700; cursor: pointer;
 }
@@ -6820,4 +6838,118 @@ html[dir="rtl"] .tf-wordmark {
 }
 @media (prefers-reduced-motion: reduce) {
   .th-department, .th-department img { transition: none; }
+}
+
+/* ── Research lab (`rl-`) ─────────────────────────────────────────────────
+   Hardware that is not for sale. Deliberately quieter than the shop: no
+   prices, no buy buttons, and every exit points at something that ships. */
+.rl-page { background: var(--bg); color: var(--fg); padding-block: clamp(110px, 13vh, 160px) clamp(60px, 8vw, 110px); }
+.rl-eyebrow { color: var(--accent); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; }
+.rl-head h1 { margin: 14px 0 12px; font-family: var(--font-anton), var(--font-inter), sans-serif; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1; text-transform: uppercase; }
+.rl-lede { max-width: 62ch; color: var(--fg-2); font-size: 1rem; line-height: 1.7; }
+
+.rl-devices { display: grid; gap: clamp(28px, 4vw, 48px); margin-top: clamp(40px, 6vw, 72px); }
+.rl-device { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(20px, 3.5vw, 48px); align-items: start; padding: clamp(20px, 3vw, 34px); border: 1px solid var(--border); border-radius: 24px; background: var(--surface); }
+.rl-device > * { min-width: 0; }
+.rl-device-art { position: relative; border-radius: 18px; overflow: hidden; background: var(--surface-2); }
+/* Says the quiet part out loud, on the image itself, so nobody has to infer
+   it from a missing price. */
+.rl-flag { position: absolute; inset-block-start: 12px; inset-inline-start: 12px; padding: 6px 12px; border-radius: 999px; background: var(--fg); color: var(--bg); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+.rl-device-copy h2 { margin: 0 0 6px; font-size: clamp(1.5rem, 3vw, 2.1rem); }
+.rl-tagline { margin: 0 0 14px; color: var(--fg); font-weight: 600; }
+.rl-body { color: var(--fg-2); font-size: 0.94rem; line-height: 1.7; }
+.rl-status { display: flex; flex-wrap: wrap; gap: 10px 30px; margin: 20px 0 0; }
+.rl-status dt { color: var(--fg-3); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+.rl-status dd { margin: 6px 0 0; font-weight: 600; }
+.rl-device-copy h3 { margin: 24px 0 10px; color: var(--fg-3); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+.rl-specs { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; border-top: 1px solid var(--border); }
+.rl-specs li { display: flex; justify-content: space-between; gap: 18px; padding: 11px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+.rl-specs b { font-weight: 600; }
+.rl-specs span { color: var(--fg-2); text-align: end; }
+
+.rl-parts { margin-top: clamp(36px, 5vw, 60px); }
+.rl-parts h2 { color: var(--fg-3); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+.rl-parts ul { margin: 14px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.rl-parts li { display: grid; gap: 4px; padding: 16px 18px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
+.rl-parts span { color: var(--fg-2); font-size: 0.84rem; line-height: 1.5; }
+
+.rl-split { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: clamp(48px, 7vw, 88px); }
+.rl-split article { padding: clamp(22px, 3vw, 34px); border: 1px solid var(--border); border-radius: 22px; background: var(--surface); }
+.rl-split h2 { margin: 0 0 8px; font-size: clamp(1.2rem, 2.2vw, 1.6rem); }
+.rl-split p { margin: 0 0 20px; color: var(--fg-2); font-size: 0.92rem; line-height: 1.65; }
+.rl-meanwhile { border-color: var(--accent); background: linear-gradient(180deg, var(--accent-soft), transparent), var(--surface); }
+.rl-cta { display: inline-flex; align-items: center; min-height: 50px; padding: 0 24px; border-radius: 999px; background: var(--accent); color: var(--accent-fg); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.rl-cta:hover { background: var(--accent-hover); }
+.rl-cta-quiet { background: transparent; color: var(--fg); border: 1px solid var(--border-strong); }
+.rl-cta-quiet:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+
+@media (max-width: 900px) {
+  .rl-device { grid-template-columns: 1fr; }
+  .rl-split { grid-template-columns: 1fr; }
+  .rl-meanwhile { order: -1; }
+}
+
+/* ── Lookbook (`lb-`) ─────────────────────────────────────────────────────
+   Editorial, but every frame is a route into the shop. */
+.lb-page { background: var(--bg); color: var(--fg); padding-block: clamp(110px, 13vh, 160px) clamp(60px, 8vw, 110px); }
+.lb-eyebrow { color: var(--accent); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; }
+.lb-head h1 { margin: 14px 0 12px; font-family: var(--font-anton), var(--font-inter), sans-serif; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1; text-transform: uppercase; }
+.lb-lede { max-width: 60ch; color: var(--fg-2); font-size: 1rem; line-height: 1.7; }
+
+.lb-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(16px, 2.4vw, 30px); margin-top: clamp(36px, 5vw, 64px); }
+.lb-look { display: grid; gap: 14px; }
+/* Every third frame runs full width, so the page reads as a spread rather than
+   a uniform grid of squares. */
+.lb-look.is-wide { grid-column: 1 / -1; }
+.lb-art { overflow: hidden; border-radius: 20px; background: var(--surface-2); }
+.lb-art img { transition: transform 620ms cubic-bezier(.2,.7,.3,1); }
+.lb-look:hover .lb-art img { transform: scale(1.03); }
+.lb-meta h2 { margin: 0; font-size: clamp(1.1rem, 2vw, 1.4rem); }
+.lb-meta p { margin: 6px 0 0; color: var(--fg-2); font-size: 0.9rem; line-height: 1.6; }
+
+.lb-shop { margin: 14px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.lb-shop a {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  min-height: 48px; padding: 0 16px; border: 1px solid var(--border-strong); border-radius: 12px;
+  color: var(--fg); font-size: 0.9rem;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+.lb-shop a:hover { border-color: var(--accent); background: var(--accent-soft); }
+.lb-shop b { font-weight: 700; }
+
+.lb-empty { margin-top: 40px; color: var(--fg-2); }
+.lb-foot { display: flex; flex-wrap: wrap; gap: 12px; margin-top: clamp(44px, 6vw, 80px); }
+.lb-cta {
+  display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 999px;
+  background: var(--accent); color: var(--accent-fg);
+  font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.lb-cta:hover { background: var(--accent-hover); }
+.lb-cta-quiet { background: transparent; color: var(--fg); border: 1px solid var(--border-strong); }
+.lb-cta-quiet:hover { border-color: var(--accent); color: var(--accent); }
+
+@media (max-width: 800px) {
+  .lb-grid { grid-template-columns: 1fr; }
+  .lb-look.is-wide { grid-column: auto; }
+}
+@media (prefers-reduced-motion: reduce) { .lb-art img { transition: none; } }
+
+/* The available-now track stacks on phones. Column flow gives one column per
+   item, which is right on a desktop and unreadable at 110px each on a 360px
+   screen. */
+@media (max-width: 760px) {
+  .lr-track { grid-auto-flow: row; grid-auto-columns: auto; }
+}
+
+/* "Coming soon" above the band headline. Sized to be read first — the point is
+   that nobody mistakes the section for something they can buy today. */
+.tf-band-soon {
+  display: block;
+  margin-bottom: 0.18em;
+  color: var(--accent);
+  font-family: var(--font-anton), var(--font-inter), sans-serif;
+  font-size: clamp(1.6rem, 4.4vw, 3rem);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }

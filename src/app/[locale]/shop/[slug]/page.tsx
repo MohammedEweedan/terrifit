@@ -4,7 +4,7 @@ import { SiteShell } from "@/components/layout/SiteShell";
 import { ProductDetail } from "@/components/shop/ProductDetail";
 import { isLocale } from "@/i18n/config";
 import { getPagesCopy } from "@/i18n/pages";
-import { getProductOrSeed, listProductsOrSeed } from "@/lib/shop/catalog-store";
+import { getProductOrSeed, listShopProducts } from "@/lib/shop/catalog-store";
 
 export const dynamic = "force-dynamic";
 
@@ -31,7 +31,7 @@ export default async function ProductPage({
   params: Promise<{ locale: string; slug: string }>;
 }) {
   const { locale, slug } = await params;
-  const [product, products] = await Promise.all([getProductOrSeed(slug), listProductsOrSeed()]);
+  const [product, products] = await Promise.all([getProductOrSeed(slug), listShopProducts()]);
   if (!isLocale(locale) || !product) notFound();
   return (
     <SiteShell locale={locale} className="sh-site">

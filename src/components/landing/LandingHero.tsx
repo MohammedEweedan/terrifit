@@ -37,7 +37,6 @@ export function LandingHero({ locale }: { locale: Locale }) {
         <motion.div className={styles.visual} initial={reduce ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, delay: 0.08, ease }}>
           <div className={styles.photo}>
             <Image src={athlete} alt="Runner in full stride across a sunlit landscape" fill preload placeholder="blur" sizes="(max-width: 760px) 100vw, 52vw" />
-            <div className={styles.photoTop}><span>TERRIFIT</span><span aria-hidden="true">↗</span></div>
             <svg className={styles.orbit} viewBox="0 0 500 600" fill="none" aria-hidden="true"><ellipse cx="264" cy="306" rx="215" ry="260" transform="rotate(25 264 306)" /><ellipse cx="264" cy="306" rx="202" ry="245" transform="rotate(25 264 306)" /></svg>
             <div className={styles.photoBottom}><p>{text.heroCaption}</p><a href="#metrics" aria-label={text.browse}>↓</a></div>
           </div>

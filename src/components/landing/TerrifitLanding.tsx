@@ -14,8 +14,6 @@ import { storefrontCopy } from "@/i18n/storefront";
 import type { Product } from "@/lib/shop/catalog";
 import { BandCallouts } from "@/components/band/BandCallouts";
 import { AvailableNow } from "@/components/marketing/AvailableNow";
-import { Capabilities } from "@/components/landing/Capabilities";
-import { Languages } from "@/components/landing/Languages";
 import { AnnouncementBar, type Announcement } from "@/components/marketing/AnnouncementBar";
 import { getPagesCopy } from "@/i18n/pages";
 
@@ -33,6 +31,7 @@ import { LandingHero } from "./LandingHero";
 import { LandingWaitlist } from "./LandingWaitlist";
 import styles from "./TerrifitLanding.module.css";
 import { Shot } from "@/components/ui/Shot";
+import { researchCopy } from "@/i18n/research";
 
 
 /**
@@ -122,10 +121,8 @@ export function TerrifitLanding({
         <BandSection locale={locale} />
         {/* The specification, in plain columns, straight after the band story.
             By this point the reader has had the argument and wants the list. */}
-        <Capabilities copy={getPagesCopy(locale).capabilities} />
         <LifestyleSection locale={locale} />
         {/* Ten languages, printed in ten scripts. The section is its own proof. */}
-        <Languages copy={getPagesCopy(locale).languages} current={locale} />
         <ShopSection locale={locale} products={shopProducts} />
         <AvailableNow locale={locale} copy={getPagesCopy(locale).availableNow} />
         <LandingWaitlist locale={locale} markets={markets} copy={copy} />
@@ -142,7 +139,16 @@ function BandSection({ locale }: { locale: Locale }) {
       <div className="tf-shell tf-band-layout">
         <SectionIntro
           kicker={detail.band[0]}
-          title={detail.band[1]}
+          title={
+            <>
+              {/* The device ships in 2027 and is not for sale, so the section
+                  says so before it says anything else — a headline that reads
+                  like a product on the shelf, above a thing you cannot buy,
+                  costs more trust than it wins. */}
+              <span className="tf-band-soon">{researchCopy(locale).comingSoon}</span>
+              {detail.band[1]}
+            </>
+          }
           body={detail.band[2]}
         />
 
@@ -343,14 +349,20 @@ function ShopSection({ locale, products }: { locale: Locale; products: Product[]
    * which is translated in all ten locales, so the section adds no new strings.
    */
   const departments = [
-    { key: "accessories", src: "/media/gym-hero.png", alt: "A Terrifit member mid-session in the gym" },
     { key: "fuel", src: "/media/creatine-shot.png", alt: "Terrifuel creatine monohydrate photographed as a product shot" },
     { key: "apparel", src: "/media/hoodie-hero.png", alt: "The Terrifits hoodie worn outdoors" },
+    // "all" rather than "accessories": with the hardware on the research page
+    // that category is a single shaker, and a tile promising a department
+    // should not open onto one product.
+    { key: "all", src: "/media/gym-hero.png", alt: "A Terrifit member mid-session in the gym" },
   ] as const;
 
-  // A count per department, so a tile never sends someone to an empty filter.
-  const counted = departments.filter(
-    (department) => products.some((product) => product.category === department.key),
+  // A tile never opens onto an empty filter. "all" is always valid when there
+  // is anything to sell at all.
+  const counted = departments.filter((department) =>
+    department.key === "all"
+      ? products.length > 0
+      : products.some((product) => product.category === department.key),
   );
 
   return <section id="shop" className="th-shop">
@@ -358,7 +370,7 @@ function ShopSection({ locale, products }: { locale: Locale; products: Product[]
       <div className="th-section-heading"><div><p className="th-eyebrow">{text.shopEyebrow}</p><h2>{text.essentials}</h2></div><Link className="th-text-link" href={`/${locale}/shop`}>{text.shopAll}<span aria-hidden>↗</span></Link></div>
       <div className="th-shop-departments">
         {(counted.length > 0 ? counted : departments).map(department => (
-          <Link key={department.key} className="th-department" href={`/${locale}/shop?category=${department.key}`}>
+          <Link key={department.key} className="th-department" href={department.key === "all" ? `/${locale}/shop` : `/${locale}/shop?category=${department.key}`}>
             <Shot src={department.src} alt={department.alt} ratio={4 / 5} sizes="(max-width: 800px) 90vw, 380px"
                   fallback={{ label: shop.categories[department.key] }} />
             <span className="th-department-label">

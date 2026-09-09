@@ -95,8 +95,8 @@
   },
   "prototypes": {
     "eyebrow": "Interface",
-    "headline": "Un instrument de précision qui se lit d’un coup d’œil.",
-    "body": "De grands chiffres, une seule hiérarchie claire et presque aucun mouvement. Pensé pour une salle sombre et tout aussi net en plein jour.",
+    "headline": "Lisible en pleine série, en sueur, dans le noir.",
+    "body": "Des chiffres assez grands pour être lus sans s'arrêter. Une seule chose à l'écran. Aucune animation qui réclame votre attention.",
     "tabs": {
       "feed": {
         "label": "Accueil",

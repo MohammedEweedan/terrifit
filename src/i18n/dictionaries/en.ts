@@ -101,9 +101,9 @@ export const en = {
 
   prototypes: {
     eyebrow: "Interface",
-    headline: "A precision instrument you read at a glance.",
+    headline: "Readable mid-set, sweating, in the dark.",
     body:
-      "Large numerals, one clear hierarchy and almost no motion. Built for a dark gym floor and just as sharp in daylight.",
+      "Numbers big enough to read without stopping. One thing on screen at a time. No animation begging for attention.",
     tabs: {
       feed: { label: "Feed", caption: "Your daily header sits above the feed, not buried in a tab." },
       map: { label: "Map", caption: "Everything the Map contains, and exactly what support is included." },

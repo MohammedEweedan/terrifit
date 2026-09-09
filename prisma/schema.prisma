@@ -939,3 +939,31 @@ model Activity {
 
   @@index([userId, recordedAt])
 }
+
+/// A styled photograph in the lookbook, with the products it features.
+///
+/// The image lives in object storage, not in this row: the column holds a URL
+/// so the same record works whether the file was uploaded to R2 or dropped into
+/// public/media by hand.
+model LookbookLook {
+  id String @id @default(cuid())
+
+  title String
+  note  String?
+
+  /// Absolute or site-relative URL to the photograph.
+  imageUrl String
+  alt      String
+
+  /// Shop slugs featured in the shot, so a look can be shopped directly.
+  /// JSON string[] — the products are catalogue entries, not rows here.
+  productSlugs String @default("[]")
+
+  published Boolean @default(true)
+  sortOrder Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([published, sortOrder])
+}

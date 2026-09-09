@@ -46,6 +46,7 @@ await client.connect();
 let changed = 0;
 let addedVariants = 0;
 let updatedVariants = 0;
+let deactivated = 0;
 try {
   for (const product of products) {
     if (only && product.slug !== only) continue;
@@ -127,6 +128,20 @@ try {
       );
     }
   }
+  // Anything live in the database that the catalogue no longer lists.
+  if (!only) {
+    const slugs = products.map((product) => product.slug);
+    const { rows: stale } = await client.query(
+      `select slug from "ShopProduct" where active = true and slug <> all($1)`, [slugs],
+    );
+    for (const row of stale) {
+      deactivated += 1;
+      console.log(`  ${row.slug.padEnd(28)} - no longer in the catalogue, deactivating`);
+      if (apply) {
+        await client.query(`update "ShopProduct" set active = false, "updatedAt" = now() where slug = $1`, [row.slug]);
+      }
+    }
+  }
 } finally {
   await client.end();
 }
@@ -135,5 +150,6 @@ const summary = [
   changed === 0 ? "prices already match" : `${changed} price(s) differ`,
   addedVariants === 0 ? "no missing variants" : `${addedVariants} variant(s) missing`,
   updatedVariants === 0 ? "variant art matches" : `${updatedVariants} variant image(s) stale`,
+  deactivated === 0 ? "no withdrawn products" : `${deactivated} product(s) to deactivate`,
 ].join(", ");
 console.log(apply ? `Applied: ${summary}.` : `${summary}. Re-run with --apply to write them.`);

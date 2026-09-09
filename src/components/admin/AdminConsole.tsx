@@ -201,34 +201,34 @@ export function AdminConsole({
   }
 
   return (
-    <div className="ad">
-      <header className="ad-top">
+    <div className="cnsl">
+      <header className="cnsl-top">
         <div>
-          <span className="ad-eyebrow">Terrifit</span>
+          <span className="cnsl-eyebrow">Terrifit</span>
           <h1>Console</h1>
         </div>
-        <div className="ad-who">
+        <div className="cnsl-who">
           <strong>{admin.name}</strong>
           <span>{admin.email}</span>
           <a href={`/${locale}`}>Back to site</a>
         </div>
       </header>
 
-      <nav className="ad-tabs">
+      <nav className="cnsl-tabs">
         {TABS.map((item) => (
           <button key={item} type="button" onClick={() => setTab(item)} className={tab === item ? "active" : ""}>
             {item}
           </button>
         ))}
-        <button type="button" onClick={refresh} className="ad-refresh" disabled={busy}>
+        <button type="button" onClick={refresh} className="cnsl-refresh" disabled={busy}>
           {busy ? "Loading…" : "Refresh"}
         </button>
       </nav>
 
-      {message ? <p className="ad-message-body">{message}</p> : null}
+      {message ? <p className="cnsl-message-body">{message}</p> : null}
 
       {tab === "Overview" ? (
-        <section className="ad-grid">
+        <section className="cnsl-grid">
           <Stat label="Members" value={overview.members.total} note={`${overview.members.newThisWeek} joined this week`} />
           <Stat label="Paying customers" value={overview.members.payingCustomers} note={`${Math.round((overview.members.payingCustomers / Math.max(1, overview.members.total)) * 100)}% of members`} />
           <Stat label="Pro access" value={overview.members.pro} note="Paid and comped accounts" />
@@ -251,11 +251,11 @@ export function AdminConsole({
       ) : null}
 
       {tab === "Products" ? (
-        <section className="ad-scroller">
-          <div className="ad-section-head">
-            <div><h2>Products and stock</h2><p className="ad-note">Live catalogue state used by the website, app and checkout.</p></div>
+        <section className="cnsl-scroller">
+          <div className="cnsl-section-head">
+            <div><h2>Products and stock</h2><p className="cnsl-note">Live catalogue state used by the website, app and checkout.</p></div>
           </div>
-          <table className="ad-table">
+          <table className="cnsl-table">
             <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Status</th><th>Variants</th><th className="num">Stock</th><th>Sales</th></tr></thead>
             <tbody>
               {products.map((product) => {
@@ -267,9 +267,9 @@ export function AdminConsole({
                   <th scope="row">{product.name}<small>{product.brand} · {product.slug}</small></th>
                   <td>{product.category}</td>
                   <td>{money(product.priceCents)}</td>
-                  <td><span className={`ad-pill ${product.active === false ? "ad-failed" : "ad-paid"}`}>{product.active === false ? "archived" : "active"}</span></td>
-                  <td>{product.variants.map((variant) => <small key={variant.id} className="ad-variant">
-                    <span className="ad-swatch" aria-hidden="true">{(variant.colours ?? []).map((colour) => <i key={colour} style={{ backgroundColor: colour }} />)}</span>
+                  <td><span className={`cnsl-pill ${product.active === false ? "cnsl-failed" : "cnsl-paid"}`}>{product.active === false ? "archived" : "active"}</span></td>
+                  <td>{product.variants.map((variant) => <small key={variant.id} className="cnsl-variant">
+                    <span className="cnsl-swatch" aria-hidden="true">{(variant.colours ?? []).map((colour) => <i key={colour} style={{ backgroundColor: colour }} />)}</span>
                     {variant.label} · {variant.stockQuantity ?? 0}
                   </small>)}</td>
                   <td className="num">{stock}</td>
@@ -278,20 +278,20 @@ export function AdminConsole({
               })}
             </tbody>
           </table>
-          <p className="ad-note">Create, edit, archive, change images, colour combinations and exact variant stock in the mobile console’s Products tab.</p>
+          <p className="cnsl-note">Create, edit, archive, change images, colour combinations and exact variant stock in the mobile console’s Products tab.</p>
         </section>
       ) : null}
 
       {tab === "Members" ? (
         <section>
           <input
-            className="ad-search"
+            className="cnsl-search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search name, email or handle"
           />
-          <div className="ad-scroller">
-            <table className="ad-table">
+          <div className="cnsl-scroller">
+            <table className="cnsl-table">
               <thead>
                 <tr>
                   <th>Member</th><th>Plan</th><th>Role</th><th className="num">Posts</th>
@@ -303,7 +303,7 @@ export function AdminConsole({
                   <tr key={member.id}>
                     <th scope="row">
                       {member.name}
-                      {member.isAdmin ? <em className="ad-badge">staff</em> : null}
+                      {member.isAdmin ? <em className="cnsl-badge">staff</em> : null}
                       <small>{member.email}</small>
                     </th>
                     <td>{member.plan}</td>
@@ -312,7 +312,7 @@ export function AdminConsole({
                     <td className="num">{member.metricDays}</td>
                     <td className="num">{member.bands}</td>
                     <td>{new Date(member.createdAt).toLocaleDateString()}</td>
-                    <td className="ad-actions">
+                    <td className="cnsl-actions">
                       <button
                         type="button"
                         onClick={() => void patchMember(member.id, { plan: member.plan === "pro" ? "free" : "pro" }, member.plan === "pro" ? "downgrade to free" : "upgrade to Pro")}
@@ -339,25 +339,25 @@ export function AdminConsole({
           {/* The demand signal first: who is on the list and where they are.
               Counting roles and markets in the database is cheaper and more
               honest than tallying a truncated page of rows in the browser. */}
-          <div className="ad-cards">
+          <div className="cnsl-cards">
             <article><h3>On the list</h3><strong className="num">{waitlist.total.toLocaleString()}</strong></article>
             {waitlist.byRole.slice(0, 4).map((row) => (
               <article key={row.role}><h3>{row.role}</h3><strong className="num">{row.count.toLocaleString()}</strong></article>
             ))}
           </div>
 
-          <p className="ad-queue-note">
+          <p className="cnsl-queue-note">
             Top markets: {waitlist.byCountry.map((row) => `${row.country} ${row.count}`).join(" · ") || "none yet"}
           </p>
 
           <input
-            className="ad-search"
+            className="cnsl-search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search name, email or referral code"
           />
-          <div className="ad-scroller">
-            <table className="ad-table">
+          <div className="cnsl-scroller">
+            <table className="cnsl-table">
               <thead>
                 <tr>
                   <th className="num">#</th><th>Person</th><th>Role</th><th>Market</th>
@@ -391,13 +391,13 @@ export function AdminConsole({
 
       {tab === "Messages" ? (
         <section>
-          <p className="ad-queue-note">
+          <p className="cnsl-queue-note">
             {messages.unhandled > 0
               ? `${messages.unhandled} waiting for a reply.`
               : "Everything here has been handled."}
           </p>
-          <div className="ad-scroller">
-            <table className="ad-table">
+          <div className="cnsl-scroller">
+            <table className="cnsl-table">
               <thead>
                 <tr><th>From</th><th>Topic</th><th>Message</th><th>Received</th><th>Actions</th></tr>
               </thead>
@@ -406,7 +406,7 @@ export function AdminConsole({
                   <tr key={item.id} className={item.handled ? "is-done" : undefined}>
                     <th scope="row">{item.name}<small>{item.email}</small></th>
                     <td>{item.topic}<small>{item.locale}</small></td>
-                    <td className="ad-message-body">{item.message}</td>
+                    <td className="cnsl-message-body">{item.message}</td>
                     <td>{when(item.createdAt)}</td>
                     <td>
                       <button type="button" disabled={busy} onClick={() => void setHandled(item.id, !item.handled)}>
@@ -423,8 +423,8 @@ export function AdminConsole({
       ) : null}
 
       {tab === "Orders" ? (
-        <section className="ad-scroller">
-          <table className="ad-table">
+        <section className="cnsl-scroller">
+          <table className="cnsl-table">
             <thead>
               <tr>
                 <th>Order</th><th>Customer</th><th>Items</th><th className="num">Total</th>
@@ -436,7 +436,7 @@ export function AdminConsole({
                 <tr key={order.id}>
                   <th scope="row">
                     {order.number}
-                    {order.sandbox ? <em className="ad-badge">test</em> : null}
+                    {order.sandbox ? <em className="cnsl-badge">test</em> : null}
                   </th>
                   <td>
                     {order.name}
@@ -453,12 +453,12 @@ export function AdminConsole({
                   </td>
                   <td className="num">{money(order.totalCents, order.currency)}</td>
                   <td>
-                    <span className={`ad-pill ad-${order.paymentStatus}`}>{order.paymentStatus}</span>
+                    <span className={`cnsl-pill ad-${order.paymentStatus}`}>{order.paymentStatus}</span>
                     <small>{order.paymentMethod}</small>
                   </td>
                   <td>{order.fulfillmentStatus}</td>
                   <td>{when(order.createdAt)}</td>
-                  <td className="ad-actions">
+                  <td className="cnsl-actions">
                     {order.paymentStatus !== "paid" ? (
                       <button type="button" onClick={() => void patchOrder(order.id, { paymentStatus: "paid" })}>
                         Mark paid
@@ -479,7 +479,7 @@ export function AdminConsole({
               ))}
             </tbody>
           </table>
-          <p className="ad-note">
+          <p className="cnsl-note">
             Marking an order refunded records a refund somebody performed in the payment provider. It does not move
             any money on its own.
           </p>
@@ -488,32 +488,32 @@ export function AdminConsole({
 
       {tab === "Revenue" ? (
         <section>
-          <div className="ad-grid">
+          <div className="cnsl-grid">
             {overview.payments.byCurrency.map((bucket) => <Stat key={bucket.currency} label={`${bucket.currency} net revenue`} value={money(bucket.netCents, bucket.currency)} note={`${money(bucket.grossCents, bucket.currency)} gross · ${money(bucket.refundedCents, bucket.currency)} refunded`} />)}
             <Stat label="MRR" value={money(overview.subscriptions.mrrCents)} note={`${overview.subscriptions.monthly} monthly · ${overview.subscriptions.yearly} yearly`} />
             <Stat label="ARR" value={money(overview.subscriptions.arrCents)} note="MRR × 12" />
           </div>
-          <h2 className="ad-subhead">Payments by currency</h2>
-          <div className="ad-scroller"><table className="ad-table"><thead><tr><th>Currency</th><th className="num">Gross</th><th className="num">Refunded</th><th className="num">Net</th><th className="num">Paid orders</th><th className="num">AOV</th></tr></thead><tbody>
+          <h2 className="cnsl-subhead">Payments by currency</h2>
+          <div className="cnsl-scroller"><table className="cnsl-table"><thead><tr><th>Currency</th><th className="num">Gross</th><th className="num">Refunded</th><th className="num">Net</th><th className="num">Paid orders</th><th className="num">AOV</th></tr></thead><tbody>
             {overview.payments.byCurrency.map((bucket) => <tr key={bucket.currency}><th>{bucket.currency}</th><td className="num">{money(bucket.grossCents, bucket.currency)}</td><td className="num">{money(bucket.refundedCents, bucket.currency)}</td><td className="num">{money(bucket.netCents, bucket.currency)}</td><td className="num">{bucket.paidOrders}</td><td className="num">{money(bucket.averageOrderCents, bucket.currency)}</td></tr>)}
           </tbody></table></div>
-          <h2 className="ad-subhead">Payment methods</h2>
-          <div className="ad-scroller"><table className="ad-table"><thead><tr><th>Method</th><th className="num">Paid orders</th><th>Net revenue</th></tr></thead><tbody>
+          <h2 className="cnsl-subhead">Payment methods</h2>
+          <div className="cnsl-scroller"><table className="cnsl-table"><thead><tr><th>Method</th><th className="num">Paid orders</th><th>Net revenue</th></tr></thead><tbody>
             {overview.payments.byMethod.map((method) => <tr key={method.method}><th>{method.method}</th><td className="num">{method.orders}</td><td>{method.revenue.map((bucket) => `${money(bucket.netCents, bucket.currency)} ${bucket.currency}`).join(" · ")}</td></tr>)}
           </tbody></table></div>
-          <h2 className="ad-subhead">Products</h2>
-          <div className="ad-scroller"><table className="ad-table"><thead><tr><th>Product</th><th>Business line</th><th className="num">Orders</th><th className="num">Units</th><th>Revenue</th></tr></thead><tbody>
+          <h2 className="cnsl-subhead">Products</h2>
+          <div className="cnsl-scroller"><table className="cnsl-table"><thead><tr><th>Product</th><th>Business line</th><th className="num">Orders</th><th className="num">Units</th><th>Revenue</th></tr></thead><tbody>
             {overview.sales.products.map((product) => <tr key={product.slug}><th>{product.name}<small>{product.brand}</small></th><td>{product.category}</td><td className="num">{product.orders}</td><td className="num">{product.units}</td><td>{salesRevenue(product)}</td></tr>)}
           </tbody></table></div>
-          <p className="ad-note">Test orders are excluded. Values stay in their original currency instead of being added into a misleading dollar total.</p>
+          <p className="cnsl-note">Test orders are excluded. Values stay in their original currency instead of being added into a misleading dollar total.</p>
         </section>
       ) : null}
 
       {tab === "Content" ? (
-        <section className="ad-posts">
-          {posts.length === 0 ? <p className="ad-note">Nothing posted yet.</p> : null}
+        <section className="cnsl-posts">
+          {posts.length === 0 ? <p className="cnsl-note">Nothing posted yet.</p> : null}
           {posts.map((post) => (
-            <article key={post.id} className="ad-post">
+            <article key={post.id} className="cnsl-post">
               <header>
                 <strong>{post.author.name}</strong>
                 <span>@{post.author.handle ?? "member"} · {post.author.email}</span>
@@ -530,8 +530,8 @@ export function AdminConsole({
       ) : null}
 
       {tab === "Audit" ? (
-        <section className="ad-scroller">
-          <table className="ad-table">
+        <section className="cnsl-scroller">
+          <table className="cnsl-table">
             <thead>
               <tr><th>When</th><th>Who</th><th>Action</th><th>Target</th><th>Detail</th></tr>
             </thead>
@@ -540,14 +540,14 @@ export function AdminConsole({
                 <tr key={entry.id}>
                   <td>{when(entry.createdAt)}</td>
                   <td>{entry.actor.name}<small>{entry.actor.email}</small></td>
-                  <td><span className="ad-pill">{entry.action}</span></td>
+                  <td><span className="cnsl-pill">{entry.action}</span></td>
                   <td>{entry.target}</td>
-                  <td className="ad-detail">{entry.detail}</td>
+                  <td className="cnsl-detail">{entry.detail}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-          {entries.length === 0 ? <p className="ad-note">No administrative actions recorded yet.</p> : null}
+          {entries.length === 0 ? <p className="cnsl-note">No administrative actions recorded yet.</p> : null}
         </section>
       ) : null}
     </div>
@@ -556,7 +556,7 @@ export function AdminConsole({
 
 function Stat({ label, value, note }: { label: string; value: number | string; note: string }) {
   return (
-    <div className="ad-stat">
+    <div className="cnsl-stat">
       <span>{label}</span>
       <strong>{typeof value === "number" ? value.toLocaleString() : value}</strong>
       <small>{note}</small>

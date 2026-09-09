@@ -99,3 +99,97 @@ export function passwordReset(link: string, minutes: number) {
 
   return { subject: "Reset your Terrifit password", text, html };
 }
+
+/**
+ * A one-time code.
+ *
+ * The code is in the subject line as well as the body: most people read it off
+ * the notification without opening anything, and a code they have to hunt for
+ * is a code they mistype.
+ */
+export function signInCode(code: string, minutes: number) {
+  const text = [
+    `${code} is your Terrifit sign-in code.`,
+    "",
+    `It expires in ${minutes} minutes and works once.`,
+    "",
+    "If you didn't ask to sign in, ignore this. Nobody can use this code without your email.",
+  ].join("\n");
+
+  const html = wrap(
+    "Your sign-in code",
+    `<p style="margin:0 0 20px;color:#5c5851">Enter this code to finish signing in.</p>
+     <p style="margin:0 0 24px;font-size:34px;font-weight:900;letter-spacing:8px">${code}</p>
+     <p style="margin:0;color:#5c5851;font-size:13px">Expires in ${minutes} minutes. If this wasn't you, ignore it.</p>`,
+  );
+
+  return { subject: `${code} is your Terrifit code`, text, html };
+}
+
+/**
+ * A sign-in from somewhere new.
+ *
+ * Sent after the fact rather than blocking the login: a legitimate person on a
+ * new phone should not be locked out, and someone who did not sign in needs to
+ * know within seconds. The action offered is changing the password, because
+ * that is the only thing that actually helps.
+ */
+export function newSignIn(details: { when: string; device: string; approximateLocation: string; resetLink: string }) {
+  const text = [
+    "Your Terrifit account was signed in from a device we haven't seen before.",
+    "",
+    `When: ${details.when}`,
+    `Device: ${details.device}`,
+    `Near: ${details.approximateLocation}`,
+    "",
+    "If that was you, nothing to do.",
+    "",
+    "If it wasn't, change your password now — that signs out every other session:",
+    details.resetLink,
+  ].join("\n");
+
+  const html = wrap(
+    "New sign-in to your account",
+    `<p style="margin:0 0 18px;color:#5c5851">Your account was signed in from a device we haven't seen before.</p>
+     <table style="margin:0 0 24px;font-size:14px;color:#2a2724">
+       <tr><td style="padding:2px 18px 2px 0;color:#8a857d">When</td><td>${details.when}</td></tr>
+       <tr><td style="padding:2px 18px 2px 0;color:#8a857d">Device</td><td>${details.device}</td></tr>
+       <tr><td style="padding:2px 18px 2px 0;color:#8a857d">Near</td><td>${details.approximateLocation}</td></tr>
+     </table>
+     <p style="margin:0 0 24px;color:#5c5851">If that was you, there is nothing to do.</p>
+     <p style="margin:0 0 8px"><a href="${details.resetLink}" style="display:inline-block;background:#e8480f;color:#fff;text-decoration:none;font-weight:900;letter-spacing:1px;font-size:13px;text-transform:uppercase;padding:16px 28px;border-radius:28px">Change my password</a></p>`,
+  );
+
+  return { subject: "New sign-in to your Terrifit account", text, html };
+}
+
+/**
+ * Confirmation for something that has not shipped yet.
+ *
+ * Deliberately separate from the order receipt: a pre-order confirmation that
+ * reads like a dispatch note generates support tickets asking where the parcel
+ * is. This one leads with the date and the refund position.
+ */
+export function preorderConfirmed(order: { number: string; item: string; total: string; shipTarget: string }) {
+  const text = [
+    `Your pre-order ${order.number} is confirmed.`,
+    "",
+    `${order.item} — ${order.total}`,
+    "",
+    `This has not shipped. Target: ${order.shipTarget}.`,
+    "You are refundable in full until it does, no reason needed.",
+    "",
+    "We will email you once before it ships, and again when it does.",
+  ].join("\n");
+
+  const html = wrap(
+    "Pre-order confirmed",
+    `<p style="margin:0 0 18px;color:#5c5851">We have your pre-order. Nothing has shipped yet.</p>
+     <p style="margin:0 0 6px;font-size:18px;font-weight:800">${order.item}</p>
+     <p style="margin:0 0 22px;color:#5c5851">${order.total} &middot; Order ${order.number}</p>
+     <p style="margin:0 0 10px"><b>Target:</b> ${order.shipTarget}</p>
+     <p style="margin:0;color:#5c5851">Refundable in full until it ships, no reason needed.</p>`,
+  );
+
+  return { subject: `Pre-order ${order.number} confirmed`, text, html };
+}

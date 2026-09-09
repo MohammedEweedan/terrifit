@@ -214,6 +214,30 @@ export async function listProductsOrSeed(): Promise<Product[]> {
   }
 }
 
+/**
+ * What the shop actually sells today.
+ *
+ * The Band, the Scale and every `v1-` accessory ship in November 2027, and a
+ * storefront that lists a strap for a device nobody can buy reads as vapourware
+ * — it also buries the supplements and apparel that do ship, which is where the
+ * near-term revenue is. Those products are not deleted: they move to the
+ * research page, which is honest about their status, and their own product
+ * pages still resolve for anyone holding a link.
+ */
+export function isShippable(product: Product): boolean {
+  return product.launchStatus !== "upcoming";
+}
+
+/** The sellable catalogue, for the shop and every buy surface. */
+export async function listShopProducts(): Promise<Product[]> {
+  return (await listProductsOrSeed()).filter(isShippable);
+}
+
+/** The other half: hardware still in development, for the research page. */
+export async function listResearchProducts(): Promise<Product[]> {
+  return (await listProductsOrSeed()).filter((product) => !isShippable(product));
+}
+
 export async function getProduct(slug: string, options: { includeInactive?: boolean } = {}): Promise<Product | undefined> {
   return (await listProducts(options)).find((product) => product.slug === slug);
 }

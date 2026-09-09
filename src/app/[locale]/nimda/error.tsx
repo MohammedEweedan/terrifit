@@ -10,7 +10,7 @@
  */
 export default function AdminError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
-    <main className="ad-error" role="alert">
+    <main className="cnsl-error" role="alert">
       <h1>The console could not be rendered</h1>
       <p>{error.message || "An unexpected error occurred."}</p>
       {error.digest ? (

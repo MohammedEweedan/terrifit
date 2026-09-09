@@ -1,7 +1,7 @@
 import type { Locale } from "./config";
 
 const en = {
-  announce: "Founding hundred: {remaining} of {total} places left. Terrifuel over $150 earns a Terrifits tee, a V1 earns the hoodie.",
+  announce: "{remaining} founding places left. Terrifuel over $150 earns a Terrifits tee.",
   announceCta: "See the shop",
   eyebrow: "A little more you. Every day.",
   slogan: ["Every day.", "More terrific."],
@@ -27,7 +27,7 @@ const en = {
   browse: "Explore the collection", essentials: "Everyday essentials.", bag: "Shopping bag", results: "products", selectOptions: "Select options", 
 };
 const ar: typeof en = {
-  announce: "المئة المؤسِّسة: بقي {remaining} من {total} مقعد. طلب ترّيفيول فوق ١٥٠ دولاراً يمنحك تي شيرت تيريفيتس، وطلب V1 يمنحك الهودي.",
+  announce: "بقي {remaining} مقعد مؤسِّس. طلب تِرّيفيول فوق ١٥٠ دولاراً يمنحك تي شيرت تيريفيتس.",
   announceCta: "تسوّق الآن",
   eyebrow: "مساحة أكبر لنفسك. كل يوم.", slogan: ["كل يوم.", "أكثر تميّزاً."],
   heroBody: "تمرينك، تعافيك، وعاداتك اليومية. كلّها في مكان واحد، مصمّمة حول الحياة التي تريد أن تعيشها.",
@@ -51,7 +51,7 @@ const ar: typeof en = {
   browse: "اكتشف المجموعة", essentials: "أساسيات يومية.", bag: "حقيبة التسوق", results: "منتجات", selectOptions: "اختر الخيارات",
 };
 const es: typeof en = {
-  announce: "Los cien fundadores: quedan {remaining} de {total} plazas. Terrifuel por más de 150 $ incluye una camiseta Terrifits; un V1, la sudadera.",
+  announce: "Quedan {remaining} plazas fundadoras. Terrifuel por más de 150 $ incluye una camiseta Terrifits.",
   announceCta: "Ver la tienda",
   eyebrow: "Un poco más tú. Cada día.", slogan: ["Cada día.", "Más terrífico."],
   heroBody: "Tu entrenamiento, tu recuperación y tus rituales diarios. Conectados en un solo lugar, en torno a la vida que quieres vivir.",
@@ -77,7 +77,7 @@ const es: typeof en = {
 };
 
 const fr: typeof en = {
-  announce: "Les cent fondateurs : {remaining} places sur {total}. Terrifuel au-delà de 150 $ offre un t-shirt Terrifits, un V1 offre le hoodie.",
+  announce: "Il reste {remaining} places fondatrices. Terrifuel au-delà de 150 $ offre un t-shirt Terrifits.",
   announceCta: "Voir la boutique",
   eyebrow: "Un peu plus vous. Chaque jour.", slogan: ["Chaque jour.", "Plus terrifique."],
   heroBody: "Votre entraînement, votre récupération et vos rituels quotidiens. Réunis au même endroit, autour de la vie que vous voulez mener.",
@@ -103,7 +103,7 @@ const fr: typeof en = {
 };
 
 const de: typeof en = {
-  announce: "Die ersten Hundert: noch {remaining} von {total} Plätzen. Terrifuel über 150 $ bringt ein Terrifits-Shirt, ein V1 den Hoodie.",
+  announce: "Noch {remaining} Gründerplätze. Terrifuel über 150 $ bringt ein Terrifits-Shirt.",
   announceCta: "Zum Shop",
   eyebrow: "Ein bisschen mehr du. Jeden Tag.", slogan: ["Jeden Tag.", "Mehr Terrific."],
   heroBody: "Dein Training, deine Erholung und deine täglichen Rituale. An einem Ort verbunden, rund um das Leben, das du führen willst.",
@@ -129,7 +129,7 @@ const de: typeof en = {
 };
 
 const nl: typeof en = {
-  announce: "De eerste honderd: nog {remaining} van {total} plekken. Terrifuel boven $150 levert een Terrifits-shirt op, een V1 de hoodie.",
+  announce: "Nog {remaining} oprichtersplekken. Terrifuel boven $150 levert een Terrifits-shirt op.",
   announceCta: "Naar de shop",
   eyebrow: "Een beetje meer jij. Elke dag.", slogan: ["Elke dag.", "Meer terrific."],
   heroBody: "Je training, je herstel en je dagelijkse rituelen. Op één plek samengebracht, rond het leven dat je wilt leiden.",
@@ -155,7 +155,7 @@ const nl: typeof en = {
 };
 
 const pt: typeof en = {
-  announce: "Os cem fundadores: restam {remaining} de {total} vagas. Terrifuel acima de US$150 dá uma camiseta Terrifits; um V1, o moletom.",
+  announce: "Restam {remaining} vagas de fundador. Terrifuel acima de US$150 dá uma camiseta Terrifits.",
   announceCta: "Ver a loja",
   eyebrow: "Um pouco mais você. Todos os dias.", slogan: ["Todos os dias.", "Mais terrífico."],
   heroBody: "O seu treino, a sua recuperação e os seus rituais diários. Ligados num só lugar, à volta da vida que quer viver.",
@@ -181,7 +181,7 @@ const pt: typeof en = {
 };
 
 const it: typeof en = {
-  announce: "I cento fondatori: restano {remaining} posti su {total}. Terrifuel oltre 150 $ include una t-shirt Terrifits, un V1 la felpa.",
+  announce: "Restano {remaining} posti fondatori. Terrifuel oltre 150 $ include una t-shirt Terrifits.",
   announceCta: "Vai allo shop",
   eyebrow: "Un po’ più te. Ogni giorno.", slogan: ["Ogni giorno.", "Più terrifico."],
   heroBody: "Il tuo allenamento, il tuo recupero e i tuoi rituali quotidiani. Collegati in un unico posto, attorno alla vita che vuoi vivere.",
@@ -207,7 +207,7 @@ const it: typeof en = {
 };
 
 const tr: typeof en = {
-  announce: "Kurucu yüz: {total} yerin {remaining} tanesi kaldı. 150 doları aşan Terrifuel bir Terrifits tişört, V1 ise hoodie kazandırır.",
+  announce: "{remaining} kurucu yer kaldı. 150 doları aşan Terrifuel bir Terrifits tişört kazandırır.",
   announceCta: "Mağazaya git",
   eyebrow: "Biraz daha sen. Her gün.", slogan: ["Her gün.", "Daha terrific."],
   heroBody: "Antrenmanın, toparlanman ve günlük ritüellerin. Yaşamak istediğin hayatın etrafında, tek bir yerde birleşiyor.",
@@ -233,7 +233,7 @@ const tr: typeof en = {
 };
 
 const ru: typeof en = {
-  announce: "Первая сотня: осталось {remaining} из {total} мест. Terrifuel дороже $150 — футболка Terrifits, V1 — худи.",
+  announce: "Осталось {remaining} мест основателей. Terrifuel дороже $150 — футболка Terrifits.",
   announceCta: "В магазин",
   eyebrow: "Немного больше себя. Каждый день.", slogan: ["Каждый день.", "Ещё ярче."],
   heroBody: "Ваши тренировки, восстановление и ежедневные ритуалы. Собраны в одном месте — вокруг той жизни, которой вы хотите жить.",

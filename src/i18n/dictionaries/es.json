@@ -95,8 +95,8 @@
   },
   "prototypes": {
     "eyebrow": "Interfaz",
-    "headline": "Un instrumento de precisión que se lee de un vistazo.",
-    "body": "Números grandes, una jerarquía clara y casi nada de movimiento. Pensado para un gimnasio en penumbra y igual de nítido a plena luz.",
+    "headline": "Se lee a mitad de serie, sudando, a oscuras.",
+    "body": "Números lo bastante grandes para leerlos sin parar. Una cosa en pantalla cada vez. Sin animaciones pidiendo atención.",
     "tabs": {
       "feed": {
         "label": "Inicio",

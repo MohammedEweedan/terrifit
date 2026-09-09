@@ -114,3 +114,28 @@
   .hero :is(a, b, .pathIcon) { transition: none; }
   .hero a:hover, .paths > a:hover b { transform: none; }
 }
+
+/* Phones: one line, centred.
+   The desktop treatment stacks the wordmark deliberately — `flex-direction:
+   column` above — but on a phone that reads as "GET" orphaned over
+   "TERRIFIT". Here it goes back to a single centred row, sized from the
+   viewport so the longest state, "GET TERRIFICLY FIT", still fits. The floor
+   above is 4.4rem, which is far too large to fit one line at 360px, so the
+   size has to be restated rather than inherited. */
+@media (max-width: 860px) {
+  .hero .headline :global(h1.th-slogan) {
+    font-size: min(9.2vw, 3.4rem);
+    text-align: center;
+    line-height: .98;
+  }
+  .hero .headline :global(.th-slogan-line) {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0 .26em;
+  }
+  .hero .headline :global(.th-slogan-get) { display: inline; }
+  .hero .headline :global(.th-slogan-word) { justify-content: center; }
+  .headline { margin: 22px 0 20px; }
+}

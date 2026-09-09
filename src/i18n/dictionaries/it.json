@@ -95,8 +95,8 @@
   },
   "prototypes": {
     "eyebrow": "Interfaccia",
-    "headline": "Uno strumento di precisione che leggi con un’occhiata.",
-    "body": "Numeri grandi, una gerarchia chiara e quasi nessun movimento. Fatto per una sala buia e altrettanto nitido alla luce del giorno.",
+    "headline": "Leggibile a metà serie, sudato, al buio.",
+    "body": "Numeri abbastanza grandi da leggere senza fermarti. Una cosa sola sullo schermo. Nessuna animazione che implora attenzione.",
     "tabs": {
       "feed": {
         "label": "Home",

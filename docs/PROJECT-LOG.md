@@ -771,3 +771,58 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 **Committed** `a7723e5` on `main` — chore: update project log with recent commit details and media file changes
 
 <sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-09 · 12:42
+
+**Committed** `73bfe3d` on `main` — fix: update image import in LandingHero component
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-09 · 14:33
+
+**Working tree** — 1 file · +6 −1
+
+- **website** — `src/components/landing/LandingHero.tsx`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-09 · 14:53
+
+**Working tree** — 21 files · +322 −183
+
+- **other** — `.env.example`
+- **database** — `prisma/schema.prisma`, `prisma/migrations/20260909124657_lookbook/`
+- **tooling** — `scripts/sync-catalog-prices.mjs`
+- **website** — `src/app/[locale]/nimda/error.tsx`, `src/app/[locale]/page.tsx`, `src/app/[locale]/shop/[slug]/page.tsx`, `src/app/[locale]/shop/page.tsx`, `src/app/api/app/shop/route.ts`, `src/app/globals.css` and 6 more
+- **shop** — `src/lib/shop/catalog-store.ts`, `src/lib/shop/catalog.ts`, `src/lib/shop/launch.ts`, `src/lib/shop/lookbook.ts`
+- **copy and locales** — `src/i18n/research.ts`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-09 · 14:57
+
+**Working tree** — 2 files · +339 −185
+
+- **website** — `src/components/navigation/TerrifitFooter.tsx`, `src/components/navigation/TerrifitHeader.tsx`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-09 · 15:21
+
+**Working tree** — 5 files · +426 −210
+
+- **website** — `src/app/storefront.css`, `src/components/landing/LandingHero.module.css`, `src/components/landing/SloganMark.tsx`
+- **copy and locales** — `src/i18n/marketing.ts`, `src/i18n/storefront.ts`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-09 · 15:31
+
+**Working tree** — 16 files · +712 −249
+
+- **other** — `package-lock.json`, `package.json`
+- **website** — `src/app/api/auth/login/route.ts`
+- **copy and locales** — `src/i18n/dictionaries/ar.json`, `src/i18n/dictionaries/de.json`, `src/i18n/dictionaries/en.ts`, `src/i18n/dictionaries/es.json`, `src/i18n/dictionaries/fr.json`, `src/i18n/dictionaries/it.json` and 4 more
+- **server** — `src/lib/email/send.ts`, `src/lib/email/templates.ts`, `src/lib/email/__tests__/`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
