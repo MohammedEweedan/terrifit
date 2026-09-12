@@ -834,3 +834,17 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 **Reverted or committed** — 45 files no longer differ from HEAD
 
 <sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-09 · 15:55
+
+**Committed** `533e91a` on `main` — feat: lookbook console, per-item variants, waitlist CTAs on the band page
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-12 · 09:52
+
+**Working tree** — 3 files · +7 −0
+
+- **website** — `src/app/[locale]/layout.tsx`, `src/app/design-system.css`, `src/components/scene/`
+
+<sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

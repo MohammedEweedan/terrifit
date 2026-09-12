@@ -5,7 +5,9 @@ import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 import type { Locale } from "@/i18n/config";
 import type { PagesCopy } from "@/i18n/pages";
-import { BandScrollStory } from "@/components/band/BandScrollStory";
+import { BandScrollStage } from "@/components/band/BandScrollStage";
+import { BandStoryCaptions } from "@/components/band/BandStoryCaptions";
+import { StickyScene } from "@/components/scene/StickyScene";
 import { Shot } from "@/components/ui/Shot";
 import type { Product, Variant } from "@/lib/shop/catalog";
 import type { PreorderState } from "@/lib/shop/preorder";
@@ -48,14 +50,23 @@ export function BandExperience({ locale, copy: band, product, preorder }: { loca
       />
       <BandNav locale={locale} copy={band} />
       <StatBand items={band.stats} />
-      {/* The pinned sequence: one product, six claims, the reader moving past
-          it. Sits directly under the stat rail so the page's first scroll is
-          the story rather than a spec table. */}
-      <BandScrollStory
-        chapters={band.story.chapters}
-        image={band.hero.image}
-        statement={band.story.statement}
-      />
+      {/* The centrepiece: the actual 3D model, its camera bound to scroll, so
+          the page's first movement is the product turning rather than a stat
+          table. The still render underneath is what reduced-motion readers and
+          anyone without WebGL get. */}
+      <StickyScene screens={4} id="story" className="bs3-scene">
+        {(progress) => (
+          <>
+            <BandScrollStage
+              progress={progress}
+              colourway={colourway}
+              poster={band.hero.image.src}
+              alt={band.hero.image.alt}
+            />
+            <BandStoryCaptions progress={progress} chapters={band.story.chapters} statement={band.story.statement} />
+          </>
+        )}
+      </StickyScene>
       <Colourways
         locale={locale}
         copy={band}

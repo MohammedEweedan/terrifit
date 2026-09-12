@@ -54,7 +54,7 @@ export default async function ScalePage({ params }: { params: Promise<{ locale: 
             <p className="sl-body">{copy.scale.body}</p>
             <div className="sl-actions">
               <Link className="sl-cta" href={`/${locale}/shop/terrifit-scale`}>
-                {copy.preorder} · {money(product?.priceCents ?? 7500)}
+                {copy.preorder} · {money(product?.priceCents ?? 7900)}
               </Link>
               <Link className="sl-link" href={`/${locale}/hardware`}>{copy.together.title} →</Link>
             </div>

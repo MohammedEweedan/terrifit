@@ -1,0 +1,195 @@
+/* ---------------------------------------------------------------------------
+   Terrifit design system.
+
+   One place for the scales the redesign composes from. It sits after
+   globals.css in the import order and defines only custom properties — no
+   selectors — so it cannot fight the 7,000 lines of accumulated styles already
+   there. New sections consume these tokens; old ones are migrated as they are
+   rebuilt rather than in one sweep.
+--------------------------------------------------------------------------- */
+
+:root {
+  /* ── Type scale ──────────────────────────────────────────────────────────
+     Fluid, and deliberately far apart. The brief's hierarchy only works if the
+     gap between an eyebrow and a headline is dramatic rather than incremental. */
+  --t-hero: clamp(3.25rem, 8vw, 8.75rem);      /* 52 → 140px */
+  --t-section: clamp(2.75rem, 6vw, 6.25rem);   /* 44 → 100px */
+  --t-display: clamp(2rem, 4vw, 3.5rem);
+  --t-lead: clamp(1.125rem, 1.6vw, 1.5rem);    /* 18 → 24px major copy */
+  --t-body: 1rem;
+  --t-label: clamp(0.75rem, 0.9vw, 0.9375rem); /* 12 → 15px */
+
+  --t-hero-leading: 0.92;
+  --t-section-leading: 0.95;
+  --t-lead-leading: 1.55;
+  --t-hero-tracking: -0.035em;
+  --t-section-tracking: -0.03em;
+  --t-label-tracking: 0.14em;
+
+  /* Paragraphs never run wider than this; past it the eye loses the line. */
+  --measure: 42rem;      /* ~672px */
+  --measure-tight: 34rem;
+
+  /* ── Space scale ─────────────────────────────────────────────────────────
+     Section rhythm is the main lever on whether a page reads as expensive. */
+  --space-section: clamp(6rem, 12vw, 12rem);
+  --space-block: clamp(2.5rem, 5vw, 5rem);
+  --space-tight: clamp(1rem, 2vw, 1.75rem);
+  --shell: min(100% - 2.5rem, 87.5rem);        /* 1400px cap */
+  --shell-narrow: min(100% - 2.5rem, 75rem);
+
+  /* ── Motion ──────────────────────────────────────────────────────────────
+     Heavy and controlled. The overshoot easings that make dashboards feel
+     lively make hardware feel cheap. */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-ui: 320ms;
+  --dur-slow: 620ms;
+  --dur-cinematic: 1200ms;
+
+  /* ── Surfaces ────────────────────────────────────────────────────────────
+     Layered near-blacks rather than one flat #000, so dark sections separate
+     without borders. */
+  --ink-900: #000000;
+  --ink-800: #080808;
+  --ink-700: #111111;
+  --ink-600: #161616;
+  --paper-100: #ffffff;
+  --paper-200: #f7f7f5;
+  --paper-300: #f5f5f2;
+}
+
+/* ---------------------------------------------------------------------------
+   Scene primitives. Layout only — colour and type come from the tokens above,
+   so a section's appearance is set by which tone it declares, not by rules
+   scattered through 7,000 lines of legacy CSS.
+--------------------------------------------------------------------------- */
+
+.sn-track { position: relative; }
+.sn-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sn-stage { position: relative; }
+}
+
+.sq { position: relative; width: 100%; height: 100%; }
+.sq-poster,
+.sq-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+/* The canvas fades in over the poster once real frames exist, so a missing
+   sequence degrades to a still rather than an empty box. */
+.sq-canvas { opacity: 0; transition: opacity var(--dur-slow) var(--ease-out); }
+.sq-canvas.is-ready { opacity: 1; }
+
+.ed { padding-block: var(--space-section); }
+.ed-paper { background: var(--paper-200); color: var(--ink-700); }
+.ed-ink { background: var(--ink-800); color: var(--paper-100); }
+.ed-shell { width: var(--shell); margin-inline: auto; }
+.ed-bleed { width: 100%; }
+.ed-bleed .ed-head { width: var(--shell); margin-inline: auto; }
+.ed.is-center .ed-head { text-align: center; margin-inline: auto; }
+
+.ed-eyebrow {
+  margin: 0 0 var(--space-tight);
+  font-size: var(--t-label);
+  font-weight: 700;
+  letter-spacing: var(--t-label-tracking);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.ed-headline {
+  margin: 0;
+  max-width: 18ch;
+  font-family: var(--font-anton), var(--font-inter), sans-serif;
+  font-size: var(--t-section);
+  line-height: var(--t-section-leading);
+  letter-spacing: var(--t-section-tracking);
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.ed.is-center .ed-headline { margin-inline: auto; }
+.ed-lead {
+  margin: var(--space-tight) 0 0;
+  max-width: var(--measure);
+  font-size: var(--t-lead);
+  line-height: var(--t-lead-leading);
+  opacity: 0.72;
+}
+.ed.is-center .ed-lead { margin-inline: auto; }
+.ed-visual { margin-top: var(--space-block); }
+
+/* The 3D band stage. The canvas sits over the still and cross-fades in once
+   the model is ready, so nothing pops and a failure is invisible. */
+.bs3-stage { position: relative; width: min(100%, 76rem); height: 100%; margin-inline: auto; }
+.bs3-canvas,
+.bs3-still { position: absolute; inset: 0; width: 100%; height: 100%; }
+.bs3-canvas { opacity: 0; transition: opacity var(--dur-cinematic) var(--ease-out); }
+.bs3-canvas.is-live { opacity: 1; }
+.bs3-still { object-fit: contain; transition: opacity var(--dur-slow) var(--ease-out); }
+.bs3-still.is-hidden { opacity: 0; }
+
+/* Band story: the model fills the stage, the copy sits over it in a single
+   column so only one caption is ever competing for the eye. */
+.bs3-scene { background: var(--ink-800); color: var(--paper-100); }
+.bs3-scene .sn-stage { display: block; }
+.bs3-scene .bs3-stage { position: absolute; inset: 0; }
+.bs3-captions {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 100%;
+  width: var(--shell);
+  margin-inline: auto;
+  pointer-events: none;
+}
+/* Every caption occupies the same cell; opacity decides which is present. */
+.bs3-caption { grid-area: 1 / 1; margin: 0; max-width: var(--measure-tight); text-align: center; }
+.bs3-kicker {
+  display: block;
+  margin-bottom: var(--space-tight);
+  color: var(--accent);
+  font-size: var(--t-label);
+  font-weight: 700;
+  letter-spacing: var(--t-label-tracking);
+  text-transform: uppercase;
+}
+.bs3-caption h3 {
+  margin: 0;
+  font-family: var(--font-anton), var(--font-inter), sans-serif;
+  font-size: var(--t-display);
+  line-height: var(--t-section-leading);
+  letter-spacing: var(--t-section-tracking);
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.bs3-caption p { margin: var(--space-tight) auto 0; max-width: 46ch; font-size: var(--t-lead); line-height: var(--t-lead-leading); opacity: .74; }
+.bs3-statement {
+  position: absolute;
+  inset-inline: 0;
+  bottom: clamp(1.5rem, 4vh, 3rem);
+  margin: 0;
+  text-align: center;
+  font-size: var(--t-label);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  opacity: .5;
+}
+.bs3-statement b { color: var(--accent); font-weight: 700; }
+
+/* Phones get a shorter track: four viewports of scroll on a handset is a long
+   time to hold one shot, and the model costs more per frame there. */
+@media (max-width: 760px) {
+  .bs3-caption h3 { font-size: clamp(1.5rem, 7vw, 2.2rem); }
+  .bs3-caption p { font-size: 1rem; }
+}

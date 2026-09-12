@@ -21,7 +21,7 @@ import scaleRender from "../../../../public/media/scale/black-v1.png";
 
 /** Retail, in cents, alongside the subscription prices they sit next to. */
 const BAND_CENTS = 19_900;
-const SCALE_CENTS = 7_500;
+const SCALE_CENTS = 7_900;
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;

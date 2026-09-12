@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import "../globals.css";
 import "../refinements.css";
 import "../storefront.css";
+import "../design-system.css";
 import { getDictionary } from "@/i18n";
 import { isLocale, localeMeta, locales } from "@/i18n/config";
 import { themeScript } from "@/lib/theme";

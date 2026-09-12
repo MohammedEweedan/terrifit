@@ -76,6 +76,34 @@ export function mountBandScene(host: HTMLElement, finish: BandFinish, onFailure:
     tilt(direction: number) { interact(); controls.rotateUp(direction * Math.PI / 12); controls.update(); },
     zoom(direction: number) { interact(); if (direction > 0) controls.dollyIn(1.16); else controls.dollyOut(1.16); controls.update(); },
     reset() { interact(); controls.reset(); },
+    /**
+     * Places the camera absolutely from a 0–1 story position.
+     *
+     * `rotate` and `tilt` are incremental, which is right for a button and
+     * wrong for scroll: scrubbing needs the same input to give the same frame
+     * every time, forwards or backwards. This interpolates spherical
+     * coordinates instead, so scroll position maps to camera position.
+     *
+     * The path follows the product beats — three-quarter view, a slow
+     * approach, around to the underside where the sensors are, then in close.
+     */
+    setShot(t: number) {
+      const clamped = Math.min(1, Math.max(0, t));
+      // Most of a turn, ending under the band rather than spinning past it.
+      const azimuth = Math.PI * 0.28 + clamped * Math.PI * 1.35;
+      // High three-quarter down to below the horizon, showing the underside.
+      const polar = Math.PI * (0.44 - clamped * 0.26);
+      // Pulls in, then holds so the macro beat is not distorted by dolly.
+      const distance = 9.4 - Math.min(clamped, 0.82) * 3.6;
+
+      const spherical = new THREE.Spherical(distance, Math.max(0.08, polar), azimuth);
+      camera.position.setFromSpherical(spherical).add(controls.target);
+      camera.lookAt(controls.target);
+      controls.update();
+      // Scroll is the interaction; auto-rotation must not fight it.
+      auto = false;
+      resume();
+    },
     inside() { interact(); camera.position.set(4.5, 1.4, -2.8); controls.target.set(0, 0.12, 0.25); controls.update(); },
     dispose() {
       disposed = true; stop(); resize.disconnect(); observer.disconnect(); document.removeEventListener("visibilitychange", visibility);
