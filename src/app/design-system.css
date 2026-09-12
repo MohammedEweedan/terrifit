@@ -193,3 +193,27 @@
   .bs3-caption h3 { font-size: clamp(1.5rem, 7vw, 2.2rem); }
   .bs3-caption p { font-size: 1rem; }
 }
+
+/* The weave name, sitting with the model rather than over the caption. */
+.bs3-finish {
+  position: absolute;
+  inset-inline-start: 50%;
+  bottom: clamp(3.5rem, 9vh, 6rem);
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  font-size: var(--t-label);
+  font-weight: 700;
+  letter-spacing: var(--t-label-tracking);
+  text-transform: uppercase;
+  color: var(--paper-100);
+  opacity: 0.82;
+}
+.bs3-finish i {
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.35);
+}

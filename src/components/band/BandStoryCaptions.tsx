@@ -62,21 +62,41 @@ function Caption({
    * screen; the last one holds to the end, rather than fading out exactly as
    * they reach it.
    */
-  const window = (value: number) => {
-    const local = (value - start) / span;
-    if (local < 0) return first ? 1 : 0;
-    if (local > 1) return last ? 1 : 0;
-    if (local < 0.2) return first ? 1 : local / 0.2;
-    if (local > 0.8) return last ? 1 : (1 - local) / 0.2;
-    return 1;
+  /**
+   * A window centred on the slice, wide enough to overlap its neighbours.
+   *
+   * Windows that stop exactly at the slice boundary leave a moment where the
+   * outgoing caption has reached zero and the incoming one has not started —
+   * measured at the midpoint, every caption read 0. Reaching 0.6 of a span
+   * either side of centre means adjacent captions cross at roughly half
+   * opacity instead, which is a cross-fade rather than a blink.
+   *
+   * The ends stay exceptions: the first chapter is readable the moment the
+   * scene pins, the last holds to the end.
+   */
+  const centre = start + span / 2;
+  // Full opacity across most of the slice, reaching zero exactly at the
+  // boundary. Overlapping the windows was tried and rejected: two captions
+  // sharing one grid cell at 33% each is double-exposed text, which reads worse
+  // than a clean swap. The crossing is an instant, not a gap.
+  const hold = span * 0.44;
+  const fade = span * 0.5;
+
+  const curve = (value: number) => {
+    const distance = Math.abs(value - centre);
+    if (first && value < centre) return 1;
+    if (last && value > centre) return 1;
+    if (distance <= hold) return 1;
+    if (distance >= fade) return 0;
+    return 1 - (distance - hold) / (fade - hold);
   };
 
-  const opacity = useTransform(progress, window);
+  const opacity = useTransform(progress, curve);
   const y = useTransform(progress, (value) => {
-    const local = Math.min(1, Math.max(0, (value - start) / span));
-    if (first && local < 0.2) return 0;
-    if (last && local > 0.8) return 0;
-    return 24 - local * 48;
+    if ((first && value < centre) || (last && value > centre)) return 0;
+    // Drifts through the slice rather than jumping, and stays small: this is
+    // punctuation for the model turning, not a movement of its own.
+    return Math.max(-20, Math.min(20, ((value - centre) / span) * -40));
   });
 
   return (

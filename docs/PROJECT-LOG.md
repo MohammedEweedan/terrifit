@@ -848,3 +848,11 @@ Set up the automatic project log. Records session work via a Claude Code Stop ho
 - **website** — `src/app/[locale]/layout.tsx`, `src/app/design-system.css`, `src/components/scene/`
 
 <sub>Recorded automatically from session. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>
+
+## 2026-09-12 · 10:07
+
+**Committed** `e221605` on `main` — feat: 3D band as the page centrepiece, design tokens, Scale at $79
+
+**Reverted or committed** — 3 files no longer differ from HEAD
+
+<sub>Recorded automatically from commit. Add the reasoning with `node scripts/project-log.mjs --note "…"`.</sub>

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useMotionValueEvent, useReducedMotion, type MotionValue } from "framer-motion";
 import type { Locale } from "@/i18n/config";
-import { bandFinish } from "./colourways";
+import { BAND_FINISHES, bandFinish } from "./colourways";
 import type { BandScene } from "./band-scene";
 
 /**
@@ -37,7 +37,20 @@ export function BandScrollStage({
   const scene = useRef<BandScene | null>(null);
   const [mode, setMode] = useState<"still" | "live">("still");
   const reduced = useReducedMotion();
-  const finish = bandFinish(colourway);
+  /**
+   * The colourway is driven by scroll, not by the picker.
+   *
+   * The scene turns the band through most of a rotation; changing the weave as
+   * it goes means one pass shows the whole range rather than whichever finish
+   * happened to be selected. Each colourway holds for an equal slice, and the
+   * index is derived rather than stored so scrubbing backwards restores the
+   * earlier finish exactly.
+   *
+   * `colourway` still seeds the first frame, so the model does not flash a
+   * different finish from the swatches before the first scroll event arrives.
+   */
+  const [scrolled, setScrolled] = useState<string | null>(null);
+  const finish = bandFinish(scrolled ?? colourway);
   const finishRef = useRef(finish);
 
   // Kept current in an effect: writing a ref during render is not allowed here,
@@ -76,7 +89,18 @@ export function BandScrollStage({
   }, [reduced]);
 
   useEffect(() => { scene.current?.setFinish(finish); }, [finish]);
-  useMotionValueEvent(progress, "change", (value) => scene.current?.setShot(value));
+
+  useMotionValueEvent(progress, "change", (value) => {
+    scene.current?.setShot(value);
+    const index = Math.min(
+      BAND_FINISHES.length - 1,
+      Math.max(0, Math.floor(value * BAND_FINISHES.length)),
+    );
+    const next = BAND_FINISHES[index].id;
+    // Only on a change: setState on every scroll event would re-render the
+    // component dozens of times a second for nothing.
+    setScrolled((current) => (current === next ? current : next));
+  });
 
   return (
     <div className="bs3-stage">
@@ -85,6 +109,15 @@ export function BandScrollStage({
           a failed WebGL context, or the moments before the model is ready. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img className={`bs3-still ${mode === "live" ? "is-hidden" : ""}`} src={poster} alt={alt} decoding="async" />
+      {/* Names the weave as it changes. Without it the colours read as a
+          lighting effect rather than a range you can buy. Announced politely so
+          a screen reader gets the change without being interrupted. */}
+      {mode === "live" ? (
+        <p className="bs3-finish" aria-live="polite">
+          <i style={{ background: `repeating-linear-gradient(48deg,${finish.yarn} 0 3px,${finish.weave} 3px 6px)` }} aria-hidden />
+          {finish.label}
+        </p>
+      ) : null}
     </div>
   );
 }

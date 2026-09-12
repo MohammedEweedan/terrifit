@@ -94,7 +94,10 @@ export function mountBandScene(host: HTMLElement, finish: BandFinish, onFailure:
       // High three-quarter down to below the horizon, showing the underside.
       const polar = Math.PI * (0.44 - clamped * 0.26);
       // Pulls in, then holds so the macro beat is not distorted by dolly.
-      const distance = 9.4 - Math.min(clamped, 0.82) * 3.6;
+      // Further out than a product shot would sit: the band is one element in a
+      // composition here, not the whole frame, and it has to share the stage
+      // with a caption without either crowding the other.
+      const distance = 18.5 - Math.min(clamped, 0.82) * 4.2;
 
       const spherical = new THREE.Spherical(distance, Math.max(0.08, polar), azimuth);
       camera.position.setFromSpherical(spherical).add(controls.target);
